@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="mainBackground">@color/white</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#CCCCCC</color>
+    <color name="dark_gray">#727272</color>
+    <color name="gray_header">#F2F4F7</color>
+    <color name="dark_gray_header">#5F5F5F</color>
+    <color name="blue">#3E8ED7</color>
+    <color name="dark_blue">#6D89AF</color>
+    <color name="black">#000000</color>
+
+    <color name="list_divider_color">#D8D8D8</color>
+
+    <color name="project_info_item_factor_color">#2F3C4F</color>
+    <color name="project_info_icon_color">#3C474C</color>
+
+    <!--settings-->
+    <color name="user_name">#242D3E</color>
+    <color name="user_worker">#56000000</color>
+
+</resources>

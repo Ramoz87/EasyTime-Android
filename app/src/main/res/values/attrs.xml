@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="nav_inactive_color" format="color" />
+    <attr name="dark_text_color" format="color" />
+    <attr name="header_color" format="color" />
+    <attr name="header_text_color" format="color" />
+
+    <declare-styleable name="InfoLayout">
+        <attr name="title" format="string"/>
+    </declare-styleable>
+</resources>

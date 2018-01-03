@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="18dp"
+    android:height="22dp"
+    android:viewportWidth="18"
+    android:viewportHeight="22">
+
+    <path
+        android:fillColor="#3E8ED7"
+        android:fillType="evenOdd"
+        android:pathData="M 16 2L 11.8203 2C 11.4004 0.839996 10.2998 0 9 0C 7.7002 0 6.59961 0.839996
+6.17969 2L 2 2C 0.900391 2 0 2.89999 0 4L 0 20C 0 21.1 0.900391 22 2 22L 16 22C
+17.0996 22 18 21.1 18 20L 18 4C 18 2.89999 17.0996 2 16 2ZM 9 2C 9.5498 2 10
+2.45 10 3C 10 3.55 9.5498 4 9 4C 8.4502 4 8 3.55 8 3C 8 2.45 8.4502 2 9 2ZM 2 4L
+2 20L 16 20L 16 4L 14 4L 14 7L 4 7L 4 4L 2 4Z" />
+</vector>

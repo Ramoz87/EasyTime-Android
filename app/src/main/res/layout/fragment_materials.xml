@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/mainBackground"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/placeholder"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:adjustViewBounds="true"
+            android:src="@drawable/materials_placeholder"
+            android:layout_width="180dp"
+            android:layout_height="120dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:textColor="@color/dark_gray"
+            android:text="@string/add_your_activities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:adjustViewBounds="true"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/arrow_add_material"
+        android:layout_marginRight="44dp"
+        android:layout_marginBottom="72dp"
+        android:layout_width="34dp"
+        android:layout_height="48dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:padding="10dp"
+        android:tint="@color/white"
+        android:src="@drawable/ic_plus"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp" />
+
+    <com.example.paralect.easytime.EmptyRecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

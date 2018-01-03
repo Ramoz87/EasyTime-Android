@@ -1,0 +1,15 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/blue</item>
+
+        <item name="nav_inactive_color">@color/dark_gray</item>
+        <item name="dark_text_color">@color/dark_blue</item>
+        <item name="header_color">@color/gray_header</item>
+        <item name="header_text_color">@color/dark_gray_header</item>
+    </style>
+
+</resources>

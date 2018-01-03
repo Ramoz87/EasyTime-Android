@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">EasyTime</string>
+
+    <string name="empty_fragment">Empty fragment</string>
+
+    <!--login activity-->
+    <string name="login_title">Easy time</string>
+    <string name="login_name_hint">Name</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="forgot_password">Forgot password?</string>
+
+    <!--main navigation menu-->
+    <string name="nav_projects">Projects</string>
+    <string name="nav_materials">Materials</string>
+    <string name="nav_clients">Clients</string>
+    <string name="nav_settings">Settings</string>
+
+    <!--projects list headers-->
+    <string name="header_projects">Projects</string>
+    <string name="header_orders">Orders</string>
+    <string name="header_objects">Objects</string>
+
+    <!--placeholders-->
+    <string name="placeholder_job_name">Repair museum</string>
+    <string name="placeholder_job_number">#63365</string>
+    <string name="placeholder_job_status">Active</string>
+    <string name="placeholder_job_customer">Paralect LLC</string>
+    <string name="placeholder_address_date">Minsk, Nekrasova 7, 12.00 AM</string>
+    <string name="placeholder_company_name">Paralect</string>
+    <string name="placeholder_no_jobs">no jobs</string>
+    <string name="placeholder_job_term">11.12.17 – 13.01.18</string>
+    <string name="placeholder_job_type">Object</string>
+    <string name="placeholder_customer_name">Ignat Matveenko</string>
+    <string name="placeholder_customer_address">Minsk, Nekrasova 7, office 504</string>
+    <string name="placeholder_project_description">Необходимо заменить все старые двери на новые модели №323523</string>
+    <string name="placeholder_project_info_contact">Sergiy</string>
+    <string name="placeholder_project_info_address">Minsk, Culman 11/6</string>
+    <string name="placeholder_project_info_delivery_time">11.00 – 12.00 AM</string>
+    <string name="placeholder_project_info_client">Paralect</string>
+    <string name="placeholder_user_name">Ivan Petrov</string>
+    <string name="placeholder_worker">Worker PanoplyStore</string>
+
+    <!--materials-->
+    <string name="add_your_activities">Add your activities</string>
+    <string name="nav_search">Search</string>
+
+    <!--job info-->
+    <string name="projects">Projects</string>
+    <string name="orders">Orders</string>
+    <string name="objects">Objects</string>
+    <string name="job_number">#%d</string>
+
+    <!--contact-->
+    <string name="call">Call</string>
+    <string name="email">Mail</string>
+    <string name="map">Map</string>
+
+    <!--project info-->
+    <string name="activity">Activity</string>
+    <string name="information">Information</string>
+    <string name="status">Status</string>
+    <string name="instructions">Instructions</string>
+    <string name="other_employees">Other employees</string>
+
+    <!--settings-->
+    <string name="help">Help</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="logout">Logout</string>
+    <string name="about_app">EasyTime for Android v1.01\nCopyright 2017. All Rights Reserved</string>
+</resources>

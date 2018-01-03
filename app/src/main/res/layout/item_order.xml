@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:paddingLeft="@dimen/list_item_horizontal_padding"
+    android:paddingRight="@dimen/list_item_horizontal_padding">
+
+
+    <include layout="@layout/include_job_name_and_status" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:text="@string/placeholder_address_date"
+        android:id="@+id/address_and_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <include layout="@layout/include_job_number_and_customer" />
+</LinearLayout>

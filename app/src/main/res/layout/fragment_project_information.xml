@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/mainBackground"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollView"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/png_project_art"
+            android:layout_width="match_parent"
+            android:layout_height="175dp" />
+
+        <LinearLayout
+            android:paddingLeft="@dimen/project_information_left_padding"
+            android:paddingStart="@dimen/project_information_left_padding"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                android:text="@string/placeholder_job_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                xmlns:android="http://schemas.android.com/apk/res/android">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:textSize="@dimen/project_information_text_normal"
+                    android:textColor="@color/black"
+                    android:text="@string/placeholder_job_term"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/jobTerm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:textSize="@dimen/project_information_text_small"
+                    android:textColor="@color/black"
+                    android:text="@string/placeholder_job_type"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/jobType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_marginBottom="14dp"
+                android:textSize="@dimen/project_information_text_small"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/description"
+                android:textColor="@color/black"
+                android:text="@string/placeholder_project_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_height="1px"
+                android:layout_width="match_parent"
+                android:background="@color/dark_blue" />
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/project_information_item_height">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/project_information_text_normal"
+                    android:text="@string/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:textSize="@dimen/project_information_text_normal"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <View
+                android:layout_height="1px"
+                android:layout_width="match_parent"
+                android:background="@color/dark_blue" />
+        </LinearLayout>
+
+        <!--<ExpandableListView-->
+            <!--android:id="@+id/expandableListView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
+        <com.example.paralect.easytime.views.InfoLayout
+            android:id="@+id/instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/instructions" />
+
+        <View
+            android:layout_marginLeft="@dimen/project_information_left_padding"
+            android:layout_marginStart="@dimen/project_information_left_padding"
+            android:layout_height="1px"
+            android:layout_width="match_parent"
+            android:background="@color/dark_blue" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:gravity="center_vertical|left"
+            android:paddingLeft="@dimen/project_information_left_padding"
+            android:paddingStart="@dimen/project_information_left_padding"
+            android:textColor="@color/black"
+            android:textSize="@dimen/project_information_text_normal"
+            android:text="@string/placeholder_project_info_client"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/project_information_item_height" />
+
+        <View
+            android:layout_marginLeft="@dimen/project_information_left_padding"
+            android:layout_marginStart="@dimen/project_information_left_padding"
+            android:layout_height="1px"
+            android:layout_width="match_parent"
+            android:background="@color/dark_blue" />
+
+        <com.example.paralect.easytime.views.InfoLayout
+            android:id="@+id/otherEmployees"
+            app:title="@string/other_employees"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/include_info_header" />
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:el_duration="@integer/project_info_layout_expand_duration"
+        app:el_expanded="false">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/info_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </net.cachapa.expandablelayout.ExpandableLayout>
+</LinearLayout>

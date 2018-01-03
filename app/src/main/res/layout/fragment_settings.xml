@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/mainBackground"
+    android:paddingLeft="@dimen/project_information_left_padding"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/user_avatar"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_user_avatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:textColor="@color/user_name"
+                android:id="@+id/user_name"
+                android:text="@string/placeholder_user_name"
+                android:textSize="22sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:textColor="@color/user_worker"
+                android:id="@+id/user_worker"
+                android:text="@string/placeholder_worker"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:background="@color/dark_blue"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <LinearLayout
+        android:id="@+id/helpLayout"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/project_information_item_height">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:tint="@color/project_info_icon_color"
+            android:src="@drawable/ic_question_mark"
+            android:padding="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginLeft="20dp"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:text="@string/help"
+            android:textSize="@dimen/project_information_text_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/dark_blue"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <LinearLayout
+        android:id="@+id/sendFeedbackLayout"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/project_information_item_height">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:tint="@color/project_info_icon_color"
+            android:src="@drawable/ic_feedback"
+            android:padding="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginLeft="20dp"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:text="@string/send_feedback"
+            android:textSize="@dimen/project_information_text_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/dark_blue"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <LinearLayout
+        android:id="@+id/logoutLayout"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/project_information_item_height">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:tint="@color/project_info_icon_color"
+            android:src="@drawable/ic_logout"
+            android:padding="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginLeft="20dp"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:text="@string/logout"
+            android:textSize="@dimen/project_information_text_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/dark_blue"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:textColor="#57000000"
+        android:textSize="12sp"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="center"
+        android:text="@string/about_app"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

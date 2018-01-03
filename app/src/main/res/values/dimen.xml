@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_item_horizontal_padding">15dp</dimen>
+    <dimen name="list_item_vertical_padding">7dp</dimen>
+
+    <dimen name="job_name_txt_size">18sp</dimen>
+    <dimen name="job_status_txt_size">16sp</dimen>
+    <dimen name="job_customer_txt_size">18sp</dimen>
+    <dimen name="job_number_txt_size">16sp</dimen>
+    <dimen name="job_address_txt_size">16sp</dimen>
+
+    <integer name="list_divider_height">3</integer>
+
+    <dimen name="contact_icon_size">34dp</dimen>
+
+    <dimen name="project_information_left_padding">15dp</dimen>
+    <dimen name="project_information_text_normal">16sp</dimen>
+    <dimen name="project_information_text_small">14sp</dimen>
+    <dimen name="project_information_item_height">48dp</dimen>
+
+    <integer name="project_info_layout_expand_duration">300</integer>
+</resources>

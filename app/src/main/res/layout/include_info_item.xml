@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/project_information_item_height">
+
+    <View
+        android:background="@color/project_info_item_factor_color"
+        android:layout_width="2dp"
+        android:layout_height="56dp" />
+
+    <View
+        android:layout_marginLeft="@dimen/project_information_left_padding"
+        android:id="@+id/divider"
+        android:layout_height="1px"
+        android:layout_width="match_parent"
+        android:background="@color/dark_blue" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@id/divider"
+        android:layout_marginLeft="@dimen/project_information_left_padding"
+        android:tint="@color/project_info_icon_color"
+        android:src="@drawable/ic_phone"
+        android:id="@+id/icon"
+        android:padding="5dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/icon"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:text="@string/placeholder_project_info_contact"
+        android:textSize="@dimen/project_information_text_normal"
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

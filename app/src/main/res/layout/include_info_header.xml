@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/project_information_item_height">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/title"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/project_information_left_padding"
+        android:layout_marginStart="@dimen/project_information_left_padding"
+        android:textColor="@color/black"
+        android:textSize="@dimen/project_information_text_normal"
+        android:text="@string/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/arrow"
+        android:padding="15dp"
+        android:adjustViewBounds="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:tint="@color/project_info_item_factor_color"
+        android:src="@drawable/ic_arrow_down"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+</RelativeLayout>
