@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.main.projects;
 
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.example.paralect.easytime.model.Project;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Optional;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
@@ -43,11 +47,11 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
             if (job instanceof Project) {
                 projects.add((Project) job);
                 found = true;
-            } else if (job instanceof Object) {
-                objects.add((Object) job);
-                found = true;
             } else if (job instanceof Order) {
                 orders.add((Order) job);
+                found = true;
+            } else if (job instanceof Object) {
+                objects.add((Object) job);
                 found = true;
             }
 
@@ -90,16 +94,16 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
     @Override
     public Job getItem(int i) {
         int type = getItemViewType(i);
-        if (type == TYPE_PROJECT)
+        if (i < projects.size())
             return projects.get(i);
-        else if (type == TYPE_OBJECT)
-            return objects.get(i - projects.size());
-        else return orders.get(i - projects.size() - objects.size());
+        else if (i >= projects.size() && i < (projects.size() + orders.size()))
+            return orders.get(i - projects.size());
+        else return objects.get(i - projects.size() - orders.size());
     }
 
     @Override
     public long getItemId(int i) {
-        return getItem(i).getJobId();
+        return getItem(i).getJobId().hashCode();
     }
 
     @Override
@@ -110,22 +114,36 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         int type = getItemViewType(i);
+        if (view == null) { // creating if view is null
+            if (type == TYPE_PROJECT) {
+                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+                view = inflater.inflate(R.layout.item_project, viewGroup, false);
+                JobViewHolder vh = new JobViewHolder(view);
+                view.setTag(vh);
+            } else if (type == TYPE_ORDER) {
+                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+                view = inflater.inflate(R.layout.item_object, viewGroup, false);
+                OrderViewHolder vh = new OrderViewHolder(view);
+                view.setTag(vh);
+            } else if (type == TYPE_OBJECT) {
+                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+                view = inflater.inflate(R.layout.item_order, viewGroup, false);
+                ObjectViewHolder vh = new ObjectViewHolder(view);
+                view.setTag(vh);
+            } else view = new View(viewGroup.getContext());
+        }
+
+        // binding
         if (type == TYPE_PROJECT) {
-            if (view == null) {
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                return inflater.inflate(R.layout.item_project, viewGroup, false);
-            }
-        } else if (type == TYPE_OBJECT) {
-            if (view == null) {
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                return inflater.inflate(R.layout.item_object, viewGroup, false);
-            }
+            JobViewHolder vh = (JobViewHolder) view.getTag();
+            vh.bind((Project) getItem(i));
         } else if (type == TYPE_ORDER) {
-            if (view == null) {
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                return inflater.inflate(R.layout.item_order, viewGroup, false);
-            }
-        } else view = new View(viewGroup.getContext());
+            OrderViewHolder vh = (OrderViewHolder) view.getTag();
+            vh.bind((Order) getItem(i));
+        } else if (type == TYPE_OBJECT) {
+            ObjectViewHolder vh = (ObjectViewHolder) view.getTag();
+            vh.bind((Object) getItem(i));
+        }
 
         return view;
     }
@@ -135,12 +153,61 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         if (i < projects.size())
             return TYPE_PROJECT;
         else if (i < projects.size() + objects.size())
-            return TYPE_OBJECT;
-        else return TYPE_ORDER;
+            return TYPE_ORDER;
+        else return TYPE_OBJECT;
     }
 
     @Override
     public int getViewTypeCount() {
         return 3;
+    }
+
+    static class JobViewHolder {
+        @BindView(R.id.jobName)
+        TextView jobName;
+
+        @BindView(R.id.jobStatus)
+        TextView jobStatus;
+
+        @BindView(R.id.jobCustomer)
+        TextView jobCustomer;
+
+        @Nullable
+        @BindView(R.id.job_address_and_date)
+        TextView addressAndDate;
+
+        JobViewHolder(View itemView) {
+            ButterKnife.bind(this, itemView);
+        }
+
+        void bind(Job job) {
+            jobName.setText(job.getName());
+            // jobName.setText(project.getStatusId());
+            jobCustomer.setText(job.getCustomer().getCompanyName());
+        }
+    }
+
+    static class OrderViewHolder extends JobViewHolder {
+
+        OrderViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        void bind(Order order) {
+            super.bind(order);
+            // bind address and date
+        }
+    }
+
+    static class ObjectViewHolder extends OrderViewHolder {
+
+        ObjectViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        void bind(Object object) {
+            super.bind(object);
+            // address and date
+        }
     }
 }

@@ -19,7 +19,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.base.OnBackPressListener;
 import com.example.paralect.easytime.main.customers.CustomersFragment;
 import com.example.paralect.easytime.main.materials.MaterialsFragment;
-import com.example.paralect.easytime.main.projects.ProjectListFragment;
+import com.example.paralect.easytime.main.projects.ProjectsFragment;
 import com.example.paralect.easytime.main.settings.SettingsFragment;
 
 import butterknife.BindView;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.navigationView)
     AHBottomNavigation bottomNavigation;
 
-    private ProjectListFragment projectsFragment;
+    private ProjectsFragment projectsFragment;
     private MaterialsFragment materialsFragment;
     private CustomersFragment customersFragment;
     private SettingsFragment settingsFragment;
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initProjectsFragment() {
         if (projectsFragment == null)
-            projectsFragment = ProjectListFragment.newInstance(null);
+            projectsFragment = ProjectsFragment.newInstance(null);
     }
 
     private void initMaterialsFragment() {

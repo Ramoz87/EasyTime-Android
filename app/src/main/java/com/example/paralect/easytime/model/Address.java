@@ -39,6 +39,7 @@ public class Address implements Parcelable {
         country = in.readString();
         street = in.readString();
         zip = in.readString();
+        customer = in.readParcelable(Customer.class.getClassLoader());
         object = in.readParcelable(Object.class.getClassLoader());
         order = in.readParcelable(Order.class.getClassLoader());
     }
@@ -50,6 +51,7 @@ public class Address implements Parcelable {
         dest.writeString(country);
         dest.writeString(street);
         dest.writeString(zip);
+        dest.writeParcelable(customer, flags);
         dest.writeParcelable(object, flags);
         dest.writeParcelable(order, flags);
     }
@@ -70,4 +72,73 @@ public class Address implements Parcelable {
             return new Address[size];
         }
     };
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(long addressId) {
+        this.addressId = addressId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return city + " " + street;
+    }
 }

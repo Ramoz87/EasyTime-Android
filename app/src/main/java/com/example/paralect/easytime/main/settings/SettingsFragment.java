@@ -67,16 +67,6 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-
-        //
-        DatabaseHelper helper = new DatabaseHelper(this.getContext().getApplicationContext());
-        try {
-            Dao<User, Long> userDao = helper.getUserDao();
-            User user = userDao.queryForId(1L);
-            Log.d(TAG, "user = " + user.getFirstName());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

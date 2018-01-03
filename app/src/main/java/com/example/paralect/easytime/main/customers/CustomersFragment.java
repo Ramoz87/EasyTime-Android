@@ -14,11 +14,14 @@ import com.example.paralect.easytime.app.JobManager;
 import com.example.paralect.easytime.main.customers.customer.CustomerFragment;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.CustomerComparator;
+import com.example.paralect.easytime.model.DatabaseHelper;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
+import com.j256.ormlite.dao.Dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,42 +49,49 @@ public class CustomersFragment extends AbsStickyFragment {
 
     private List<Customer> getCustomers() {
         List<Customer> customers = new ArrayList<>();
-        Customer c1 = new Customer();
-        c1.setCompanyName("Paralect");
-        customers.add(c1);
+//        Customer c1 = new Customer();
+//        c1.setCompanyName("Paralect");
+//        customers.add(c1);
+//
+//        Customer c2 = new Customer();
+//        c2.setCompanyName("YAAA");
+//        customers.add(c2);
+//
+//        Customer c3 = new Customer();
+//        c3.setCompanyName("AAB");
+//        customers.add(c3);
+//
+//        Customer c4 = new Customer();
+//        c4.setCompanyName("FFFF");
+//        customers.add(c4);
+//
+//        Customer c5 = new Customer();
+//        c5.setCompanyName("XXA");
+//        customers.add(c5);
+//
+//        Customer c6 = new Customer();
+//        c6.setCompanyName("E1111");
+//        customers.add(c6);
+//
+//        Customer c7 = new Customer();
+//        c7.setCompanyName("0uuu1231");
+//        customers.add(c7);
+//
+//        Customer c8 = new Customer();
+//        c8.setCompanyName("REAL");
+//        customers.add(c8);
+//
+//        Customer c9 = new Customer();
+//        c9.setCompanyName("CBA");
+//        customers.add(c9);
 
-        Customer c2 = new Customer();
-        c2.setCompanyName("YAAA");
-        customers.add(c2);
-
-        Customer c3 = new Customer();
-        c3.setCompanyName("AAB");
-        customers.add(c3);
-
-        Customer c4 = new Customer();
-        c4.setCompanyName("FFFF");
-        customers.add(c4);
-
-        Customer c5 = new Customer();
-        c5.setCompanyName("XXA");
-        customers.add(c5);
-
-        Customer c6 = new Customer();
-        c6.setCompanyName("E1111");
-        customers.add(c6);
-
-        Customer c7 = new Customer();
-        c7.setCompanyName("0uuu1231");
-        customers.add(c7);
-
-        Customer c8 = new Customer();
-        c8.setCompanyName("REAL");
-        customers.add(c8);
-
-        Customer c9 = new Customer();
-        c9.setCompanyName("CBA");
-        customers.add(c9);
-
+        DatabaseHelper helper = new DatabaseHelper(getContext().getApplicationContext());
+        try {
+            Dao<Customer, String> customerDao = helper.getCustomerDao();
+            customers.addAll(customerDao.queryForAll());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return customers;
     }
 
@@ -129,7 +139,7 @@ public class CustomersFragment extends AbsStickyFragment {
         customer.setCompanyName("Mobexs");
         // Intent intent = CustomerActivity.newIntent(getContext(), customer);
         // startActivity(intent);
-        List<Job> jobs = JobManager.loadFromAsset(getContext());
+        List<Job> jobs = JobManager.loadFromAssets(getContext());
         CustomerFragment fragment = CustomerFragment.newInstance(MiscUtils.findAllElements(jobs, Project.class),
                 MiscUtils.findAllElements(jobs, Order.class),
                 MiscUtils.findAllElements(jobs, Object.class));

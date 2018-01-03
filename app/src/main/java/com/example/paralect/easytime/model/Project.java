@@ -1,15 +1,23 @@
 package com.example.paralect.easytime.model;
 
+import android.os.Parcelable;
+
+import com.j256.ormlite.field.DatabaseField;
+
 import java.util.List;
 
 /**
  * Created by alexei on 26.12.2017.
  */
 
-public class Project extends Job {
+public class Project extends Job implements Parcelable {
 
+    @DatabaseField(columnName = "dateEnd")
     private String dateEnd;
+
+    @DatabaseField(columnName = "dateStart")
     private String dateStart;
+
     private List<Object> objects;
 
     public Project() {

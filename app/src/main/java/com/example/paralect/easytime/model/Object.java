@@ -3,14 +3,22 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Created by alexei on 26.12.2017.
  */
 
+@DatabaseTable(tableName = "objects")
 public class Object extends Job implements Parcelable {
 
+    @DatabaseField(columnName = "dateEnd")
     private String dateEnd;
+
+    @DatabaseField(columnName = "dateStart")
     private String dateStart;
+
     private Address address;
 
     public Object() {
@@ -48,4 +56,20 @@ public class Object extends Job implements Parcelable {
             return new Object[size];
         }
     };
+
+    public String getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(String dateEnd) {
+        this.dateEnd = dateEnd;
+    }
+
+    public String getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(String dateStart) {
+        this.dateStart = dateStart;
+    }
 }

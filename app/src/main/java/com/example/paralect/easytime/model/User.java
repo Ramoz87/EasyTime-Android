@@ -16,8 +16,8 @@ public class User {
     @DatabaseField(columnName = "password")
     private String password;
 
-    @DatabaseField(columnName = "userId", generatedId = true)
-    private long userId;
+    @DatabaseField(columnName = "userId", id = true)
+    private String userId;
     @DatabaseField(columnName = "username")
     private String userName;
 
@@ -49,11 +49,11 @@ public class User {
         this.password = password;
     }
 
-    public long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -63,5 +63,10 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
     }
 }

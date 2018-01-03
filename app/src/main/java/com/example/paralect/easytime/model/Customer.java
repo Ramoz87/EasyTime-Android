@@ -3,17 +3,28 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.util.List;
 
 /**
  * Created by alexei on 26.12.2017.
  */
 
+@DatabaseTable(tableName = "customers")
 public class Customer implements Parcelable {
 
+    @DatabaseField(columnName = "companyName")
     private String companyName;
-    private long customerId;
+
+    @DatabaseField(columnName = "customerId", id = true)
+    private String customerId;
+
+    @DatabaseField(columnName = "firstName")
     private String firstName;
+
+    @DatabaseField(columnName = "lastName")
     private String lastName;
 
     private Address address;
@@ -25,7 +36,7 @@ public class Customer implements Parcelable {
 
     protected Customer(Parcel in) {
         companyName = in.readString();
-        customerId = in.readLong();
+        customerId = in.readString();
         firstName = in.readString();
         lastName = in.readString();
         address = in.readParcelable(Address.class.getClassLoader());
@@ -35,7 +46,7 @@ public class Customer implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(companyName);
-        dest.writeLong(customerId);
+        dest.writeString(customerId);
         dest.writeString(firstName);
         dest.writeString(lastName);
         dest.writeParcelable(address, flags);
@@ -65,5 +76,34 @@ public class Customer implements Parcelable {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
     }
 }

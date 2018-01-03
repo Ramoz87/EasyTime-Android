@@ -35,7 +35,7 @@ public class CustomerActivity extends FragmentWrapperActivity {
 
     @Override
     public Fragment createFragment(Intent intent) {
-        List<Job> jobs = JobManager.loadFromAsset(this);
+        List<Job> jobs = JobManager.loadFromAssets(this);
         return CustomerFragment.newInstance(MiscUtils.findAllElements(jobs, Project.class),
                 MiscUtils.findAllElements(jobs, Order.class),
                 MiscUtils.findAllElements(jobs, Object.class));
