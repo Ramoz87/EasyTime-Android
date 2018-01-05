@@ -1,13 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/mainBackground"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_centerInParent="true"
-        android:text="@string/empty_fragment"
+    <android.support.design.widget.FloatingActionButton
+        android:tint="@color/white"
+        android:src="@drawable/ic_plus"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|right"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-</RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/emptyListPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:id="@+id/placeholder"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:adjustViewBounds="true"
+                android:src="@drawable/materials_placeholder"
+                android:layout_width="180dp"
+                android:layout_height="120dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:textColor="@color/dark_gray"
+                android:text="@string/add_your_activities"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:adjustViewBounds="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/arrow_add_material"
+            android:layout_marginRight="64dp"
+            android:layout_marginBottom="100dp"
+            android:layout_width="34dp"
+            android:layout_height="48dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/date"
+            android:textStyle="bold"
+            android:drawablePadding="10dp"
+            android:gravity="right"
+            android:drawableRight="@drawable/ic_small_arrow_down"
+            android:text="@string/placeholder_activity_date"
+            android:background="#F2F4F7"
+            android:padding="15dp"
+            android:textColor="@color/blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.example.paralect.easytime.views.EmptyRecyclerView
+            android:id="@+id/activityList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</FrameLayout>

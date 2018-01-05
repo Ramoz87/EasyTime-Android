@@ -42,9 +42,10 @@
     <string name="placeholder_worker">Worker PanoplyStore</string>
     <string name="placeholder_material_name">Air filter model 1</string>
     <string name="placeholder_material_number">#66565</string>
+    <string name="placeholder_activity_date">30 November</string>
 
     <!--materials-->
-    <string name="add_your_activities">Add your activities</string>
+    <string name="add_your_materials">Add your materials</string>
     <string name="nav_search">Search</string>
     <string name="material_number">#%d</string>
 
@@ -65,6 +66,8 @@
     <string name="status">Status</string>
     <string name="instructions">Instructions</string>
     <string name="other_employees">Other employees</string>
+
+    <string name="add_your_activities">Add your activities</string>
 
     <!--settings-->
     <string name="help">Help</string>
