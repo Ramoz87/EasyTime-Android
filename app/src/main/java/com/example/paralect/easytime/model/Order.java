@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @DatabaseTable(tableName = "orders")
-public class Order extends Job implements Parcelable {
+public class Order extends JobWithAddress implements Parcelable {
 
     @DatabaseField(columnName = "contact")
     private String contact;
@@ -24,8 +24,6 @@ public class Order extends Job implements Parcelable {
     private String deliveryTime;
 
     private ArrayList<Object> objects;
-
-    private Address deliveryAddress;
 
     public Order() {
 
@@ -77,16 +75,8 @@ public class Order extends Job implements Parcelable {
         this.deliveryTime = deliveryTime;
     }
 
-    public Address getDeliveryAddress() {
-        return deliveryAddress;
-    }
-
-    public void setDeliveryAddress(Address deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
-    }
-
     @Override
     public String toString() {
-        return super.toString() + " " + deliveryAddress.toString();
+        return super.toString() + " |  " + contact;
     }
 }

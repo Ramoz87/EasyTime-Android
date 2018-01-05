@@ -21,7 +21,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  * Created by alexei on 26.12.2017.
  */
 
-public abstract class AbsStickyFragment extends RootFragment
+public abstract class AbsStickyFragment extends Fragment
         implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private static final String TAG = AbsStickyFragment.class.getSimpleName();
 
@@ -58,10 +58,5 @@ public abstract class AbsStickyFragment extends RootFragment
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
         return false;
-    }
-
-    @Override
-    public @IdRes int getRootViewId() {
-        return R.id.bottom;
     }
 }

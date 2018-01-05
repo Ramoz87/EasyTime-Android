@@ -20,8 +20,8 @@
     <color name="project_info_item_factor_color">#2F3C4F</color>
     <color name="project_info_icon_color">#3C474C</color>
 
-    <!--settings-->
-    <color name="user_name">#242D3E</color>
+    <color name="list_item_primary_text">#242D3E</color>
+    <color name="list_item_secondary_text">#76000000</color>
     <color name="user_worker">#56000000</color>
 
 </resources>

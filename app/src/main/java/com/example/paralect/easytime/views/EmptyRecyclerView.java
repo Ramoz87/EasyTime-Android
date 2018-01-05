@@ -1,4 +1,4 @@
-package com.example.paralect.easytime;
+package com.example.paralect.easytime.views;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

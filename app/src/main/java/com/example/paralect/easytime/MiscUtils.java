@@ -1,9 +1,13 @@
 package com.example.paralect.easytime;
 
+import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Object;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Created by alexei on 27.12.2017.

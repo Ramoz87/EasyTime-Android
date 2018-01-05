@@ -1,4 +1,4 @@
-package com.example.paralect.easytime.app;
+package com.example.paralect.easytime;
 
 import android.content.res.AssetManager;
 import android.support.annotation.NonNull;
@@ -14,6 +14,8 @@ import java.util.List;
 /**
  * Created by alexei on 03.01.2018.
  */
+
+// this class is used to parse some data from csv files and create objects
 
 public abstract class FakeCreator {
     private static final String TAG = FakeCreator.class.getSimpleName();

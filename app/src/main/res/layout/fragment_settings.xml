@@ -29,7 +29,7 @@
             android:layout_height="match_parent">
 
             <android.support.v7.widget.AppCompatTextView
-                android:textColor="@color/user_name"
+                android:textColor="@color/list_item_primary_text"
                 android:id="@+id/user_name"
                 android:text="@string/placeholder_user_name"
                 android:textSize="22sp"

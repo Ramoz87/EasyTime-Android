@@ -98,6 +98,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         materialDao = null;
         orderDao = null;
         objectDao = null;
+        projectDao = null;
 
         super.close();
     }

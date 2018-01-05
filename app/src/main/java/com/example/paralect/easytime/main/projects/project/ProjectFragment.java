@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.main.projects.project;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.model.Job;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,14 +22,26 @@ import butterknife.ButterKnife;
 
 public class ProjectFragment extends Fragment {
 
+    public static final String ARG_JOB = "arg_job";
+
     @BindView(R.id.tabs)
     TabLayout tabs;
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
+    private Job job;
+
     public static ProjectFragment newInstance() {
         return new ProjectFragment();
+    }
+
+    public static ProjectFragment newInstance(@NonNull Job job) {
+        Bundle args = new Bundle(1);
+        args.putParcelable(ARG_JOB, job);
+        ProjectFragment fragment = new ProjectFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -39,6 +53,7 @@ public class ProjectFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        job = getJobArg();
         init();
     }
 
@@ -46,5 +61,12 @@ public class ProjectFragment extends Fragment {
         FragmentPagerAdapter adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager());
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);
+    }
+
+    private Job getJobArg() {
+        Bundle args = getArguments();
+        if (args.containsKey(ARG_JOB))
+            return args.getParcelable(ARG_JOB);
+        else return null;
     }
 }

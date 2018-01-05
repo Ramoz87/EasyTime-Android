@@ -23,9 +23,6 @@
         <activity android:name=".main.MainActivity">
         </activity>
 
-        <activity android:name=".main.customers.customer.CustomerActivity">
-        </activity>
-
     </application>
 
 </manifest>

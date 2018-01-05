@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +31,9 @@ import butterknife.ButterKnife;
  */
 
 public class MainActivity extends AppCompatActivity
-        implements AHBottomNavigation.OnNavigationPositionListener, AHBottomNavigation.OnTabSelectedListener {
+        implements AHBottomNavigation.OnNavigationPositionListener,
+        AHBottomNavigation.OnTabSelectedListener,
+        FragmentNavigator {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     public static Intent newIntent(@NonNull Context context) {
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initProjectsFragment() {
         if (projectsFragment == null)
-            projectsFragment = ProjectsFragment.newInstance(null);
+            projectsFragment = ProjectsFragment.newInstance();
     }
 
     private void initMaterialsFragment() {
@@ -143,13 +146,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
     public void pushFragment(Fragment fragment) {
-        if (fragment instanceof OnBackPressListener) {
-            onBackPressListener = (OnBackPressListener) fragment;
-        } else {
-            onBackPressListener = null;
-        }
-
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(fragment.getClass().getSimpleName())
                 .replace(R.id.container, fragment)
@@ -187,19 +185,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         Log.d(TAG, "on back pressed");
-//        FragmentManager fm = getSupportFragmentManager();
-//        fm.popBackStack();
-        if (onBackPressListener != null) {
-            boolean result = onBackPressListener.onBackPressed();
-            if (!result) {
-                onBackPressListener = null;
-                // super.onBackPressed();
-                finish();
-            }
-        } else {
-            // super.onBackPressed();
-            finish();
-        }
+        FragmentManager fm = getSupportFragmentManager();
+        fm.popBackStack();
     }
 
     private void initFragmentManager() {

@@ -4,9 +4,12 @@ import android.app.Application;
 import android.util.Log;
 
 import com.example.paralect.easytime.BuildConfig;
+import com.example.paralect.easytime.FakeCreator;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
+import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.JobWithAddress;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
@@ -17,6 +20,7 @@ import com.j256.ormlite.dao.Dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -131,31 +135,19 @@ public class EasyTimeApplication extends Application {
 
             Object createObject(String[] fields) {
                 Object object = new Object();
-                object.setEntityType(fields[0]);
-                object.setJobId(fields[1]);
-                object.setCustomerId(fields[2]);
-                object.setStatusId(fields[3]);
-                object.setTypeId(fields[4]);
-                object.setNumber(Integer.valueOf(fields[5]));
-                object.setName(fields[6]);
-                object.setInformation(fields[7]);
+                fillJob(object, fields);
 
-                object.setCurrency(fields[9]);
+                Address address = new Address();
+                address.setStreet(fields[16]);
+                address.setCity(fields[17]);
+                address.setZip(fields[18]);
+                object.setAddress(address);
                 return object;
             }
 
             Order createOrder(String[] fields) {
                 Order order = new Order();
-                order.setEntityType(fields[0]);
-                order.setJobId(fields[1]);
-                order.setCustomerId(fields[2]);
-                order.setStatusId(fields[3]);
-                order.setTypeId(fields[4]);
-                order.setNumber(Integer.valueOf(fields[5]));
-                order.setName(fields[6]);
-                order.setInformation(fields[7]);
-
-                order.setCurrency(fields[9]);
+                fillJob(order, fields);
 
                 order.setContact(fields[13]);
                 order.setDeliveryTime(fields[14]);
@@ -164,24 +156,34 @@ public class EasyTimeApplication extends Application {
                 address.setStreet(fields[15]);
                 address.setCity(fields[16]);
                 address.setZip(fields[17]);
-                order.setDeliveryAddress(address);
+                order.setAddress(address);
                 return order;
             }
 
             Project createProject(String[] fields) {
                 Project project = new Project();
-                project.setEntityType(fields[0]);
-                project.setJobId(fields[1]);
-                project.setCustomerId(fields[2]);
-                project.setStatusId(fields[3]);
-                project.setTypeId(fields[4]);
-                project.setNumber(Integer.valueOf(fields[5]));
-                project.setName(fields[6]);
-                project.setInformation(fields[7]);
+                fillJob(project, fields);
 
-                project.setCurrency(fields[9]);
+                project.setDateStart(fields[10]);
+                project.setDateEnd(fields[11]);
 
+                List<String> objectIds = new ArrayList<>();
+                objectIds.add(fields[13]);
+                project.setObjectIds(objectIds);
                 return project;
+            }
+
+            void fillJob(Job job, String[] fields) {
+                job.setEntityType(fields[0]);
+                job.setJobId(fields[1]);
+                job.setCustomerId(fields[2]);
+                job.setStatusId(fields[3]);
+                job.setTypeId(fields[4]);
+                job.setNumber(Integer.valueOf(fields[5]));
+                job.setName(fields[6]);
+                job.setInformation(fields[7]);
+                // fields[8]?
+                job.setCurrency(fields[9]);
             }
         };
     }

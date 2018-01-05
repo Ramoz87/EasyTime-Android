@@ -8,11 +8,11 @@ public class Expense {
 
     private float discount;
     private int expensiveId;
-    private int materialId;
+    private String materialId;
     private String name;
     private String type;
     private int value;
-    private int workTypeId;
+    private String workTypeId;
 
     private Job job;
     private File photo;

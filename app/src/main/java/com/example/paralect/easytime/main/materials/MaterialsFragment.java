@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.main.materials;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.paralect.easytime.EmptyRecyclerView;
+import com.example.paralect.easytime.main.FragmentNavigator;
+import com.example.paralect.easytime.base.RootFragment;
+import com.example.paralect.easytime.main.materials.chooser.MaterialChooserFragment;
+import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
 
 import butterknife.BindView;
@@ -24,7 +28,7 @@ import butterknife.OnClick;
  * Created by alexei on 26.12.2017.
  */
 
-public class MaterialsFragment extends Fragment {
+public class MaterialsFragment extends RootFragment {
 
     @BindView(R.id.list)
     EmptyRecyclerView list;
@@ -37,7 +41,17 @@ public class MaterialsFragment extends Fragment {
 
     @OnClick(R.id.fab)
     void onFabClick(View view) {
+        Fragment fragment = MaterialChooserFragment.newInstance();
+        // pushFragment(fragment);
+        navigator.pushFragment(fragment);
+    }
 
+    private FragmentNavigator navigator;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        navigator = (FragmentNavigator) context;
     }
 
     public static MaterialsFragment newInstance() {
@@ -82,5 +96,10 @@ public class MaterialsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getRootViewId() {
+        return R.id.bottom;
     }
 }

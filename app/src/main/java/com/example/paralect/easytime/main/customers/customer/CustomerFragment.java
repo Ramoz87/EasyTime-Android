@@ -1,14 +1,14 @@
 package com.example.paralect.easytime.main.customers.customer;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +17,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.paralect.easytime.main.FragmentNavigator;
+import com.example.paralect.easytime.MiscUtils;
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.app.EasyTimeManager;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.model.Customer;
+import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +40,8 @@ import butterknife.ButterKnife;
 
 public class CustomerFragment extends Fragment {
     private static final String TAG = CustomerFragment.class.getSimpleName();
+
+    public static final String ARG_CUSTOMER = "arg_customer";
 
     public static final String ARG_PROJECT_LIST = "arg_project_list";
     public static final String ARG_ORDER_LIST = "arg_order_list";
@@ -53,6 +58,16 @@ public class CustomerFragment extends Fragment {
 
     private Customer customer;
 
+    private FragmentNavigator navigator;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentNavigator) {
+            navigator = (FragmentNavigator) context;
+        }
+    }
+
     public static CustomerFragment newInstance() {
         return new CustomerFragment();
     }
@@ -67,6 +82,14 @@ public class CustomerFragment extends Fragment {
         return fragment;
     }
 
+    public static CustomerFragment newInstance(@NonNull Customer customer) {
+        Bundle args = new Bundle(1);
+        args.putParcelable(ARG_CUSTOMER, customer);
+        CustomerFragment fragment = new CustomerFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_customer, parent, false);
@@ -76,28 +99,15 @@ public class CustomerFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        customer = getCustomer();
         init();
     }
 
-    private ArrayList<Project> getProjects() {
+    private Customer getCustomer() {
         Bundle args = getArguments();
-        if (args.containsKey(ARG_PROJECT_LIST))
-            return args.getParcelableArrayList(ARG_PROJECT_LIST);
-        else return new ArrayList<>();
-    }
-
-    private ArrayList<Order> getOrders() {
-        Bundle args = getArguments();
-        if (args.containsKey(ARG_ORDER_LIST))
-            return args.getParcelableArrayList(ARG_ORDER_LIST);
-        else return new ArrayList<>();
-    }
-
-    private ArrayList<Object> getObjects() {
-        Bundle args = getArguments();
-        if (args.containsKey(ARG_OBJECT_LIST))
-            return args.getParcelableArrayList(ARG_OBJECT_LIST);
-        else return new ArrayList<>();
+        if (args.containsKey(ARG_CUSTOMER))
+            return args.getParcelable(ARG_CUSTOMER);
+        else return null;
     }
 
     private void init() {
@@ -105,7 +115,11 @@ public class CustomerFragment extends Fragment {
         activity.setToolbarElevation(0);
         // FragmentManager fm = activity.getSupportFragmentManager();
         FragmentManager fm = getChildFragmentManager();
-        JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, getProjects(), getOrders(), getObjects());
+        List<Job> jobs = EasyTimeManager.getJobs(getContext(), customer);
+        ArrayList<Project> projects = MiscUtils.findAllElements(jobs, Project.class);
+        ArrayList<Order> orders = MiscUtils.findAllElements(jobs, Order.class);
+        ArrayList<Object> objects = MiscUtils.findAllElements(jobs, Object.class);
+        JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, projects, orders, objects);
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);
 

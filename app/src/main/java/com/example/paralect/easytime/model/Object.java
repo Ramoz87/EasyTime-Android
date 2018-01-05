@@ -11,15 +11,13 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "objects")
-public class Object extends Job implements Parcelable {
+public class Object extends JobWithAddress implements Parcelable {
 
     @DatabaseField(columnName = "dateEnd")
     private String dateEnd;
 
     @DatabaseField(columnName = "dateStart")
     private String dateStart;
-
-    private Address address;
 
     public Object() {
 
@@ -29,7 +27,6 @@ public class Object extends Job implements Parcelable {
         super(in);
         dateEnd = in.readString();
         dateStart = in.readString();
-        address = in.readParcelable(Address.class.getClassLoader());
     }
 
     @Override
@@ -42,7 +39,6 @@ public class Object extends Job implements Parcelable {
         super.writeToParcel(parcel, i);
         parcel.writeString(dateEnd);
         parcel.writeString(dateStart);
-        parcel.writeParcelable(address, i);
     }
 
     public static final Creator<Object> CREATOR = new Creator<Object>() {
@@ -71,5 +67,10 @@ public class Object extends Job implements Parcelable {
 
     public void setDateStart(String dateStart) {
         this.dateStart = dateStart;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " | " + dateStart + " " + dateEnd;
     }
 }
