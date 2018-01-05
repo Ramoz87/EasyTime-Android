@@ -14,8 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.FragmentNavigator;
-import com.example.paralect.easytime.base.RootFragment;
 import com.example.paralect.easytime.main.materials.chooser.MaterialChooserFragment;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
@@ -28,7 +28,7 @@ import butterknife.OnClick;
  * Created by alexei on 26.12.2017.
  */
 
-public class MaterialsFragment extends RootFragment {
+public class MaterialsFragment extends BaseFragment {
 
     @BindView(R.id.list)
     EmptyRecyclerView list;
@@ -60,25 +60,19 @@ public class MaterialsFragment extends RootFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_materials, parent, false);
-        setHasOptionsMenu(true);
-        return view;
+        return inflater.inflate(R.layout.fragment_materials, parent, false);
     }
 
     @CallSuper
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         init();
     }
 
     private void init() {
         list.setEmptyView(placeholder);
-
-        if (getActivity() instanceof AppCompatActivity) {
-            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            initActionBar(actionBar);
-        }
     }
 
     private void initActionBar(ActionBar actionBar) {
@@ -90,16 +84,20 @@ public class MaterialsFragment extends RootFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.materials, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onCreateActionBar(ActionBar actionBar) {
+        initActionBar(actionBar);
+    }
+
+    @Override
+    public boolean needsOptionsMenu() {
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public int getRootViewId() {
-        return R.id.bottom;
     }
 }

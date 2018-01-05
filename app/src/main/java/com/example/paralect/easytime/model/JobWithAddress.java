@@ -20,6 +20,9 @@ public class JobWithAddress extends Job implements Parcelable {
     @DatabaseField(columnName = "zipString")
     private String zipString;
 
+    @DatabaseField(columnName = "addressId")
+    private long addressId;
+
     private Address address;
 
     public JobWithAddress() {
@@ -32,6 +35,7 @@ public class JobWithAddress extends Job implements Parcelable {
         cityString = in.readString();
         zipString = in.readString();
         address = in.readParcelable(Address.class.getClassLoader());
+        addressId = in.readLong();
     }
 
     @Override
@@ -46,6 +50,7 @@ public class JobWithAddress extends Job implements Parcelable {
         parcel.writeString(cityString);
         parcel.writeString(zipString);
         parcel.writeParcelable(address, i);
+        parcel.writeLong(addressId);
     }
 
     public static final Creator<JobWithAddress> CREATOR = new Creator<JobWithAddress>() {
@@ -96,5 +101,13 @@ public class JobWithAddress extends Job implements Parcelable {
     public String toString() {
         if (address != null) return super.toString() + " | " + address.toString();
         else return super.toString() + " | " + cityString + " " + addressString;
+    }
+
+    public long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 }

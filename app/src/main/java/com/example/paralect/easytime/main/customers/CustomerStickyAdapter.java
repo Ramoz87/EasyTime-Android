@@ -3,15 +3,13 @@ package com.example.paralect.easytime.main.customers;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.base.AlphabetStickyAdapter;
+import com.example.paralect.easytime.main.AlphabetStickyAdapter;
 import com.example.paralect.easytime.model.Customer;
 
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 
 import butterknife.BindView;

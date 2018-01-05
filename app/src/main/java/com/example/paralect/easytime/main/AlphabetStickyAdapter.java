@@ -1,4 +1,4 @@
-package com.example.paralect.easytime.base;
+package com.example.paralect.easytime.main;
 
 import android.view.LayoutInflater;
 import android.view.View;

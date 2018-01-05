@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.example.paralect.easytime.ContextUtils;
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.base.OnBackPressListener;
 import com.example.paralect.easytime.main.customers.CustomersFragment;
 import com.example.paralect.easytime.main.materials.MaterialsFragment;
 import com.example.paralect.easytime.main.projects.ProjectsFragment;
@@ -40,6 +38,14 @@ public class MainActivity extends AppCompatActivity
         return new Intent(context, MainActivity.class);
     }
 
+//    @Nullable
+//    @BindView(R.id.appBarLayout)
+//    AppBarLayout appBarLayout;
+//
+//    @Nullable
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
+
     @BindView(R.id.navigationView)
     AHBottomNavigation bottomNavigation;
 
@@ -48,16 +54,16 @@ public class MainActivity extends AppCompatActivity
     private CustomersFragment customersFragment;
     private SettingsFragment settingsFragment;
 
-    private OnBackPressListener onBackPressListener;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        // setSupportActionBar(toolbar);
         initFragmentManager();
         initNavigationView();
-        iniActionBar();
+        initActionBar();
         initProjectsFragment();
         pushFragment(projectsFragment);
     }
@@ -138,7 +144,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void iniActionBar() {
+    private void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

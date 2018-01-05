@@ -1,8 +1,7 @@
-package com.example.paralect.easytime.base;
+package com.example.paralect.easytime.main;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  * Created by alexei on 26.12.2017.
  */
 
-public abstract class AbsStickyFragment extends Fragment
+public abstract class AbsStickyFragment extends BaseFragment
         implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private static final String TAG = AbsStickyFragment.class.getSimpleName();
 
@@ -36,6 +35,7 @@ public abstract class AbsStickyFragment extends Fragment
     @CallSuper
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         init();
     }

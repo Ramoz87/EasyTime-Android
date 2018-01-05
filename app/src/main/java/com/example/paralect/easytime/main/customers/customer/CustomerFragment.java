@@ -9,14 +9,18 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.MiscUtils;
 import com.example.paralect.easytime.R;
@@ -38,14 +42,10 @@ import butterknife.ButterKnife;
  * Created by alexei on 27.12.2017.
  */
 
-public class CustomerFragment extends Fragment {
+public class CustomerFragment extends BaseFragment {
     private static final String TAG = CustomerFragment.class.getSimpleName();
 
     public static final String ARG_CUSTOMER = "arg_customer";
-
-    public static final String ARG_PROJECT_LIST = "arg_project_list";
-    public static final String ARG_ORDER_LIST = "arg_order_list";
-    public static final String ARG_OBJECT_LIST = "arg_objects_list";
 
     @BindView(R.id.actionContainer)
     LinearLayout actionContainer;
@@ -68,20 +68,6 @@ public class CustomerFragment extends Fragment {
         }
     }
 
-    public static CustomerFragment newInstance() {
-        return new CustomerFragment();
-    }
-
-    public static CustomerFragment newInstance(ArrayList<Project> projects, ArrayList<Order> orders, ArrayList<Object> objects) {
-        Bundle args = new Bundle(3);
-        args.putParcelableArrayList(ARG_PROJECT_LIST, projects);
-        args.putParcelableArrayList(ARG_ORDER_LIST, orders);
-        args.putParcelableArrayList(ARG_OBJECT_LIST, objects);
-        CustomerFragment fragment = new CustomerFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     public static CustomerFragment newInstance(@NonNull Customer customer) {
         Bundle args = new Bundle(1);
         args.putParcelable(ARG_CUSTOMER, customer);
@@ -101,6 +87,21 @@ public class CustomerFragment extends Fragment {
         ButterKnife.bind(this, view);
         customer = getCustomer();
         init();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+    }
+
+    @Override
+    public void onCreateActionBar(ActionBar actionBar) {
+        actionBar.setTitle("Customer");
+    }
+
+    @Override
+    public boolean needsOptionsMenu() {
+        return true;
     }
 
     private Customer getCustomer() {

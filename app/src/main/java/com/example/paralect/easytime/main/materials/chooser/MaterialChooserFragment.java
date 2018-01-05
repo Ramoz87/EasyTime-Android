@@ -1,8 +1,12 @@
 package com.example.paralect.easytime.main.materials.chooser;
 
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuInflater;
+
 import com.example.paralect.easytime.Sorter;
 import com.example.paralect.easytime.app.EasyTimeManager;
-import com.example.paralect.easytime.base.AbsStickyFragment;
+import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.MaterialComparator;
 
@@ -50,5 +54,20 @@ public class MaterialChooserFragment extends AbsStickyFragment {
         List<Material> materials = getMaterials();
         SortedMap<Character, List<Material>> sortedMaterials = getSortedMaterials(materials);
         return new MaterialAlphabetAdapter(sortedMaterials);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+    }
+
+    @Override
+    public void onCreateActionBar(ActionBar actionBar) {
+        actionBar.setTitle("Materials");
+    }
+
+    @Override
+    public boolean needsOptionsMenu() {
+        return true;
     }
 }

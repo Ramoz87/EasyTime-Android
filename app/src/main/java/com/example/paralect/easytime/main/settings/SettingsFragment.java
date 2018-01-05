@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.settings;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.paralect.easytime.ActionBarUtils;
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.model.DatabaseHelper;
 import com.example.paralect.easytime.model.User;
 import com.j256.ormlite.dao.Dao;
@@ -26,7 +29,7 @@ import butterknife.OnClick;
  * Created by alexei on 29.12.2017.
  */
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends BaseFragment {
     private static final String TAG = SettingsFragment.class.getSimpleName();
 
 //    @BindView(R.id.helpLayout)
@@ -72,5 +75,15 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
+    }
+
+    @Override
+    public void onCreateActionBar(ActionBar actionBar) {
+        ActionBarUtils.setTitle(getActivity(), R.string.nav_settings);
+    }
+
+    @Override
+    public boolean needsOptionsMenu() {
+        return true;
     }
 }

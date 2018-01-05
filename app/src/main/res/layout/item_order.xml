@@ -13,6 +13,8 @@
     <include layout="@layout/include_job_name_and_status" />
 
     <android.support.v7.widget.AppCompatTextView
+        android:textSize="12sp"
+        android:drawableLeft="@drawable/ic_address"
         android:textColor="@color/black"
         android:layout_marginTop="5dp"
         android:text="@string/placeholder_address_date"

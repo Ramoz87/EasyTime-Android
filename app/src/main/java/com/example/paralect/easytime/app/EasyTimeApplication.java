@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.app;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.paralect.easytime.BuildConfig;
@@ -33,7 +34,10 @@ public class EasyTimeApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG) { // pre-populate data from assets
+        ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
+        preferenceManager.plusLaunch();
+        if (BuildConfig.DEBUG && preferenceManager.isLaunchFirst()) { // pre-populate data from assets
+            Log.d(TAG, "filling data from db");
             FakeCreator fakeCreator = getDefaultFakeCreator();
             fillData(fakeCreator);
         }
@@ -63,8 +67,18 @@ public class EasyTimeApplication extends Application {
             List<E> items = fakeCreator.parse(csvPath, clazz);
             Dao<E, String> dao = databaseHelper.getDao(clazz);
             Log.d(TAG, String.format("===// %s //===", clazz.getSimpleName()));
+
+            Dao<Address, Long> addressDao = databaseHelper.getAddressDao();
             for (E item : items) {
                 Log.d(TAG, item.toString());
+
+                if (item instanceof JobWithAddress) {
+                    JobWithAddress job = (JobWithAddress) item;
+                    Address address = job.getAddress();
+                    addressDao.create(address);
+                    job.setAddressId(address.getAddressId());
+                }
+
                 dao.createOrUpdate(item);
             }
         } catch (IOException | SQLException e) {

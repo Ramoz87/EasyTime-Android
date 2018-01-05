@@ -4,9 +4,11 @@ import android.content.Context;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 
+import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.JobWithAddress;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
@@ -61,6 +63,14 @@ public final class EasyTimeManager {
                     Dao<Customer, String> customerDao = helper.getCustomerDao();
                     customer = customerDao.queryForId(customerId);
                     job.setCustomer(customer);
+                }
+            }
+
+            Dao<Address, Long> addressDao = helper.getAddressDao();
+            for (Job job : jobs) {
+                if (job instanceof JobWithAddress) {
+                    JobWithAddress jobWithAddress = (JobWithAddress) job;
+                    jobWithAddress.setAddress(addressDao.queryForId(jobWithAddress.getAddressId()));
                 }
             }
         } catch (SQLException e) {

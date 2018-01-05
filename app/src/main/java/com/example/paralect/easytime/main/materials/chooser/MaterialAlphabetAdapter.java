@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.base.AlphabetStickyAdapter;
+import com.example.paralect.easytime.main.AlphabetStickyAdapter;
 import com.example.paralect.easytime.model.Material;
 
 import java.util.List;

@@ -2,18 +2,21 @@ package com.example.paralect.easytime.main.customers;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.example.paralect.easytime.Sorter;
-import com.example.paralect.easytime.base.AbsStickyFragment;
+import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.ActionBarUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.app.EasyTimeManager;
 import com.example.paralect.easytime.main.FragmentNavigator;
-import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.customers.customer.CustomerFragment;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.CustomerComparator;
@@ -81,7 +84,22 @@ public class CustomersFragment extends AbsStickyFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ActionBarUtils.setTitle(getActivity(), R.string.nav_clients);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+    }
+
+    @Override
+    public void onCreateActionBar(ActionBar actionBar) {
+        actionBar.setTitle(R.string.nav_clients);
+        // ActionBarUtils.setTitle(getActivity(), R.string.nav_clients);
+    }
+
+    @Override
+    public boolean needsOptionsMenu() {
+        return true;
     }
 
     @Override

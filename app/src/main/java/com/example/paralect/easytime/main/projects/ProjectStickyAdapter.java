@@ -122,12 +122,12 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
                 view.setTag(vh);
             } else if (type == TYPE_ORDER) {
                 LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                view = inflater.inflate(R.layout.item_object, viewGroup, false);
+                view = inflater.inflate(R.layout.item_order, viewGroup, false);
                 OrderViewHolder vh = new OrderViewHolder(view);
                 view.setTag(vh);
             } else if (type == TYPE_OBJECT) {
                 LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                view = inflater.inflate(R.layout.item_order, viewGroup, false);
+                view = inflater.inflate(R.layout.item_object, viewGroup, false);
                 ObjectViewHolder vh = new ObjectViewHolder(view);
                 view.setTag(vh);
             } else view = new View(viewGroup.getContext());
@@ -172,6 +172,9 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         @BindView(R.id.jobCustomer)
         TextView jobCustomer;
 
+        @BindView(R.id.jobNumber)
+        TextView jobNumber;
+
         @Nullable
         @BindView(R.id.job_address_and_date)
         TextView addressAndDate;
@@ -184,6 +187,8 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
             jobName.setText(job.getName());
             // jobName.setText(project.getStatusId());
             jobCustomer.setText(job.getCustomer().getCompanyName());
+            String number = jobNumber.getResources().getString(R.string.job_number, job.getNumber());
+            jobNumber.setText(number);
         }
     }
 
@@ -196,6 +201,10 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         void bind(Order order) {
             super.bind(order);
             // bind address and date
+            if (addressAndDate != null) {
+                String addressAndDateString = order.getAddress().getStreet() + ", " + order.getDeliveryTime();
+                addressAndDate.setText(addressAndDateString);
+            }
         }
     }
 
@@ -208,6 +217,13 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         void bind(Object object) {
             super.bind(object);
             // address and date
+            if (addressAndDate != null) {
+                String addressAndDateString = object.getAddress()
+                        .getStreet()
+                        + ", "
+                        + object.getDateStart();
+                addressAndDate.setText(addressAndDateString);
+            }
         }
     }
 }

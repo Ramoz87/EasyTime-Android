@@ -2,12 +2,15 @@ package com.example.paralect.easytime.main.projects;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 
 import com.example.paralect.easytime.main.FragmentNavigator;
-import com.example.paralect.easytime.base.AbsStickyFragment;
+import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.ActionBarUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.app.EasyTimeManager;
@@ -54,6 +57,21 @@ public class ProjectsFragment extends AbsStickyFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ActionBarUtils.setTitle(getActivity(), R.string.nav_projects);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+    }
+
+    @Override
+    public void onCreateActionBar(ActionBar actionBar) {
+
+    }
+
+    @Override
+    public boolean needsOptionsMenu() {
+        return true;
     }
 
     @Override
