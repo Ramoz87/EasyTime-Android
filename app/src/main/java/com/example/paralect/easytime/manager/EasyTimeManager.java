@@ -1,7 +1,6 @@
-package com.example.paralect.easytime.app;
+package com.example.paralect.easytime.manager;
 
 import android.content.Context;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 
 import com.example.paralect.easytime.model.Address;

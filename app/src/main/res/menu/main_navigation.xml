@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        app:showAsAction="ifRoom"
         android:id="@+id/nav_projects"
         android:icon="@drawable/ic_projects"
-        android:title="@string/nav_projects"/>
+        android:title="@string/nav_projects"
+        app:showAsAction="ifRoom"/>
 
     <item
-        app:showAsAction="ifRoom"
         android:id="@+id/nav_materials"
         android:icon="@drawable/ic_materials"
-        android:title="@string/nav_materials"/>
+        android:title="@string/nav_materials"
+        app:showAsAction="ifRoom"/>
 
     <item
-        app:showAsAction="ifRoom"
         android:id="@+id/nav_clients"
         android:icon="@drawable/ic_clients"
-        android:title="@string/nav_clients"/>
+        android:title="@string/nav_clients"
+        app:showAsAction="ifRoom"/>
 
     <item
-        app:showAsAction="ifRoom"
         android:id="@+id/nav_settings"
         android:icon="@drawable/ic_settings"
-        android:title="@string/nav_settings"/>
+        android:title="@string/nav_settings"
+        app:showAsAction="ifRoom"/>
 </menu>

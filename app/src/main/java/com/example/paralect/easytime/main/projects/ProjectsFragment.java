@@ -11,9 +11,9 @@ import android.widget.AdapterView;
 
 import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.AbsStickyFragment;
-import com.example.paralect.easytime.ActionBarUtils;
+import com.example.paralect.easytime.utils.ViewUtils;
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.app.EasyTimeManager;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
 import com.example.paralect.easytime.model.Job;
 
@@ -56,7 +56,7 @@ public class ProjectsFragment extends AbsStickyFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ActionBarUtils.setTitle(getActivity(), R.string.nav_projects);
+        ViewUtils.setTitle(getActivity(), R.string.nav_projects);
     }
 
     @Override

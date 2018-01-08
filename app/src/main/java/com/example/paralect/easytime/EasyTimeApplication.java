@@ -1,11 +1,10 @@
-package com.example.paralect.easytime.app;
+package com.example.paralect.easytime;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.example.paralect.easytime.BuildConfig;
-import com.example.paralect.easytime.FakeCreator;
+import com.example.paralect.easytime.manager.ETPreferenceManager;
+import com.example.paralect.easytime.utils.FakeCreator;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;

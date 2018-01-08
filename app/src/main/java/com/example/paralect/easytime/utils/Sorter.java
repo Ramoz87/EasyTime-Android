@@ -1,4 +1,4 @@
-package com.example.paralect.easytime;
+package com.example.paralect.easytime.utils;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

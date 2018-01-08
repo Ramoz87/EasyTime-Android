@@ -4,8 +4,8 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import com.example.paralect.easytime.Sorter;
-import com.example.paralect.easytime.app.EasyTimeManager;
+import com.example.paralect.easytime.utils.Sorter;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.MaterialComparator;

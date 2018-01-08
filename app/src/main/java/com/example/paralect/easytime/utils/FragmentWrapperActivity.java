@@ -1,10 +1,12 @@
-package com.example.paralect.easytime;
+package com.example.paralect.easytime.utils;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.paralect.easytime.R;
 
 /**
  * Created by alexei on 27.12.2017.

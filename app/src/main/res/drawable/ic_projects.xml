@@ -6,7 +6,7 @@
     android:viewportHeight="22">
 
     <path
-        android:fillColor="#3E8ED7"
+        android:fillColor="#727272"
         android:fillType="evenOdd"
         android:pathData="M 16 2L 11.8203 2C 11.4004 0.839996 10.2998 0 9 0C 7.7002 0 6.59961 0.839996
 6.17969 2L 2 2C 0.900391 2 0 2.89999 0 4L 0 20C 0 21.1 0.900391 22 2 22L 16 22C
