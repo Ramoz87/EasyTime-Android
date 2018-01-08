@@ -20,6 +20,7 @@ import com.example.paralect.easytime.main.customers.CustomersFragment;
 import com.example.paralect.easytime.main.materials.MaterialsFragment;
 import com.example.paralect.easytime.main.projects.ProjectsFragment;
 import com.example.paralect.easytime.main.settings.SettingsFragment;
+import com.ncapdevi.fragnav.FragNavController;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,22 +33,15 @@ public class MainActivity extends AppCompatActivity
         implements AHBottomNavigation.OnNavigationPositionListener,
         AHBottomNavigation.OnTabSelectedListener,
         FragmentNavigator {
+    
     private static final String TAG = MainActivity.class.getSimpleName();
+    private FragNavController mNavController;
 
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
     }
 
-//    @Nullable
-//    @BindView(R.id.appBarLayout)
-//    AppBarLayout appBarLayout;
-//
-//    @Nullable
-//    @BindView(R.id.toolbar)
-//    Toolbar toolbar;
-
-    @BindView(R.id.navigationView)
-    AHBottomNavigation bottomNavigation;
+    @BindView(R.id.navigationView) AHBottomNavigation bottomNavigation;
 
     private ProjectsFragment projectsFragment;
     private MaterialsFragment materialsFragment;
