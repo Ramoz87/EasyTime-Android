@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -61,7 +62,7 @@ public class ProjectsFragment extends AbsStickyFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
+        inflater.inflate(R.menu.menu_search, menu);
     }
 
     @Override
@@ -72,6 +73,11 @@ public class ProjectsFragment extends AbsStickyFragment {
     @Override
     public boolean needsOptionsMenu() {
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

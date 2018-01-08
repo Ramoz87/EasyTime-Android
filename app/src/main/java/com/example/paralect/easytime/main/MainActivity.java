@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         ButterKnife.bind(this);
 
         initNavigationView(savedInstanceState);
-        initActionBar();
-
     }
 
     @Override
@@ -71,14 +69,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     public void onBackPressed() {
         if (!mNavController.popFragment())
             super.onBackPressed();
-    }
-
-    private void initActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-        }
     }
 
     // works on Loli-Pop and higher
