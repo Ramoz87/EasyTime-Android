@@ -3,9 +3,10 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -17,9 +18,19 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
         mavenCentral()
+        google()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    // App dependencies
+    supportVersion = '27.0.1'
+    buildToolsVersion = '27.0.1'
+    minSdkVersion = 14
+    targetSdkVersion = 27
+    compileSdkVersion = 27
 }
