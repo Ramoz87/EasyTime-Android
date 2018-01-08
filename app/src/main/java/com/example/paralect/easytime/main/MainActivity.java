@@ -8,7 +8,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.paralect.easytime.R;
@@ -33,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         FragNavController.TransactionListener,
         FragNavController.RootFragmentListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-
     private final int INDEX_PROJECTS = FragNavController.TAB1;
     private final int INDEX_MATERIALS = FragNavController.TAB2;
     private final int INDEX_CLIENTS = FragNavController.TAB3;
@@ -51,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -60,6 +57,38 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mNavController.popFragment();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!mNavController.popFragment())
+            super.onBackPressed();
+    }
+
+    private void initActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    // works on Loli-Pop and higher
+    public void setToolbarElevation(float elevation) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setElevation(elevation);
+    }
+
+    // region Setup Navigation
     private void initNavigationView(Bundle savedInstanceState) {
         ViewUtils.disableShiftMode(bottomBar);
         mNavController = FragNavController.newBuilder(savedInstanceState, getSupportFragmentManager(), R.id.container)
@@ -126,38 +155,9 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         }
         return itemId;
     }
+    // endregion
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mNavController.popFragment();
-                break;
-        }
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!mNavController.popFragment())
-            super.onBackPressed();
-    }
-
-    private void initActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-        }
-    }
-
-    // works on Loli-Pop and higher
-    public void setToolbarElevation(float elevation) {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-            actionBar.setElevation(elevation);
-    }
-
+    // region Listeners
     // region TransactionListener
     @Override
     public void onTabTransaction(Fragment fragment, int index) {
@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     public void pushFragment(Fragment fragment) {
         mNavController.pushFragment(fragment);
     }
+    // endregion
     // endregion
 
 }
