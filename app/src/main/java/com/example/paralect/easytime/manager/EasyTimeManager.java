@@ -116,12 +116,19 @@ public final class EasyTimeManager {
         return materials;
     }
 
-    public static List<Customer> getCustomers(@NonNull Context context) {
+    public static List<Customer> getCustomers(@NonNull Context context, String query) {
         List<Customer> customers = new ArrayList<>();
         DatabaseHelper helper = new DatabaseHelper(context.getApplicationContext());
         try {
             Dao<Customer, String> dao = helper.getCustomerDao();
-            customers.addAll(dao.queryForAll());
+
+            if (TextUtils.isEmpty(query))
+                customers.addAll(dao.queryForAll());
+            else {
+                QueryBuilder<Customer, String> qb = dao.queryBuilder();
+                qb.where().like("companyName", "%" + query + "%");
+                customers = qb.query();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

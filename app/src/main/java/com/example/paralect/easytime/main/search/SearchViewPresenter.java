@@ -24,25 +24,29 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<DATA> {
 
     private static final int DELAY = 200;
-    private final PublishProcessor<String> mPublisher = PublishProcessor.create();
+    private PublishProcessor<String> mPublisher;
     protected ISearchDataView<DATA> mView;
 
-    public SearchViewPresenter() {
-        final Flowable<String> flowable = mPublisher.onBackpressureBuffer();
-        flowable.debounce(DELAY, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String query) throws Exception {
-                        requestData(query);
-                    }
-                });
-
+    // region Search
+    private void setupPublisher() {
+        if (mPublisher == null) {
+            mPublisher = PublishProcessor.create();
+            final Flowable<String> flowable = mPublisher.onBackpressureBuffer();
+            flowable.debounce(DELAY, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<String>() {
+                        @Override
+                        public void accept(String query) throws Exception {
+                            requestData(query);
+                        }
+                    });
+        }
     }
 
     @Override
     public SearchViewPresenter<DATA> setupSearch(Menu menu, int id) {
+        setupPublisher();
         MenuItem searchItem = menu.findItem(id);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -53,12 +57,14 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
 
             @Override
             public boolean onQueryTextChange(String query) {
-                mPublisher.onNext(query);
+                if (mPublisher != null)
+                    mPublisher.onNext(query);
                 return true;
             }
         });
         return this;
     }
+    // endregion
 
     @Override
     public SearchViewPresenter<DATA> setSearchDataView(ISearchDataView<DATA> view) {

@@ -40,7 +40,7 @@ public class CustomersPresenter extends SearchViewPresenter<SortedMap<Character,
                 try {
 
                     if (!emitter.isDisposed()) {
-                        List<Customer> customers = EasyTimeManager.getCustomers(EasyTimeApplication.getContext());
+                        List<Customer> customers = EasyTimeManager.getCustomers(EasyTimeApplication.getContext(), query);
                         // split list of customers alphabetically
                         SortedMap<Character, List<Customer>> map = sorter.getSortedItems(customers, comparator);
                         emitter.onNext(map);
