@@ -2,6 +2,7 @@ package com.example.paralect.easytime.manager;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
@@ -13,6 +14,9 @@ import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,28 +41,31 @@ public final class EasyTimeManager {
         }
     }
 
-    public static List<Job> getJobs(@NonNull Context context) {
-        return getJobs(context, null);
+    public static List<Job> getJobs(@NonNull Context context, String query) {
+        return getJobs(context, null, query);
     }
 
-    public static List<Job> getJobs(@NonNull Context context, Customer customer) {
+    public static List<Job> getJobs(@NonNull Context context, Customer customer, String query) {
         List<Job> jobs = new ArrayList<>();
         DatabaseHelper helper = new DatabaseHelper(context.getApplicationContext());
         try {
             Dao<Object, String> objectDao = helper.getObjectDao();
             Dao<Order, String> orderDao = helper.getOrderDao();
             Dao<Project, String> projectDao = helper.getProjectDao();
-            if (customer != null) {
-                String customerId = customer.getCustomerId();
-                jobs.addAll(objectDao.queryForEq("customerId", customerId));
-                jobs.addAll(orderDao.queryForEq("customerId", customerId));
-                jobs.addAll(projectDao.queryForEq("customerId", customerId));
-            } else {
-                jobs.addAll(objectDao.queryForAll());
-                jobs.addAll(orderDao.queryForAll());
-                jobs.addAll(projectDao.queryForAll());
+
+            String customerId = customer == null ? "" : customer.getCustomerId();
+
+            List<Object> objects = getList(objectDao, customerId, query);
+            List<Order> orders = getList(orderDao, customerId, query);
+            List<Project> projects = getList(projectDao, customerId, query);
+
+            jobs.addAll(objects);
+            jobs.addAll(orders);
+            jobs.addAll(projects);
+
+            if (customer == null) {
                 for (Job job : jobs) {
-                    String customerId = job.getCustomerId();
+                    customerId = job.getCustomerId();
                     Dao<Customer, String> customerDao = helper.getCustomerDao();
                     customer = customerDao.queryForId(customerId);
                     job.setCustomer(customer);
@@ -77,6 +84,25 @@ public final class EasyTimeManager {
         }
         return jobs;
     }
+
+    private static <JOB> List<JOB> getList(Dao<JOB, String> dao, String customerId, String query) throws SQLException {
+        QueryBuilder<JOB, String> qb = dao.queryBuilder();
+
+        boolean hasCustomerId = !TextUtils.isEmpty(customerId);
+        boolean hasQuery = !TextUtils.isEmpty(query);
+
+        if (hasCustomerId && hasQuery)
+            qb.where().eq("customerId", customerId).and().like("name", "%" + query + "%");
+        else if (hasCustomerId)
+            qb.where().eq("customerId", customerId);
+        else if (hasQuery)
+            qb.where().like("name", "%" + query + "%");
+
+
+        List<JOB> objects = qb.query();
+        return objects;
+    }
+
 
     public static List<Material> getMaterials(@NonNull Context context) {
         List<Material> materials = new ArrayList<>();

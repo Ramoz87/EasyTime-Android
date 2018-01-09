@@ -12,9 +12,9 @@ import android.widget.AdapterView;
 
 import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.AbsStickyFragment;
+import com.example.paralect.easytime.main.search.ISearchView;
 import com.example.paralect.easytime.utils.ViewUtils;
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
 import com.example.paralect.easytime.model.Job;
 
@@ -26,10 +26,10 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 26.12.2017.
  */
 
-public class ProjectsFragment extends AbsStickyFragment {
+public class ProjectsFragment extends AbsStickyFragment implements ISearchView<List<Job>> {
     private static final String TAG = ProjectsFragment.class.getSimpleName();
 
-
+    private final ProjectsPresenter presenter = new ProjectsPresenter();
     private FragmentNavigator navigator;
     private ProjectStickyAdapter adapter;
 
@@ -43,15 +43,10 @@ public class ProjectsFragment extends AbsStickyFragment {
         return new ProjectsFragment();
     }
 
-    private List<Job> getJobs() {
-        return EasyTimeManager.getJobs(getContext());
-    }
-
     @Override
     public StickyListHeadersAdapter buildAdapter() {
         Log.d(TAG, "building sticky adapter");
-        List<Job> jobs = getJobs();
-        return (adapter = new ProjectStickyAdapter(jobs));
+        return adapter = new ProjectStickyAdapter();
     }
 
     @Override
@@ -63,6 +58,8 @@ public class ProjectsFragment extends AbsStickyFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
+        presenter.setupSearch(menu, R.id.item_search, this);
+        presenter.requestData("");
     }
 
     @Override
@@ -85,5 +82,10 @@ public class ProjectsFragment extends AbsStickyFragment {
         Job job = adapter.getItem(i);
         ProjectFragment fragment = ProjectFragment.newInstance(job);
         navigator.pushFragment(fragment);
+    }
+
+    @Override
+    public void onDataReceived(List<Job> data) {
+        adapter.setData(data);
     }
 }

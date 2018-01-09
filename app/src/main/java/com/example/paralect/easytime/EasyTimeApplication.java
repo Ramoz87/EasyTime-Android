@@ -1,6 +1,8 @@
 package com.example.paralect.easytime;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.example.paralect.easytime.manager.ETPreferenceManager;
@@ -30,9 +32,12 @@ import java.util.List;
 public class EasyTimeApplication extends Application {
     private static final String TAG = EasyTimeApplication.class.getSimpleName();
 
+    @SuppressLint("StaticFieldLeak") private static Context sContext;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        sContext = this;
         ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
         preferenceManager.plusLaunch();
         if (BuildConfig.DEBUG && preferenceManager.isLaunchFirst()) { // pre-populate data from assets
@@ -40,6 +45,10 @@ public class EasyTimeApplication extends Application {
             FakeCreator fakeCreator = getDefaultFakeCreator();
             fillData(fakeCreator);
         }
+    }
+
+    public static Context getContext() {
+        return sContext;
     }
 
     private void fillData(FakeCreator fakeCreator) {

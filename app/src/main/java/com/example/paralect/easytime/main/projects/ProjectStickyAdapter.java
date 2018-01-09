@@ -36,11 +36,10 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
     private List<Object> objects = new ArrayList<>();
     private List<Order> orders = new ArrayList<>();
 
-    public ProjectStickyAdapter(List<Job> jobs) {
-        init(jobs);
-    }
-
-    private void init(List<Job> jobs) {
+    public void setData(List<Job> jobs) {
+        projects.clear();
+        objects.clear();
+        orders.clear();
         for (int i = 0; i < jobs.size(); i++) {
             Job job = jobs.get(i);
             boolean found = false;
@@ -60,6 +59,7 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
                 i--;
             }
         }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -136,13 +136,13 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         // binding
         if (type == TYPE_PROJECT) {
             JobViewHolder vh = (JobViewHolder) view.getTag();
-            vh.bind((Project) getItem(i));
+            vh.bind(getItem(i));
         } else if (type == TYPE_ORDER) {
             OrderViewHolder vh = (OrderViewHolder) view.getTag();
-            vh.bind((Order) getItem(i));
+            vh.bind(getItem(i));
         } else if (type == TYPE_OBJECT) {
             ObjectViewHolder vh = (ObjectViewHolder) view.getTag();
-            vh.bind((Object) getItem(i));
+            vh.bind(getItem(i));
         }
 
         return view;
@@ -163,21 +163,12 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
     }
 
     static class JobViewHolder {
-        @BindView(R.id.jobName)
-        TextView jobName;
-
-        @BindView(R.id.jobStatus)
-        TextView jobStatus;
-
-        @BindView(R.id.jobCustomer)
-        TextView jobCustomer;
-
-        @BindView(R.id.jobNumber)
-        TextView jobNumber;
-
+        @BindView(R.id.jobName) TextView jobName;
+        @BindView(R.id.jobStatus) TextView jobStatus;
+        @BindView(R.id.jobCustomer) TextView jobCustomer;
+        @BindView(R.id.jobNumber) TextView jobNumber;
         @Nullable
-        @BindView(R.id.job_address_and_date)
-        TextView addressAndDate;
+        @BindView(R.id.job_address_and_date) TextView addressAndDate;
 
         JobViewHolder(View itemView) {
             ButterKnife.bind(this, itemView);
