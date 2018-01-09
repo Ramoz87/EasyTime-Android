@@ -2,29 +2,17 @@ package com.example.paralect.easytime.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
-import com.j256.ormlite.dao.BaseForeignCollection;
-import com.j256.ormlite.dao.CloseableIterator;
-import com.j256.ormlite.dao.CloseableWrappedIterable;
-import com.j256.ormlite.dao.EagerForeignCollection;
-import com.j256.ormlite.dao.ForeignCollection;
+import com.example.paralect.easytime.main.projects.ProjectType;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 
-import java.lang.*;
-import java.lang.Object;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by alexei on 26.12.2017.
  */
 
-public class Project extends Job implements Parcelable {
+public class Project extends Job implements Parcelable, ProjectType {
 
     @DatabaseField(columnName = "dateStart")
     private String dateStart;
@@ -98,5 +86,11 @@ public class Project extends Job implements Parcelable {
 
     public void setObjectIds(List<String> objectIds) {
         this.objectIds = objectIds;
+    }
+
+    @Override
+    @Type
+    public int getProjectType() {
+        return Type.TYPE_PROJECT;
     }
 }

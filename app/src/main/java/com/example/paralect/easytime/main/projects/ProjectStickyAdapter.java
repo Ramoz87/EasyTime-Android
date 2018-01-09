@@ -22,45 +22,17 @@ import butterknife.ButterKnife;
 import butterknife.Optional;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
+import static com.example.paralect.easytime.main.projects.ProjectType.Type.TYPE_OBJECT;
+import static com.example.paralect.easytime.main.projects.ProjectType.Type.TYPE_ORDER;
+import static com.example.paralect.easytime.main.projects.ProjectType.Type.TYPE_PROJECT;
+
 /**
  * Created by alexei on 26.12.2017.
  */
 
 public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
-    private static final int TYPE_PROJECT = 0;
-    private static final int TYPE_ORDER = 1;
-    private static final int TYPE_OBJECT = 2;
-
-    private List<Project> projects = new ArrayList<>();
-    private List<Object> objects = new ArrayList<>();
-    private List<Order> orders = new ArrayList<>();
-
-    public void setData(List<Job> jobs) {
-        projects.clear();
-        objects.clear();
-        orders.clear();
-        for (int i = 0; i < jobs.size(); i++) {
-            Job job = jobs.get(i);
-            boolean found = false;
-            if (job instanceof Project) {
-                projects.add((Project) job);
-                found = true;
-            } else if (job instanceof Order) {
-                orders.add((Order) job);
-                found = true;
-            } else if (job instanceof Object) {
-                objects.add((Object) job);
-                found = true;
-            }
-
-            if (found) {
-                jobs.remove(i);
-                i--;
-            }
-        }
-        notifyDataSetChanged();
-    }
+    private final List<Job> mJobs = new ArrayList<>();
 
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
@@ -88,17 +60,12 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
 
     @Override
     public int getCount() {
-        return projects.size() + objects.size() + orders.size();
+        return mJobs.size();
     }
 
     @Override
     public Job getItem(int i) {
-        int type = getItemViewType(i);
-        if (i < projects.size())
-            return projects.get(i);
-        else if (i >= projects.size() && i < (projects.size() + orders.size()))
-            return orders.get(i - projects.size());
-        else return objects.get(i - projects.size() - orders.size());
+        return mJobs.get(i);
     }
 
     @Override
@@ -149,12 +116,9 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
     }
 
     @Override
+    @ProjectType.Type
     public int getItemViewType(int i) {
-        if (i < projects.size())
-            return TYPE_PROJECT;
-        else if (i < projects.size() + objects.size())
-            return TYPE_ORDER;
-        else return TYPE_OBJECT;
+        return getItem(i).getProjectType();
     }
 
     @Override
@@ -162,6 +126,13 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         return 3;
     }
 
+    public void setData(List<Job> jobs) {
+        mJobs.clear();
+        mJobs.addAll(jobs);
+        notifyDataSetChanged();
+    }
+
+    // region ViewHolder
     static class JobViewHolder {
         @BindView(R.id.jobName) TextView jobName;
         @BindView(R.id.jobStatus) TextView jobStatus;
@@ -217,4 +188,6 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
             }
         }
     }
+    // endregion
+
 }

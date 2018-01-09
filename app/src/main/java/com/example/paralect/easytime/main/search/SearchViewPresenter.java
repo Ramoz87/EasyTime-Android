@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<DATA> {
 
-    private static final int DELAY = 500;
+    private static final int DELAY = 200;
     private final PublishProcessor<String> mPublisher = PublishProcessor.create();
     protected ISearchView<DATA> mView;
 

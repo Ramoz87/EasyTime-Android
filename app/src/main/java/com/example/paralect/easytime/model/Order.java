@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 
+import com.example.paralect.easytime.main.projects.ProjectType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 
 @DatabaseTable(tableName = "orders")
-public class Order extends JobWithAddress implements Parcelable {
+public class Order extends JobWithAddress implements Parcelable, ProjectType {
 
     @DatabaseField(columnName = "contact")
     private String contact;
@@ -78,5 +79,11 @@ public class Order extends JobWithAddress implements Parcelable {
     @Override
     public String toString() {
         return super.toString() + " |  " + contact;
+    }
+
+    @Override
+    @Type
+    public int getProjectType() {
+        return Type.TYPE_ORDER;
     }
 }
