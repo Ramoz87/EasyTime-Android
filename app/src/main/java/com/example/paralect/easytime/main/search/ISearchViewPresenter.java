@@ -9,8 +9,10 @@ import android.view.Menu;
 
 public interface ISearchViewPresenter<DATA> {
 
-    void setupSearch(Menu menu, @IdRes int id, ISearchView<DATA> view);
+    ISearchViewPresenter<DATA> setupSearch(Menu menu, @IdRes int id);
+
+    ISearchViewPresenter<DATA> setSearchDataView(ISearchDataView<DATA> view);
 
     // perform a query
-    void requestData(String query);
+    ISearchViewPresenter<DATA> requestData(String query);
 }

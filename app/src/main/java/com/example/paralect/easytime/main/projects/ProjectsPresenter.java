@@ -21,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
 
     @Override
-    public void requestData(final String query) {
+    public ProjectsPresenter requestData(final String query) {
         Observable<List<Job>> observable = Observable.create(new ObservableOnSubscribe<List<Job>>() {
             @Override
             public void subscribe(ObservableEmitter<List<Job>> emitter) throws Exception {
@@ -58,6 +58,6 @@ public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
 
                     }
                 });
-
+        return this;
     }
 }

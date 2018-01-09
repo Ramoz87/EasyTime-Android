@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 
 import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.AbsStickyFragment;
-import com.example.paralect.easytime.main.search.ISearchView;
+import com.example.paralect.easytime.main.search.ISearchDataView;
 import com.example.paralect.easytime.utils.ViewUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
@@ -26,12 +26,12 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 26.12.2017.
  */
 
-public class ProjectsFragment extends AbsStickyFragment implements ISearchView<List<Job>> {
+public class ProjectsFragment extends AbsStickyFragment implements ISearchDataView<List<Job>> {
     private static final String TAG = ProjectsFragment.class.getSimpleName();
 
     private final ProjectsPresenter presenter = new ProjectsPresenter();
+    private ProjectStickyAdapter adapter = new ProjectStickyAdapter();
     private FragmentNavigator navigator;
-    private ProjectStickyAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
@@ -46,7 +46,7 @@ public class ProjectsFragment extends AbsStickyFragment implements ISearchView<L
     @Override
     public StickyListHeadersAdapter buildAdapter() {
         Log.d(TAG, "building sticky adapter");
-        return adapter = new ProjectStickyAdapter();
+        return adapter;
     }
 
     @Override
@@ -58,8 +58,9 @@ public class ProjectsFragment extends AbsStickyFragment implements ISearchView<L
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        presenter.setupSearch(menu, R.id.item_search, this);
-        presenter.requestData("");
+        presenter.setSearchDataView(this)
+                .setupSearch(menu, R.id.item_search)
+                .requestData("");
     }
 
     @Override

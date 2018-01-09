@@ -21,10 +21,6 @@ import butterknife.ButterKnife;
 
 public class MaterialAlphabetAdapter extends AlphabetStickyAdapter<Material> {
 
-    public MaterialAlphabetAdapter(SortedMap<Character, List<Material>> sortedCustomers) {
-        super(sortedCustomers);
-    }
-
     @Override
     public long getItemId(int i) {
         return getItem(i).getName().hashCode();

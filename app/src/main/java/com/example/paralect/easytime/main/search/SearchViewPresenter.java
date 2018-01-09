@@ -25,7 +25,7 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
 
     private static final int DELAY = 200;
     private final PublishProcessor<String> mPublisher = PublishProcessor.create();
-    protected ISearchView<DATA> mView;
+    protected ISearchDataView<DATA> mView;
 
     public SearchViewPresenter() {
         final Flowable<String> flowable = mPublisher.onBackpressureBuffer();
@@ -42,8 +42,7 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
     }
 
     @Override
-    public void setupSearch(Menu menu, @IdRes int id, ISearchView<DATA> view) {
-        mView = view;
+    public SearchViewPresenter<DATA> setupSearch(Menu menu, int id) {
         MenuItem searchItem = menu.findItem(id);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -58,6 +57,13 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
                 return true;
             }
         });
+        return this;
+    }
+
+    @Override
+    public SearchViewPresenter<DATA> setSearchDataView(ISearchDataView<DATA> view) {
+        mView = view;
+        return this;
     }
 
 }

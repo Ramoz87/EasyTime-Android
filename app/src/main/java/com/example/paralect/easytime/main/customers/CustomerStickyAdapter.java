@@ -22,10 +22,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class CustomerStickyAdapter extends AlphabetStickyAdapter<Customer> implements StickyListHeadersAdapter {
 
-    public CustomerStickyAdapter(SortedMap<Character, List<Customer>> sortedCustomers) {
-        super(sortedCustomers);
-    }
-
     @Override
     public long getItemId(int i) {
         return getItem(i).getCompanyName().hashCode();
