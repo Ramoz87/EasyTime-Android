@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
     
     defaultConfig {
         applicationId "com.paralect.easytime"
-        minSdkVersion 15
-        targetSdkVersion 27
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
         versionCode 1
         versionName "1.0"
     }
@@ -23,29 +23,24 @@ android {
 
 dependencies {
 
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'com.android.support:design:27.0.2'
-    implementation 'com.android.support:support-v4:27.0.2'
+    def deps = rootProject.ext.deps
 
-    // butter knife
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation deps.appCompatSupport
+    implementation deps.designAndroid
+    implementation deps.fragNav
+    implementation deps.stickyListHeaders
+    implementation deps.expandablelayout
 
-    // sticky list header
-    implementation 'com.github.mtotschnig:StickyListHeaders:2.7.1'
+    implementation deps.butterKnife
+    annotationProcessor deps.butterKnifeCompiler
 
-    // json parser
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation deps.gson
+    implementation deps.opencsv
+    implementation deps.ormlite
 
-    // expandable layout
-    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-
-    // ormlite
-    implementation 'com.j256.ormlite:ormlite-android:4.48'
-
-    // csv reader
-    implementation 'com.opencsv:opencsv:3.9'
-
-    implementation 'com.ncapdevi:frag-nav:2.4.0'
+    implementation deps.rxJava
+    implementation deps.rxAndroid
+    implementation deps.javaxAnnotation
+    implementation deps.multidex
 
 }
