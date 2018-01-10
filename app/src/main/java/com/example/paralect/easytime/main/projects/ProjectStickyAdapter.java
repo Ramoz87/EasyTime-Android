@@ -12,19 +12,18 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
-import com.example.paralect.easytime.model.Project;
+import com.example.paralect.easytime.model.ProjectType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
-import static com.example.paralect.easytime.main.projects.ProjectType.Type.TYPE_OBJECT;
-import static com.example.paralect.easytime.main.projects.ProjectType.Type.TYPE_ORDER;
-import static com.example.paralect.easytime.main.projects.ProjectType.Type.TYPE_PROJECT;
+import static com.example.paralect.easytime.model.ProjectType.Type.TYPE_OBJECT;
+import static com.example.paralect.easytime.model.ProjectType.Type.TYPE_ORDER;
+import static com.example.paralect.easytime.model.ProjectType.Type.TYPE_PROJECT;
 
 /**
  * Created by alexei on 26.12.2017.

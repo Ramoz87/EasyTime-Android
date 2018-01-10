@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.paralect.easytime.manager.ETPreferenceManager;
+import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.FakeCreator;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
@@ -23,6 +24,7 @@ import com.j256.ormlite.dao.Dao;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -206,6 +208,11 @@ public class EasyTimeApplication extends Application {
                 job.setInformation(fields[7]);
                 // fields[8]?
                 job.setCurrency(fields[9]);
+
+                // random date
+                Date date = CalendarUtils.nextDate();
+                String dateString = CalendarUtils.stringFromDate(date, CalendarUtils.DEFAULT_DATE_FORMAT);
+                job.setDate(dateString);
             }
         };
     }

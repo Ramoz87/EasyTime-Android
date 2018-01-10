@@ -121,7 +121,7 @@ public class CustomerFragment extends BaseFragment {
         // set jobs
         // FragmentManager fm = activity.getSupportFragmentManager();
         FragmentManager fm = getChildFragmentManager();
-        List<Job> jobs = EasyTimeManager.getJobs(getContext(), customer, "");
+        List<Job> jobs = EasyTimeManager.getJobs(getContext(), customer, "", null);
         ArrayList<Project> projects = MiscUtils.findAllElements(jobs, Project.class);
         ArrayList<Order> orders = MiscUtils.findAllElements(jobs, Order.class);
         ArrayList<Object> objects = MiscUtils.findAllElements(jobs, Object.class);

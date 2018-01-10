@@ -1,17 +1,16 @@
 package com.example.paralect.easytime.main.projects;
 
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
+import android.util.Log;
 
 import com.example.paralect.easytime.EasyTimeApplication;
-import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.main.search.SearchViewPresenter;
+import com.example.paralect.easytime.main.search.ISearchByDateViewPresenter;
+import com.example.paralect.easytime.main.search.SearchByDateViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.utils.ViewUtils;
+import com.example.paralect.easytime.utils.CalendarUtils;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -22,20 +21,26 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by Oleg Tarashkevich on 09/01/2018.
+ * Created by alexei on 10.01.2018.
  */
 
-public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
+public class ProjectsByDatePresenter extends SearchByDateViewPresenter<List<Job>> {
+
+    public ProjectsByDatePresenter(int year, int month, int day) {
+        super(year, month, day);
+    }
 
     @Override
-    public ProjectsPresenter requestData(final String query) {
+    public ISearchByDateViewPresenter<List<Job>> requestData(final Calendar calendar) {
         Observable<List<Job>> observable = Observable.create(new ObservableOnSubscribe<List<Job>>() {
             @Override
             public void subscribe(ObservableEmitter<List<Job>> emitter) throws Exception {
                 try {
 
                     if (!emitter.isDisposed()) {
-                        List<Job> jobs = EasyTimeManager.getJobs(EasyTimeApplication.getContext(), null, query, null);
+                        Date date = calendar.getTime();
+                        String dateString = CalendarUtils.stringFromDate(date, CalendarUtils.DEFAULT_DATE_FORMAT);
+                        List<Job> jobs = EasyTimeManager.getJobs(EasyTimeApplication.getContext(), null, "", dateString);
                         emitter.onNext(jobs);
                         emitter.onComplete();
                     }
