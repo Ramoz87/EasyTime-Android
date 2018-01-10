@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Contact;
@@ -32,9 +31,8 @@ public class ContactsAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         Contact contact = mContacts.get(position);
         ContactView view = new ContactView(container.getContext());
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setCustomer(contact, mAddress);
-        container.addView(view, 0, params);
+        container.addView(view, 0);
         return view;
     }
 
