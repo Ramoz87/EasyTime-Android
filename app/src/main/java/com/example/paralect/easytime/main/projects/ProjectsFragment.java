@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.MainActivity;
-import com.example.paralect.easytime.main.search.ISearchDataView;
+import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
@@ -29,7 +29,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 26.12.2017.
  */
 
-public class ProjectsFragment extends AbsStickyFragment implements ISearchDataView<List<Job>> {
+public class ProjectsFragment extends AbsStickyFragment implements IDataView<List<Job>> {
     private static final String TAG = ProjectsFragment.class.getSimpleName();
 
     // start value

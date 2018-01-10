@@ -2,6 +2,8 @@ package com.example.paralect.easytime.main.search;
 
 import android.widget.TextView;
 
+import com.example.paralect.easytime.main.IDataView;
+
 import java.util.Calendar;
 
 /**
@@ -11,7 +13,7 @@ import java.util.Calendar;
 public interface ISearchByDateViewPresenter<DATA> {
     ISearchByDateViewPresenter<DATA> setupSearch(TextView view);
 
-    ISearchByDateViewPresenter<DATA> setSearchDataView(ISearchDataView<DATA> view);
+    ISearchByDateViewPresenter<DATA> setSearchDataView(IDataView<DATA> view);
 
     ISearchByDateViewPresenter<DATA> requestData(Calendar calendar);
 }

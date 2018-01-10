@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.FragmentNavigator;
+import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.utils.MiscUtils;
@@ -40,7 +41,7 @@ import butterknife.OnClick;
  * Created by alexei on 27.12.2017.
  */
 
-public class CustomerFragment extends BaseFragment {
+public class CustomerFragment extends BaseFragment implements IDataView<Customer> {
 
     private static final String TAG = CustomerFragment.class.getSimpleName();
     public static final String ARG_CUSTOMER = "arg_customer";
@@ -50,6 +51,7 @@ public class CustomerFragment extends BaseFragment {
     @BindView(R.id.tabs) TabLayout tabs;
     @BindView(R.id.jobs_view_pager) ViewPager jobsViewPager;
 
+    private final CustomerPresenter presenter = new CustomerPresenter();
     private Customer customer;
     private FragmentNavigator navigator;
 
@@ -65,6 +67,7 @@ public class CustomerFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         customer = getCustomer();
+        presenter.setDataView(this);
     }
 
     @Override
@@ -84,7 +87,8 @@ public class CustomerFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        init();
+        showMainTopShadow(false);
+        presenter.requestData(customer);
     }
 
     @Override
@@ -110,16 +114,20 @@ public class CustomerFragment extends BaseFragment {
         else return null;
     }
 
-    private void init() {
-        showMainTopShadow(false);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        showMainTopShadow(true);
+    }
 
+    @Override
+    public void onDataReceived(Customer customer) {
         // set contacts
         ContactsAdapter contactsAdapter = new ContactsAdapter(Contact.getMockContacts(), Address.mock());
         contactsViewPager.setAdapter(contactsAdapter);
         pageIndicatorView.setViewPager(contactsViewPager);
 
         // set jobs
-        // FragmentManager fm = activity.getSupportFragmentManager();
         FragmentManager fm = getChildFragmentManager();
         List<Job> jobs = EasyTimeManager.getJobs(getContext(), customer, "", null);
         ArrayList<Project> projects = MiscUtils.findAllElements(jobs, Project.class);
@@ -129,11 +137,5 @@ public class CustomerFragment extends BaseFragment {
 
         jobsViewPager.setAdapter(adapter);
         tabs.setupWithViewPager(jobsViewPager);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        showMainTopShadow(true);
     }
 }

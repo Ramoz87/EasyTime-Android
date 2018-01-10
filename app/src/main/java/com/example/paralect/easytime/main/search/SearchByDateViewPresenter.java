@@ -7,16 +7,13 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.utils.CalendarUtils;
 
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.processors.PublishProcessor;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by alexei on 10.01.2018.
@@ -25,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class SearchByDateViewPresenter<DATA> implements ISearchByDateViewPresenter<DATA>, DatePickerDialog.OnDateSetListener {
 
     private PublishProcessor<Calendar> mPublisher;
-    protected ISearchDataView<DATA> mView;
+    protected IDataView<DATA> mView;
     private TextView mTextView;
 
     private int year;
@@ -64,7 +61,7 @@ public abstract class SearchByDateViewPresenter<DATA> implements ISearchByDateVi
     }
 
     @Override
-    public ISearchByDateViewPresenter<DATA> setSearchDataView(ISearchDataView<DATA> view) {
+    public ISearchByDateViewPresenter<DATA> setSearchDataView(IDataView<DATA> view) {
         this.mView = view;
         return this;
     }

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.example.paralect.easytime.main.search.ISearchDataView;
+import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.FragmentNavigator;
@@ -26,7 +26,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 26.12.2017.
  */
 
-public class CustomersFragment extends AbsStickyFragment implements ISearchDataView<SortedMap<Character,List<Customer>>> {
+public class CustomersFragment extends AbsStickyFragment implements IDataView<SortedMap<Character,List<Customer>>> {
 
     private final CustomersPresenter presenter = new CustomersPresenter();
     private final CustomerStickyAdapter adapter = new CustomerStickyAdapter();

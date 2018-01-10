@@ -6,15 +6,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
-import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.main.search.ISearchDataView;
-import com.example.paralect.easytime.utils.Sorter;
-import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.model.Material;
-import com.example.paralect.easytime.model.MaterialComparator;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -24,7 +19,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 04.01.2018.
  */
 
-public class MaterialChooserFragment extends AbsStickyFragment implements ISearchDataView<SortedMap<Character,List<Material>>> {
+public class MaterialChooserFragment extends AbsStickyFragment implements IDataView<SortedMap<Character,List<Material>>> {
 
     private MaterialChooserPresenter presenter = new MaterialChooserPresenter();
     private MaterialAlphabetAdapter adapter = new MaterialAlphabetAdapter();

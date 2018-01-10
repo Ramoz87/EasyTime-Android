@@ -1,10 +1,10 @@
-package com.example.paralect.easytime.main.search;
+package com.example.paralect.easytime.main;
 
 /**
  * Created by Oleg Tarashkevich on 09/01/2018.
  */
 
-public interface ISearchDataView<DATA> {
+public interface IDataView<DATA> {
 
     void onDataReceived(DATA data);
 }
