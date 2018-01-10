@@ -6,7 +6,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -22,9 +21,9 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.FragmentNavigator;
-import com.example.paralect.easytime.MiscUtils;
+import com.example.paralect.easytime.utils.MiscUtils;
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.app.EasyTimeManager;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
@@ -116,7 +115,7 @@ public class CustomerFragment extends BaseFragment {
         activity.setToolbarElevation(0);
         // FragmentManager fm = activity.getSupportFragmentManager();
         FragmentManager fm = getChildFragmentManager();
-        List<Job> jobs = EasyTimeManager.getJobs(getContext(), customer);
+        List<Job> jobs = EasyTimeManager.getJobs(getContext(), customer, "");
         ArrayList<Project> projects = MiscUtils.findAllElements(jobs, Project.class);
         ArrayList<Order> orders = MiscUtils.findAllElements(jobs, Order.class);
         ArrayList<Object> objects = MiscUtils.findAllElements(jobs, Object.class);

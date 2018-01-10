@@ -7,12 +7,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.Material;
 
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
@@ -22,16 +21,20 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public abstract class AlphabetStickyAdapter<E> extends BaseAdapter implements StickyListHeadersAdapter {
 
-    private SortedMap<Character, List<E>> sortedCustomers;
+    private SortedMap<Character, List<E>> mSortedData = new TreeMap<>();
     private int count;
 
-    public AlphabetStickyAdapter(SortedMap<Character, List<E>> sortedCustomers) {
-        this.sortedCustomers = sortedCustomers;
+    public void setData(SortedMap<Character, List<E>> sortedData) {
+        if (sortedData == null || sortedData.isEmpty())
+            mSortedData.clear();
+        else
+            mSortedData = sortedData;
         count = calculateCount();
+        notifyDataSetChanged();
     }
 
     private int calculateCount() {
-        Map<Character, List<E>> map = sortedCustomers;
+        Map<Character, List<E>> map = mSortedData;
         int totalCount = 0;
         for (Character c : map.keySet()) {
             totalCount += map.get(c).size();
@@ -41,7 +44,7 @@ public abstract class AlphabetStickyAdapter<E> extends BaseAdapter implements St
 
     private char getSection(int position) {
         int count = 0;
-        Map<Character, List<E>> map = sortedCustomers;
+        Map<Character, List<E>> map = mSortedData;
         for (Character c : map.keySet()) {
             List<E> curr = map.get(c);
             if (position < count + curr.size())
@@ -78,7 +81,7 @@ public abstract class AlphabetStickyAdapter<E> extends BaseAdapter implements St
     @Override
     public E getItem(int i) {
         int count = 0;
-        Map<Character, List<E>> map = sortedCustomers;
+        Map<Character, List<E>> map = mSortedData;
         for (Character c : map.keySet()) {
             List<E> curr = map.get(c);
             if (i < count + curr.size())

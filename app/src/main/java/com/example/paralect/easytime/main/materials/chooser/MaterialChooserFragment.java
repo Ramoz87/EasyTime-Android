@@ -1,11 +1,15 @@
 package com.example.paralect.easytime.main.materials.chooser;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 
-import com.example.paralect.easytime.Sorter;
-import com.example.paralect.easytime.app.EasyTimeManager;
+import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.search.ISearchDataView;
+import com.example.paralect.easytime.utils.Sorter;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.MaterialComparator;
@@ -20,40 +24,25 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 04.01.2018.
  */
 
-public class MaterialChooserFragment extends AbsStickyFragment {
+public class MaterialChooserFragment extends AbsStickyFragment implements ISearchDataView<SortedMap<Character,List<Material>>> {
 
-    private Comparator<Material> comparator;
-    private final Sorter<Material> sorter = new Sorter<Material>() {
-        @Override
-        public char getCharacterForItem(Material item) {
-            return item.getName().charAt(0);
-        }
-    };
+    private MaterialChooserPresenter presenter = new MaterialChooserPresenter();
+    private MaterialAlphabetAdapter adapter = new MaterialAlphabetAdapter();
 
     public static MaterialChooserFragment newInstance() {
         return new MaterialChooserFragment();
     }
 
-    private List<Material> getMaterials() {
-        return EasyTimeManager.getMaterials(this.getContext());
-    }
-
-    private SortedMap<Character, List<Material>> getSortedMaterials(List<Material> materials) {
-        initComparator();
-        return sorter.getSortedItems(materials, comparator);
-    }
-
-    private void initComparator() {
-        if (comparator == null) {
-            comparator = new MaterialComparator();
-        }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.setSearchDataView(this)
+                .requestData("");
     }
 
     @Override
     public StickyListHeadersAdapter buildAdapter() {
-        List<Material> materials = getMaterials();
-        SortedMap<Character, List<Material>> sortedMaterials = getSortedMaterials(materials);
-        return new MaterialAlphabetAdapter(sortedMaterials);
+        return adapter;
     }
 
     @Override
@@ -69,5 +58,10 @@ public class MaterialChooserFragment extends AbsStickyFragment {
     @Override
     public boolean needsOptionsMenu() {
         return true;
+    }
+
+    @Override
+    public void onDataReceived(SortedMap<Character, List<Material>> map) {
+       adapter.setData(map);
     }
 }

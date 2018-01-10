@@ -22,45 +22,17 @@ import butterknife.ButterKnife;
 import butterknife.Optional;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
+import static com.example.paralect.easytime.main.projects.ProjectType.Type.TYPE_OBJECT;
+import static com.example.paralect.easytime.main.projects.ProjectType.Type.TYPE_ORDER;
+import static com.example.paralect.easytime.main.projects.ProjectType.Type.TYPE_PROJECT;
+
 /**
  * Created by alexei on 26.12.2017.
  */
 
 public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
-    private static final int TYPE_PROJECT = 0;
-    private static final int TYPE_ORDER = 1;
-    private static final int TYPE_OBJECT = 2;
-
-    private List<Project> projects = new ArrayList<>();
-    private List<Object> objects = new ArrayList<>();
-    private List<Order> orders = new ArrayList<>();
-
-    public ProjectStickyAdapter(List<Job> jobs) {
-        init(jobs);
-    }
-
-    private void init(List<Job> jobs) {
-        for (int i = 0; i < jobs.size(); i++) {
-            Job job = jobs.get(i);
-            boolean found = false;
-            if (job instanceof Project) {
-                projects.add((Project) job);
-                found = true;
-            } else if (job instanceof Order) {
-                orders.add((Order) job);
-                found = true;
-            } else if (job instanceof Object) {
-                objects.add((Object) job);
-                found = true;
-            }
-
-            if (found) {
-                jobs.remove(i);
-                i--;
-            }
-        }
-    }
+    private final List<Job> mJobs = new ArrayList<>();
 
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
@@ -88,17 +60,12 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
 
     @Override
     public int getCount() {
-        return projects.size() + objects.size() + orders.size();
+        return mJobs.size();
     }
 
     @Override
     public Job getItem(int i) {
-        int type = getItemViewType(i);
-        if (i < projects.size())
-            return projects.get(i);
-        else if (i >= projects.size() && i < (projects.size() + orders.size()))
-            return orders.get(i - projects.size());
-        else return objects.get(i - projects.size() - orders.size());
+        return mJobs.get(i);
     }
 
     @Override
@@ -136,25 +103,22 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         // binding
         if (type == TYPE_PROJECT) {
             JobViewHolder vh = (JobViewHolder) view.getTag();
-            vh.bind((Project) getItem(i));
+            vh.bind(getItem(i));
         } else if (type == TYPE_ORDER) {
             OrderViewHolder vh = (OrderViewHolder) view.getTag();
-            vh.bind((Order) getItem(i));
+            vh.bind(getItem(i));
         } else if (type == TYPE_OBJECT) {
             ObjectViewHolder vh = (ObjectViewHolder) view.getTag();
-            vh.bind((Object) getItem(i));
+            vh.bind(getItem(i));
         }
 
         return view;
     }
 
     @Override
+    @ProjectType.Type
     public int getItemViewType(int i) {
-        if (i < projects.size())
-            return TYPE_PROJECT;
-        else if (i < projects.size() + objects.size())
-            return TYPE_ORDER;
-        else return TYPE_OBJECT;
+        return getItem(i).getProjectType();
     }
 
     @Override
@@ -162,22 +126,20 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         return 3;
     }
 
+    public void setData(List<Job> jobs) {
+        mJobs.clear();
+        mJobs.addAll(jobs);
+        notifyDataSetChanged();
+    }
+
+    // region ViewHolder
     static class JobViewHolder {
-        @BindView(R.id.jobName)
-        TextView jobName;
-
-        @BindView(R.id.jobStatus)
-        TextView jobStatus;
-
-        @BindView(R.id.jobCustomer)
-        TextView jobCustomer;
-
-        @BindView(R.id.jobNumber)
-        TextView jobNumber;
-
+        @BindView(R.id.jobName) TextView jobName;
+        @BindView(R.id.jobStatus) TextView jobStatus;
+        @BindView(R.id.jobCustomer) TextView jobCustomer;
+        @BindView(R.id.jobNumber) TextView jobNumber;
         @Nullable
-        @BindView(R.id.job_address_and_date)
-        TextView addressAndDate;
+        @BindView(R.id.job_address_and_date) TextView addressAndDate;
 
         JobViewHolder(View itemView) {
             ButterKnife.bind(this, itemView);
@@ -226,4 +188,6 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
             }
         }
     }
+    // endregion
+
 }

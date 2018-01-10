@@ -1,4 +1,4 @@
-package com.example.paralect.easytime;
+package com.example.paralect.easytime.utils;
 
 import android.content.Context;
 import android.content.res.Resources;

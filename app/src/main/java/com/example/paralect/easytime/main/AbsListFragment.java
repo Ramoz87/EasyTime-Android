@@ -2,20 +2,17 @@ package com.example.paralect.easytime.main;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.VerticalDividerItemDecoration;
+import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

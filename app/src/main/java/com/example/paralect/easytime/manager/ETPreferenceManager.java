@@ -1,4 +1,4 @@
-package com.example.paralect.easytime.app;
+package com.example.paralect.easytime.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;

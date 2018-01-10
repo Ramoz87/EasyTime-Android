@@ -3,6 +3,7 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.paralect.easytime.main.projects.ProjectType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -11,7 +12,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "objects")
-public class Object extends JobWithAddress implements Parcelable {
+public class Object extends JobWithAddress implements Parcelable, ProjectType {
 
     @DatabaseField(columnName = "dateEnd")
     private String dateEnd;
@@ -72,5 +73,11 @@ public class Object extends JobWithAddress implements Parcelable {
     @Override
     public String toString() {
         return super.toString() + " | " + dateStart + " " + dateEnd;
+    }
+
+    @Override
+    @Type
+    public int getProjectType() {
+        return Type.TYPE_OBJECT;
     }
 }

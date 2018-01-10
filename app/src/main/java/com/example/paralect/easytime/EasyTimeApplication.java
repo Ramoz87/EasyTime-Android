@@ -1,11 +1,12 @@
-package com.example.paralect.easytime.app;
+package com.example.paralect.easytime;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.util.Log;
 
-import com.example.paralect.easytime.BuildConfig;
-import com.example.paralect.easytime.FakeCreator;
+import com.example.paralect.easytime.manager.ETPreferenceManager;
+import com.example.paralect.easytime.utils.FakeCreator;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
@@ -31,9 +32,12 @@ import java.util.List;
 public class EasyTimeApplication extends Application {
     private static final String TAG = EasyTimeApplication.class.getSimpleName();
 
+    @SuppressLint("StaticFieldLeak") private static Context sContext;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        sContext = this;
         ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
         preferenceManager.plusLaunch();
         if (BuildConfig.DEBUG && preferenceManager.isLaunchFirst()) { // pre-populate data from assets
@@ -41,6 +45,10 @@ public class EasyTimeApplication extends Application {
             FakeCreator fakeCreator = getDefaultFakeCreator();
             fillData(fakeCreator);
         }
+    }
+
+    public static Context getContext() {
+        return sContext;
     }
 
     private void fillData(FakeCreator fakeCreator) {

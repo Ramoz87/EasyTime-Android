@@ -1,4 +1,4 @@
-package com.example.paralect.easytime;
+package com.example.paralect.easytime.utils;
 
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Object;

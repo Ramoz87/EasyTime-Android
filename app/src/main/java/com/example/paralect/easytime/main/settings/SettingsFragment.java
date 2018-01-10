@@ -1,27 +1,18 @@
 package com.example.paralect.easytime.main.settings;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.paralect.easytime.ActionBarUtils;
+import com.example.paralect.easytime.utils.ViewUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
-import com.example.paralect.easytime.model.DatabaseHelper;
-import com.example.paralect.easytime.model.User;
-import com.j256.ormlite.dao.Dao;
 
-import java.sql.SQLException;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -79,7 +70,7 @@ public class SettingsFragment extends BaseFragment {
 
     @Override
     public void onCreateActionBar(ActionBar actionBar) {
-        ActionBarUtils.setTitle(getActivity(), R.string.nav_settings);
+        ViewUtils.setTitle(getActivity(), R.string.nav_settings);
     }
 
     @Override
