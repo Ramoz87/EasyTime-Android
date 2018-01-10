@@ -67,15 +67,4 @@ public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
                 });
         return this;
     }
-
-    public SpannableString getTitle(String date){
-        String space = "   ";
-        SpannableString ss = new SpannableString(date + space);
-        Drawable d = ContextCompat.getDrawable(EasyTimeApplication.getContext(), R.drawable.ic_small_arrow_down);
-//        Drawable d = ContextCompat.getDrawable(EasyTimeApplication.getContext(), R.drawable.ic_arrow_drop_down_black_24dp);
-        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-        ImageSpan span = ViewUtils.getImageSpan(d);
-        ss.setSpan(span, date.length(), date.length() + space.length(), 0);
-        return ss;
-    }
 }

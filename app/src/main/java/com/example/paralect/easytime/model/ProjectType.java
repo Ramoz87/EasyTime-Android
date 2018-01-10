@@ -1,4 +1,4 @@
-package com.example.paralect.easytime.main.projects;
+package com.example.paralect.easytime.model;
 
 import android.support.annotation.IntDef;
 
