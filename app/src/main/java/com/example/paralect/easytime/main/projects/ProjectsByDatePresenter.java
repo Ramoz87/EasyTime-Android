@@ -1,11 +1,16 @@
 package com.example.paralect.easytime.main.projects;
 
+import android.util.Log;
+
 import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.main.search.ISearchByDateViewPresenter;
 import com.example.paralect.easytime.main.search.SearchByDateViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.CalendarUtils;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -26,14 +31,16 @@ public class ProjectsByDatePresenter extends SearchByDateViewPresenter<List<Job>
     }
 
     @Override
-    public ISearchByDateViewPresenter<List<Job>> requestData(int year, int month, int day) {
+    public ISearchByDateViewPresenter<List<Job>> requestData(final Calendar calendar) {
         Observable<List<Job>> observable = Observable.create(new ObservableOnSubscribe<List<Job>>() {
             @Override
             public void subscribe(ObservableEmitter<List<Job>> emitter) throws Exception {
                 try {
 
                     if (!emitter.isDisposed()) {
-                        List<Job> jobs = EasyTimeManager.getJobs(EasyTimeApplication.getContext(), "");
+                        Date date = calendar.getTime();
+                        String dateString = CalendarUtils.stringFromDate(date, CalendarUtils.DEFAULT_DATE_FORMAT);
+                        List<Job> jobs = EasyTimeManager.getJobs(EasyTimeApplication.getContext(), null, "", dateString);
                         emitter.onNext(jobs);
                         emitter.onComplete();
                     }

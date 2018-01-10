@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.search;
 
 import android.app.DatePickerDialog;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ public abstract class SearchByDateViewPresenter<DATA> implements ISearchByDateVi
             mPublisher = SearchPresenterUtils.createPublisherProcessor(new Consumer<Calendar>() {
                 @Override
                 public void accept(Calendar query) throws Exception {
-                    requestData(query.get(Calendar.YEAR), query.get(Calendar.MONTH), query.get(Calendar.DAY_OF_MONTH));
+                    requestData(query);
                 }
             });
         }
@@ -74,10 +75,13 @@ public abstract class SearchByDateViewPresenter<DATA> implements ISearchByDateVi
         year = i;
         month = i1;
         day = i2;
+        calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
         SpannableString spannableDateString = CalendarUtils.getSpannableDateString(mTextView.getContext(), calendar);
         mTextView.setText(spannableDateString);
+
+        Log.d("NewDate", "here " + CalendarUtils.stringFromDate(calendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT));
 
         if (mPublisher != null) {
             mPublisher.onNext(calendar);

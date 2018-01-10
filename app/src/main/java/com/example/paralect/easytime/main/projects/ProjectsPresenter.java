@@ -35,7 +35,7 @@ public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
                 try {
 
                     if (!emitter.isDisposed()) {
-                        List<Job> jobs = EasyTimeManager.getJobs(EasyTimeApplication.getContext(), query);
+                        List<Job> jobs = EasyTimeManager.getJobs(EasyTimeApplication.getContext(), null, query, null);
                         emitter.onNext(jobs);
                         emitter.onComplete();
                     }

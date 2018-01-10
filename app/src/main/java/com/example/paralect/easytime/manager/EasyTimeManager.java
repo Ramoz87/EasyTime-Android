@@ -41,11 +41,7 @@ public final class EasyTimeManager {
         }
     }
 
-    public static List<Job> getJobs(@NonNull Context context, String query) {
-        return getJobs(context, null, query);
-    }
-
-    public static List<Job> getJobs(@NonNull Context context, Customer customer, String query) {
+    public static List<Job> getJobs(@NonNull Context context, Customer customer, String query, String date) {
         List<Job> jobs = new ArrayList<>();
         DatabaseHelper helper = new DatabaseHelper(context.getApplicationContext());
         try {
@@ -55,9 +51,9 @@ public final class EasyTimeManager {
 
             String customerId = customer == null ? "" : customer.getCustomerId();
 
-            List<Object> objects = getList(objectDao, customerId, query);
-            List<Order> orders = getList(orderDao, customerId, query);
-            List<Project> projects = getList(projectDao, customerId, query);
+            List<Object> objects = getList(objectDao, customerId, query, date);
+            List<Order> orders = getList(orderDao, customerId, query, date);
+            List<Project> projects = getList(projectDao, customerId, query, date);
 
             jobs.addAll(objects);
             jobs.addAll(orders);
@@ -85,19 +81,40 @@ public final class EasyTimeManager {
         return jobs;
     }
 
-    private static <JOB> List<JOB> getList(Dao<JOB, String> dao, String customerId, String query) throws SQLException {
+    private static <JOB> List<JOB> getList(Dao<JOB, String> dao, String customerId, String query, String date) throws SQLException {
         QueryBuilder<JOB, String> qb = dao.queryBuilder();
 
         boolean hasCustomerId = !TextUtils.isEmpty(customerId);
         boolean hasQuery = !TextUtils.isEmpty(query);
+        boolean hasDate = !TextUtils.isEmpty(date);
 
-        if (hasCustomerId && hasQuery)
-            qb.where().eq("customerId", customerId).and().like("name", "%" + query + "%");
-        else if (hasCustomerId)
-            qb.where().eq("customerId", customerId);
-        else if (hasQuery)
-            qb.where().like("name", "%" + query + "%");
+//        if (hasCustomerId && hasQuery && hasDate)
+//            qb.where().eq("customerId", customerId)
+//                    .and().like("name", "%" + query + "%")
+//                    .and().eq("date", date);
+//        else if (hasCustomerId)
+//            qb.where().eq("customerId", customerId);
+//        else if (hasQuery)
+//            qb.where().like("name", "%" + query + "%");
 
+        Where where = null;
+        if (hasCustomerId) {
+            where = qb.where().eq("customerId", customerId);
+        }
+
+        if (hasQuery) {
+            if (where == null) where = qb.where();
+            else where.and();
+
+            where.like("name", "%" + query + "%");
+        }
+
+        if (hasDate) {
+            if (where == null) where = qb.where();
+            else where.and();
+
+            where.eq("date", date);
+        }
 
         List<JOB> objects = qb.query();
         return objects;

@@ -87,7 +87,7 @@ public class ProjectsFragment extends AbsStickyFragment implements ISearchDataVi
 
             byDatePresenter.setSearchDataView(this)
                     .setupSearch(title)
-                    .requestData(year, month, day);
+                    .requestData(CalendarUtils.getCalendar(year, month, day));
         }
     }
 
