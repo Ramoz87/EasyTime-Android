@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:background="?attr/colorPrimary"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/customer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/placeholder_customer_name"
+        android:textColor="@color/white"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/customer_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/placeholder_customer_address"
+        android:textColor="@color/white"/>
+
+    <LinearLayout
+        android:id="@+id/action_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/customer_call_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_ripple_white"
+            android:drawableTop="@drawable/ic_phone"
+            android:text="@string/call"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/customer_email_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_ripple_white"
+            android:drawableTop="@drawable/ic_message"
+            android:text="@string/email"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/customer_map_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_ripple_white"
+            android:drawableTop="@drawable/ic_checkpoint"
+            android:text="@string/map"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+</LinearLayout>

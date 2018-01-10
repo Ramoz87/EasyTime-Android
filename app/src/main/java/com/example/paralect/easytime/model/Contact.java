@@ -1,8 +1,10 @@
 package com.example.paralect.easytime.model;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -56,4 +58,49 @@ public class Contact implements Parcelable {
             return new Contact[size];
         }
     };
+
+    public long getContactId() {
+        return contactId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
+
+    public static List<Contact> getMockContacts() {
+        List<Contact> contacts = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            Contact contact = new Contact();
+            contact.contactId = i;
+            contact.email = "mock_" + i + "@gmail.com";
+            contact.fax = "+375 456 5464 4654";
+            contact.firstName = "FirstName_" + i;
+            contact.lastName = "LastName_" + i;
+            contact.phone = "+37512345678" + i;
+            contacts.add(contact);
+        }
+
+        return contacts;
+    }
 }

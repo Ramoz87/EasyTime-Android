@@ -2,26 +2,22 @@ package com.example.paralect.easytime.main.customers.customer;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.FragmentNavigator;
+import com.example.paralect.easytime.model.Address;
+import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.utils.MiscUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
@@ -49,12 +45,10 @@ public class CustomerFragment extends BaseFragment {
     private static final String TAG = CustomerFragment.class.getSimpleName();
     public static final String ARG_CUSTOMER = "arg_customer";
 
-    @BindView(R.id.action_container) LinearLayout actionContainer;
-    @BindView(R.id.customer_name) TextView nameTextView;
-    @BindView(R.id.customer_address) TextView addressTextView;
+    @BindView(R.id.contacts_view_pager) ViewPager contactsViewPager;
+    @BindView(R.id.contacts_page_indicator) PageIndicatorView pageIndicatorView;
     @BindView(R.id.tabs) TabLayout tabs;
-    @BindView(R.id.view_pager) ViewPager viewPager;
-    @BindView(R.id.page_indicator) PageIndicatorView pageIndicatorView;
+    @BindView(R.id.jobs_view_pager) ViewPager jobsViewPager;
 
     private Customer customer;
     private FragmentNavigator navigator;
@@ -118,8 +112,13 @@ public class CustomerFragment extends BaseFragment {
 
     private void init() {
         showMainTopShadow(false);
-        MainActivity activity = (MainActivity) getActivity();
-        activity.setToolbarElevation(0);
+
+        // set contacts
+        ContactsAdapter contactsAdapter = new ContactsAdapter(Contact.getMockContacts(), Address.mock());
+        contactsViewPager.setAdapter(contactsAdapter);
+        pageIndicatorView.setViewPager(contactsViewPager);
+
+        // set jobs
         // FragmentManager fm = activity.getSupportFragmentManager();
         FragmentManager fm = getChildFragmentManager();
         List<Job> jobs = EasyTimeManager.getJobs(getContext(), customer, "");
@@ -128,29 +127,13 @@ public class CustomerFragment extends BaseFragment {
         ArrayList<Object> objects = MiscUtils.findAllElements(jobs, Object.class);
         JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, projects, orders, objects);
 
-        viewPager.setAdapter(adapter);
-        tabs.setupWithViewPager(viewPager);
-        pageIndicatorView.setViewPager(viewPager);
+        jobsViewPager.setAdapter(adapter);
+        tabs.setupWithViewPager(jobsViewPager);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         showMainTopShadow(true);
-    }
-
-    @OnClick(R.id.customer_call_button)
-    public void onClickCall() {
-
-    }
-
-    @OnClick(R.id.customer_email_button)
-    public void onClickMail() {
-
-    }
-
-    @OnClick(R.id.customer_map_button)
-    public void onClickMap() {
-
     }
 }

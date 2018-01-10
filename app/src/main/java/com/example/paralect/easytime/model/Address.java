@@ -137,6 +137,19 @@ public class Address implements Parcelable {
         this.order = order;
     }
 
+    public String getFullAddress(){
+        return country + ", " + city + ", " + street;
+    }
+
+    public static Address mock(){
+        Address address = new Address();
+        address.addressId = 456;
+        address.country = "Belarus";
+        address.city = "Minsk";
+        address.street = "Nekrasova";
+        return address;
+    }
+
     @Override
     public String toString() {
         return city + " " + street;

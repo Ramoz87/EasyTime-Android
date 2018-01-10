@@ -31,7 +31,7 @@ ext {
     gsonVersion = '2.8.2'
     ormliteVersion = '4.48'
     opencsvVersion = '3.9'
-    pageindicatorviewVersion = '+'
+    pageindicatorviewVersion = '1.0'
 
     deps = [
 
