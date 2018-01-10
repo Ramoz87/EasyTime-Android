@@ -31,6 +31,7 @@ ext {
     gsonVersion = '2.8.2'
     ormliteVersion = '4.48'
     opencsvVersion = '3.9'
+    pageindicatorviewVersion = '+'
 
     deps = [
 
@@ -45,6 +46,7 @@ ext {
             constraintLayout   : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
             stickyListHeaders  : "com.github.mtotschnig:StickyListHeaders:${stickyListHeadersVersion}",
             expandablelayout   : "net.cachapa.expandablelayout:expandablelayout:${expandablelayoutVersion}",
+            pageindicatorview  : "com.romandanylyk:pageindicatorview:${pageindicatorviewVersion}",
 
             // Injection
             dataBinding        : "com.android.databinding:compiler:${gradleVer}",

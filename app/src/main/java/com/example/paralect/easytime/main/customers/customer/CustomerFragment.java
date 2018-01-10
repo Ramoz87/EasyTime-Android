@@ -30,33 +30,30 @@ import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
+import com.rd.PageIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by alexei on 27.12.2017.
  */
 
 public class CustomerFragment extends BaseFragment {
-    private static final String TAG = CustomerFragment.class.getSimpleName();
 
+    private static final String TAG = CustomerFragment.class.getSimpleName();
     public static final String ARG_CUSTOMER = "arg_customer";
 
-    @BindView(R.id.actionContainer)
-    LinearLayout actionContainer;
-
-    @BindView(R.id.tabs)
-    TabLayout tabs;
-
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    @BindView(R.id.action_container) LinearLayout actionContainer;
+    @BindView(R.id.tabs) TabLayout tabs;
+    @BindView(R.id.view_pager) ViewPager viewPager;
+    @BindView(R.id.page_indicator) PageIndicatorView pageIndicatorView;
 
     private Customer customer;
-
     private FragmentNavigator navigator;
 
     @Override
@@ -122,49 +119,21 @@ public class CustomerFragment extends BaseFragment {
         JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, projects, orders, objects);
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);
-
-        addNewContactAction(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                performCall();
-            }
-        }, R.drawable.ic_phone, R.string.call);
-        addNewContactAction(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMail();
-            }
-        }, R.drawable.ic_message, R.string.email);
-        addNewContactAction(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showOnMap();
-            }
-        }, R.drawable.ic_checkpoint, R.string.map);
+        pageIndicatorView.setViewPager(viewPager);
     }
 
-    private void addNewContactAction(View.OnClickListener listener, @DrawableRes int drawableResId, @StringRes int stringResId) {
-        Log.d(TAG, "adding new action");
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View actionView = inflater.inflate(R.layout.include_contact_action, actionContainer, false);
-        ((ImageView) actionView.findViewById(R.id.actionIcon)).setImageResource(drawableResId);
-        ((TextView) actionView.findViewById(R.id.actionName)).setText(stringResId);
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) actionView.getLayoutParams();
-        lp.setMargins(25, 0, 25, 0);
-        actionView.setLayoutParams(lp); // need ?
-        actionView.setOnClickListener(listener);
-        actionContainer.addView(actionView);
-    }
-
-    private void performCall() {
+    @OnClick(R.id.customer_call_button)
+    public void onClickCall() {
 
     }
 
-    private void sendMail() {
+    @OnClick(R.id.customer_email_button)
+    public void onClickMail() {
 
     }
 
-    private void showOnMap() {
+    @OnClick(R.id.customer_map_button)
+    public void onClickMap() {
 
     }
 }

@@ -30,6 +30,7 @@ dependencies {
     implementation deps.fragNav
     implementation deps.stickyListHeaders
     implementation deps.expandablelayout
+    implementation deps.pageindicatorview
 
     implementation deps.butterKnife
     annotationProcessor deps.butterKnifeCompiler

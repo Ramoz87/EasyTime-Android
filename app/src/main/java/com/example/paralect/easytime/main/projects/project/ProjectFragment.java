@@ -29,7 +29,7 @@ public class ProjectFragment extends Fragment {
     @BindView(R.id.tabs)
     TabLayout tabs;
 
-    @BindView(R.id.viewPager)
+    @BindView(R.id.view_pager)
     ViewPager viewPager;
 
     private Job job;

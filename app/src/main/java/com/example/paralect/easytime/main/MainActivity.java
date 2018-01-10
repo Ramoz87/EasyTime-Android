@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     @BindView(R.id.navigationView) BottomNavigationView bottomBar;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.appbar) AppBarLayout appBarLayout;
 
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
@@ -59,6 +62,11 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         ViewUtils.disableToolbarAnimation(toolbar);
 
         initNavigationView(savedInstanceState);
+
+        //Elevation
+//        ViewCompat.setElevation(toolbar, 0);
+//        appBarLayout.setElevation(0);
+//        appBarLayout.setTargetElevation(0);
     }
 
     @Override
