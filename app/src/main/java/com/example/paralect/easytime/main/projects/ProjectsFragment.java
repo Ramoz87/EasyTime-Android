@@ -20,10 +20,12 @@ import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.search.ISearchDataView;
+import com.example.paralect.easytime.main.searchbydate.ISearchDataByDateView;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.ContextUtils;
 
 import java.util.List;
 
@@ -33,18 +35,19 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 26.12.2017.
  */
 
-public class ProjectsFragment extends AbsStickyFragment implements ISearchDataView<List<Job>>, DatePickerDialog.OnDateSetListener {
+public class ProjectsFragment extends AbsStickyFragment implements ISearchDataView<List<Job>>, ISearchDataByDateView<List<Job>> {
     private static final String TAG = ProjectsFragment.class.getSimpleName();
-
-    private final ProjectsPresenter presenter = new ProjectsPresenter();
-    private ProjectStickyAdapter adapter = new ProjectStickyAdapter();
-    private FragmentNavigator navigator;
-    private TextView title;
 
     // start value
     private int year = 2018;
     private int month = 12;
     private int day = 14;
+
+    private final ProjectsPresenter presenter = new ProjectsPresenter();
+    private final ProjectsByDatePresenter byDatePresenter = new ProjectsByDatePresenter(year, month, day);
+    private ProjectStickyAdapter adapter = new ProjectStickyAdapter();
+    private FragmentNavigator navigator;
+    private TextView title;
 
     @Override
     public void onAttach(Context context) {
@@ -73,8 +76,8 @@ public class ProjectsFragment extends AbsStickyFragment implements ISearchDataVi
     @Override
     public void onCreateActionBar(ActionBar actionBar) {
         if (actionBar != null) {
-            String dateString = CalendarUtils.getDateString(year, month, day);
-            SpannableString ss = getSpannableDate(dateString);
+            // String dateString = CalendarUtils.getDateString(year, month, day);
+            SpannableString ss = CalendarUtils.getSpannableDateString(getContext(), year, month, day);
             actionBar.setTitle(ss);
 
             //presenter.getTitle("14 December");
@@ -88,17 +91,9 @@ public class ProjectsFragment extends AbsStickyFragment implements ISearchDataVi
                 }
             }
 
-            if (title != null) {
-                title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String message = "clicked on action bar";
-                        Log.d(TAG, message);
-                        // Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-                        chooseDate();
-                    }
-                });
-            }
+            byDatePresenter.setSearchDataView(this)
+                    .setupSearch(title)
+                    .requestData(year, month, day);
         }
     }
 
@@ -122,31 +117,5 @@ public class ProjectsFragment extends AbsStickyFragment implements ISearchDataVi
     @Override
     public void onDataReceived(List<Job> data) {
         adapter.setData(data);
-    }
-
-    private void chooseDate() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), this, year, month, day);
-        datePickerDialog.show();
-    }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        year = i;
-        month = i1;
-        day = i2;
-        String dateString = CalendarUtils.getDateString(i, i1, i2);
-        SpannableString spannableDate = getSpannableDate(dateString);
-        title.setText(spannableDate);
-    }
-
-    private SpannableString getSpannableDate(String dateString) {
-        String space = "   ";
-        SpannableString ss = new SpannableString(dateString + space);
-        Drawable d = getResources().getDrawable(R.drawable.ic_arrow_drop_down_black_24dp);
-        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-        //ImageSpan span = ViewUtils.getImageSpan(d);
-        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
-        ss.setSpan(span, dateString.length(), dateString.length() + space.length(), 0);
-        return ss;
     }
 }
