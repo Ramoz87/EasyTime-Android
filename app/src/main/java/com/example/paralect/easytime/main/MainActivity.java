@@ -7,11 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     @BindView(R.id.navigationView) BottomNavigationView bottomBar;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
+    @BindView(R.id.top_shadow_view) View mainTopShadowView;
 
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
@@ -94,6 +95,10 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     public TextView getTitleTextView() {
         return ViewUtils.getToolbarTextView(toolbar);
+    }
+
+    public void showMainTopShadow(boolean show) {
+        mainTopShadowView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     // region Setup Navigation

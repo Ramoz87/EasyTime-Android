@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,6 +50,8 @@ public class CustomerFragment extends BaseFragment {
     public static final String ARG_CUSTOMER = "arg_customer";
 
     @BindView(R.id.action_container) LinearLayout actionContainer;
+    @BindView(R.id.customer_name) TextView nameTextView;
+    @BindView(R.id.customer_address) TextView addressTextView;
     @BindView(R.id.tabs) TabLayout tabs;
     @BindView(R.id.view_pager) ViewPager viewPager;
     @BindView(R.id.page_indicator) PageIndicatorView pageIndicatorView;
@@ -56,20 +59,26 @@ public class CustomerFragment extends BaseFragment {
     private Customer customer;
     private FragmentNavigator navigator;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof FragmentNavigator) {
-            navigator = (FragmentNavigator) context;
-        }
-    }
-
     public static CustomerFragment newInstance(@NonNull Customer customer) {
         Bundle args = new Bundle(1);
         args.putParcelable(ARG_CUSTOMER, customer);
         CustomerFragment fragment = new CustomerFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        customer = getCustomer();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentNavigator) {
+            navigator = (FragmentNavigator) context;
+        }
     }
 
     @Override
@@ -81,7 +90,6 @@ public class CustomerFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        customer = getCustomer();
         init();
     }
 
@@ -92,7 +100,8 @@ public class CustomerFragment extends BaseFragment {
 
     @Override
     public void onCreateActionBar(ActionBar actionBar) {
-        actionBar.setTitle("Customer");
+        if (customer != null)
+            actionBar.setTitle(customer.getCompanyName());
     }
 
     @Override
@@ -102,12 +111,13 @@ public class CustomerFragment extends BaseFragment {
 
     private Customer getCustomer() {
         Bundle args = getArguments();
-        if (args.containsKey(ARG_CUSTOMER))
+        if (args != null && args.containsKey(ARG_CUSTOMER))
             return args.getParcelable(ARG_CUSTOMER);
         else return null;
     }
 
     private void init() {
+        showMainTopShadow(false);
         MainActivity activity = (MainActivity) getActivity();
         activity.setToolbarElevation(0);
         // FragmentManager fm = activity.getSupportFragmentManager();
@@ -117,9 +127,16 @@ public class CustomerFragment extends BaseFragment {
         ArrayList<Order> orders = MiscUtils.findAllElements(jobs, Order.class);
         ArrayList<Object> objects = MiscUtils.findAllElements(jobs, Object.class);
         JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, projects, orders, objects);
+
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);
         pageIndicatorView.setViewPager(viewPager);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        showMainTopShadow(true);
     }
 
     @OnClick(R.id.customer_call_button)

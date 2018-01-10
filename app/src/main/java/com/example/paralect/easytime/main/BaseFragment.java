@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -32,7 +31,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        onCreateActionBar(getMainActivity().getSupportActionBar());
+        ActionBar actionBar = getMainActivity().getSupportActionBar();
+        if (actionBar != null)
+            onCreateActionBar(actionBar);
+    }
+
+    protected void showMainTopShadow(boolean show){
+        getMainActivity().showMainTopShadow(show);
     }
 
     @Override
@@ -41,4 +46,5 @@ public abstract class BaseFragment extends Fragment {
     public abstract void onCreateActionBar(ActionBar actionBar);
 
     public abstract boolean needsOptionsMenu();
+
 }

@@ -25,4 +25,7 @@
     <color name="list_item_secondary_text">#76000000</color>
     <color name="user_worker">#56000000</color>
 
+    <color name="shadow_end_color">#03000000</color>
+    <color name="shadow_start_color">#37000000</color>
+
 </resources>
