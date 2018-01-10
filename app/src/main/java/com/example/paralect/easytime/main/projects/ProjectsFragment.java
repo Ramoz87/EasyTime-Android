@@ -1,31 +1,25 @@
 package com.example.paralect.easytime.main.projects;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.search.ISearchDataView;
-import com.example.paralect.easytime.main.searchbydate.ISearchDataByDateView;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.utils.ContextUtils;
 
 import java.util.List;
 
@@ -35,7 +29,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 26.12.2017.
  */
 
-public class ProjectsFragment extends AbsStickyFragment implements ISearchDataView<List<Job>>, ISearchDataByDateView<List<Job>> {
+public class ProjectsFragment extends AbsStickyFragment implements ISearchDataView<List<Job>> {
     private static final String TAG = ProjectsFragment.class.getSimpleName();
 
     // start value

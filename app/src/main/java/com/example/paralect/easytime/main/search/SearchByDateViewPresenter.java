@@ -1,4 +1,4 @@
-package com.example.paralect.easytime.main.searchbydate;
+package com.example.paralect.easytime.main.search;
 
 import android.app.DatePickerDialog;
 import android.text.SpannableString;
@@ -23,9 +23,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public abstract class SearchByDateViewPresenter<DATA> implements ISearchByDateViewPresenter<DATA>, DatePickerDialog.OnDateSetListener {
 
-    private static final int DELAY = 200;
     private PublishProcessor<Calendar> mPublisher;
-    protected ISearchDataByDateView<DATA> mView;
+    protected ISearchDataView<DATA> mView;
     private TextView mTextView;
 
     private int year;
@@ -40,17 +39,12 @@ public abstract class SearchByDateViewPresenter<DATA> implements ISearchByDateVi
 
     private void setupPublisher() {
         if (mPublisher == null) {
-            mPublisher = PublishProcessor.create();
-            final Flowable<Calendar> flowable = mPublisher.onBackpressureBuffer();
-            flowable.debounce(DELAY, TimeUnit.MILLISECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<Calendar>() {
-                        @Override
-                        public void accept(Calendar query) throws Exception {
-                            requestData(query.get(Calendar.YEAR), query.get(Calendar.MONTH), query.get(Calendar.DAY_OF_MONTH));
-                        }
-                    });
+            mPublisher = SearchPresenterUtils.createPublisherProcessor(new Consumer<Calendar>() {
+                @Override
+                public void accept(Calendar query) throws Exception {
+                    requestData(query.get(Calendar.YEAR), query.get(Calendar.MONTH), query.get(Calendar.DAY_OF_MONTH));
+                }
+            });
         }
     }
 
@@ -69,7 +63,7 @@ public abstract class SearchByDateViewPresenter<DATA> implements ISearchByDateVi
     }
 
     @Override
-    public ISearchByDateViewPresenter<DATA> setSearchDataView(ISearchDataByDateView<DATA> view) {
+    public ISearchByDateViewPresenter<DATA> setSearchDataView(ISearchDataView<DATA> view) {
         this.mView = view;
         return this;
     }

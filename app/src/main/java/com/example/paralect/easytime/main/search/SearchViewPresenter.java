@@ -22,25 +22,18 @@ import io.reactivex.schedulers.Schedulers;
  * This class helps to retrieve data with a delay and asynchronous
  */
 public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<DATA> {
-
-    private static final int DELAY = 200;
     private PublishProcessor<String> mPublisher;
     protected ISearchDataView<DATA> mView;
 
     // region Search
     private void setupPublisher() {
         if (mPublisher == null) {
-            mPublisher = PublishProcessor.create();
-            final Flowable<String> flowable = mPublisher.onBackpressureBuffer();
-            flowable.debounce(DELAY, TimeUnit.MILLISECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<String>() {
-                        @Override
-                        public void accept(String query) throws Exception {
-                            requestData(query);
-                        }
-                    });
+            mPublisher = SearchPresenterUtils.createPublisherProcessor(new Consumer<String>() {
+                @Override
+                public void accept(String query) throws Exception {
+                    requestData(query);
+                }
+            });
         }
     }
 

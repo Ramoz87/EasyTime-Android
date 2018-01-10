@@ -1,8 +1,8 @@
 package com.example.paralect.easytime.main.projects;
 
 import com.example.paralect.easytime.EasyTimeApplication;
-import com.example.paralect.easytime.main.searchbydate.ISearchByDateViewPresenter;
-import com.example.paralect.easytime.main.searchbydate.SearchByDateViewPresenter;
+import com.example.paralect.easytime.main.search.ISearchByDateViewPresenter;
+import com.example.paralect.easytime.main.search.SearchByDateViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
 
