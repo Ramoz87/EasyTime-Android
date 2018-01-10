@@ -2,10 +2,7 @@ package com.example.paralect.easytime.main.projects.project;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,13 +13,8 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
-
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,11 +75,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
         // open activity
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, i1);
-        calendar.set(Calendar.DAY_OF_MONTH, i2);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM D", Locale.US);
-        String dateString = simpleDateFormat.format(calendar.getTime());
+        String dateString = CalendarUtils.getDateString(i, i1, i2);
         date.setText(dateString);
     }
 }

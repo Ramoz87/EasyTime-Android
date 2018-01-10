@@ -2,14 +2,11 @@ package com.example.paralect.easytime.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.DrawableRes;
 
-import com.example.paralect.easytime.main.projects.ProjectType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by alexei on 26.12.2017.

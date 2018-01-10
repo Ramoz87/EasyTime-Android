@@ -1,14 +1,9 @@
 package com.example.paralect.easytime.main.projects;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.text.Spannable;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +16,7 @@ import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.search.ISearchDataView;
-import com.example.paralect.easytime.utils.ViewUtils;
+import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
 import com.example.paralect.easytime.model.Job;
@@ -37,19 +32,21 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class ProjectsFragment extends AbsStickyFragment implements ISearchDataView<List<Job>> {
     private static final String TAG = ProjectsFragment.class.getSimpleName();
 
+    // start value
+    private int year = 2018;
+    private int month = 12;
+    private int day = 14;
+
     private final ProjectsPresenter presenter = new ProjectsPresenter();
+    private final ProjectsByDatePresenter byDatePresenter = new ProjectsByDatePresenter(year, month, day);
     private ProjectStickyAdapter adapter = new ProjectStickyAdapter();
     private FragmentNavigator navigator;
+    private TextView title;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         navigator = (FragmentNavigator) context;
-
-        // TODO set Title
-//        TextView textView = getMainActivity().getTitleTextView();
-//        textView.setText("14 December");
-//        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_black_24dp, 0);
     }
 
     public static ProjectsFragment newInstance() {
@@ -73,20 +70,26 @@ public class ProjectsFragment extends AbsStickyFragment implements ISearchDataVi
     @Override
     public void onCreateActionBar(ActionBar actionBar) {
         if (actionBar != null) {
-            // TODO set title with arrow
-//            String text = "14 December";
-//            String space = "   ";
-//            SpannableString ss = new SpannableString(text + space);
-//            Drawable d = getResources().getDrawable(R.drawable.ic_arrow_drop_down_black_24dp);
-//            d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-//            ImageSpan span = ViewUtils.getImageSpan(d);
-//            ss.setSpan(span, text.length(), text.length() + space.length(), 0);
-//            actionBar.setTitle(ss);
-//
-//            presenter.getTitle("14 December");
+            // String dateString = CalendarUtils.getDateString(year, month, day);
+            SpannableString ss = CalendarUtils.getSpannableDateString(getContext(), year, month, day);
+            actionBar.setTitle(ss);
+
+            //presenter.getTitle("14 December");
+            MainActivity activity = getMainActivity();
+            Toolbar toolbar = activity.findViewById(R.id.toolbar);
+            for (int i = 0; i < toolbar.getChildCount(); ++i) {
+                View child = toolbar.getChildAt(i);
+                if (child instanceof TextView) {
+                    title = (TextView) child;
+                    break;
+                }
+            }
+
+            byDatePresenter.setSearchDataView(this)
+                    .setupSearch(title)
+                    .requestData(year, month, day);
         }
     }
-
 
     @Override
     public boolean needsOptionsMenu() {

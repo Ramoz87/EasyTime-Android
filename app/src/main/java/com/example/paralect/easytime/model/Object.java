@@ -3,7 +3,6 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.paralect.easytime.main.projects.ProjectType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
