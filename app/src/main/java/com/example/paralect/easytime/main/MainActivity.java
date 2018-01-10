@@ -8,7 +8,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.customers.CustomersFragment;
@@ -39,11 +41,12 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     private FragNavController mNavController;
 
+    @BindView(R.id.navigationView) BottomNavigationView bottomBar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
     }
-
-    @BindView(R.id.navigationView) BottomNavigationView bottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
+        ViewUtils.disableToolbarAnimation(toolbar);
 
         initNavigationView(savedInstanceState);
     }
@@ -76,6 +82,10 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setElevation(elevation);
+    }
+
+    public TextView getTitleTextView() {
+        return ViewUtils.getToolbarTextView(toolbar);
     }
 
     // region Setup Navigation

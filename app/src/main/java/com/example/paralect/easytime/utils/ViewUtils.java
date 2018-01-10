@@ -2,13 +2,21 @@ package com.example.paralect.easytime.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.StringRes;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.style.ImageSpan;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 
@@ -54,5 +62,53 @@ public final class ViewUtils {
         } catch (IllegalAccessException e) {
             Log.e("BNVHelper", "Unable to change value of shift mode", e);
         }
+    }
+
+    public static ImageSpan getImageSpan(Drawable drawable) {
+        return new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM) {
+            public void draw(Canvas canvas, CharSequence text, int start,
+                             int end, float x, int top, int y, int bottom,
+                             Paint paint) {
+                Drawable b = getDrawable();
+                canvas.save();
+
+                int transY = bottom - b.getBounds().bottom;
+                // this is the key
+                transY -= paint.getFontMetricsInt().descent / 2;
+
+                canvas.translate(x, transY);
+                b.draw(canvas);
+                canvas.restore();
+            }
+        };
+    }
+
+    /**
+     * Toolbar animation
+     */
+    public static void disableToolbarAnimation(Toolbar toolbar) {
+        if (toolbar != null) {
+            try {
+                AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+                params.setScrollFlags(0);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }
+    }
+
+    public static TextView getToolbarTextView(Toolbar toolbar){
+        TextView toolbarTitle = null;
+        for (int i = 0; i < toolbar.getChildCount(); ++i) {
+            View child = toolbar.getChildAt(i);
+
+            // assuming that the title is the first instance of TextView
+            // you can also check if the title string matches
+            if (child instanceof TextView) {
+                toolbarTitle = (TextView)child;
+                break;
+            }
+        }
+        return toolbarTitle;
     }
 }

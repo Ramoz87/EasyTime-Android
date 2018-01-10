@@ -1,9 +1,16 @@
 package com.example.paralect.easytime.main.projects;
 
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
+
 import com.example.paralect.easytime.EasyTimeApplication;
+import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.ViewUtils;
 
 import java.util.List;
 
@@ -59,5 +66,16 @@ public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
                     }
                 });
         return this;
+    }
+
+    public SpannableString getTitle(String date){
+        String space = "   ";
+        SpannableString ss = new SpannableString(date + space);
+        Drawable d = ContextCompat.getDrawable(EasyTimeApplication.getContext(), R.drawable.ic_small_arrow_down);
+//        Drawable d = ContextCompat.getDrawable(EasyTimeApplication.getContext(), R.drawable.ic_arrow_drop_down_black_24dp);
+        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+        ImageSpan span = ViewUtils.getImageSpan(d);
+        ss.setSpan(span, date.length(), date.length() + space.length(), 0);
+        return ss;
     }
 }

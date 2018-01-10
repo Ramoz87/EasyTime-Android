@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    
+
     compileSdkVersion compileSdkVer
     buildToolsVersion buildToolsVer
-    
+
     defaultConfig {
         applicationId "com.paralect.easytime"
         minSdkVersion minSdkVer
@@ -12,7 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
-    
+
     buildTypes {
         release {
             minifyEnabled false
