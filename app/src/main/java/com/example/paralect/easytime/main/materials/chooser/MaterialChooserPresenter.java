@@ -3,8 +3,6 @@ package com.example.paralect.easytime.main.materials.chooser;
 import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.CustomerComparator;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.MaterialComparator;
 import com.example.paralect.easytime.utils.Sorter;
@@ -35,7 +33,7 @@ public class MaterialChooserPresenter extends SearchViewPresenter<SortedMap<Char
     };
 
     @Override
-    public MaterialChooserPresenter requestData(final String query) {
+    public MaterialChooserPresenter requestData(final String query, final String date) {
         Observable<SortedMap<Character, List<Material>>> observable = Observable.create(new ObservableOnSubscribe<SortedMap<Character, List<Material>>>() {
             @Override
             public void subscribe(ObservableEmitter<SortedMap<Character, List<Material>>> emitter) throws Exception {
