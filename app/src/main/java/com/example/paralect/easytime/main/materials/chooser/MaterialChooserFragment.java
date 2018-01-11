@@ -32,7 +32,7 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.setDataView(this)
-                .requestData("");
+                .requestData(null);
     }
 
     @Override

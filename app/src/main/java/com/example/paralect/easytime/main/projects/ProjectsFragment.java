@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.projects;
 
 import android.content.Context;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
 import com.example.paralect.easytime.model.Job;
 
+import java.util.Calendar;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -32,13 +34,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class ProjectsFragment extends AbsStickyFragment implements IDataView<List<Job>> {
     private static final String TAG = ProjectsFragment.class.getSimpleName();
 
-    // start value
-    private int year = 2018;
-    private int month = 12;
-    private int day = 14;
-
+    private Calendar calendar = Calendar.getInstance();
     private final ProjectsPresenter presenter = new ProjectsPresenter();
-    private final ProjectsByDatePresenter byDatePresenter = new ProjectsByDatePresenter(year, month, day);
     private ProjectStickyAdapter adapter = new ProjectStickyAdapter();
     private FragmentNavigator navigator;
     private TextView title;
@@ -62,16 +59,17 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
+        String date = CalendarUtils.stringFromDate(calendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
         presenter.setDataView(this)
-                .setupSearch(menu, R.id.item_search)
-                .requestData("");
+                .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
+                .requestData(new String[]{"", date});
     }
 
     @Override
     public void onCreateActionBar(ActionBar actionBar) {
         if (actionBar != null) {
             // String dateString = CalendarUtils.getDateString(year, month, day);
-            SpannableString ss = CalendarUtils.getSpannableDateString(getContext(), year, month, day);
+            SpannableString ss = CalendarUtils.getSpannableDateString(getContext(), calendar);
             actionBar.setTitle(ss);
 
             //presenter.getTitle("14 December");
@@ -85,9 +83,10 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
                 }
             }
 
-            byDatePresenter.setDataView(this)
-                    .setupSearch(title)
-                    .requestData(CalendarUtils.getCalendar(year, month, day));
+            String date = CalendarUtils.stringFromDate(calendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
+            presenter.setDataView(this)
+                    .setupDateSearch(title)
+                    .requestData(new String[] {"", date});
         }
     }
 
