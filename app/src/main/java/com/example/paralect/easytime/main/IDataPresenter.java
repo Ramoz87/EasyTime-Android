@@ -11,5 +11,5 @@ public interface IDataPresenter<DATA, P> {
     /**
      * perform a query, use {@link IDataView#onDataReceived} for notifying that the data is retrieved
      */
-    IDataPresenter<DATA, P> requestData(P parameter);
+    IDataPresenter<DATA, P> requestData(P[] parameters);
 }

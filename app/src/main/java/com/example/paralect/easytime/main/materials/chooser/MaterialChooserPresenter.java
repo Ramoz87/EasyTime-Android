@@ -33,7 +33,7 @@ public class MaterialChooserPresenter extends SearchViewPresenter<SortedMap<Char
     };
 
     @Override
-    public MaterialChooserPresenter requestData(final String query, final String date) {
+    public MaterialChooserPresenter requestData(String[] parameters) {
         Observable<SortedMap<Character, List<Material>>> observable = Observable.create(new ObservableOnSubscribe<SortedMap<Character, List<Material>>>() {
             @Override
             public void subscribe(ObservableEmitter<SortedMap<Character, List<Material>>> emitter) throws Exception {

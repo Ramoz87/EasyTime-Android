@@ -3,6 +3,7 @@ package com.example.paralect.easytime.main.customers;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -62,8 +63,8 @@ public class CustomersFragment extends AbsStickyFragment implements IDataView<So
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
         presenter.setDataView(this)
-                .setupSearch(menu, R.id.item_search)
-                .requestData("");
+                .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
+                .requestData(new String[] {""});
     }
 
     @Override

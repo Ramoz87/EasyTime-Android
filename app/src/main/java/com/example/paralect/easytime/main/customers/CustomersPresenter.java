@@ -33,14 +33,14 @@ public class CustomersPresenter extends SearchViewPresenter<SortedMap<Character,
     };
 
     @Override
-    public CustomersPresenter requestData(final String query, final String date) {
+    public CustomersPresenter requestData(final String[] parameters) {
         Observable<SortedMap<Character, List<Customer>>> observable = Observable.create(new ObservableOnSubscribe<SortedMap<Character, List<Customer>>>() {
             @Override
             public void subscribe(ObservableEmitter<SortedMap<Character, List<Customer>>> emitter) throws Exception {
                 try {
 
                     if (!emitter.isDisposed()) {
-                        List<Customer> customers = EasyTimeManager.getInstance().getCustomers(query);
+                        List<Customer> customers = EasyTimeManager.getInstance().getCustomers(parameters[0]);
                         // split list of customers alphabetically
                         SortedMap<Character, List<Customer>> map = sorter.getSortedItems(customers, comparator);
                         emitter.onNext(map);

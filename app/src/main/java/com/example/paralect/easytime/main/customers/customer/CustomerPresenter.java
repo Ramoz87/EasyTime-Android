@@ -37,7 +37,7 @@ public class CustomerPresenter implements IDataPresenter<CustomerContainer, Cust
     }
 
     @Override
-    public IDataPresenter<CustomerContainer, Customer> requestData(Customer parameter) {
+    public IDataPresenter<CustomerContainer, Customer> requestData(Customer[] parameters) {
         Flowable<CustomerContainer> flowable = Flowable.create(new FlowableOnSubscribe<CustomerContainer>() {
             @Override
             public void subscribe(FlowableEmitter<CustomerContainer> emitter) throws Exception {

@@ -89,7 +89,7 @@ public class CustomerFragment extends BaseFragment implements IDataView<Customer
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         showMainTopShadow(false);
-        presenter.requestData(customer);
+        presenter.requestData(new Customer[] {customer});
     }
 
     @Override
