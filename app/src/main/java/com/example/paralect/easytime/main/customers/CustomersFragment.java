@@ -61,7 +61,7 @@ public class CustomersFragment extends AbsStickyFragment implements IDataView<So
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        presenter.setSearchDataView(this)
+        presenter.setDataView(this)
                 .setupSearch(menu, R.id.item_search)
                 .requestData("");
     }

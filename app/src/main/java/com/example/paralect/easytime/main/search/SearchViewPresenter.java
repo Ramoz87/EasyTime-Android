@@ -17,6 +17,7 @@ import io.reactivex.processors.PublishProcessor;
  * This class helps to retrieve data with a delay and asynchronous
  */
 public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<DATA> {
+    
     private PublishProcessor<String> mPublisher;
     protected IDataView<DATA> mView;
 
@@ -55,7 +56,7 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
     // endregion
 
     @Override
-    public SearchViewPresenter<DATA> setSearchDataView(IDataView<DATA> view) {
+    public SearchViewPresenter<DATA> setDataView(IDataView<DATA> view) {
         mView = view;
         return this;
     }
