@@ -122,21 +122,16 @@ public class CustomerFragment extends BaseFragment implements IDataView<Customer
     }
 
     @Override
-    public void onDataReceived(CustomerContainer customer) {
+    public void onDataReceived(CustomerContainer container) {
         // set contacts
-        ContactsAdapter contactsAdapter = new ContactsAdapter(Contact.getMockContacts(), Address.mock());
+        final ContactsAdapter contactsAdapter = new ContactsAdapter(Contact.getMockContacts(), Address.mock());
         contactsViewPager.setAdapter(contactsAdapter);
         pageIndicatorView.setViewPager(contactsViewPager);
 
         // set jobs
-//        FragmentManager fm = getChildFragmentManager();
-//        List<Job> jobs = EasyTimeManager.getInstance().getJobs(customer, "", null);
-//        ArrayList<Project> projects = MiscUtils.findAllElements(jobs, Project.class);
-//        ArrayList<Order> orders = MiscUtils.findAllElements(jobs, Order.class);
-//        ArrayList<Object> objects = MiscUtils.findAllElements(jobs, Object.class);
-//        JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, projects, orders, objects);
-//
-//        jobsViewPager.setAdapter(adapter);
-//        tabs.setupWithViewPager(jobsViewPager);
+        final FragmentManager fm = getChildFragmentManager();
+        final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, container);
+        jobsViewPager.setAdapter(adapter);
+        tabs.setupWithViewPager(jobsViewPager);
     }
 }

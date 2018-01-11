@@ -2,8 +2,10 @@ package com.example.paralect.easytime.main.customers.customer;
 
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.CustomerContainer;
+import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
@@ -37,19 +39,30 @@ public class CustomerPresenter implements IDataPresenter<CustomerContainer, Cust
     }
 
     @Override
-    public IDataPresenter<CustomerContainer, Customer> requestData(Customer parameter) {
+    public IDataPresenter<CustomerContainer, Customer> requestData(final Customer customer) {
         Flowable<CustomerContainer> flowable = Flowable.create(new FlowableOnSubscribe<CustomerContainer>() {
             @Override
             public void subscribe(FlowableEmitter<CustomerContainer> emitter) throws Exception {
-               try{
-                   if (!emitter.isCancelled()){
-                       CustomerContainer container = new CustomerContainer();
-                       emitter.onNext(container);
-                       emitter.onComplete();
-                   }
-               } catch (Throwable e){
-                   emitter.onError(e);
-               }
+                try {
+                    if (!emitter.isCancelled()) {
+                        CustomerContainer container = new CustomerContainer();
+
+                        List<Job> jobs = EasyTimeManager.getInstance().getJobs(customer, "", null);
+                        ArrayList<Project> projects = MiscUtils.findAllElements(jobs, Project.class);
+                        ArrayList<Order> orders = MiscUtils.findAllElements(jobs, Order.class);
+                        ArrayList<Object> objects = MiscUtils.findAllElements(jobs, Object.class);
+
+                        container.setCustomer(customer);
+                        container.setProjects(projects);
+                        container.setOrders(orders);
+                        container.setObjects(objects);
+
+                        emitter.onNext(container);
+                        emitter.onComplete();
+                    }
+                } catch (Throwable e) {
+                    emitter.onError(e);
+                }
             }
         }, BackpressureStrategy.LATEST);
 

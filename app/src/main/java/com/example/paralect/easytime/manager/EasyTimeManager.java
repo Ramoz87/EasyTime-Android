@@ -55,6 +55,45 @@ public final class EasyTimeManager {
         return helper;
     }
 
+    public List<Job> getObjects(Customer customer) {
+        List<Job> jobs = new ArrayList<>();
+        try {
+            Dao<Object, String> objectDao = helper.getObjectDao();
+            Dao<Order, String> orderDao = helper.getOrderDao();
+            Dao<Project, String> projectDao = helper.getProjectDao();
+
+            String customerId = customer == null ? "" : customer.getCustomerId();
+
+            List<Object> objects = getList(objectDao, customerId, null, null);
+            List<Order> orders = getList(orderDao, customerId, query, date);
+            List<Project> projects = getList(projectDao, customerId, query, date);
+
+            jobs.addAll(objects);
+            jobs.addAll(orders);
+            jobs.addAll(projects);
+
+            if (customer == null) {
+                for (Job job : jobs) {
+                    customerId = job.getCustomerId();
+                    Dao<Customer, String> customerDao = helper.getCustomerDao();
+                    customer = customerDao.queryForId(customerId);
+                    job.setCustomer(customer);
+                }
+            }
+
+            Dao<Address, Long> addressDao = helper.getAddressDao();
+            for (Job job : jobs) {
+                if (job instanceof JobWithAddress) {
+                    JobWithAddress jobWithAddress = (JobWithAddress) job;
+                    jobWithAddress.setAddress(addressDao.queryForId(jobWithAddress.getAddressId()));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return jobs;
+    }
+
     public List<Job> getJobs(Customer customer, String query, String date) {
         List<Job> jobs = new ArrayList<>();
         try {
