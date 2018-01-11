@@ -47,10 +47,9 @@ public class CustomerPresenter implements IDataPresenter<CustomerContainer, Cust
                     if (!emitter.isCancelled()) {
                         CustomerContainer container = new CustomerContainer();
 
-                        List<Job> jobs = EasyTimeManager.getInstance().getJobs(customer, "", null);
-                        ArrayList<Project> projects = MiscUtils.findAllElements(jobs, Project.class);
-                        ArrayList<Order> orders = MiscUtils.findAllElements(jobs, Order.class);
-                        ArrayList<Object> objects = MiscUtils.findAllElements(jobs, Object.class);
+                        ArrayList<Project> projects = (ArrayList<Project>) EasyTimeManager.getInstance().getProjects(customer);
+                        ArrayList<Order> orders = (ArrayList<Order>) EasyTimeManager.getInstance().getOrders(customer);
+                        ArrayList<Object> objects = (ArrayList<Object>) EasyTimeManager.getInstance().getObjects(customer);
 
                         container.setCustomer(customer);
                         container.setProjects(projects);
@@ -75,7 +74,7 @@ public class CustomerPresenter implements IDataPresenter<CustomerContainer, Cust
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-
+                throwable.printStackTrace();
             }
         });
         return this;
