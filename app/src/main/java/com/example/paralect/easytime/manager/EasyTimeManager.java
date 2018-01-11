@@ -1,9 +1,8 @@
 package com.example.paralect.easytime.manager;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
@@ -14,7 +13,6 @@ import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 
@@ -28,22 +26,37 @@ import java.util.List;
 
 public final class EasyTimeManager {
 
-    private Context context;
-    private DatabaseHelper databaseHelper;
+    private volatile static EasyTimeManager instance;
+    private DatabaseHelper helper;
 
-    EasyTimeManager(@NonNull Context applicationContext) {
-        this.context = applicationContext;
-    }
+    /**
+     * Returns singleton class instance
+     */
+    public static EasyTimeManager getInstance() {
+        EasyTimeManager localInstance = instance;
 
-    private void initDatabaseHelper() {
-        if (databaseHelper == null) {
-            databaseHelper = new DatabaseHelper(context);
+        if (localInstance == null) {
+            synchronized (EasyTimeManager.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new EasyTimeManager();
+                }
+            }
         }
+        return localInstance;
     }
 
-    public static List<Job> getJobs(@NonNull Context context, Customer customer, String query, String date) {
+    private EasyTimeManager() {
+        if (helper == null)
+            helper = new DatabaseHelper(EasyTimeApplication.getContext());
+    }
+
+    public DatabaseHelper getHelper() {
+        return helper;
+    }
+
+    public List<Job> getJobs(Customer customer, String query, String date) {
         List<Job> jobs = new ArrayList<>();
-        DatabaseHelper helper = new DatabaseHelper(context.getApplicationContext());
         try {
             Dao<Object, String> objectDao = helper.getObjectDao();
             Dao<Order, String> orderDao = helper.getOrderDao();
@@ -121,9 +134,8 @@ public final class EasyTimeManager {
     }
 
 
-    public static List<Material> getMaterials(@NonNull Context context) {
+    public List<Material> getMaterials() {
         List<Material> materials = new ArrayList<>();
-        DatabaseHelper helper = new DatabaseHelper(context.getApplicationContext());
         try {
             Dao<Material, String> dao = helper.getMaterialDao();
             materials.addAll(dao.queryForAll());
@@ -133,9 +145,8 @@ public final class EasyTimeManager {
         return materials;
     }
 
-    public static List<Customer> getCustomers(@NonNull Context context, String query) {
+    public List<Customer> getCustomers(String query) {
         List<Customer> customers = new ArrayList<>();
-        DatabaseHelper helper = new DatabaseHelper(context.getApplicationContext());
         try {
             Dao<Customer, String> dao = helper.getCustomerDao();
 
@@ -151,4 +162,5 @@ public final class EasyTimeManager {
         }
         return customers;
     }
+
 }

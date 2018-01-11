@@ -1,16 +1,9 @@
 package com.example.paralect.easytime.main.projects;
 
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
-
 import com.example.paralect.easytime.EasyTimeApplication;
-import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.utils.ViewUtils;
 
 import java.util.List;
 
@@ -35,7 +28,7 @@ public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
                 try {
 
                     if (!emitter.isDisposed()) {
-                        List<Job> jobs = EasyTimeManager.getJobs(EasyTimeApplication.getContext(), null, query, null);
+                        List<Job> jobs = EasyTimeManager.getInstance().getJobs(null, query, null);
                         emitter.onNext(jobs);
                         emitter.onComplete();
                     }

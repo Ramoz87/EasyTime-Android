@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.paralect.easytime.manager.ETPreferenceManager;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.FakeCreator;
 import com.example.paralect.easytime.model.Address;
@@ -54,7 +55,6 @@ public class EasyTimeApplication extends Application {
     }
 
     private void fillData(FakeCreator fakeCreator) {
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
         final String userCSVPath = "db/users.csv";
         final String typeCSVPath = "db/types.csv";
         final String customerCSVPath = "db/customers.csv";
@@ -63,22 +63,22 @@ public class EasyTimeApplication extends Application {
         final String orderCSVPath = "db/orders.csv";
         final String projectCSVPath = "db/projects.csv";
 
-        fillData(fakeCreator, userCSVPath, User.class, databaseHelper);
-        fillData(fakeCreator, typeCSVPath, Type.class, databaseHelper);
-        fillData(fakeCreator, customerCSVPath, Customer.class, databaseHelper);
-        fillData(fakeCreator, materialCSVPath, Material.class, databaseHelper);
-        fillData(fakeCreator, objectCSVPath, Object.class, databaseHelper);
-        fillData(fakeCreator, orderCSVPath, Order.class, databaseHelper);
-        fillData(fakeCreator, projectCSVPath, Project.class, databaseHelper);
+        fillData(fakeCreator, userCSVPath, User.class);
+        fillData(fakeCreator, typeCSVPath, Type.class);
+        fillData(fakeCreator, customerCSVPath, Customer.class);
+        fillData(fakeCreator, materialCSVPath, Material.class);
+        fillData(fakeCreator, objectCSVPath, Object.class);
+        fillData(fakeCreator, orderCSVPath, Order.class);
+        fillData(fakeCreator, projectCSVPath, Project.class);
     }
 
-    private <E> void fillData(FakeCreator fakeCreator, String csvPath, Class<E> clazz, DatabaseHelper databaseHelper) {
+    private <E> void fillData(FakeCreator fakeCreator, String csvPath, Class<E> clazz) {
         try {
             List<E> items = fakeCreator.parse(csvPath, clazz);
-            Dao<E, String> dao = databaseHelper.getDao(clazz);
+            Dao<E, String> dao = EasyTimeManager.getInstance().getHelper().getDao(clazz);
             Log.d(TAG, String.format("===// %s //===", clazz.getSimpleName()));
 
-            Dao<Address, Long> addressDao = databaseHelper.getAddressDao();
+            Dao<Address, Long> addressDao = EasyTimeManager.getInstance().getHelper().getAddressDao();
             for (E item : items) {
                 Log.d(TAG, item.toString());
 

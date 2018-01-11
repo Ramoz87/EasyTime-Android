@@ -13,6 +13,7 @@ import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.ProjectType;
+import com.example.paralect.easytime.utils.ListUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import static com.example.paralect.easytime.model.ProjectType.Type.TYPE_PROJECT;
 
 public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
-    private final List<Job> mJobs = new ArrayList<>();
+    private List<Job> mJobs = new ArrayList<>();
 
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
@@ -126,8 +127,10 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
     }
 
     public void setData(List<Job> jobs) {
-        mJobs.clear();
-        mJobs.addAll(jobs);
+        if (ListUtil.isEmpty(jobs))
+            mJobs.clear();
+        else
+            mJobs = jobs;
         notifyDataSetChanged();
     }
 

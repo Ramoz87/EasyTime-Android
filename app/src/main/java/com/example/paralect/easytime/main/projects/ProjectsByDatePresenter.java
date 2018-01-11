@@ -1,8 +1,5 @@
 package com.example.paralect.easytime.main.projects;
 
-import android.util.Log;
-
-import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.main.search.ISearchByDateViewPresenter;
 import com.example.paralect.easytime.main.search.SearchByDateViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
@@ -40,7 +37,7 @@ public class ProjectsByDatePresenter extends SearchByDateViewPresenter<List<Job>
                     if (!emitter.isDisposed()) {
                         Date date = calendar.getTime();
                         String dateString = CalendarUtils.stringFromDate(date, CalendarUtils.DEFAULT_DATE_FORMAT);
-                        List<Job> jobs = EasyTimeManager.getJobs(EasyTimeApplication.getContext(), null, "", dateString);
+                        List<Job> jobs = EasyTimeManager.getInstance().getJobs(null, "", dateString);
                         emitter.onNext(jobs);
                         emitter.onComplete();
                     }

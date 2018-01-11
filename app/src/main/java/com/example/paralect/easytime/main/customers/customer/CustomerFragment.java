@@ -19,6 +19,7 @@ import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Contact;
+import com.example.paralect.easytime.model.CustomerContainer;
 import com.example.paralect.easytime.utils.MiscUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
@@ -41,7 +42,7 @@ import butterknife.OnClick;
  * Created by alexei on 27.12.2017.
  */
 
-public class CustomerFragment extends BaseFragment implements IDataView<Customer> {
+public class CustomerFragment extends BaseFragment implements IDataView<CustomerContainer> {
 
     private static final String TAG = CustomerFragment.class.getSimpleName();
     public static final String ARG_CUSTOMER = "arg_customer";
@@ -121,21 +122,21 @@ public class CustomerFragment extends BaseFragment implements IDataView<Customer
     }
 
     @Override
-    public void onDataReceived(Customer customer) {
+    public void onDataReceived(CustomerContainer customer) {
         // set contacts
         ContactsAdapter contactsAdapter = new ContactsAdapter(Contact.getMockContacts(), Address.mock());
         contactsViewPager.setAdapter(contactsAdapter);
         pageIndicatorView.setViewPager(contactsViewPager);
 
         // set jobs
-        FragmentManager fm = getChildFragmentManager();
-        List<Job> jobs = EasyTimeManager.getJobs(getContext(), customer, "", null);
-        ArrayList<Project> projects = MiscUtils.findAllElements(jobs, Project.class);
-        ArrayList<Order> orders = MiscUtils.findAllElements(jobs, Order.class);
-        ArrayList<Object> objects = MiscUtils.findAllElements(jobs, Object.class);
-        JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, projects, orders, objects);
-
-        jobsViewPager.setAdapter(adapter);
-        tabs.setupWithViewPager(jobsViewPager);
+//        FragmentManager fm = getChildFragmentManager();
+//        List<Job> jobs = EasyTimeManager.getInstance().getJobs(customer, "", null);
+//        ArrayList<Project> projects = MiscUtils.findAllElements(jobs, Project.class);
+//        ArrayList<Order> orders = MiscUtils.findAllElements(jobs, Order.class);
+//        ArrayList<Object> objects = MiscUtils.findAllElements(jobs, Object.class);
+//        JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, projects, orders, objects);
+//
+//        jobsViewPager.setAdapter(adapter);
+//        tabs.setupWithViewPager(jobsViewPager);
     }
 }

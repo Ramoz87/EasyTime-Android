@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.utils.ListUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public abstract class AlphabetStickyAdapter<E> extends BaseAdapter implements St
     private int count;
 
     public void setData(SortedMap<Character, List<E>> sortedData) {
-        if (sortedData == null || sortedData.isEmpty())
+        if (ListUtil.isEmpty(sortedData))
             mSortedData.clear();
         else
             mSortedData = sortedData;
