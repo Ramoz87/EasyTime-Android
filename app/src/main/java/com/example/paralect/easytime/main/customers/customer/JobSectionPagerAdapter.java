@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.model.CustomerContainer;
+import com.example.paralect.easytime.model.JobsContainer;
 import com.example.paralect.easytime.model.Job;
 
 import java.util.ArrayList;
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class JobSectionPagerAdapter extends FragmentPagerAdapter {
 
     private Context mContext;
-    private CustomerContainer mContainer;
+    private JobsContainer mContainer;
 
-    public JobSectionPagerAdapter(Context context, FragmentManager fm, CustomerContainer container) {
+    public JobSectionPagerAdapter(Context context, FragmentManager fm, JobsContainer container) {
         super(fm);
         mContext = context;
         mContainer = container;

@@ -1,11 +1,9 @@
 package com.example.paralect.easytime.main.projects;
 
-import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
 
-import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -27,9 +25,9 @@ public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
             @Override
             public void subscribe(ObservableEmitter<List<Job>> emitter) throws Exception {
                 try {
-                    final String query = parameters[0];
-                    final String date = parameters[1];
                     if (!emitter.isDisposed()) {
+                        final String query = parameters[0];
+                        final String date = parameters[1];
                         List<Job> jobs = EasyTimeManager.getInstance().getJobs(null, query, date);
                         emitter.onNext(jobs);
                         emitter.onComplete();

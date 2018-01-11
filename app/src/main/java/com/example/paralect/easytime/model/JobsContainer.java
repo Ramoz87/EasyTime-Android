@@ -6,20 +6,11 @@ package com.example.paralect.easytime.model;
 
 import java.util.ArrayList;
 
-public class CustomerContainer {
+public class JobsContainer {
 
-    private Customer customer;
     private ArrayList<Project> projects;
     private ArrayList<Order> orders;
     private ArrayList<Object> objects;
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 
     public ArrayList<Project> getProjects() {
         return projects;
