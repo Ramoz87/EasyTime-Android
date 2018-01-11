@@ -7,18 +7,11 @@ import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.CustomerContainer;
-import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
-import com.example.paralect.easytime.utils.MiscUtils;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
