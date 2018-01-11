@@ -62,7 +62,7 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        presenter.setSearchDataView(this)
+        presenter.setDataView(this)
                 .setupSearch(menu, R.id.item_search)
                 .requestData("");
     }
@@ -85,7 +85,7 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
                 }
             }
 
-            byDatePresenter.setSearchDataView(this)
+            byDatePresenter.setDataView(this)
                     .setupSearch(title)
                     .requestData(CalendarUtils.getCalendar(year, month, day));
         }

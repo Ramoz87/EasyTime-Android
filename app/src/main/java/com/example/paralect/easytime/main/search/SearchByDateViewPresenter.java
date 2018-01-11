@@ -61,7 +61,7 @@ public abstract class SearchByDateViewPresenter<DATA> implements ISearchByDateVi
     }
 
     @Override
-    public ISearchByDateViewPresenter<DATA> setSearchDataView(IDataView<DATA> view) {
+    public ISearchByDateViewPresenter<DATA> setDataView(IDataView<DATA> view) {
         this.mView = view;
         return this;
     }
