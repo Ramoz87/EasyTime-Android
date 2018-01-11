@@ -33,7 +33,7 @@ public class CustomersPresenter extends SearchViewPresenter<SortedMap<Character,
     };
 
     @Override
-    public CustomersPresenter requestData(final String query) {
+    public CustomersPresenter requestData(final String query, final String date) {
         Observable<SortedMap<Character, List<Customer>>> observable = Observable.create(new ObservableOnSubscribe<SortedMap<Character, List<Customer>>>() {
             @Override
             public void subscribe(ObservableEmitter<SortedMap<Character, List<Customer>>> emitter) throws Exception {

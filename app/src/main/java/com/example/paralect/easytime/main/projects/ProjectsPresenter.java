@@ -1,17 +1,12 @@
 package com.example.paralect.easytime.main.projects;
 
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
-
 import com.example.paralect.easytime.EasyTimeApplication;
-import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.search.ISearchViewPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.utils.ViewUtils;
 
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -22,20 +17,27 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by Oleg Tarashkevich on 09/01/2018.
+ * Created by alexei on 11.01.2018.
  */
 
 public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
 
+    public ProjectsPresenter(String startQuery, Calendar startCalendar) {
+        super(startQuery, startCalendar);
+    }
+
+    public ProjectsPresenter() {
+        super();
+    }
+
     @Override
-    public ProjectsPresenter requestData(final String query) {
+    public ISearchViewPresenter<List<Job>> requestData(final String query, final String date) {
         Observable<List<Job>> observable = Observable.create(new ObservableOnSubscribe<List<Job>>() {
             @Override
             public void subscribe(ObservableEmitter<List<Job>> emitter) throws Exception {
                 try {
-
                     if (!emitter.isDisposed()) {
-                        List<Job> jobs = EasyTimeManager.getJobs(EasyTimeApplication.getContext(), null, query, null);
+                        List<Job> jobs = EasyTimeManager.getJobs(EasyTimeApplication.getContext(), null, query, date);
                         emitter.onNext(jobs);
                         emitter.onComplete();
                     }

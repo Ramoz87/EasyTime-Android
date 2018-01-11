@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.projects;
 
 import android.content.Context;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
 import com.example.paralect.easytime.model.Job;
 
+import java.util.Calendar;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -34,11 +36,13 @@ public class ProjectsFragment extends AbsStickyFragment implements ISearchDataVi
 
     // start value
     private int year = 2018;
-    private int month = 12;
+    private int month = 11;
     private int day = 14;
 
+    private Calendar calendar = CalendarUtils.getCalendar(year, month, day);
+
     private final ProjectsPresenter presenter = new ProjectsPresenter();
-    private final ProjectsByDatePresenter byDatePresenter = new ProjectsByDatePresenter(year, month, day);
+
     private ProjectStickyAdapter adapter = new ProjectStickyAdapter();
     private FragmentNavigator navigator;
     private TextView title;
@@ -62,9 +66,11 @@ public class ProjectsFragment extends AbsStickyFragment implements ISearchDataVi
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
+
+        String dateString = CalendarUtils.stringFromDate(calendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
         presenter.setSearchDataView(this)
-                .setupSearch(menu, R.id.item_search)
-                .requestData("");
+                .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
+                .requestData("", dateString);
     }
 
     @Override
@@ -85,9 +91,10 @@ public class ProjectsFragment extends AbsStickyFragment implements ISearchDataVi
                 }
             }
 
-            byDatePresenter.setSearchDataView(this)
-                    .setupSearch(title)
-                    .requestData(CalendarUtils.getCalendar(year, month, day));
+            String dateString = CalendarUtils.stringFromDate(calendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
+            presenter.setStartCalendar(calendar)
+                    .setSearchDataView(this)
+                    .setupDateSearch(title).requestData("", dateString);
         }
     }
 
