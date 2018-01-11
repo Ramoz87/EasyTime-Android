@@ -43,15 +43,13 @@ public class MaterialsFragment extends BaseFragment {
     @BindView(R.id.placeholder)
     View placeholder;
 
+    private View overlay;
+
     private FloatingActionButton fab;
 
     void onFabClick(FloatingActionButton fab) {
-        // Fragment fragment = MaterialChooserFragment.newInstance();
-        // pushFragment(fragment);
-        // navigator.pushFragment(fragment);
         FrameLayout overlayContainer = getMainActivity().getOverlayContainer();
-        @ColorInt int color = ContextCompat.getColor(getContext(), R.color.materials_overlay_background);
-        overlayContainer.setBackgroundColor(color);
+        overlayContainer.addView(overlay, 0);
     }
 
     private FragmentNavigator navigator;
@@ -88,7 +86,7 @@ public class MaterialsFragment extends BaseFragment {
                 onFabClick((FloatingActionButton) view);
             }
         });
-        // ViewAnimationUtils.expand(fab);
+        initOverlay();
     }
 
     private void initActionBar(ActionBar actionBar) {
@@ -134,5 +132,16 @@ public class MaterialsFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         getMainActivity().showFab(true);
+    }
+
+    private void initOverlay() {
+        final FrameLayout container = getMainActivity().getOverlayContainer();
+        overlay = LayoutInflater.from(getContext()).inflate(R.layout.materials_overlay, container, false);
+        overlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                container.removeView(overlay);
+            }
+        });
     }
 }
