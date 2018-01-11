@@ -30,7 +30,7 @@ public class JobListFragment extends AbsListFragment {
 
     private List<Job> getJobs() {
         Bundle args = getArguments();
-        if (args.containsKey(ARG_JOB_LIST))
+        if (args != null && args.containsKey(ARG_JOB_LIST))
             return args.getParcelableArrayList(ARG_JOB_LIST);
 
         // else

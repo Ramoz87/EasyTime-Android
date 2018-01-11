@@ -124,7 +124,7 @@ public class CustomerFragment extends BaseFragment implements IDataView<Customer
     @Override
     public void onDataReceived(CustomerContainer container) {
         // set contacts
-        final ContactsAdapter contactsAdapter = new ContactsAdapter(Contact.getMockContacts(), Address.mock());
+        final ContactsAdapter contactsAdapter = new ContactsAdapter(container.getCustomer().getContacts(), container.getCustomer().getAddress());
         contactsViewPager.setAdapter(contactsAdapter);
         pageIndicatorView.setViewPager(contactsViewPager);
 

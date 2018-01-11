@@ -3,6 +3,8 @@ package com.example.paralect.easytime.main.customers.customer;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.model.Address;
+import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.CustomerContainer;
 import com.example.paralect.easytime.model.Job;
@@ -50,6 +52,9 @@ public class CustomerPresenter implements IDataPresenter<CustomerContainer, Cust
                         ArrayList<Project> projects = (ArrayList<Project>) EasyTimeManager.getInstance().getProjects(customer);
                         ArrayList<Order> orders = (ArrayList<Order>) EasyTimeManager.getInstance().getOrders(customer);
                         ArrayList<Object> objects = (ArrayList<Object>) EasyTimeManager.getInstance().getObjects(customer);
+
+                        customer.setAddress(Address.mock());
+                        customer.setContacts(Contact.getMockContacts());
 
                         container.setCustomer(customer);
                         container.setProjects(projects);

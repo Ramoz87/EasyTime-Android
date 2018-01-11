@@ -49,17 +49,10 @@ public class JobAdapter<E extends Job> extends RecyclerView.Adapter<JobAdapter.V
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.jobName)
-        TextView jobName;
-
-        @BindView(R.id.jobStatus)
-        TextView jobStatus;
-
-        @BindView(R.id.jobNumber)
-        TextView jobNumber;
-
-        @BindView(R.id.jobTerm)
-        TextView jobTerm;
+        @BindView(R.id.jobName) TextView jobName;
+        @BindView(R.id.jobStatus) TextView jobStatus;
+        @BindView(R.id.jobNumber) TextView jobNumber;
+        @BindView(R.id.jobTerm) TextView jobTerm;
 
         public ViewHolder(View itemView) {
             super(itemView);

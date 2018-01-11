@@ -102,6 +102,22 @@ public class Customer implements Parcelable {
         this.lastName = lastName;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
     @Override
     public String toString() {
         return firstName + " " + lastName;

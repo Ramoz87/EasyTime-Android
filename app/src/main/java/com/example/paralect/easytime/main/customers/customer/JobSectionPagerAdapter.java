@@ -8,9 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.CustomerContainer;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.model.Object;
-import com.example.paralect.easytime.model.Order;
-import com.example.paralect.easytime.model.Project;
 
 import java.util.ArrayList;
 
@@ -33,7 +30,7 @@ public class JobSectionPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: return JobListFragment.newInstance(mContainer.getProjects());
-            case 1: return JobListFragment.newInstance(mContainer.getObjects());
+            case 1: return JobListFragment.newInstance(mContainer.getOrders());
             case 2: return JobListFragment.newInstance(mContainer.getObjects());
             default: return JobListFragment.newInstance(new ArrayList<Job>());
         }
