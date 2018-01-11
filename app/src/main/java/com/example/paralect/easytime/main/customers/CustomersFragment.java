@@ -26,7 +26,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 26.12.2017.
  */
 
-public class CustomersFragment extends AbsStickyFragment implements IDataView<SortedMap<Character,List<Customer>>> {
+public class CustomersFragment extends AbsStickyFragment implements IDataView<SortedMap<Character, List<Customer>>> {
 
     private final CustomersPresenter presenter = new CustomersPresenter();
     private final CustomerStickyAdapter adapter = new CustomerStickyAdapter();
