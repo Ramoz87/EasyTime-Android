@@ -31,6 +31,7 @@ dependencies {
     implementation deps.stickyListHeaders
     implementation deps.expandablelayout
     implementation deps.pageindicatorview
+    implementation deps.fabview
 
     implementation deps.butterKnife
     annotationProcessor deps.butterKnifeCompiler
