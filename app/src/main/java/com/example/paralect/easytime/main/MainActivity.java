@@ -12,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
@@ -20,6 +23,7 @@ import com.example.paralect.easytime.main.materials.MaterialsFragment;
 import com.example.paralect.easytime.main.projects.ProjectsFragment;
 import com.example.paralect.easytime.main.settings.SettingsFragment;
 import com.example.paralect.easytime.utils.ViewUtils;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.ncapdevi.fragnav.FragNavController;
 import com.ncapdevi.fragnav.FragNavSwitchController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
@@ -43,10 +47,17 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     private FragNavController mNavController;
 
+    private FabAnimListener fabIncAnimListener;
+    private FabAnimListener fabDecAnimListener;
+    private Animation incAnim;
+    private Animation decAnim;
+
     @BindView(R.id.navigationView) BottomNavigationView bottomBar;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
     @BindView(R.id.top_shadow_view) View mainTopShadowView;
+    @BindView(R.id.overlayContainer) FrameLayout overlayContainer;
+    @BindView(R.id.fab) FloatingActionButton fab;
 
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
@@ -64,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
         initNavigationView(savedInstanceState);
 
+        initAnim();
+
+        hideFab(false);
         //Elevation
 //        ViewCompat.setElevation(toolbar, 0);
 //        appBarLayout.setElevation(0);
@@ -101,6 +115,39 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         mainTopShadowView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
+    public FrameLayout getOverlayContainer() {
+        return overlayContainer;
+    }
+
+    public FloatingActionButton getFab() {
+        return fab;
+    }
+
+    public void showFab(boolean animate) {
+        if (animate) {
+            fab.startAnimation(incAnim);
+        } else {
+            fab.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideFab(boolean animate) {
+        if (animate) {
+            fab.startAnimation(decAnim);
+        } else {
+            fab.setVisibility(View.GONE);
+        }
+    }
+
+    private void initAnim() {
+        fabIncAnimListener = new FabAnimListener(fab, true);
+        fabDecAnimListener = new FabAnimListener(fab, false);
+        incAnim = AnimationUtils.loadAnimation(this, R.anim.fab_increase);
+        decAnim = AnimationUtils.loadAnimation(this, R.anim.fab_decrease);
+        incAnim.setAnimationListener(fabIncAnimListener);
+        decAnim.setAnimationListener(fabDecAnimListener);
+    }
+
     // region Setup Navigation
     private void initNavigationView(Bundle savedInstanceState) {
         ViewUtils.disableShiftMode(bottomBar);
@@ -117,8 +164,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
                 .build();
 
         final FragNavTransactionOptions options = FragNavTransactionOptions.newBuilder()
-                .customAnimations(R.anim.slide_in_left, R.anim.slide_out_left,
-                        R.anim.slide_in_right, R.anim.slide_out_right)
+                .customAnimations(R.anim.fade_in, R.anim.fade_out)
                 .build();
 
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -219,5 +265,31 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     }
     // endregion
     // endregion
+
+    private static class FabAnimListener implements Animation.AnimationListener {
+
+        private FloatingActionButton fab;
+        private boolean forInc = true; // for decAnim in another case
+
+        private FabAnimListener(FloatingActionButton fab, boolean forInc) {
+            this.fab = fab;
+            this.forInc = forInc;
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+            fab.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            fab.setVisibility(forInc ? View.VISIBLE : View.GONE);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    }
 
 }

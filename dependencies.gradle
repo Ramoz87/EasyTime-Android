@@ -32,6 +32,7 @@ ext {
     ormliteVersion = '4.48'
     opencsvVersion = '3.9'
     pageindicatorviewVersion = '1.0.0'
+    fabviewVersion = '1.10.1'
 
     deps = [
 
@@ -47,6 +48,7 @@ ext {
             stickyListHeaders  : "com.github.mtotschnig:StickyListHeaders:${stickyListHeadersVersion}",
             expandablelayout   : "net.cachapa.expandablelayout:expandablelayout:${expandablelayoutVersion}",
             pageindicatorview  : "com.romandanylyk:pageindicatorview:${pageindicatorviewVersion}",
+            fabview            : "com.getbase:floatingactionbutton:${fabviewVersion}",
 
             // Injection
             dataBinding        : "com.android.databinding:compiler:${gradleVer}",
