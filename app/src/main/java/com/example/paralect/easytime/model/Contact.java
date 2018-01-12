@@ -95,8 +95,8 @@ public class Contact implements Parcelable {
             contact.contactId = i;
             contact.email = "mock_" + i + "@gmail.com";
             contact.fax = "+375 456 5464 4654";
-            contact.firstName = "FirstName_" + i;
-            contact.lastName = "LastName_" + i;
+            contact.firstName = "Brad";
+            contact.lastName = "Pitt " + i;
             contact.phone = "+37512345678" + i;
             contacts.add(contact);
         }
