@@ -44,7 +44,7 @@ final class CustomerPresenter implements IDataPresenter<Customer, Customer>, ICu
                     if (!emitter.isCancelled()) {
 
                         customer.setAddress(Address.mock());
-                        customer.setContacts(Contact.getMockContacts());
+                        customer.setContacts(Contact.getMockContacts(4));
 
                         emitter.onNext(customer);
                         emitter.onComplete();

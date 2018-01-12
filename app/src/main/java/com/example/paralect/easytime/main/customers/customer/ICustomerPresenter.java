@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.customers.customer;
 
-import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
 
 /**

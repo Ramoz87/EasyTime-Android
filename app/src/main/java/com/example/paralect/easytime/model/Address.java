@@ -2,7 +2,12 @@ package com.example.paralect.easytime.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.SpannableString;
+import android.text.TextUtils;
 
+import com.example.paralect.easytime.EasyTimeApplication;
+import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.utils.TextUtil;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -137,11 +142,28 @@ public class Address implements Parcelable {
         this.order = order;
     }
 
-    public String getFullAddress(){
-        return country + ", " + city + ", " + street;
+    public SpannableString getFullAddress() {
+        String params = country + ", " + city + ", " + street;
+        return TextUtil.getSpannableDateString(EasyTimeApplication.getContext(), params, R.drawable.ic_checkpoint);
     }
 
-    public static Address mock(){
+    public String getQueryAddress() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("geo:0,0?q=");
+        if (TextUtil.isNotEmpty(country))
+            builder.append("+").append(country);
+        if (TextUtil.isNotEmpty(city))
+            builder.append("+").append(city);
+        if (TextUtil.isNotEmpty(street))
+            builder.append("+").append(street);
+        return builder.toString();
+    }
+
+    public boolean hasAnyAddress(){
+        return TextUtil.isNotEmpty(country) || TextUtil.isNotEmpty(city) || TextUtil.isNotEmpty(street);
+    }
+
+    public static Address mock() {
         Address address = new Address();
         address.addressId = 456;
         address.country = "Belarus";

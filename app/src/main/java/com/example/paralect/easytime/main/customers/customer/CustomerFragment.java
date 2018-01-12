@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.customers.customer;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -13,12 +12,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.paralect.easytime.main.BaseFragment;
-import com.example.paralect.easytime.main.FragmentNavigator;
-import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.model.JobsContainer;
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Customer;
+import com.example.paralect.easytime.model.JobsContainer;
+import com.example.paralect.easytime.utils.ListUtil;
+import com.example.paralect.easytime.utils.ViewUtils;
 import com.rd.PageIndicatorView;
 
 import butterknife.BindView;
@@ -30,7 +30,6 @@ import butterknife.ButterKnife;
 
 public class CustomerFragment extends BaseFragment implements IDataView<Customer>, ICustomerDataView<JobsContainer> {
 
-    private static final String TAG = CustomerFragment.class.getSimpleName();
     public static final String ARG_CUSTOMER = "arg_customer";
 
     @BindView(R.id.contacts_view_pager) ViewPager contactsViewPager;
@@ -40,7 +39,6 @@ public class CustomerFragment extends BaseFragment implements IDataView<Customer
 
     private final CustomerPresenter presenter = new CustomerPresenter();
     private Customer mCustomer;
-    private FragmentNavigator navigator;
 
     public static CustomerFragment newInstance(@NonNull Customer customer) {
         Bundle args = new Bundle(1);
@@ -56,14 +54,6 @@ public class CustomerFragment extends BaseFragment implements IDataView<Customer
         mCustomer = getCustomer();
         presenter.setDataView(this);
         presenter.setJobsDataView(this);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof FragmentNavigator) {
-            navigator = (FragmentNavigator) context;
-        }
     }
 
     @Override
@@ -112,18 +102,25 @@ public class CustomerFragment extends BaseFragment implements IDataView<Customer
     @Override
     public void onDataReceived(Customer customer) {
         // set contacts
-        final ContactsAdapter contactsAdapter = new ContactsAdapter(customer.getContacts(), customer.getAddress());
-        contactsViewPager.setAdapter(contactsAdapter);
-        pageIndicatorView.setViewPager(contactsViewPager);
+        if (customer != null) {
+            final ContactsAdapter contactsAdapter = new ContactsAdapter(customer.getContacts(), customer.getAddress());
+            contactsViewPager.setAdapter(contactsAdapter);
+            pageIndicatorView.setViewPager(contactsViewPager);
+            if (customer.getContacts() != null) {
+                ViewUtils.setVisibility(pageIndicatorView, customer.getContacts().size() > 1);
+            }
+        }
     }
 
     @Override
     public void onJobsReceived(JobsContainer jobs) {
         // set jobs
-        final FragmentManager fm = getChildFragmentManager();
-        final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, jobs);
-        jobsViewPager.setAdapter(adapter);
-        tabs.setupWithViewPager(jobsViewPager);
+        if (jobs != null) {
+            final FragmentManager fm = getChildFragmentManager();
+            final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, jobs);
+            jobsViewPager.setAdapter(adapter);
+            tabs.setupWithViewPager(jobsViewPager);
+        }
     }
 
 }
