@@ -1,5 +1,8 @@
 package com.example.paralect.easytime.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -8,7 +11,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "materials")
-public class Material {
+public class Material implements Parcelable {
 
     @DatabaseField(columnName = "currency")
     private String currency;
@@ -37,6 +40,46 @@ public class Material {
     public Material() {
 
     }
+
+    protected Material(Parcel in) {
+        currency = in.readString();
+        materialId = in.readString();
+        materialNr = in.readInt();
+        name = in.readString();
+        pricePerUnit = in.readInt();
+        serialNr = in.readLong();
+        stockQuantity = in.readInt();
+        unitId = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(currency);
+        dest.writeString(materialId);
+        dest.writeInt(materialNr);
+        dest.writeString(name);
+        dest.writeInt(pricePerUnit);
+        dest.writeLong(serialNr);
+        dest.writeInt(stockQuantity);
+        dest.writeString(unitId);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Material> CREATOR = new Creator<Material>() {
+        @Override
+        public Material createFromParcel(Parcel in) {
+            return new Material(in);
+        }
+
+        @Override
+        public Material[] newArray(int size) {
+            return new Material[size];
+        }
+    };
 
     public String getCurrency() {
         return currency;

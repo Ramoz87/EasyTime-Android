@@ -55,7 +55,7 @@
                 android:textColor="@color/list_item_secondary_text"
                 android:textSize="14sp"
                 android:id="@+id/materialCount"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
