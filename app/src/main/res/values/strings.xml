@@ -43,6 +43,7 @@
     <string name="placeholder_material_name">Air filter model 1</string>
     <string name="placeholder_material_number">#66565</string>
     <string name="placeholder_activity_date">30 November</string>
+    <string name="placeholder_keypad_number">1</string>
 
     <!--materials-->
     <string name="add_your_materials">Add your materials</string>
@@ -77,4 +78,7 @@
     <string name="send_feedback">Send feedback</string>
     <string name="logout">Logout</string>
     <string name="about_app">EasyTime for Android v1.01\nCopyright 2017. All Rights Reserved</string>
+
+    <!--keypad-->
+    <string name="next">Next</string>
 </resources>

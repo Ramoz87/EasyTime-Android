@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
+
+    <Space
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+    <com.example.paralect.easytime.views.KeypadView
+        android:id="@+id/keypad"
+        android:layout_width="match_parent"
+        android:background="@color/gray"
+        android:layout_height="wrap_content" />
+
+    <!--<include layout="@layout/include_keypad_content" />-->
+</LinearLayout>

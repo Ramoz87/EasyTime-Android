@@ -1,11 +1,16 @@
 package com.example.paralect.easytime.main.materials.chooser;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.AdapterView;
 
+import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.model.Material;
@@ -23,9 +28,16 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
 
     private MaterialChooserPresenter presenter = new MaterialChooserPresenter();
     private MaterialAlphabetAdapter adapter = new MaterialAlphabetAdapter();
+    private FragmentNavigator navigator;
 
     public static MaterialChooserFragment newInstance() {
         return new MaterialChooserFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        navigator = (FragmentNavigator) context;
     }
 
     @Override
@@ -58,5 +70,11 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
     @Override
     public void onDataReceived(SortedMap<Character, List<Material>> map) {
        adapter.setData(map);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Fragment fragment = MaterialEditorFragment.newInstance();
+        navigator.pushFragment(fragment);
     }
 }

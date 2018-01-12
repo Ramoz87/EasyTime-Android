@@ -32,6 +32,7 @@ dependencies {
     implementation deps.expandablelayout
     implementation deps.pageindicatorview
     implementation deps.fab
+    implementation deps.gridlayout
 
     implementation deps.butterKnife
     annotationProcessor deps.butterKnifeCompiler

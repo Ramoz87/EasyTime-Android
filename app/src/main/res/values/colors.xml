@@ -33,4 +33,8 @@
     <color name="fam_pressed">#6D89AF</color>
     <color name="fam_ripple">#6D89AF</color>
 
+    <!--keypad-->
+    <color name="next">@color/blue</color>
+    <color name="delete">#CB4B4A</color>
+    <color name="keypad_border">#6D89AF</color>
 </resources>
