@@ -3,6 +3,7 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 
 import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.R;
@@ -141,12 +142,24 @@ public class Address implements Parcelable {
         this.order = order;
     }
 
-    public SpannableString getFullAddress(){
+    public SpannableString getFullAddress() {
         String params = country + ", " + city + ", " + street;
         return TextUtil.getSpannableDateString(EasyTimeApplication.getContext(), params, R.drawable.ic_checkpoint);
     }
 
-    public static Address mock(){
+    public String getQueryAddress() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("geo:0,0?q=");
+        if (!TextUtils.isEmpty(country))
+            builder.append("+").append(country);
+        if (!TextUtils.isEmpty(city))
+            builder.append("+").append(city);
+        if (!TextUtils.isEmpty(street))
+            builder.append("+").append(street);
+        return builder.toString();
+    }
+
+    public static Address mock() {
         Address address = new Address();
         address.addressId = 456;
         address.country = "Belarus";

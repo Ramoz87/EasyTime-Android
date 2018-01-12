@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.main.customers.customer;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -32,7 +33,7 @@ public class ContactsAdapter extends PagerAdapter {
         Contact contact = mContacts.get(position);
         ContactView view = new ContactView(container.getContext());
         view.setCustomer(contact, mAddress);
-        container.addView(view, 0);
+        container.addView(view);
         return view;
     }
 

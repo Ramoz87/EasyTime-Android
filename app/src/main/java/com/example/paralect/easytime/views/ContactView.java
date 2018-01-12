@@ -3,7 +3,8 @@ package com.example.paralect.easytime.views;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
+import android.view.Gravity;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
@@ -19,7 +20,7 @@ import butterknife.OnClick;
  * Created by Oleg Tarashkevich on 10/01/2018.
  */
 
-public class ContactView extends FrameLayout {
+public class ContactView extends LinearLayout {
 
     @BindView(R.id.customer_name) TextView nameTextView;
     @BindView(R.id.customer_address) TextView addressTextView;
@@ -43,6 +44,8 @@ public class ContactView extends FrameLayout {
     private void init() {
         inflate(getContext(), R.layout.view_contact, this);
         ButterKnife.bind(this);
+        setOrientation(VERTICAL);
+        setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
     }
 
     public void setCustomer(Contact contact, Address address) {
@@ -69,8 +72,7 @@ public class ContactView extends FrameLayout {
     @OnClick(R.id.customer_map_button)
     public void onClickMap() {
         if (mAddress != null) {
-            String query = "geo:0,0?q=" + mAddress.getCountry() + "+" + mAddress.getCity() + "+" + mAddress.getStreet();
-            IntentUtils.mapIntent(getContext(), query);
+            IntentUtils.mapIntent(getContext(), mAddress.getQueryAddress());
         }
     }
 }
