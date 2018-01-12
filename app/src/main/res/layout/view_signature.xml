@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:orientation="vertical">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/signature_title_text_view"
@@ -11,10 +9,10 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:padding="15dp"
-        android:textStyle="bold"
         android:text="@string/signature_title"
         android:textColor="@color/white"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textStyle="bold"/>
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/signature_switcher"
@@ -46,7 +44,7 @@
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/signature_sign_button"
         android:layout_toStartOf="@+id/signature_sign_button"
-        android:background="@android:color/transparent"
+        android:background="@drawable/selector_ripple_white"
         android:text="@android:string/cancel"
         android:textColor="@color/dark_gray"/>
 
@@ -60,4 +58,4 @@
         android:text="@string/signature_sign"
         android:textColor="@color/colorPrimary"/>
 
-</RelativeLayout>
+</merge>

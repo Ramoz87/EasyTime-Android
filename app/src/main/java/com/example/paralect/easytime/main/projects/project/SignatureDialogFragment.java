@@ -18,7 +18,8 @@ import com.example.paralect.easytime.views.SignatureView;
 public final class SignatureDialogFragment extends DialogFragment {
 
     public static final String TAG = "CampaignDialogFragment";
-    private SignatureView signatureView;
+    private SignatureView mSignatureView;
+    private SignatureView.SignatureListener mSignatureListener;
 
     public static SignatureDialogFragment show(Activity activity) {
 
@@ -45,15 +46,17 @@ public final class SignatureDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogAnimation);
         populateUI();
-        builder.setView(signatureView);
+        builder.setView(mSignatureView);
         Dialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         return dialog;
     }
 
     private SignatureDialogFragment populateUI() {
-        if (signatureView == null && getActivity() != null)
-            signatureView = new SignatureView(getActivity());
+        if (mSignatureView == null && getActivity() != null) {
+            mSignatureView = new SignatureView(getActivity());
+            mSignatureView.setSignatureListener(mSignatureListener);
+        }
         return this;
     }
 
@@ -72,4 +75,9 @@ public final class SignatureDialogFragment extends DialogFragment {
         dismiss();
     }
 
+    public void setSignatureListener(SignatureView.SignatureListener signatureListener) {
+        mSignatureListener = signatureListener;
+        if (mSignatureView != null)
+            mSignatureView.setSignatureListener(signatureListener);
+    }
 }
