@@ -23,7 +23,8 @@ import com.example.paralect.easytime.main.materials.MaterialsFragment;
 import com.example.paralect.easytime.main.projects.ProjectsFragment;
 import com.example.paralect.easytime.main.settings.SettingsFragment;
 import com.example.paralect.easytime.utils.ViewUtils;
-import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.example.paralect.easytime.utils.anim.AnimUtils;
+import com.github.clans.fab.FloatingActionMenu;
 import com.ncapdevi.fragnav.FragNavController;
 import com.ncapdevi.fragnav.FragNavSwitchController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
@@ -47,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     private FragNavController mNavController;
 
-    private FabAnimListener fabIncAnimListener;
-    private FabAnimListener fabDecAnimListener;
     private Animation incAnim;
     private Animation decAnim;
 
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
     @BindView(R.id.top_shadow_view) View mainTopShadowView;
     @BindView(R.id.overlayContainer) FrameLayout overlayContainer;
-    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.fam) FloatingActionMenu fam;
 
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
@@ -113,33 +112,35 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         return overlayContainer;
     }
 
-    public FloatingActionButton getFab() {
-        return fab;
+    public FloatingActionMenu getFam() {
+        return fam;
+    }
+
+    public void clearFam() {
+        fam.removeAllMenuButtons();
     }
 
     public void showFab(boolean animate) {
         if (animate) {
-            fab.startAnimation(incAnim);
+            fam.startAnimation(incAnim);
         } else {
-            fab.setVisibility(View.VISIBLE);
+            fam.setVisibility(View.VISIBLE);
         }
     }
 
     public void hideFab(boolean animate) {
         if (animate) {
-            fab.startAnimation(decAnim);
+            fam.startAnimation(decAnim);
         } else {
-            fab.setVisibility(View.GONE);
+            fam.setVisibility(View.GONE);
         }
     }
 
     private void initAnim() {
-        fabIncAnimListener = new FabAnimListener(fab, true);
-        fabDecAnimListener = new FabAnimListener(fab, false);
         incAnim = AnimationUtils.loadAnimation(this, R.anim.fab_increase);
         decAnim = AnimationUtils.loadAnimation(this, R.anim.fab_decrease);
-        incAnim.setAnimationListener(fabIncAnimListener);
-        decAnim.setAnimationListener(fabDecAnimListener);
+        incAnim.setAnimationListener(AnimUtils.newAppearingAnimListener(fam));
+        decAnim.setAnimationListener(AnimUtils.newDisappearingAnimListener(fam));
     }
 
     // region Setup Navigation
@@ -259,31 +260,5 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     }
     // endregion
     // endregion
-
-    private static class FabAnimListener implements Animation.AnimationListener {
-
-        private FloatingActionButton fab;
-        private boolean forInc = true; // for decAnim in another case
-
-        private FabAnimListener(FloatingActionButton fab, boolean forInc) {
-            this.fab = fab;
-            this.forInc = forInc;
-        }
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-            fab.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            fab.setVisibility(forInc ? View.VISIBLE : View.GONE);
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    }
 
 }

@@ -46,6 +46,9 @@
 
     <!--materials-->
     <string name="add_your_materials">Add your materials</string>
+    <string name="add_time">Add time</string>
+    <string name="add_material">Add material</string>
+    <string name="add_expenses">Add expenses</string>
     <string name="nav_search">Search</string>
     <string name="material_number">#%d</string>
 
