@@ -29,5 +29,8 @@
     <color name="shadow_start_color">#37000000</color>
 
     <color name="materials_overlay_background">#BC2F3C4F</color>
+    <color name="fam_normal">@color/blue</color>
+    <color name="fam_pressed">#6D89AF</color>
+    <color name="fam_ripple">#6D89AF</color>
 
 </resources>

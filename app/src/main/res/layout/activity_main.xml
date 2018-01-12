@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -74,11 +73,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <com.github.clans.fab.FloatingActionMenu
             android:layout_marginBottom="64dp"
             android:layout_marginRight="12dp"
             android:layout_gravity="bottom|right"
-            android:id="@+id/fab"
+            app:menu_fab_size="normal"
+            app:menu_colorNormal="@color/fam_normal"
+            app:menu_colorPressed="@color/fam_pressed"
+            app:menu_colorRipple="@color/fam_ripple"
+            android:id="@+id/fam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </FrameLayout>

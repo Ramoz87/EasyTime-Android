@@ -33,6 +33,7 @@ ext {
     opencsvVersion = '3.9'
     pageindicatorviewVersion = '1.0.0'
     fabviewVersion = '1.10.1'
+    fabVersion = '1.6.4'
 
     deps = [
 
@@ -49,6 +50,7 @@ ext {
             expandablelayout   : "net.cachapa.expandablelayout:expandablelayout:${expandablelayoutVersion}",
             pageindicatorview  : "com.romandanylyk:pageindicatorview:${pageindicatorviewVersion}",
             fabview            : "com.getbase:floatingactionbutton:${fabviewVersion}",
+            fab                : "com.github.clans:fab:${fabVersion}",
 
             // Injection
             dataBinding        : "com.android.databinding:compiler:${gradleVer}",
