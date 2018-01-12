@@ -212,6 +212,7 @@ public class EasyTimeApplication extends Application {
                 // random date
                 Date date = CalendarUtils.nextDate();
                 String dateString = CalendarUtils.stringFromDate(date, CalendarUtils.DEFAULT_DATE_FORMAT);
+                Log.d(TAG, "new date for job: " + dateString);
                 job.setDate(dateString);
             }
         };

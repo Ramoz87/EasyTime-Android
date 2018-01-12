@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
  * Created by alexei on 26.12.2017.
  */
 
-public class MaterialsFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener {
+public class MaterialsFragment extends BaseFragment {
     private static final String TAG = MaterialsFragment.class.getSimpleName();
 
     @BindView(R.id.list)
@@ -46,23 +46,9 @@ public class MaterialsFragment extends BaseFragment implements FloatingActionMen
     @BindView(R.id.placeholder)
     View placeholder;
 
-    private View overlay;
-    private FloatingActionMenu fam;
-
-    private Animation fadeIn;
-    private Animation fadeOut;
-
-    void onFabClick(FloatingActionButton fab) {
-        FrameLayout overlayContainer = getMainActivity().getOverlayContainer();
-        overlayContainer.addView(overlay, 0);
-    }
-
-    private FragmentNavigator navigator;
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        navigator = (FragmentNavigator) context;
     }
 
     public static MaterialsFragment newInstance() {
@@ -84,10 +70,6 @@ public class MaterialsFragment extends BaseFragment implements FloatingActionMen
 
     private void init() {
         list.setEmptyView(placeholder);
-        fam = getMainActivity().getFam();
-        initFam();
-        initOverlay();
-        initAnimations();
     }
 
     private void initActionBar(ActionBar actionBar) {
@@ -114,100 +96,5 @@ public class MaterialsFragment extends BaseFragment implements FloatingActionMen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
-    }
-
-    public void drawBackground(Drawable drawable) {
-        FrameLayout layout = getMainActivity().getOverlayContainer();
-        layout.setBackground(drawable);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        drawBackground(null);
-        // fab.setVisibility(View.GONE);
-        getMainActivity().hideFab(true);
-        getMainActivity().getOverlayContainer().removeView(overlay);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getMainActivity().showFab(true);
-    }
-
-    private void initOverlay() {
-        final FrameLayout container = getMainActivity().getOverlayContainer();
-        overlay = LayoutInflater.from(getContext()).inflate(R.layout.materials_overlay, container, false);
-        overlay.setVisibility(View.GONE);
-        getMainActivity().getOverlayContainer().addView(overlay, 0);
-        overlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //hideOverlay();
-                fam.close(true);
-            }
-        });
-    }
-
-    // adding overlay on front of app screen but under fam
-    private void showOverlay() {
-        overlay.startAnimation(fadeIn);
-    }
-
-    // removing overlay
-    private void hideOverlay() {
-        overlay.startAnimation(fadeOut);
-    }
-
-    private void initFam() {
-        Log.d(TAG, "initializing fam");
-        Context context = getContext();
-        Resources res = getResources();
-        LayoutInflater inflater = LayoutInflater.from(context);
-        FloatingActionMenu fam = this.fam;
-        getMainActivity().clearFam();
-
-        int white = res.getColor(R.color.blue);
-        Drawable time = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.ic_time).getConstantState().newDrawable());
-        Drawable materials = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.ic_materials).getConstantState().newDrawable());
-        Drawable expenses = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.ic_expense).getConstantState().newDrawable());
-
-        DrawableCompat.setTint(time.mutate(), white);
-        DrawableCompat.setTint(materials.mutate(), white);
-        DrawableCompat.setTint(expenses.mutate(), white);
-
-        FloatingActionButton addTime = (FloatingActionButton) inflater.inflate(R.layout.include_fab, null, false);
-        addTime.setImageDrawable(time);
-        addTime.setLabelText(res.getString(R.string.add_time));
-        fam.addMenuButton(addTime);
-
-        FloatingActionButton addMaterial = (FloatingActionButton) inflater.inflate(R.layout.include_fab, null, false);
-        addMaterial.setImageDrawable(materials);
-        addMaterial.setLabelText(res.getString(R.string.add_material));
-        fam.addMenuButton(addMaterial);
-
-        FloatingActionButton addExpenses = (FloatingActionButton) inflater.inflate(R.layout.include_fab, null, false);
-        addExpenses.setImageDrawable(expenses);
-        addExpenses.setLabelText(res.getString(R.string.add_expenses));
-        fam.addMenuButton(addExpenses);
-
-        fam.setOnMenuToggleListener(this);
-    }
-
-    private void initAnimations() {
-        fadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-        fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-        fadeIn.setAnimationListener(AnimUtils.newAppearingAnimListener(overlay));
-        fadeOut.setAnimationListener(AnimUtils.newDisappearingAnimListener(overlay));
-    }
-
-    @Override
-    public void onMenuToggle(boolean opened) {
-        if (opened) {
-            showOverlay();
-        } else {
-            hideOverlay();
-        }
     }
 }
