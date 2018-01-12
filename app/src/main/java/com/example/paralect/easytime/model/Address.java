@@ -150,13 +150,17 @@ public class Address implements Parcelable {
     public String getQueryAddress() {
         StringBuilder builder = new StringBuilder();
         builder.append("geo:0,0?q=");
-        if (!TextUtils.isEmpty(country))
+        if (TextUtil.isNotEmpty(country))
             builder.append("+").append(country);
-        if (!TextUtils.isEmpty(city))
+        if (TextUtil.isNotEmpty(city))
             builder.append("+").append(city);
-        if (!TextUtils.isEmpty(street))
+        if (TextUtil.isNotEmpty(street))
             builder.append("+").append(street);
         return builder.toString();
+    }
+
+    public boolean hasAnyAddress(){
+        return TextUtil.isNotEmpty(country) || TextUtil.isNotEmpty(city) || TextUtil.isNotEmpty(street);
     }
 
     public static Address mock() {

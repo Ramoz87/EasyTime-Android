@@ -6,6 +6,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ImageSpan;
 
 /**
@@ -13,6 +14,14 @@ import android.text.style.ImageSpan;
  */
 
 public class TextUtil {
+
+    public static boolean isEmpty(CharSequence str) {
+        return TextUtils.isEmpty(str);
+    }
+
+    public static boolean isNotEmpty(CharSequence str) {
+        return !TextUtils.isEmpty(str);
+    }
 
     public static SpannableString getSpannableDateString(@NonNull Context context, @NonNull String text, @DrawableRes int id) {
         String space = "   ";
