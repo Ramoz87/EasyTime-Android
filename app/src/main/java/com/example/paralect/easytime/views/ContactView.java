@@ -4,12 +4,12 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Contact;
+import com.example.paralect.easytime.utils.IntentUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +23,9 @@ public class ContactView extends FrameLayout {
 
     @BindView(R.id.customer_name) TextView nameTextView;
     @BindView(R.id.customer_address) TextView addressTextView;
+
+    private Contact mContact;
+    private Address mAddress;
 
     public ContactView(Context context) {
         this(context, null);
@@ -43,24 +46,31 @@ public class ContactView extends FrameLayout {
     }
 
     public void setCustomer(Contact contact, Address address) {
-        if (contact != null && address != null) {
-            nameTextView.setText(contact.getFullName());
-            addressTextView.setText(address.getFullAddress());
+        mContact = contact;
+        mAddress = address;
+        if (mContact != null && mAddress != null) {
+            nameTextView.setText(mContact.getFullName());
+            addressTextView.setText(mAddress.getFullAddress());
         }
     }
 
     @OnClick(R.id.customer_call_button)
     public void onClickCall() {
-
+        if (mContact != null)
+            IntentUtils.phoneIntent(getContext(), mContact.getPhone());
     }
 
     @OnClick(R.id.customer_email_button)
     public void onClickMail() {
-
+        if (mContact != null)
+            IntentUtils.emailIntent(getContext(), mContact.getEmail());
     }
 
     @OnClick(R.id.customer_map_button)
     public void onClickMap() {
-
+        if (mAddress != null) {
+            String query = "geo:0,0?q=" + mAddress.getCountry() + "+" + mAddress.getCity() + "+" + mAddress.getStreet();
+            IntentUtils.mapIntent(getContext(), query);
+        }
     }
 }
