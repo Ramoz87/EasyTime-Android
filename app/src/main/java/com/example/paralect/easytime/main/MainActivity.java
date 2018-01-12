@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
     @BindView(R.id.top_shadow_view) View mainTopShadowView;
-    @BindView(R.id.overlayContainer) FrameLayout overlayContainer;
-    @BindView(R.id.fam) FloatingActionMenu fam;
 
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
@@ -73,8 +71,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         ViewUtils.disableToolbarAnimation(toolbar);
 
         initNavigationView(savedInstanceState);
-        initAnim();
-        hideFab(false);
     }
 
     @Override
@@ -106,41 +102,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     public void showMainTopShadow(boolean show) {
         mainTopShadowView.setVisibility(show ? View.VISIBLE : View.GONE);
-    }
-
-    public FrameLayout getOverlayContainer() {
-        return overlayContainer;
-    }
-
-    public FloatingActionMenu getFam() {
-        return fam;
-    }
-
-    public void clearFam() {
-        fam.removeAllMenuButtons();
-    }
-
-    public void showFab(boolean animate) {
-        if (animate) {
-            fam.startAnimation(incAnim);
-        } else {
-            fam.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void hideFab(boolean animate) {
-        if (animate) {
-            fam.startAnimation(decAnim);
-        } else {
-            fam.setVisibility(View.GONE);
-        }
-    }
-
-    private void initAnim() {
-        incAnim = AnimationUtils.loadAnimation(this, R.anim.fab_increase);
-        decAnim = AnimationUtils.loadAnimation(this, R.anim.fab_decrease);
-        incAnim.setAnimationListener(AnimUtils.newAppearingAnimListener(fam));
-        decAnim.setAnimationListener(AnimUtils.newDisappearingAnimListener(fam));
     }
 
     // region Setup Navigation

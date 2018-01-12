@@ -50,8 +50,20 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     @BindView(R.id.emptyListPlaceholder)
     View emptyListPlaceholder;
 
-    private View overlay;
-    private FloatingActionMenu fam;
+    @BindView(R.id.overlay)
+    View overlay;
+
+    @BindView(R.id.fam)
+    FloatingActionMenu fam;
+
+    @BindView(R.id.addTime)
+    FloatingActionButton addTime;
+
+    @BindView(R.id.addMaterials)
+    FloatingActionButton addMaterials;
+
+    @BindView(R.id.addExpenses)
+    FloatingActionButton addExpenses;
 
     private Animation fadeIn;
     private Animation fadeOut;
@@ -93,7 +105,6 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         emptyRecyclerView.setEmptyView(emptyListPlaceholder);
-        fam = getMainActivity().getFam();
         initFam();
         initOverlay();
         initAnimations();
@@ -109,21 +120,15 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     @Override
     public void onPause() {
         super.onPause();
-        getMainActivity().hideFab(true);
-        getMainActivity().getOverlayContainer().removeView(overlay);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getMainActivity().showFab(true);
     }
 
     private void initOverlay() {
-        final FrameLayout container = getMainActivity().getOverlayContainer();
-        overlay = LayoutInflater.from(getContext()).inflate(R.layout.materials_overlay, container, false);
         overlay.setVisibility(View.GONE);
-        getMainActivity().getOverlayContainer().addView(overlay, 0);
         overlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,34 +152,6 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         Log.d(TAG, "initializing fam");
         Context context = getContext();
         Resources res = getResources();
-        LayoutInflater inflater = LayoutInflater.from(context);
-        FloatingActionMenu fam = this.fam;
-        getMainActivity().clearFam();
-
-        int white = res.getColor(R.color.blue);
-        Drawable time = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.ic_time).getConstantState().newDrawable());
-        Drawable materials = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.ic_materials).getConstantState().newDrawable());
-        Drawable expenses = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.ic_expense).getConstantState().newDrawable());
-
-        DrawableCompat.setTint(time.mutate(), white);
-        DrawableCompat.setTint(materials.mutate(), white);
-        DrawableCompat.setTint(expenses.mutate(), white);
-
-        FloatingActionButton addTime = (FloatingActionButton) inflater.inflate(R.layout.include_fab, null, false);
-        addTime.setImageDrawable(time);
-        addTime.setLabelText(res.getString(R.string.add_time));
-        fam.addMenuButton(addTime);
-
-        FloatingActionButton addMaterial = (FloatingActionButton) inflater.inflate(R.layout.include_fab, null, false);
-        addMaterial.setImageDrawable(materials);
-        addMaterial.setLabelText(res.getString(R.string.add_material));
-        fam.addMenuButton(addMaterial);
-
-        FloatingActionButton addExpenses = (FloatingActionButton) inflater.inflate(R.layout.include_fab, null, false);
-        addExpenses.setImageDrawable(expenses);
-        addExpenses.setLabelText(res.getString(R.string.add_expenses));
-        fam.addMenuButton(addExpenses);
-
         fam.setOnMenuToggleListener(this);
     }
 

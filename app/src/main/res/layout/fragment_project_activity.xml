@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/mainBackground"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -67,5 +68,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <View
+        android:background="@color/materials_overlay_background"
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:layout_marginBottom="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_gravity="bottom|right"
+        app:menu_colorNormal="@color/blue"
+        app:menu_colorPressed="@color/blue"
+        app:menu_colorRipple="@color/blue"
+        android:id="@+id/fam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.github.clans.fab.FloatingActionButton
+            app:fab_label="@string/add_time"
+            android:id="@+id/addTime"
+            android:src="@drawable/ic_time"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/gray"
+            app:fab_colorRipple="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.github.clans.fab.FloatingActionButton
+            app:fab_label="@string/add_material"
+            android:id="@+id/addMaterials"
+            android:src="@drawable/ic_materials"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/gray"
+            app:fab_colorRipple="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.github.clans.fab.FloatingActionButton
+            app:fab_label="@string/add_expenses"
+            android:id="@+id/addExpenses"
+            android:src="@drawable/ic_expense"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/gray"
+            app:fab_colorRipple="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.github.clans.fab.FloatingActionMenu>
 
 </FrameLayout>
