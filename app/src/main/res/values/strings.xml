@@ -51,6 +51,7 @@
     <string name="add_material">Add material</string>
     <string name="add_expenses">Add expenses</string>
     <string name="nav_search">Search</string>
+    <string name="nav_new">New</string>
     <string name="material_number">#%d</string>
 
     <!--job info-->

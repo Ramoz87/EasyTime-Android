@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.projects.project;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,11 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.views.SignatureView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,8 +50,13 @@ public class ProjectFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_project, parent, false);
     }
 
@@ -68,13 +76,40 @@ public class ProjectFragment extends Fragment {
 
     private Job getJobArg() {
         Bundle args = getArguments();
-        if (args.containsKey(ARG_JOB))
+        if (args != null && args.containsKey(ARG_JOB))
             return args.getParcelable(ARG_JOB);
         else return null;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
+        inflater.inflate(R.menu.menu_new_file, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.item_new:
+                showSignatureDialog();
+                return true;
+        }
+        return true;
+    }
+
+     private void showSignatureDialog(){
+         final SignatureDialogFragment signatureDialogFragment = SignatureDialogFragment.show(getActivity());
+         signatureDialogFragment.setSignatureListener(new SignatureView.SignatureListener() {
+             @Override
+             public void onSigned(boolean signedByMe, byte[] signature) {
+                 signatureDialogFragment.dismiss();
+             }
+
+             @Override
+             public void onCanceled() {
+                 signatureDialogFragment.dismiss();
+             }
+         });
+     }
 }
