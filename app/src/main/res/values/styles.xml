@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -12,6 +12,9 @@
         <item name="header_color">@color/gray_header</item>
         <item name="header_text_color">@color/dark_gray_header</item>
 
+        <item name="android:datePickerDialogTheme" tools:targetApi="lollipop">@style/Widget.DialogPicker</item>
+        <item name="android:timePickerDialogTheme" tools:targetApi="lollipop">@style/Widget.DialogPicker</item>
+        
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -26,8 +29,10 @@
     <style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="colorAccent">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
-        <!--<item name="contentInsetStart">1dp</item>-->
-        <!--<item name="android:contentInsetStart">1dp</item>-->
+    </style>
+
+    <style name="Widget.DialogPicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
 </resources>
