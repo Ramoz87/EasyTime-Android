@@ -9,7 +9,7 @@
     app:rowCount="4"
     app:columnCount="4"
     android:id="@+id/keypadContent"
-    android:padding="@dimen/keypad_item_margin">
+    android:paddingTop="@dimen/keypad_item_margin">
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id1"
@@ -37,7 +37,6 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:drawableBottom="@drawable/ic_next"
-        android:padding="40dp"
         android:id="@+id/keypadNext"
         android:layout_margin="@dimen/keypad_item_margin"
         android:background="@color/white"
@@ -102,7 +101,6 @@
         android:id="@+id/keypadDelete"
         android:layout_margin="@dimen/keypad_item_margin"
         android:background="@color/white"
-        android:padding="60dp"
         app:layout_columnWeight="1"
         app:layout_rowWeight="2"
         android:src="@drawable/ic_delete"

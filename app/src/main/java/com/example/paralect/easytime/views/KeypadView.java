@@ -2,16 +2,20 @@ package com.example.paralect.easytime.views;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayout;
+import android.text.method.Touch;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.utils.TouchHandler;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -22,7 +26,7 @@ import butterknife.ButterKnife;
  * Created by alexei on 12.01.2018.
  */
 
-public class KeypadView extends ExpandableLayout implements View.OnClickListener {
+public class KeypadView extends ExpandableLayout {
     private static final String TAG = KeypadView.class.getSimpleName();
 
     @BindView(R.id.keypadContent)
@@ -33,6 +37,38 @@ public class KeypadView extends ExpandableLayout implements View.OnClickListener
 
     @BindView(R.id.keypadDelete)
     View delete;
+
+    private OnTouchListener getNewNumberHandler() {
+        return new TouchHandler() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "clicked view has some tag");
+                Integer number = (Integer) v.getTag();
+
+                if (onKeypadItemClickListener != null) {
+                    onKeypadItemClickListener.onNumberClick(number);
+                }
+            }
+        };
+    }
+
+    private final OnTouchListener nextHandler = new TouchHandler() {
+        @Override
+        public void onClick(View v) {
+            if (onKeypadItemClickListener != null) {
+                onKeypadItemClickListener.onNextClick();
+            }
+        }
+    };
+
+    private final OnTouchListener deleteHandler = new TouchHandler() {
+        @Override
+        public void onClick(View v) {
+            if (onKeypadItemClickListener != null) {
+                onKeypadItemClickListener.onDeleteClick();
+            }
+        }
+    };
 
     public void setOnKeypadItemClickListener(OnKeypadItemClickListener onKeypadItemClickListener) {
         this.onKeypadItemClickListener = onKeypadItemClickListener;
@@ -79,42 +115,29 @@ public class KeypadView extends ExpandableLayout implements View.OnClickListener
         int count = keypadContent.getChildCount();
         for (int i = 0; i < count; i++) {
             View child = keypadContent.getChildAt(i);
-            child.setOnClickListener(this);
             int id = child.getId();
             if (id == R.id.id0) setupNumberItem(child, 0);
-            if (id == R.id.id1) setupNumberItem(child, 1);
-            if (id == R.id.id2) setupNumberItem(child, 2);
-            if (id == R.id.id3) setupNumberItem(child, 3);
-            if (id == R.id.id4) setupNumberItem(child, 4);
-            if (id == R.id.id5) setupNumberItem(child, 5);
-            if (id == R.id.id6) setupNumberItem(child, 6);
-            if (id == R.id.id7) setupNumberItem(child, 7);
-            if (id == R.id.id8) setupNumberItem(child, 8);
-            if (id == R.id.id9) setupNumberItem(child, 9);
-
+            else if (id == R.id.id1) setupNumberItem(child, 1);
+            else if (id == R.id.id2) setupNumberItem(child, 2);
+            else if (id == R.id.id3) setupNumberItem(child, 3);
+            else if (id == R.id.id4) setupNumberItem(child, 4);
+            else if (id == R.id.id5) setupNumberItem(child, 5);
+            else if (id == R.id.id6) setupNumberItem(child, 6);
+            else if (id == R.id.id7) setupNumberItem(child, 7);
+            else if (id == R.id.id8) setupNumberItem(child, 8);
+            else if (id == R.id.id9) setupNumberItem(child, 9);
+            else if (id == R.id.keypadNext) {
+                child.setOnTouchListener(nextHandler);
+            } else if (id == R.id.keypadDelete) {
+                child.setOnTouchListener(deleteHandler);
+            }
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        Log.d(TAG, "on click");
-        if (onKeypadItemClickListener == null) return;
-
-        Object tag = view.getTag();
-        if (tag != null) { // we assume its a number item
-            Log.d(TAG, "clicked view has some tag");
-            TextView numberItem = (TextView) view;
-            Integer number = (Integer) tag;
-            onKeypadItemClickListener.onNumberClick(number);
-        } else if (view.getId() == R.id.keypadNext) {
-            onKeypadItemClickListener.onNextClick();
-        } else if (view.getId() == R.id.keypadDelete) {
-            onKeypadItemClickListener.onDeleteClick();
-        }
-    }
 
     private void setupNumberItem(View view, int number) {
         ((TextView) view).setText(String.valueOf(number));
         view.setTag(number);
+        view.setOnTouchListener(getNewNumberHandler());
     }
 }

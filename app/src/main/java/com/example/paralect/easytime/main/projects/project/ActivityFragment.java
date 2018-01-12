@@ -156,10 +156,13 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     }
 
     private void initAnimations() {
+        int duration = 100;
         fadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
         fadeIn.setAnimationListener(AnimUtils.newAppearingAnimListener(overlay));
         fadeOut.setAnimationListener(AnimUtils.newDisappearingAnimListener(overlay));
+        fadeIn.setDuration(duration);
+        fadeOut.setDuration(duration);
     }
 
     @Override
