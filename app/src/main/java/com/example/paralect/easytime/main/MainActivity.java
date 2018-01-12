@@ -74,14 +74,8 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         ViewUtils.disableToolbarAnimation(toolbar);
 
         initNavigationView(savedInstanceState);
-
         initAnim();
-
         hideFab(false);
-        //Elevation
-//        ViewCompat.setElevation(toolbar, 0);
-//        appBarLayout.setElevation(0);
-//        appBarLayout.setTargetElevation(0);
     }
 
     @Override
