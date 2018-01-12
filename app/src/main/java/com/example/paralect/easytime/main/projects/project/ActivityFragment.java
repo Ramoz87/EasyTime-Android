@@ -25,6 +25,7 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
+import com.example.paralect.easytime.views.SignatureView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -170,4 +171,21 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
             hideOverlay();
         }
     }
+
+    /*   TODO find a place where to launch it
+
+     final SignatureDialogFragment signatureDialogFragment = SignatureDialogFragment.show(getActivity());
+        signatureDialogFragment.setSignatureListener(new SignatureView.SignatureListener() {
+            @Override
+            public void onSigned(boolean signedByMe, byte[] signature) {
+                signatureDialogFragment.dismiss();
+            }
+
+            @Override
+            public void onCanceled() {
+                signatureDialogFragment.dismiss();
+            }
+        });
+
+     */
 }
