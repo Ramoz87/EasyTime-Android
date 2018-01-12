@@ -137,18 +137,6 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     // adding overlay on front of app screen but under fam
     private void showOverlay() {
         overlay.startAnimation(fadeIn);
-        final SignatureDialogFragment signatureDialogFragment = SignatureDialogFragment.show(getActivity());
-        signatureDialogFragment.setSignatureListener(new SignatureView.SignatureListener() {
-            @Override
-            public void onSigned(boolean signedByMe, byte[] signature) {
-                signatureDialogFragment.dismiss();
-            }
-
-            @Override
-            public void onCanceled() {
-                signatureDialogFragment.dismiss();
-            }
-        });
     }
 
     // removing overlay
@@ -206,4 +194,21 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
             hideOverlay();
         }
     }
+
+    /*   TODO find a place where to launch it
+
+     final SignatureDialogFragment signatureDialogFragment = SignatureDialogFragment.show(getActivity());
+        signatureDialogFragment.setSignatureListener(new SignatureView.SignatureListener() {
+            @Override
+            public void onSigned(boolean signedByMe, byte[] signature) {
+                signatureDialogFragment.dismiss();
+            }
+
+            @Override
+            public void onCanceled() {
+                signatureDialogFragment.dismiss();
+            }
+        });
+
+     */
 }
