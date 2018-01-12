@@ -35,4 +35,13 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="DialogAnimation" parent="Base.Theme.AppCompat.Dialog">
+        <item name="android:windowAnimationStyle">@style/WindowAnimation</item>
+    </style>
+
+    <style name="WindowAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
 </resources>

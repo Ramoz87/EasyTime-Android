@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/signature_title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="15dp"
+        android:textStyle="bold"
+        android:text="@string/signature_title"
+        android:textColor="@color/white"
+        android:textSize="20sp"/>
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/signature_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signature_title_text_view"
+        android:padding="15dp"
+        android:text="@string/signature_switcher"
+        android:textSize="16sp"/>
+
+    <com.example.paralect.easytime.views.CanvasView
+        android:id="@+id/signature_canvas_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/signature_sign_button"
+        android:layout_below="@+id/signature_switcher"/>
+
+    <View
+        android:id="@+id/signature_shadow_view"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/signature_switcher"
+        android:background="@drawable/shadow_from_top"/>
+
+    <Button
+        android:id="@+id/signature_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/signature_sign_button"
+        android:layout_toStartOf="@+id/signature_sign_button"
+        android:background="@android:color/transparent"
+        android:text="@android:string/cancel"
+        android:textColor="@color/dark_gray"/>
+
+    <Button
+        android:id="@+id/signature_sign_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        android:text="@string/signature_sign"
+        android:textColor="@color/colorPrimary"/>
+
+</RelativeLayout>

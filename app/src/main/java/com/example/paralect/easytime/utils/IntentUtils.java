@@ -1,9 +1,11 @@
 package com.example.paralect.easytime.utils;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -57,6 +59,14 @@ public class IntentUtils {
                 e.printStackTrace();
                 Toast.makeText(context, "Map application is not found.", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    public static boolean isFinishing(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return activity == null || activity.isFinishing() || activity.isDestroyed();
+        } else {
+            return activity == null || activity.isFinishing();
         }
     }
 }
