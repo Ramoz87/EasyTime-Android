@@ -2,25 +2,51 @@ package com.example.paralect.easytime.main.materials.chooser;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.text.InputType;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.views.KeypadView;
 
+import java.security.Key;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by alexei on 12.01.2018.
  */
 
-public class MaterialEditorFragment extends BaseFragment {
+public class MaterialEditorFragment extends BaseFragment implements KeypadView.OnKeypadItemClickListener {
+
+    public static final String ARG_MATERIAL = "arg_material";
+
+    @BindView(R.id.keypad) KeypadView keypadView;
+    @BindView(R.id.materialName) TextView materialName;
+    @BindView(R.id.materialNumber) TextView materialNumber;
+    @BindView(R.id.materialCount) EditText materialCount;
 
     public static MaterialEditorFragment newInstance() {
         return new MaterialEditorFragment();
+    }
+
+    public static MaterialEditorFragment newInstance(Material material) {
+        Bundle args = new Bundle(1);
+        args.putParcelable(ARG_MATERIAL, material);
+        MaterialEditorFragment fragment = new MaterialEditorFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -32,6 +58,16 @@ public class MaterialEditorFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+
+        materialCount.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        materialCount.setTextIsSelectable(true);
+        materialCount.requestFocus();
+
+        keypadView.setOnKeypadItemClickListener(this);
+
+        Material material = getMaterialArg();
+        materialName.setText(material.getName());
+        materialNumber.setText(getResources().getString(R.string.material_number, material.getMaterialNr()));
     }
 
     @Override
@@ -47,5 +83,36 @@ public class MaterialEditorFragment extends BaseFragment {
     @Override
     public boolean needsOptionsMenu() {
         return false;
+    }
+
+    @Override
+    public void onNextClick() {
+        // Toast.makeText(getContext(), "Clicked on next", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteClick() {
+        int selection = materialCount.getSelectionStart();
+        String text = materialCount.getText().toString();
+        if (!text.isEmpty()) text = text.substring(selection, text.length() - 1);
+        materialCount.setText(text);
+        materialCount.setSelection(text.length());
+        // Toast.makeText(getContext(), "Clicked on delete", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNumberClick(int number) {
+        int selection = materialCount.getSelectionStart();
+        String text = materialCount.getText().toString();
+        text += number;
+        materialCount.setText(text);
+        materialCount.setSelection(text.length());
+        // Toast.makeText(getContext(), "Clicked on " + number, Toast.LENGTH_SHORT).show();
+    }
+
+    private Material getMaterialArg() {
+        Bundle args = getArguments();
+        if (args == null || !args.containsKey(ARG_MATERIAL)) return null;
+        else return args.getParcelable(ARG_MATERIAL);
     }
 }

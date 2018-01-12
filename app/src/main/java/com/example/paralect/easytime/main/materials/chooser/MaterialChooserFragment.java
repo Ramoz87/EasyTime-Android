@@ -74,7 +74,7 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Fragment fragment = MaterialEditorFragment.newInstance();
+        Fragment fragment = MaterialEditorFragment.newInstance(adapter.getItem(i));
         navigator.pushFragment(fragment);
     }
 }
