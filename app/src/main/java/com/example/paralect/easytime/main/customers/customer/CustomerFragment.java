@@ -17,6 +17,8 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.JobsContainer;
+import com.example.paralect.easytime.utils.ListUtil;
+import com.example.paralect.easytime.utils.ViewUtils;
 import com.rd.PageIndicatorView;
 
 import butterknife.BindView;
@@ -100,18 +102,25 @@ public class CustomerFragment extends BaseFragment implements IDataView<Customer
     @Override
     public void onDataReceived(Customer customer) {
         // set contacts
-        final ContactsAdapter contactsAdapter = new ContactsAdapter(customer.getContacts(), customer.getAddress());
-        contactsViewPager.setAdapter(contactsAdapter);
-        pageIndicatorView.setViewPager(contactsViewPager);
+        if (customer != null) {
+            final ContactsAdapter contactsAdapter = new ContactsAdapter(customer.getContacts(), customer.getAddress());
+            contactsViewPager.setAdapter(contactsAdapter);
+            pageIndicatorView.setViewPager(contactsViewPager);
+            if (customer.getContacts() != null) {
+                ViewUtils.setVisibility(pageIndicatorView, customer.getContacts().size() > 1);
+            }
+        }
     }
 
     @Override
     public void onJobsReceived(JobsContainer jobs) {
         // set jobs
-        final FragmentManager fm = getChildFragmentManager();
-        final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, jobs);
-        jobsViewPager.setAdapter(adapter);
-        tabs.setupWithViewPager(jobsViewPager);
+        if (jobs != null) {
+            final FragmentManager fm = getChildFragmentManager();
+            final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, jobs);
+            jobsViewPager.setAdapter(adapter);
+            tabs.setupWithViewPager(jobsViewPager);
+        }
     }
 
 }

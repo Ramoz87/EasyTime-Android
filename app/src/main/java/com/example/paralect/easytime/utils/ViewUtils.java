@@ -111,4 +111,9 @@ public final class ViewUtils {
         }
         return toolbarTitle;
     }
+
+    public static void setVisibility(View view, boolean visible){
+        int visibility = visible ? View.VISIBLE : View.GONE;
+        view.setVisibility(visibility);
+    }
 }

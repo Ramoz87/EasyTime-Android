@@ -87,10 +87,10 @@ public class Contact implements Parcelable {
         return firstName + " " + lastName;
     }
 
-    public static List<Contact> getMockContacts() {
+    public static List<Contact> getMockContacts(int size) {
         List<Contact> contacts = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < size; i++) {
             Contact contact = new Contact();
             contact.contactId = i;
             contact.email = "mock_" + i + "@gmail.com";
