@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
@@ -21,6 +22,7 @@ import android.widget.FrameLayout;
 
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.FragmentNavigator;
+import com.example.paralect.easytime.main.materials.chooser.MaterialChooserFragment;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
@@ -32,6 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -46,9 +49,22 @@ public class MaterialsFragment extends BaseFragment {
     @BindView(R.id.placeholder)
     View placeholder;
 
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
+    private FragmentNavigator navigator;
+
+    @OnClick(R.id.fab)
+    void onFabClick(FloatingActionButton fab) {
+        Log.d(TAG, "on fab click");
+        Fragment chooser = MaterialChooserFragment.newInstance();
+        navigator.pushFragment(chooser);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        navigator = (FragmentNavigator) context;
     }
 
     public static MaterialsFragment newInstance() {

@@ -39,8 +39,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:src="@drawable/arrow_add_material"
-            android:layout_marginRight="64dp"
-            android:layout_marginBottom="100dp"
+            android:layout_marginRight="@dimen/arrow_add_right_margin"
+            android:layout_marginBottom="@dimen/arrow_add_bottom_margin"
             android:layout_width="34dp"
             android:layout_height="48dp" />
     </RelativeLayout>
@@ -76,8 +76,8 @@
         android:layout_height="match_parent"/>
 
     <com.github.clans.fab.FloatingActionMenu
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginBottom="@dimen/fab_bottom_margin"
+        android:layout_marginRight="@dimen/fab_right_margin"
         android:layout_gravity="bottom|right"
         app:menu_colorNormal="@color/blue"
         app:menu_colorPressed="@color/blue"
