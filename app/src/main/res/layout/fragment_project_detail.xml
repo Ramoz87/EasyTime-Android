@@ -75,45 +75,27 @@
         android:layout_height="match_parent"/>
 
     <com.github.clans.fab.FloatingActionMenu
-        android:layout_marginBottom="@dimen/fab_bottom_margin"
-        android:layout_marginRight="@dimen/fab_right_margin"
-        android:layout_gravity="bottom|right"
-        app:menu_colorNormal="@color/blue"
-        app:menu_colorPressed="@color/blue"
-        app:menu_colorRipple="@color/blue"
         android:id="@+id/fam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        style="@style/FloatingActionButtonNormalStyle">
 
         <com.github.clans.fab.FloatingActionButton
             app:fab_label="@string/project_detail_send"
             android:id="@+id/action_send"
             android:src="@drawable/ic_send_black_24dp"
-            app:fab_colorNormal="@color/white"
-            app:fab_colorPressed="@color/gray"
-            app:fab_colorRipple="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/FloatingActionButtonMiniStyle" />
 
         <com.github.clans.fab.FloatingActionButton
             app:fab_label="@string/project_detail_save"
             android:id="@+id/action_save"
             android:src="@drawable/ic_save_black_24dp"
-            app:fab_colorNormal="@color/white"
-            app:fab_colorPressed="@color/gray"
-            app:fab_colorRipple="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/FloatingActionButtonMiniStyle" />
 
         <com.github.clans.fab.FloatingActionButton
             app:fab_label="@string/project_detail_sign"
             android:id="@+id/action_sign"
             android:src="@drawable/ic_edit_black_24dp"
-            app:fab_colorNormal="@color/white"
-            app:fab_colorPressed="@color/gray"
-            app:fab_colorRipple="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/FloatingActionButtonMiniStyle" />
+
     </com.github.clans.fab.FloatingActionMenu>
 
 </FrameLayout>

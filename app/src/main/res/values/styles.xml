@@ -44,4 +44,23 @@
         <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
     </style>
 
+    <style name="FloatingActionButtonMiniStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fab_colorNormal">@color/white</item>
+        <item name="fab_colorPressed">@color/gray</item>
+        <item name="fab_colorRipple">@color/white</item>
+    </style>
+
+    <style name="FloatingActionButtonNormalStyle">
+        <item name="android:layout_marginBottom">@dimen/fab_bottom_margin</item>
+        <item name="android:layout_marginRight">@dimen/fab_bottom_margin</item>
+        <item name="android:layout_gravity">bottom|right</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="menu_colorNormal">@color/blue</item>
+        <item name="menu_colorPressed">@color/blue</item>
+        <item name="menu_colorRipple">@color/blue</item>
+    </style>
+
 </resources>
