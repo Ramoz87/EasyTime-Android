@@ -58,7 +58,7 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
         inflater.inflate(R.menu.menu_search, menu);
         presenter.setDataView(this)
                 .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
-                .requestData(new String[]{"", null});
+                .requestData(new String[]{null});
     }
 
     @Override

@@ -44,6 +44,7 @@
     <string name="placeholder_material_number">#66565</string>
     <string name="placeholder_activity_date">30 November</string>
     <string name="placeholder_keypad_number">1</string>
+    <string name="placeholder_material_count">22</string>
 
     <!--materials-->
     <string name="add_your_materials">Add your materials</string>

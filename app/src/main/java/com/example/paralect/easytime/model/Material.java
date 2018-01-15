@@ -3,6 +3,7 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -36,6 +37,12 @@ public class Material implements Parcelable {
 
     @DatabaseField(columnName = "unitId")
     private String unitId;
+
+    @DatabaseField(columnName = "isAdded", dataType = DataType.BOOLEAN)
+    private boolean isAdded = false;
+
+    @DatabaseField(columnName = "count")
+    private int count = 0;
 
     public Material() {
 
@@ -148,5 +155,21 @@ public class Material implements Parcelable {
     @Override
     public String toString() {
         return name;
+    }
+
+    public boolean isAdded() {
+        return isAdded;
+    }
+
+    public void setAdded(boolean added) {
+        isAdded = added;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

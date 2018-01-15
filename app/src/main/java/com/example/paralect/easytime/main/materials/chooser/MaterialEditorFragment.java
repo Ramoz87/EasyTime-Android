@@ -3,6 +3,7 @@ package com.example.paralect.easytime.main.materials.chooser;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.KeypadView;
@@ -26,6 +28,7 @@ import butterknife.ButterKnife;
  */
 
 public class MaterialEditorFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener {
+    private static final String TAG = MaterialEditorFragment.class.getSimpleName();
 
     public static final String ARG_MATERIAL = "arg_material";
 
@@ -56,6 +59,12 @@ public class MaterialEditorFragment extends BaseFragment implements KeypadEditor
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        Material material = getMaterialArg();
+        int count = material.getCount();
+        if (count > 0) {
+            materialCount.setText(String.valueOf(count));
+        }
+
         materialCount.setRawInputType(InputType.TYPE_CLASS_TEXT);
         materialCount.setTextIsSelectable(true);
         materialCount.requestFocus();
@@ -63,7 +72,6 @@ public class MaterialEditorFragment extends BaseFragment implements KeypadEditor
         keypadEditorView.setOnCompletionListener(this);
         keypadEditorView.setupEditText(materialCount);
 
-        Material material = getMaterialArg();
         materialName.setText(material.getName());
         materialNumber.setText(getResources().getString(R.string.material_number, material.getMaterialNr()));
     }
@@ -91,6 +99,13 @@ public class MaterialEditorFragment extends BaseFragment implements KeypadEditor
 
     @Override
     public void onCompletion(String result) {
+        Material material = getMaterialArg();
+        material.setAdded(true);
+        int count = Integer.valueOf(materialCount.getText().toString());
+        material.setCount(count);
+        EasyTimeManager.getInstance().updateMaterial(material);
+
+        Log.d(TAG, String.format("completed: material = %s, count = %s", material.getName(), material.getCount()));
         Toast.makeText(getContext(), "Completed", Toast.LENGTH_SHORT).show();
     }
 }

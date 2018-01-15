@@ -41,7 +41,7 @@ public class MaterialChooserPresenter extends SearchViewPresenter<SortedMap<Char
 
                     if (!emitter.isDisposed()) {
                         String query = parameters != null && parameters.length > 0 ? parameters[0] : null;
-                        List<Material> materials = EasyTimeManager.getInstance().getMaterials(query);
+                        List<Material> materials = EasyTimeManager.getInstance().getMaterials();
                         // split list of materials alphabetically
                         SortedMap<Character, List<Material>> map = sorter.getSortedItems(materials, comparator);
                         emitter.onNext(map);

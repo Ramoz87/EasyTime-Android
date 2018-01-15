@@ -164,7 +164,15 @@ public final class EasyTimeManager {
     // endregion
 
     public List<Material> getMaterials() {
-        return getMaterials(null);
+        List<Material> materials = new ArrayList<>();
+        try {
+            Dao<Material, String> dao = helper.getMaterialDao();
+            materials.addAll(dao.queryForAll());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return materials;
+        // return getMaterials(null);
     }
 
     public List<Material> getMaterials(String query) {
@@ -202,4 +210,27 @@ public final class EasyTimeManager {
         return customers;
     }
 
+    public void updateMaterial(Material material) {
+        try {
+            Dao<Material, String> dao = helper.getMaterialDao();
+            dao.update(material);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Material> getMyMaterials() {
+        List<Material> materials = new ArrayList<>();
+        try {
+            Dao<Material, String> dao = helper.getMaterialDao();
+            QueryBuilder<Material, String> qb = dao.queryBuilder();
+            // Where where = null;
+            qb.where().like("isAdded", true);
+            List<Material> myMaterials = qb.query();
+            materials.addAll(myMaterials);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return materials;
+    }
 }
