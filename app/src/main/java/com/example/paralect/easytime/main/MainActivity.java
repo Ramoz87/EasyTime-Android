@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
                 mNavController.popFragment();
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
