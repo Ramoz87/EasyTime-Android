@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.expenses.ExpensesFragment;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
@@ -65,6 +67,12 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @BindView(R.id.addExpenses)
     FloatingActionButton addExpenses;
+
+    @OnClick(R.id.addTime)
+    void addTime(FloatingActionButton fab) {
+        Fragment fragment = ExpensesFragment.newInstance();
+        getMainActivity().pushFragment(fragment);
+    }
 
     private Animation fadeIn;
     private Animation fadeOut;

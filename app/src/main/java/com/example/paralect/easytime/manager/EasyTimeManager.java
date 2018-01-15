@@ -6,6 +6,7 @@ import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
+import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.JobWithAddress;
 import com.example.paralect.easytime.model.Material;
@@ -232,5 +233,11 @@ public final class EasyTimeManager {
             throw new RuntimeException(e);
         }
         return materials;
+    }
+
+    public Expense getDriving() {
+        Expense driving = new Expense();
+        driving.setName("Driving");
+        return driving;
     }
 }

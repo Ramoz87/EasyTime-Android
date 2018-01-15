@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="19dp"
+    android:paddingBottom="19dp"
+    android:paddingLeft="@dimen/list_item_horizontal_padding"
+    android:paddingRight="@dimen/list_item_horizontal_padding">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/expenseName"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_gray"
+        android:textSize="18sp"
+        android:text="@string/driving" />
+
+    <View
+        android:id="@+id/divider"
+        android:visibility="gone"
+        android:background="#E3E7EE"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+</LinearLayout>

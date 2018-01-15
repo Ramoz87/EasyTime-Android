@@ -45,6 +45,7 @@
     <string name="placeholder_activity_date">30 November</string>
     <string name="placeholder_keypad_number">1</string>
     <string name="placeholder_material_count">22</string>
+    <string name="placeholder_driving_unit">km</string>
 
     <!--materials-->
     <string name="delete_materials">Delete</string>
@@ -89,4 +90,11 @@
 
     <!--keypad-->
     <string name="next">Next</string>
+
+    <!--expenses-->
+    <string name="basic">Basic</string>
+    <string name="often_used">Often used</string>
+    <string name="expenses">Expenses</string>
+    <string name="driving">Driving</string>
+    <string name="other_expenses">Other expenses</string>
 </resources>
