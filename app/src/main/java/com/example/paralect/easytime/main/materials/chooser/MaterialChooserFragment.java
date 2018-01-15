@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.utils.CalendarUtils;
 
 import java.util.List;
 import java.util.SortedMap;
@@ -54,7 +57,10 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
+        inflater.inflate(R.menu.menu_search, menu);
+        presenter.setDataView(this)
+                .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
+                .requestData(new String[]{"", null});
     }
 
     @Override

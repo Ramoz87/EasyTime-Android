@@ -33,14 +33,15 @@ public class MaterialChooserPresenter extends SearchViewPresenter<SortedMap<Char
     };
 
     @Override
-    public MaterialChooserPresenter requestData(String[] parameters) {
+    public MaterialChooserPresenter requestData(final String[] parameters) {
         Observable<SortedMap<Character, List<Material>>> observable = Observable.create(new ObservableOnSubscribe<SortedMap<Character, List<Material>>>() {
             @Override
             public void subscribe(ObservableEmitter<SortedMap<Character, List<Material>>> emitter) throws Exception {
                 try {
 
                     if (!emitter.isDisposed()) {
-                        List<Material> materials = EasyTimeManager.getInstance().getMaterials();
+                        String query = parameters != null && parameters.length > 0 ? parameters[0] : null;
+                        List<Material> materials = EasyTimeManager.getInstance().getMaterials(query);
                         // split list of materials alphabetically
                         SortedMap<Character, List<Material>> map = sorter.getSortedItems(materials, comparator);
                         emitter.onNext(map);
