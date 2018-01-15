@@ -74,6 +74,11 @@
 
     <string name="add_your_activities">Add your activities</string>
 
+    <!--Project details-->
+    <string name="project_detail_send">Send</string>
+    <string name="project_detail_save">Save</string>
+    <string name="project_detail_sign">Add signature</string>
+
      <!--signature-->
     <string name="signature_title">Signature</string>
     <string name="signature_switcher">Sign yourself</string>
