@@ -4,7 +4,12 @@
 
     <item
         android:id="@+id/item_new"
-        android:icon="@drawable/ic_insert_drive_file_black_24dp"
+        android:icon="@drawable/ic_new_project"
         android:title="@string/nav_new"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/item_delete"
+        android:icon="@drawable/ic_trash"
+        android:title="@string/nav_trash"
         app:showAsAction="always"/>
 </menu>

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
@@ -37,32 +39,18 @@ import butterknife.OnClick;
 public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener {
     private static final String TAG = ActivityFragment.class.getSimpleName();
 
-    @BindView(R.id.date)
-    TextView date;
-
-    @BindView(R.id.activityList)
-    EmptyRecyclerView emptyRecyclerView;
-
-    @BindView(R.id.emptyListPlaceholder)
-    View emptyListPlaceholder;
-
-    @BindView(R.id.overlay)
-    View overlay;
-
-    @BindView(R.id.fam)
-    FloatingActionMenu fam;
-
-    @BindView(R.id.addTime)
-    FloatingActionButton addTime;
-
-    @BindView(R.id.addMaterials)
-    FloatingActionButton addMaterials;
-
-    @BindView(R.id.addExpenses)
-    FloatingActionButton addExpenses;
+    @BindView(R.id.date) TextView date;
+    @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
+    @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
+    @BindView(R.id.overlay) View overlay;
+    @BindView(R.id.fam) FloatingActionMenu fam;
+    @BindView(R.id.addTime) FloatingActionButton addTime;
+    @BindView(R.id.addMaterials) FloatingActionButton addMaterials;
+    @BindView(R.id.addExpenses) FloatingActionButton addExpenses;
 
     private Animation fadeIn;
     private Animation fadeOut;
+    private FragmentNavigator navigator;
 
     @OnClick(R.id.date)
     void onChooseDate(View view) {
@@ -82,8 +70,14 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        navigator = (FragmentNavigator) context;
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_project_activity, menu);
     }
 
     @Override
@@ -93,7 +87,18 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @Override
     public boolean needsOptionsMenu() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.item_new:
+                navigator.pushFragment(ProjectDetailFragment.newInstance());
+                return true;
+        }
+        return true;
     }
 
     @Override
@@ -166,4 +171,5 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
             hideOverlay();
         }
     }
+
 }

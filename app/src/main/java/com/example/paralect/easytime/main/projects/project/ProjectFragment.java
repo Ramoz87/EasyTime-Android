@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.main.projects.project;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.IntentUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,8 +40,24 @@ public class ProjectFragment extends BaseFragment {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
+    private FragmentPagerAdapter adapter;
     private Job job;
-    private FragmentNavigator navigator;
+    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            invalidateFragmentMenus(position);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
     public static ProjectFragment newInstance() {
         return new ProjectFragment();
@@ -71,9 +89,16 @@ public class ProjectFragment extends BaseFragment {
         init();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+    }
+
     private void init() {
-        FragmentPagerAdapter adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager());
+        adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager());
         viewPager.setAdapter(adapter);
+        viewPager.removeOnPageChangeListener(pageChangeListener);
+        viewPager.addOnPageChangeListener(pageChangeListener);
         tabs.setupWithViewPager(viewPager);
     }
 
@@ -85,17 +110,6 @@ public class ProjectFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        navigator = (FragmentNavigator) context;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_new_file, menu);
-    }
-
-    @Override
     public void onCreateActionBar(ActionBar actionBar) {
         String number = getResources().getString(R.string.job_number, job.getNumber());
         actionBar.setTitle(number);
@@ -103,18 +117,16 @@ public class ProjectFragment extends BaseFragment {
 
     @Override
     public boolean needsOptionsMenu() {
-        return true;
+        return false;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.item_new:
-                navigator.pushFragment(ProjectDetailFragment.newInstance());
-                return true;
+    private void invalidateFragmentMenus(int position) {
+        for (int i = 0; i < adapter.getCount(); i++) {
+            adapter.getItem(i).setHasOptionsMenu(i == position);
         }
-        return true;
+        Activity activity = getActivity();
+        if (!IntentUtils.isFinishing(activity))
+            activity.invalidateOptionsMenu();
     }
 
 }

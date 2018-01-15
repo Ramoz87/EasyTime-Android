@@ -44,6 +44,7 @@
     <string name="placeholder_material_number">#66565</string>
     <string name="placeholder_activity_date">30 November</string>
     <string name="placeholder_keypad_number">1</string>
+    <string name="placeholder_company">Company</string>
 
     <!--materials-->
     <string name="add_your_materials">Add your materials</string>
@@ -52,6 +53,7 @@
     <string name="add_expenses">Add expenses</string>
     <string name="nav_search">Search</string>
     <string name="nav_new">New</string>
+    <string name="nav_trash">Delete</string>
     <string name="material_number">#%d</string>
 
     <!--job info-->

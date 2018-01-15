@@ -55,7 +55,7 @@
             android:textStyle="bold"
             android:drawablePadding="10dp"
             android:gravity="right"
-            android:text="@string/placeholder_activity_date"
+            android:text="@string/placeholder_company"
             android:background="#F2F4F7"
             android:padding="15dp"
             android:textColor="@color/blue"
