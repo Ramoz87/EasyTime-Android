@@ -48,8 +48,9 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     private FragNavController mNavController;
 
-    private Animation incAnim;
-    private Animation decAnim;
+    final FragNavTransactionOptions options = FragNavTransactionOptions.newBuilder()
+            .customAnimations(R.anim.fade_in, R.anim.fade_out)
+            .build();
 
     @BindView(R.id.navigationView) BottomNavigationView bottomBar;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -117,10 +118,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
                         bottomBar.setSelectedItemId(getSelectedItemId(index));
                     }
                 })
-                .build();
-
-        final FragNavTransactionOptions options = FragNavTransactionOptions.newBuilder()
-                .customAnimations(R.anim.fade_in, R.anim.fade_out)
                 .build();
 
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -217,9 +214,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     // region FragmentNavigator
     @Override
     public void pushFragment(Fragment fragment) {
-        final FragNavTransactionOptions options = FragNavTransactionOptions.newBuilder()
-                .customAnimations(R.anim.fade_in, R.anim.fade_out)
-                .build();
         mNavController.pushFragment(fragment, options);
     }
     // endregion
@@ -227,5 +221,9 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     public FragmentNavigator getFragmentNavigator() {
         return this;
+    }
+
+    public void jumpToRoot() {
+        mNavController.clearStack();
     }
 }

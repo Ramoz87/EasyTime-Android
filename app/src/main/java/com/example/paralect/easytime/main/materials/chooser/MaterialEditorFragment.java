@@ -107,5 +107,7 @@ public class MaterialEditorFragment extends BaseFragment implements KeypadEditor
 
         Log.d(TAG, String.format("completed: material = %s, count = %s", material.getName(), material.getCount()));
         Toast.makeText(getContext(), "Completed", Toast.LENGTH_SHORT).show();
+
+        getMainActivity().jumpToRoot();
     }
 }
