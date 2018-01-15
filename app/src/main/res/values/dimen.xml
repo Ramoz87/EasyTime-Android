@@ -30,5 +30,5 @@
 
     <!--keypad-->
     <dimen name="keypad_number_text_size">28sp</dimen>
-    <dimen name="keypad_item_margin">1px</dimen>
+    <dimen name="keypad_item_margin">2px</dimen>
 </resources>

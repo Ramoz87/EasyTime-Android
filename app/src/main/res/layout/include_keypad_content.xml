@@ -13,7 +13,7 @@
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id1"
-        android:layout_margin="@dimen/keypad_item_margin"
+        android:layout_marginRight="@dimen/keypad_item_margin"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id2"
-        android:layout_margin="@dimen/keypad_item_margin"
+        android:layout_marginRight="@dimen/keypad_item_margin"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"
         android:layout_height="wrap_content"
@@ -29,29 +29,37 @@
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id3"
-        android:layout_margin="@dimen/keypad_item_margin"
+        android:layout_marginRight="@dimen/keypad_item_margin"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:drawableBottom="@drawable/ic_next"
-        android:id="@+id/keypadNext"
-        android:layout_margin="@dimen/keypad_item_margin"
-        android:background="@color/white"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="2"
-        android:textColor="@color/blue"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:text="@string/next"
+    <FrameLayout
         app:layout_gravity="fill"
-        app:layout_rowSpan="2" />
+        app:layout_rowSpan="2"
+        android:background="@color/white"
+        android:gravity="center"
+        app:layout_columnWeight="1"
+        app:layout_rowWeight="2">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_gravity="center"
+            android:drawableBottom="@drawable/ic_next"
+            android:id="@+id/keypadNext"
+            android:drawablePadding="1dp"
+            android:textColor="@color/blue"
+            android:textSize="18sp"
+            android:text="@string/next"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+    </FrameLayout>
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id4"
-        android:layout_margin="@dimen/keypad_item_margin"
+        android:layout_marginRight="@dimen/keypad_item_margin"
+        android:layout_marginTop="@dimen/keypad_item_margin"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"
         android:layout_height="wrap_content"
@@ -59,7 +67,8 @@
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id5"
-        android:layout_margin="@dimen/keypad_item_margin"
+        android:layout_marginRight="@dimen/keypad_item_margin"
+        android:layout_marginTop="@dimen/keypad_item_margin"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"
         android:layout_height="wrap_content"
@@ -67,7 +76,8 @@
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id6"
-        android:layout_margin="@dimen/keypad_item_margin"
+        android:layout_marginRight="@dimen/keypad_item_margin"
+        android:layout_marginTop="@dimen/keypad_item_margin"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"
         android:layout_height="wrap_content"
@@ -75,7 +85,8 @@
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id7"
-        android:layout_margin="@dimen/keypad_item_margin"
+        android:layout_marginRight="@dimen/keypad_item_margin"
+        android:layout_marginTop="@dimen/keypad_item_margin"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"
         android:layout_height="wrap_content"
@@ -83,7 +94,8 @@
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id8"
-        android:layout_margin="@dimen/keypad_item_margin"
+        android:layout_marginRight="@dimen/keypad_item_margin"
+        android:layout_marginTop="@dimen/keypad_item_margin"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"
         android:layout_height="wrap_content"
@@ -91,29 +103,39 @@
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id9"
-        android:layout_margin="@dimen/keypad_item_margin"
+        android:layout_marginRight="@dimen/keypad_item_margin"
+        android:layout_marginTop="@dimen/keypad_item_margin"
         app:layout_columnWeight="1"
         app:layout_rowWeight="1"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/keypadDelete"
-        android:layout_margin="@dimen/keypad_item_margin"
+    <FrameLayout
+        android:layout_marginTop="@dimen/keypad_item_margin"
+        android:gravity="center"
+        app:layout_gravity="fill"
+        app:layout_rowSpan="2"
         android:background="@color/white"
         app:layout_columnWeight="1"
-        app:layout_rowWeight="2"
-        android:src="@drawable/ic_delete"
-        android:tint="@color/delete"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:text="@string/next"
-        app:layout_gravity="fill"
-        app:layout_rowSpan="2" />
+        app:layout_rowWeight="2">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_gravity="center"
+            android:id="@+id/keypadDelete"
+            android:background="@color/white"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/delete"
+            android:textSize="18sp"
+            android:text="@string/next"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+    </FrameLayout>
 
     <include layout="@layout/include_keypad_number_item"
         android:id="@+id/id0"
-        android:layout_margin="@dimen/keypad_item_margin"
+        android:layout_marginRight="@dimen/keypad_item_margin"
+        android:layout_marginTop="@dimen/keypad_item_margin"
         app:layout_columnWeight="3"
         app:layout_rowWeight="1"
         android:gravity="center"

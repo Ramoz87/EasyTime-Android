@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView android:background="@color/white"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     android:paddingBottom="8dp"
     android:paddingTop="8dp"
     android:textSize="@dimen/keypad_number_text_size"
