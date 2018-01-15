@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.model.Job;
 
@@ -26,7 +28,7 @@ import butterknife.ButterKnife;
  * Created by alexei on 27.12.2017.
  */
 
-public class ProjectFragment extends Fragment {
+public class ProjectFragment extends BaseFragment {
 
     public static final String ARG_JOB = "arg_job";
 
@@ -52,9 +54,9 @@ public class ProjectFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        job = getJobArg();
     }
 
     @Override
@@ -66,7 +68,6 @@ public class ProjectFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        job = getJobArg();
         init();
     }
 
@@ -92,7 +93,17 @@ public class ProjectFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_new_file, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onCreateActionBar(ActionBar actionBar) {
+        String number = getResources().getString(R.string.job_number, job.getNumber());
+        actionBar.setTitle(number);
+    }
+
+    @Override
+    public boolean needsOptionsMenu() {
+        return true;
     }
 
     @Override
