@@ -35,25 +35,29 @@
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:padding="8dp"
         android:src="@drawable/ic_minus_material"
         android:id="@+id/minus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="45dp"
+        android:layout_height="45dp" />
 
     <android.support.v7.widget.AppCompatTextView
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/dark_gray"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:gravity="center"
         android:layout_margin="5dp"
         android:text="@string/placeholder_material_count"
-        android:width="40dp"
+        android:width="48dp"
         android:id="@+id/materialCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:padding="8dp"
         android:src="@drawable/ic_plus_material"
         android:id="@+id/plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="45dp"
+        android:layout_height="45dp" />
 </LinearLayout>

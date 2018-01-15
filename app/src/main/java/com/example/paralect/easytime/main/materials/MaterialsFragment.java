@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,11 +37,13 @@ import butterknife.OnClick;
  * Created by alexei on 26.12.2017.
  */
 
-public class MaterialsFragment extends BaseFragment implements IDataView<List<Material>> {
+public class MaterialsFragment extends BaseFragment
+        implements IDataView<List<Material>> {
     private static final String TAG = MaterialsFragment.class.getSimpleName();
 
     private MaterialsPresenter presenter = new MaterialsPresenter();
     private MaterialAdapter adapter = new MaterialAdapter();
+    private boolean primaryState = true;
 
     @BindView(R.id.list)
     EmptyRecyclerView list;
@@ -100,7 +103,7 @@ public class MaterialsFragment extends BaseFragment implements IDataView<List<Ma
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        
+        inflater.inflate(R.menu.menu_materials, menu);
     }
 
     @Override
@@ -115,6 +118,12 @@ public class MaterialsFragment extends BaseFragment implements IDataView<List<Ma
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "on options item selected");
+        if (item.getItemId() == R.id.delete_materials) {
+            Log.d(TAG, "delete materials mode");
+            primaryState = !primaryState;
+            adapter.transform(primaryState);
+        }
         return super.onOptionsItemSelected(item);
     }
 

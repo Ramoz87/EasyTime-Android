@@ -1,20 +1,20 @@
 package com.example.paralect.easytime.main.materials;
 
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Material;
 
-import org.w3c.dom.Text;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,6 +34,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHolder> {
 
     private List<Material> materials;
+    private List<ViewHolder> viewHolders = new ArrayList<>();
 
     public MaterialAdapter() {
 
@@ -44,11 +45,24 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+    public void transform(boolean primaryStage) {
+        for (ViewHolder holder : viewHolders) {
+            holder.transform(primaryStage);
+        }
+    }
+
+    private void removeItem(int position) {
+        materials.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_material, parent, false);
-        return new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view, this);
+        viewHolders.add(holder);
+        return holder;
     }
 
     @Override
@@ -68,27 +82,95 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private Material material;
+        private MaterialAdapter adapter;
+
+        private static Animation incDec = null;
+
+        private DisposableObserver<Material> newUpdateObserver() {
+            return new DisposableObserver<Material>() {
+                @Override
+                public void onNext(Material material) {
+                    count.setText(String.valueOf(material.getCount()));
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            };
+        }
+
+        private DisposableObserver<Material> newRemoveObserver() {
+            return new DisposableObserver<Material>() {
+                @Override
+                public void onNext(Material material) {
+                    int pos = getAdapterPosition();
+                    adapter.removeItem(pos);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            };
+        }
 
         @BindView(R.id.materialName) TextView name;
         @BindView(R.id.materialNumber) TextView number;
         @BindView(R.id.materialCount) TextView count;
+        @BindView(R.id.plus) ImageView plus;
+        @BindView(R.id.minus) ImageView minus;
+
+        private final View.OnClickListener remover = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.startAnimation(incDec);
+                material.setAdded(false);
+                material.setCount(0);
+                asyncUpdate(material, newRemoveObserver());
+            }
+        };
+
+        private final View.OnClickListener plusHandler = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                plus(view);
+            }
+        };
+
         @OnClick(R.id.plus)
         void plus(View view) {
+            view.startAnimation(incDec);
             int result = changeCount(1);
             material.setCount(result);
-            asyncUpdate(material);
+            asyncUpdate(material, newUpdateObserver());
         }
 
         @OnClick(R.id.minus)
         void minus(View view) {
+            view.startAnimation(incDec);
             int result = changeCount(-1);
             material.setCount(result);
-            asyncUpdate(material);
+            asyncUpdate(material, newUpdateObserver());
         }
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, MaterialAdapter adapter) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            this.adapter = adapter;
+            if (incDec == null) {
+                incDec = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.inc_dec_press);
+            }
         }
 
         void bind(Material material) {
@@ -107,7 +189,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             return count;
         }
 
-        private void asyncUpdate(final Material material) {
+        private void asyncUpdate(final Material material, DisposableObserver<Material> observer) {
             Observable<Material> observable = Observable.create(new ObservableOnSubscribe<Material>() {
                 @Override
                 public void subscribe(ObservableEmitter<Material> emitter) throws Exception {
@@ -126,22 +208,20 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
 
             observable.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new DisposableObserver<Material>() {
-                        @Override
-                        public void onNext(Material material) {
-                            count.setText(String.valueOf(material.getCount()));
-                        }
+                    .subscribe(observer);
+        }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                        }
+        void transform(boolean primaryState) {
+            if (primaryState) {
+                minus.setVisibility(View.VISIBLE);
+                plus.setImageResource(R.drawable.ic_plus_material);
+                plus.setOnClickListener(plusHandler);
 
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
+            } else {
+                minus.setVisibility(View.GONE);
+                plus.setImageResource(R.drawable.ic_trash);
+                plus.setOnClickListener(remover);
+            }
         }
     }
 }

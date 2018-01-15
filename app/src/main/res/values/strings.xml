@@ -47,6 +47,7 @@
     <string name="placeholder_material_count">22</string>
 
     <!--materials-->
+    <string name="delete_materials">Delete</string>
     <string name="add_your_materials">Add your materials</string>
     <string name="add_time">Add time</string>
     <string name="add_material">Add material</string>

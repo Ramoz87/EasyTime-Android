@@ -101,7 +101,8 @@ public class MaterialEditorFragment extends BaseFragment implements KeypadEditor
     public void onCompletion(String result) {
         Material material = getMaterialArg();
         material.setAdded(true);
-        int count = Integer.valueOf(materialCount.getText().toString());
+        String text = materialCount.getText().toString();
+        int count = Integer.valueOf(text.isEmpty() ? "0" : text);
         material.setCount(count);
         EasyTimeManager.getInstance().updateMaterial(material);
 
