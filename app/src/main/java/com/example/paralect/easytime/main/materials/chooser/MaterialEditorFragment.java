@@ -3,8 +3,6 @@ package com.example.paralect.easytime.main.materials.chooser;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.InputType;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,9 +15,8 @@ import android.widget.Toast;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.KeypadView;
-
-import java.security.Key;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,11 +25,11 @@ import butterknife.ButterKnife;
  * Created by alexei on 12.01.2018.
  */
 
-public class MaterialEditorFragment extends BaseFragment implements KeypadView.OnKeypadItemClickListener {
+public class MaterialEditorFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener {
 
     public static final String ARG_MATERIAL = "arg_material";
 
-    @BindView(R.id.keypad) KeypadView keypadView;
+    @BindView(R.id.keypad) KeypadEditorView keypadEditorView;
     @BindView(R.id.materialName) TextView materialName;
     @BindView(R.id.materialNumber) TextView materialNumber;
     @BindView(R.id.materialCount) EditText materialCount;
@@ -63,7 +60,8 @@ public class MaterialEditorFragment extends BaseFragment implements KeypadView.O
         materialCount.setTextIsSelectable(true);
         materialCount.requestFocus();
 
-        keypadView.setOnKeypadItemClickListener(this);
+        keypadEditorView.setOnCompletionListener(this);
+        keypadEditorView.setupEditText(materialCount);
 
         Material material = getMaterialArg();
         materialName.setText(material.getName());
@@ -85,34 +83,14 @@ public class MaterialEditorFragment extends BaseFragment implements KeypadView.O
         return false;
     }
 
-    @Override
-    public void onNextClick() {
-        // Toast.makeText(getContext(), "Clicked on next", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDeleteClick() {
-        int selection = materialCount.getSelectionStart();
-        String text = materialCount.getText().toString();
-        if (!text.isEmpty()) text = text.substring(selection, text.length() - 1);
-        materialCount.setText(text);
-        materialCount.setSelection(text.length());
-        // Toast.makeText(getContext(), "Clicked on delete", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onNumberClick(int number) {
-        int selection = materialCount.getSelectionStart();
-        String text = materialCount.getText().toString();
-        text += number;
-        materialCount.setText(text);
-        materialCount.setSelection(text.length());
-        // Toast.makeText(getContext(), "Clicked on " + number, Toast.LENGTH_SHORT).show();
-    }
-
     private Material getMaterialArg() {
         Bundle args = getArguments();
         if (args == null || !args.containsKey(ARG_MATERIAL)) return null;
         else return args.getParcelable(ARG_MATERIAL);
+    }
+
+    @Override
+    public void onCompletion(String result) {
+        Toast.makeText(getContext(), "Completed", Toast.LENGTH_SHORT).show();
     }
 }
