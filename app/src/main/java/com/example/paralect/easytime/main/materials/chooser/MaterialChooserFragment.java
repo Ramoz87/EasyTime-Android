@@ -31,7 +31,6 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
 
     private MaterialChooserPresenter presenter = new MaterialChooserPresenter();
     private MaterialAlphabetAdapter adapter = new MaterialAlphabetAdapter();
-    private FragmentNavigator navigator;
 
     public static MaterialChooserFragment newInstance() {
         return new MaterialChooserFragment();
@@ -40,7 +39,6 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        navigator = (FragmentNavigator) context;
     }
 
     @Override
@@ -81,6 +79,6 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Fragment fragment = MaterialEditorFragment.newInstance(adapter.getItem(i));
-        navigator.pushFragment(fragment);
+        getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 }

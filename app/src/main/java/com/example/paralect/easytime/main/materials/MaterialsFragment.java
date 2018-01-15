@@ -52,19 +52,16 @@ public class MaterialsFragment extends BaseFragment {
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
-    private FragmentNavigator navigator;
-
     @OnClick(R.id.fab)
     void onFabClick(FloatingActionButton fab) {
         Log.d(TAG, "on fab click");
         Fragment chooser = MaterialChooserFragment.newInstance();
-        navigator.pushFragment(chooser);
+        getMainActivity().getFragmentNavigator().pushFragment(chooser);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        navigator = (FragmentNavigator) context;
     }
 
     public static MaterialsFragment newInstance() {

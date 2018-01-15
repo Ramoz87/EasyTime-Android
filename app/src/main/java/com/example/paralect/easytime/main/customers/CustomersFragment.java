@@ -31,12 +31,10 @@ public class CustomersFragment extends AbsStickyFragment implements IDataView<So
 
     private final CustomersPresenter presenter = new CustomersPresenter();
     private final CustomerStickyAdapter adapter = new CustomerStickyAdapter();
-    private FragmentNavigator navigator;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        navigator = (FragmentNavigator) context;
     }
 
     public static CustomersFragment newInstance() {
@@ -82,7 +80,7 @@ public class CustomersFragment extends AbsStickyFragment implements IDataView<So
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Customer customer = adapter.getItem(i);
         CustomerFragment fragment = CustomerFragment.newInstance(customer);
-        navigator.pushFragment(fragment);
+        getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 
     @Override

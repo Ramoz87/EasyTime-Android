@@ -37,13 +37,11 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
     private Calendar calendar = Calendar.getInstance();
     private final ProjectsPresenter presenter = new ProjectsPresenter();
     private ProjectStickyAdapter adapter = new ProjectStickyAdapter();
-    private FragmentNavigator navigator;
     private TextView title;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        navigator = (FragmentNavigator) context;
     }
 
     public static ProjectsFragment newInstance() {
@@ -104,7 +102,7 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Job job = adapter.getItem(i);
         ProjectFragment fragment = ProjectFragment.newInstance(job);
-        navigator.pushFragment(fragment);
+        getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 
     @Override

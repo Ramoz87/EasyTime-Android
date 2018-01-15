@@ -217,9 +217,15 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     // region FragmentNavigator
     @Override
     public void pushFragment(Fragment fragment) {
-        mNavController.pushFragment(fragment);
+        final FragNavTransactionOptions options = FragNavTransactionOptions.newBuilder()
+                .customAnimations(R.anim.fade_in, R.anim.fade_out)
+                .build();
+        mNavController.pushFragment(fragment, options);
     }
     // endregion
     // endregion
 
+    public FragmentNavigator getFragmentNavigator() {
+        return this;
+    }
 }
