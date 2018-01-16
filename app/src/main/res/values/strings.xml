@@ -84,6 +84,8 @@
     <string name="project_detail_send">Send</string>
     <string name="project_detail_save">Save</string>
     <string name="project_detail_sign">Add signature</string>
+    <string name="project_detail_discount">Discount</string>
+    <string name="project_detail_completion">Completion</string>
 
      <!--signature-->
     <string name="signature_title">Signature</string>

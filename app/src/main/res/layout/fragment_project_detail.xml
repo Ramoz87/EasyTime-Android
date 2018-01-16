@@ -28,7 +28,7 @@
 
             <android.support.v7.widget.AppCompatTextView
                 android:textColor="@color/dark_gray"
-                android:text="@string/add_your_activities"
+                android:text="@string/project_detail_completion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

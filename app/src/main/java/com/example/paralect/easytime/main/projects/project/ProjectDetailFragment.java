@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -54,7 +55,16 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_discount, menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.item_discount) {
+
+            return true;
+        } else
+            return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -64,7 +74,7 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
 
     @Override
     public boolean needsOptionsMenu() {
-        return false;
+        return true;
     }
 
     @Override
@@ -159,5 +169,5 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
         });
     }
     // endregion
-    
+
 }
