@@ -16,12 +16,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.expenses.ExpensesFragment;
+import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
@@ -121,7 +121,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         switch (item.getItemId()) {
             case R.id.item_new:
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectDetailFragment.newInstance(getJobArg()));
+                        .pushFragment(ProjectDetailsFragment.newInstance(getJobArg()));
                 return true;
         }
         return true;

@@ -1,10 +1,12 @@
-package com.example.paralect.easytime.main.projects.project;
+package com.example.paralect.easytime.main.projects.project.details;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,12 +20,17 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.IDataView;
+import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
+import com.example.paralect.easytime.model.Consumable;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.views.SignatureView;
 import com.github.clans.fab.FloatingActionMenu;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,9 +40,9 @@ import butterknife.OnClick;
  * Created by Oleg Tarashkevich on 15/01/2018.
  */
 
-public class ProjectDetailFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener {
+public class ProjectDetailsFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<Consumable>> {
 
-    private static final String TAG = ProjectDetailFragment.class.getSimpleName();
+    private static final String TAG = ProjectDetailsFragment.class.getSimpleName();
 
     public static final String ARG_JOB = "arg_job";
 
@@ -45,15 +52,18 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
     @BindView(R.id.overlay) View overlay;
     @BindView(R.id.fam) FloatingActionMenu fam;
 
+    private ProjectExpensesAdapter adapter = new ProjectExpensesAdapter();
+    private ProjectExpensesPresenter presenter = new ProjectExpensesPresenter();
+
     private Animation fadeIn;
     private Animation fadeOut;
 
     private Job job;
 
-    public static ProjectDetailFragment newInstance(@NonNull Job job) {
+    public static ProjectDetailsFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
         args.putParcelable(ARG_JOB, job);
-        ProjectDetailFragment fragment = new ProjectDetailFragment();
+        ProjectDetailsFragment fragment = new ProjectDetailsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -118,6 +128,13 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
         initJob();
         Customer customer = job.getCustomer();
         detailTitle.setText(customer.getCompanyName());
+
+        emptyRecyclerView.setAdapter(adapter);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
+        emptyRecyclerView.setLayoutManager(lm);
+
+        presenter.setDataView(this)
+                .requestData(new String[] { job.getJobId() });
     }
 
     private void initOverlay() {
@@ -200,6 +217,12 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
                 signatureDialogFragment.dismiss();
             }
         });
+    }
+
+    @Override
+    public void onDataReceived(List<Consumable> consumables) {
+        Log.d(TAG, String.format("received %s consumables", consumables.size()));
+        adapter.setData(consumables);
     }
     // endregion
 

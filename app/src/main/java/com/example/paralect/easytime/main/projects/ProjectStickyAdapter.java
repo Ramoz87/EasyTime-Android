@@ -134,7 +134,7 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         notifyDataSetChanged();
     }
 
-    // region ViewHolder
+    // region ConsumableViewHolder
     static class JobViewHolder {
         @BindView(R.id.jobName) TextView jobName;
         @BindView(R.id.jobStatus) TextView jobStatus;

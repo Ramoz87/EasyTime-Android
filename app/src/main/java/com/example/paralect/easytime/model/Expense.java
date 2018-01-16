@@ -12,7 +12,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "expenses")
-public class Expense implements Parcelable {
+public class Expense implements Parcelable, Consumable {
 
     @DatabaseField(columnName = "discount", dataType = DataType.FLOAT)
     private float discount;
@@ -110,6 +110,21 @@ public class Expense implements Parcelable {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean isMaterial() {
+        return false;
+    }
+
+    @Override
+    public int getStockQuantity() {
+        return 1;
+    }
+
+    @Override
+    public int getPricePerUnit() {
+        return value;
     }
 
     public void setName(String name) {

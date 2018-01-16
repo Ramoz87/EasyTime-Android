@@ -48,6 +48,9 @@
     <string name="placeholder_driving_unit">km</string>
     <string name="placeholder_company">Company</string>
     <string name="placeholder_company_name_for_expenses">LLC Mobexs</string>
+    <string name="placeholder_project_expense">Repair</string>
+    <string name="placeholder_price_per_unit">$20</string>
+    <string name="placeholder_project_expense_price">$80</string>
 
     <!--materials-->
     <string name="delete_materials">Delete</string>
@@ -90,6 +93,8 @@
 
     <!--project expenses-->
     <string name="project_number">Project #%d</string>
+    <string name="expense_price">$%d</string>
+    <string name="total_expense">Total</string>
 
      <!--signature-->
     <string name="signature_title">Signature</string>
