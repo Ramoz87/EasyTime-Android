@@ -6,12 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.views.BaseFragmentPagerAdapter;
 
 /**
  * Created by alexei on 27.12.2017.
  */
 
-public class ProjectSectionAdapter extends FragmentPagerAdapter {
+public class ProjectSectionAdapter extends BaseFragmentPagerAdapter {
 
     private Context context;
 
@@ -21,7 +22,7 @@ public class ProjectSectionAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public Fragment onCreateFragment(int position) {
         switch (position) {
             case 0: return ActivityFragment.newInstance();
             case 1: return InformationFragment.newInstance();

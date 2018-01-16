@@ -46,6 +46,7 @@
     <string name="placeholder_keypad_number">1</string>
     <string name="placeholder_material_count">22</string>
     <string name="placeholder_driving_unit">km</string>
+    <string name="placeholder_company">Company</string>
 
     <!--materials-->
     <string name="delete_materials">Delete</string>
@@ -54,6 +55,8 @@
     <string name="add_material">Add material</string>
     <string name="add_expenses">Add expenses</string>
     <string name="nav_search">Search</string>
+    <string name="nav_new">New</string>
+    <string name="nav_trash">Delete</string>
     <string name="material_number">#%d</string>
     <string name="materials_count">count</string>
 
@@ -76,6 +79,11 @@
     <string name="other_employees">Other employees</string>
 
     <string name="add_your_activities">Add your activities</string>
+
+    <!--Project details-->
+    <string name="project_detail_send">Send</string>
+    <string name="project_detail_save">Save</string>
+    <string name="project_detail_sign">Add signature</string>
 
      <!--signature-->
     <string name="signature_title">Signature</string>

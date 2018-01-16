@@ -1,18 +1,16 @@
 package com.example.paralect.easytime.main.projects.project;
 
-import android.animation.ValueAnimator;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.views.InfoLayout;
 
 import butterknife.BindView;
@@ -22,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by alexei on 27.12.2017.
  */
 
-public class InformationFragment extends Fragment {
+public class InformationFragment extends BaseFragment {
 
     @BindView(R.id.scrollView)
     ScrollView scrollView;
@@ -50,5 +48,20 @@ public class InformationFragment extends Fragment {
         instructions.addInfoItem(R.drawable.ic_watch, R.string.placeholder_project_info_delivery_time, null);
         instructions.addInfoItem(R.drawable.ic_phone, R.string.placeholder_project_info_contact, null);
         instructions.addInfoItem(R.drawable.ic_checkpoint, R.string.placeholder_project_info_address, null);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_project_information, menu);
+    }
+
+    @Override
+    public void onCreateActionBar(ActionBar actionBar) {
+
+    }
+
+    @Override
+    public boolean needsOptionsMenu() {
+        return true;
     }
 }

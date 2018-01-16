@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/mainBackground"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/emptyListPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:id="@+id/placeholder"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:adjustViewBounds="true"
+                android:src="@drawable/materials_placeholder"
+                android:layout_width="180dp"
+                android:layout_height="120dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:textColor="@color/dark_gray"
+                android:text="@string/add_your_activities"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:adjustViewBounds="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/arrow_add_material"
+            android:layout_marginRight="@dimen/arrow_add_right_margin"
+            android:layout_marginBottom="@dimen/arrow_add_bottom_margin"
+            android:layout_width="34dp"
+            android:layout_height="48dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/detail_title"
+            android:textStyle="bold"
+            android:drawablePadding="10dp"
+            android:gravity="right"
+            android:text="@string/placeholder_company"
+            android:background="#F2F4F7"
+            android:padding="15dp"
+            android:textColor="@color/blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.example.paralect.easytime.views.EmptyRecyclerView
+            android:id="@+id/activityList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:background="@color/materials_overlay_background"
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fam"
+        style="@style/FloatingActionButtonNormalStyle">
+
+        <com.github.clans.fab.FloatingActionButton
+            app:fab_label="@string/project_detail_send"
+            android:id="@+id/action_send"
+            android:src="@drawable/ic_send_black_24dp"
+            style="@style/FloatingActionButtonMiniStyle" />
+
+        <com.github.clans.fab.FloatingActionButton
+            app:fab_label="@string/project_detail_save"
+            android:id="@+id/action_save"
+            android:src="@drawable/ic_save_black_24dp"
+            style="@style/FloatingActionButtonMiniStyle" />
+
+        <com.github.clans.fab.FloatingActionButton
+            app:fab_label="@string/project_detail_sign"
+            android:id="@+id/action_sign"
+            android:src="@drawable/ic_edit_black_24dp"
+            style="@style/FloatingActionButtonMiniStyle" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</FrameLayout>

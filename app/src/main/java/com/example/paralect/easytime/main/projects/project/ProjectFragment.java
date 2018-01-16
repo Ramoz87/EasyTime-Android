@@ -1,19 +1,27 @@
 package com.example.paralect.easytime.main.projects.project;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.IntentUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,17 +30,21 @@ import butterknife.ButterKnife;
  * Created by alexei on 27.12.2017.
  */
 
-public class ProjectFragment extends Fragment {
+public class ProjectFragment extends BaseFragment {
 
     public static final String ARG_JOB = "arg_job";
 
-    @BindView(R.id.tabs)
-    TabLayout tabs;
+    @BindView(R.id.tabs) TabLayout tabs;
+    @BindView(R.id.view_pager) ViewPager viewPager;
 
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-
+    private FragmentPagerAdapter adapter;
     private Job job;
+    private ViewPager.SimpleOnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            invalidateFragmentMenus(position);
+        }
+    };
 
     public static ProjectFragment newInstance() {
         return new ProjectFragment();
@@ -47,8 +59,13 @@ public class ProjectFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        job = getJobArg();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_project, parent, false);
     }
 
@@ -56,25 +73,47 @@ public class ProjectFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        job = getJobArg();
         init();
-    }
-
-    private void init() {
-        FragmentPagerAdapter adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager());
-        viewPager.setAdapter(adapter);
-        tabs.setupWithViewPager(viewPager);
-    }
-
-    private Job getJobArg() {
-        Bundle args = getArguments();
-        if (args.containsKey(ARG_JOB))
-            return args.getParcelable(ARG_JOB);
-        else return null;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
     }
+
+    private void init() {
+        adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager());
+        viewPager.setAdapter(adapter);
+        viewPager.removeOnPageChangeListener(pageChangeListener);
+        viewPager.addOnPageChangeListener(pageChangeListener);
+        tabs.setupWithViewPager(viewPager);
+    }
+
+    private Job getJobArg() {
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(ARG_JOB))
+            return args.getParcelable(ARG_JOB);
+        else return null;
+    }
+
+    @Override
+    public void onCreateActionBar(ActionBar actionBar) {
+        String number = getResources().getString(R.string.job_number, job.getNumber());
+        actionBar.setTitle(number);
+    }
+
+    @Override
+    public boolean needsOptionsMenu() {
+        return false;
+    }
+
+    private void invalidateFragmentMenus(int position) {
+        for (int i = 0; i < adapter.getCount(); i++) {
+            adapter.getItem(i).setHasOptionsMenu(i == position);
+        }
+        Activity activity = getActivity();
+        if (!IntentUtils.isFinishing(activity))
+            activity.invalidateOptionsMenu();
+    }
+
 }

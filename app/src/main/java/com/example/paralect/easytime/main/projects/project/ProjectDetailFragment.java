@@ -1,91 +1,61 @@
 package com.example.paralect.easytime.main.projects.project;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
-import com.example.paralect.easytime.main.FragmentNavigator;
-import com.example.paralect.easytime.main.expenses.ExpensesFragment;
-import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
+import com.example.paralect.easytime.views.SignatureView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by alexei on 27.12.2017.
+ * Created by Oleg Tarashkevich on 15/01/2018.
  */
 
-public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener {
-    private static final String TAG = ActivityFragment.class.getSimpleName();
+public class ProjectDetailFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener {
 
-    @BindView(R.id.date) TextView date;
+    private static final String TAG = ProjectDetailFragment.class.getSimpleName();
+
+    @BindView(R.id.detail_title) TextView detailTitle;
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.overlay) View overlay;
     @BindView(R.id.fam) FloatingActionMenu fam;
-    @BindView(R.id.addTime) FloatingActionButton addTime;
-    @BindView(R.id.addMaterials) FloatingActionButton addMaterials;
-    @BindView(R.id.addExpenses) FloatingActionButton addExpenses;
-
-    @OnClick(R.id.addTime)
-    void addTime(FloatingActionButton fab) {
-        Fragment fragment = ExpensesFragment.newInstance();
-        getMainActivity().pushFragment(fragment);
-    }
 
     private Animation fadeIn;
     private Animation fadeOut;
-    private FragmentNavigator navigator;
 
-    @OnClick(R.id.date)
-    void onChooseDate(View view) {
-        Calendar c = Calendar.getInstance();
-        DatePickerDialog datePickerDialog =
-                new DatePickerDialog(getContext(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
-    }
-
-    public static ActivityFragment newInstance() {
-        return new ActivityFragment();
+    public static ProjectDetailFragment newInstance() {
+        return new ProjectDetailFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_project_activity, parent, false);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        navigator = (FragmentNavigator) context;
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_project_detail, parent, false);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_project_activity, menu);
+
     }
 
     @Override
@@ -95,18 +65,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @Override
     public boolean needsOptionsMenu() {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.item_new:
-                navigator.pushFragment(ProjectDetailFragment.newInstance());
-                return true;
-        }
-        return true;
+        return false;
     }
 
     @Override
@@ -117,23 +76,6 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         initFam();
         initOverlay();
         initAnimations();
-    }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        // open activity
-        String dateString = CalendarUtils.getDateString(i, i1, i2);
-        date.setText(dateString);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     private void initOverlay() {
@@ -165,15 +107,13 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     }
 
     private void initAnimations() {
-        int duration = 100;
         fadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
         fadeIn.setAnimationListener(AnimUtils.newAppearingAnimListener(overlay));
         fadeOut.setAnimationListener(AnimUtils.newDisappearingAnimListener(overlay));
-        fadeIn.setDuration(duration);
-        fadeOut.setDuration(duration);
     }
 
+    // region Clicks
     @Override
     public void onMenuToggle(boolean opened) {
         if (opened) {
@@ -183,4 +123,36 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         }
     }
 
+    @OnClick(R.id.detail_title)
+    void onTitleClick() {
+
+    }
+
+    @OnClick(R.id.action_send)
+    void onActionSendClick() {
+
+    }
+
+    @OnClick(R.id.action_save)
+    void onActionSaveClick() {
+
+    }
+
+    @OnClick(R.id.action_sign)
+    void onActionSignClick() {
+        final SignatureDialogFragment signatureDialogFragment = SignatureDialogFragment.show(getActivity());
+        signatureDialogFragment.setSignatureListener(new SignatureView.SignatureListener() {
+            @Override
+            public void onSigned(boolean signedByMe, byte[] signature) {
+                signatureDialogFragment.dismiss();
+            }
+
+            @Override
+            public void onCanceled() {
+                signatureDialogFragment.dismiss();
+            }
+        });
+    }
+    // endregion
+    
 }

@@ -27,7 +27,7 @@ public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
                 try {
                     if (!emitter.isDisposed()) {
                         final String query = parameters[0];
-                        final String date = parameters[1];
+                        final String date = null;// TODO temporary disabled // parameters[1];
                         List<Job> jobs = EasyTimeManager.getInstance().getJobs(null, query, date);
                         emitter.onNext(jobs);
                         emitter.onComplete();

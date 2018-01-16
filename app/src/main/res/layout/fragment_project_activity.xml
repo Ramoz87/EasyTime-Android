@@ -1,120 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/mainBackground"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/mainBackground"
+             android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/emptyListPlaceholder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_centerInParent="true"
             android:id="@+id/placeholder"
-            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatImageView
-                android:adjustViewBounds="true"
-                android:src="@drawable/materials_placeholder"
                 android:layout_width="180dp"
-                android:layout_height="120dp" />
+                android:layout_height="120dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/materials_placeholder"/>
 
             <android.support.v7.widget.AppCompatTextView
-                android:textColor="@color/dark_gray"
-                android:text="@string/add_your_activities"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/add_your_activities"
+                android:textColor="@color/dark_gray"/>
 
         </LinearLayout>
 
         <android.support.v7.widget.AppCompatImageView
-            android:adjustViewBounds="true"
+            android:layout_width="34dp"
+            android:layout_height="48dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/arrow_add_material"
-            android:layout_marginRight="@dimen/arrow_add_right_margin"
             android:layout_marginBottom="@dimen/arrow_add_bottom_margin"
-            android:layout_width="34dp"
-            android:layout_height="48dp" />
+            android:layout_marginRight="@dimen/arrow_add_right_margin"
+            android:adjustViewBounds="true"
+            android:src="@drawable/arrow_add_material"/>
     </RelativeLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/date"
-            android:textStyle="bold"
-            android:drawablePadding="10dp"
-            android:gravity="right"
-            android:drawableRight="@drawable/ic_small_arrow_down"
-            android:text="@string/placeholder_activity_date"
-            android:background="#F2F4F7"
-            android:padding="15dp"
-            android:textColor="@color/blue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="#F2F4F7"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/ic_small_arrow_down"
+            android:gravity="right"
+            android:padding="15dp"
+            android:text="@string/placeholder_activity_date"
+            android:textColor="@color/blue"
+            android:textStyle="bold"/>
 
         <com.example.paralect.easytime.views.EmptyRecyclerView
             android:id="@+id/activityList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <View
-        android:background="@color/materials_overlay_background"
         android:id="@+id/overlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/materials_overlay_background"/>
 
     <com.github.clans.fab.FloatingActionMenu
-        android:layout_marginBottom="@dimen/fab_bottom_margin"
-        android:layout_marginRight="@dimen/fab_right_margin"
-        android:layout_gravity="bottom|right"
-        app:menu_colorNormal="@color/blue"
-        app:menu_colorPressed="@color/blue"
-        app:menu_colorRipple="@color/blue"
         android:id="@+id/fam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        style="@style/FloatingActionButtonNormalStyle">
 
         <com.github.clans.fab.FloatingActionButton
-            app:fab_label="@string/add_time"
             android:id="@+id/addTime"
+            style="@style/FloatingActionButtonMiniStyle"
             android:src="@drawable/ic_time"
-            app:fab_colorNormal="@color/white"
-            app:fab_colorPressed="@color/gray"
-            app:fab_colorRipple="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            app:fab_label="@string/add_time"/>
 
         <com.github.clans.fab.FloatingActionButton
-            app:fab_label="@string/add_material"
             android:id="@+id/addMaterials"
+            style="@style/FloatingActionButtonMiniStyle"
             android:src="@drawable/ic_materials"
-            app:fab_colorNormal="@color/white"
-            app:fab_colorPressed="@color/gray"
-            app:fab_colorRipple="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            app:fab_label="@string/add_material"/>
 
         <com.github.clans.fab.FloatingActionButton
-            app:fab_label="@string/add_expenses"
             android:id="@+id/addExpenses"
+            style="@style/FloatingActionButtonMiniStyle"
             android:src="@drawable/ic_expense"
-            app:fab_colorNormal="@color/white"
-            app:fab_colorPressed="@color/gray"
-            app:fab_colorRipple="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            app:fab_label="@string/add_expenses"/>
+
     </com.github.clans.fab.FloatingActionMenu>
 
 </FrameLayout>
