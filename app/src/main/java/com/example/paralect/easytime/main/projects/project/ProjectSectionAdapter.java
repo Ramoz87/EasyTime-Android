@@ -19,7 +19,7 @@ public class ProjectSectionAdapter extends BaseFragmentPagerAdapter {
     private Context context;
     private Job job;
 
-    public ProjectSectionAdapter(Context context, FragmentManager fm) {
+    public ProjectSectionAdapter(Context context, FragmentManager fm, Job job) {
         super(fm);
         this.context = context;
         this.job = job;
