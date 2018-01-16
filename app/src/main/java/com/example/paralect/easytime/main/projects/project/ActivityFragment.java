@@ -55,7 +55,8 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @OnClick(R.id.addTime)
     void addTime(FloatingActionButton fab) {
-        Fragment fragment = ExpensesFragment.newInstance();
+        Job job = getJobArg();
+        Fragment fragment = ExpensesFragment.newInstance(job);
         getMainActivity().pushFragment(fragment);
     }
 
