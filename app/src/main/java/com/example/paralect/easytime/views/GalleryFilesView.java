@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Oleg Tarashkevich on 16/01/2018.
@@ -52,6 +53,11 @@ public class GalleryFilesView extends RelativeLayout {
         final InformationFilesAdapter adapter = new InformationFilesAdapter(files);
         viewPager.setAdapter(adapter);
         pageIndicatorView.setViewPager(viewPager);
+    }
+
+    @OnClick(R.id.gallery_capture_button)
+    public void onCaptureClick(){
+
     }
 
     private class InformationFilesAdapter extends PagerAdapter {

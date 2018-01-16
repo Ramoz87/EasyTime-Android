@@ -35,6 +35,7 @@ ext {
     fabviewVersion = '1.10.1'
     fabVersion = '1.6.4'
     gridlayoutVersion = '25.2.0'
+    easyImageVersion = '1.3.1'
 
     deps = [
 
@@ -77,6 +78,7 @@ ext {
             javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             eventBus           : "org.greenrobot:eventbus:${eventBusVersion}",
             multidex           : "com.android.support:multidex:${multidexVersion}",
+            easyImage          : "com.github.jkwiecien:EasyImage:${easyImageVersion}",
 
             // Network
             gson               : "com.google.code.gson:gson:${gsonVersion}",
