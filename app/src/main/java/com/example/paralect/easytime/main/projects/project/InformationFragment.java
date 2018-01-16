@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.projects.project;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.views.InfoLayout;
 
 import butterknife.BindView;
@@ -30,7 +32,7 @@ public class InformationFragment extends Fragment {
     @BindView(R.id.instructions)
     InfoLayout instructions;
 
-    public static InformationFragment newInstance() {
+    public static InformationFragment newInstance(@NonNull Job job) {
         return new InformationFragment();
     }
 

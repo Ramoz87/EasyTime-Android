@@ -61,14 +61,15 @@ public class ProjectFragment extends Fragment {
     }
 
     private void init() {
-        FragmentPagerAdapter adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager());
+        Job job = getJobArg();
+        FragmentPagerAdapter adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager(), job);
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);
     }
 
     private Job getJobArg() {
         Bundle args = getArguments();
-        if (args.containsKey(ARG_JOB))
+        if (args != null && args.containsKey(ARG_JOB))
             return args.getParcelable(ARG_JOB);
         else return null;
     }

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.expenses.ExpensesFragment;
+import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
@@ -43,6 +44,8 @@ import butterknife.OnClick;
 
 public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener {
     private static final String TAG = ActivityFragment.class.getSimpleName();
+
+    public static final String ARG_JOB = "arg_job";
 
     @BindView(R.id.date)
     TextView date;
@@ -70,7 +73,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @OnClick(R.id.addTime)
     void addTime(FloatingActionButton fab) {
-        Fragment fragment = ExpensesFragment.newInstance();
+        Fragment fragment = ExpensesFragment.newInstance(getJobArg());
         getMainActivity().pushFragment(fragment);
     }
 
@@ -85,8 +88,18 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         datePickerDialog.show();
     }
 
-    public static ActivityFragment newInstance() {
-        return new ActivityFragment();
+    public static ActivityFragment newInstance(Job job) {
+        Bundle args = new Bundle(1);
+        args.putParcelable(ARG_JOB, job);
+        ActivityFragment fragment = new ActivityFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private Job getJobArg() {
+        Bundle args = getArguments();
+        if (args == null || !args.containsKey(ARG_JOB)) return null;
+        else return args.getParcelable(ARG_JOB);
     }
 
     @Override

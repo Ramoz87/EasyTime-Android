@@ -3,7 +3,9 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 
 import java.util.List;
 
@@ -44,7 +46,9 @@ public class Job implements Parcelable, ProjectType {
     @DatabaseField(columnName = "typeId")
     private String typeId;
 
-    private List<Expense> expenses;
+    @ForeignCollectionField
+    private ForeignCollection<Expense> expenses;
+
     private File image;
 
     private Customer customer;
@@ -189,11 +193,11 @@ public class Job implements Parcelable, ProjectType {
         this.typeId = typeId;
     }
 
-    public List<Expense> getExpenses() {
+    public ForeignCollection<Expense> getExpenses() {
         return expenses;
     }
 
-    public void setExpenses(List<Expense> expenses) {
+    public void setExpenses(ForeignCollection<Expense> expenses) {
         this.expenses = expenses;
     }
 

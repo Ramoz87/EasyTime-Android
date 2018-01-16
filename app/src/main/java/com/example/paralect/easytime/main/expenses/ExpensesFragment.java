@@ -1,8 +1,10 @@
 package com.example.paralect.easytime.main.expenses;
 
-import android.app.Dialog;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -11,9 +13,13 @@ import android.widget.Toast;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AbsStickyFragment;
+import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.expenses.expense.ExpenseEditorFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
+import com.example.paralect.easytime.model.Job;
+
+import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
@@ -21,12 +27,36 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 15.01.2018.
  */
 
-public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreatorDialog.Listener {
+public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreatorDialog.Listener, IDataView<List<Expense>> {
+    private static final String TAG = ExpensesFragment.class.getSimpleName();
 
-    private ExpensesAdapter adapter = new ExpensesAdapter(EasyTimeManager.getInstance().getDriving());
+    public static final String ARG_JOB = "arg_job";
 
-    public static ExpensesFragment newInstance() {
-        return new ExpensesFragment();
+    private ExpensesPresenter presenter = new ExpensesPresenter();
+    private ExpensesAdapter adapter = new ExpensesAdapter(EasyTimeManager.getInstance().getDefaultExpenses());
+
+    public static ExpensesFragment newInstance(@NonNull Job job) {
+        Bundle args = new Bundle(1);
+        args.putParcelable(ARG_JOB, job);
+        ExpensesFragment fragment = new ExpensesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private Job getJobArg() {
+        Bundle args = getArguments();
+        if (args == null || !args.containsKey(ARG_JOB))
+            return null;
+        else return args.getParcelable(ARG_JOB);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Job job = getJobArg();
+        String jobId = job.getJobId();
+        presenter.setDataView(this)
+                .requestData(new String[] { jobId });
     }
 
     @Override
@@ -72,5 +102,11 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
         Expense expense = new Expense();
         expense.setName(expenseName);
         adapter.addExpense(expense);
+    }
+
+    @Override
+    public void onDataReceived(List<Expense> expenses) {
+        Log.d(TAG, "on data received");
+        adapter.setOtherExpenses(expenses);
     }
 }

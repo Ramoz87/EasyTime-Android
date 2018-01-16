@@ -235,9 +235,28 @@ public final class EasyTimeManager {
         return materials;
     }
 
-    public Expense getDriving() {
-        Expense driving = new Expense();
-        driving.setName("Driving");
-        return driving;
+    public List<Expense> getDefaultExpenses() {
+        List<Expense> expenses = new ArrayList<>();
+        Expense expense = new Expense();
+        expense.setName("Driving");
+        expenses.add(expense);
+        return expenses;
+    }
+
+    public List<Expense> getExpenses(String jobId) {
+        List<Expense> expenses = new ArrayList<>();
+        try {
+            Dao<Expense, Long> dao = helper.getExpenseDao();
+            List<Expense> objectExpenses = dao.queryForEq("object_id", jobId);
+            List<Expense> orderExpenses = dao.queryForEq("order_id", jobId);
+            List<Expense> projectExpenses = dao.queryForEq("project_id", jobId);
+
+            expenses.addAll(objectExpenses);
+            expenses.addAll(orderExpenses);
+            expenses.addAll(projectExpenses);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return expenses;
     }
 }

@@ -1,11 +1,13 @@
 package com.example.paralect.easytime.main.projects.project;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.model.Job;
 
 /**
  * Created by alexei on 27.12.2017.
@@ -14,17 +16,19 @@ import com.example.paralect.easytime.R;
 public class ProjectSectionAdapter extends FragmentPagerAdapter {
 
     private Context context;
+    private Job job;
 
-    public ProjectSectionAdapter(Context context, FragmentManager fm) {
+    public ProjectSectionAdapter(Context context, FragmentManager fm, @NonNull Job job) {
         super(fm);
         this.context = context;
+        this.job = job;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return ActivityFragment.newInstance();
-            case 1: return InformationFragment.newInstance();
+            case 0: return ActivityFragment.newInstance(job);
+            case 1: return InformationFragment.newInstance(job);
             default: return new Fragment();
         }
     }
