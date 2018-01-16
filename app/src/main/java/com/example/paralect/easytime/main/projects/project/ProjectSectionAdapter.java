@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.main.projects.project.information.InformationFragment;
 import com.example.paralect.easytime.views.BaseFragmentPagerAdapter;
 
 /**

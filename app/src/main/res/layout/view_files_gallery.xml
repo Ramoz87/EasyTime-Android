@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/gallery_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"/>
+
+    <com.rd.PageIndicatorView
+        android:id="@+id/gallery_page_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/gallery_view_pager"
+        android:layout_below="@id/contacts_view_pager"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        app:piv_animationType="worm"
+        app:piv_dynamicCount="true"
+        app:piv_padding="5dp"
+        app:piv_radius="4dp"
+        app:piv_selectedColor="@color/white"
+        app:piv_unselectedColor="@color/white_transparent"/>
+
+</RelativeLayout>
