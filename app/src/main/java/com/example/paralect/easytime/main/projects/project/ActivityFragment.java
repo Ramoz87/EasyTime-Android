@@ -121,7 +121,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         switch (item.getItemId()) {
             case R.id.item_new:
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectDetailFragment.newInstance());
+                        .pushFragment(ProjectDetailFragment.newInstance(getJobArg()));
                 return true;
         }
         return true;

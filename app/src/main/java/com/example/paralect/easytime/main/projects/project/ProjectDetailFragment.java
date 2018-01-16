@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.model.Customer;
+import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.views.SignatureView;
@@ -35,6 +37,8 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
 
     private static final String TAG = ProjectDetailFragment.class.getSimpleName();
 
+    public static final String ARG_JOB = "arg_job";
+
     @BindView(R.id.detail_title) TextView detailTitle;
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
@@ -44,8 +48,26 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
     private Animation fadeIn;
     private Animation fadeOut;
 
-    public static ProjectDetailFragment newInstance() {
-        return new ProjectDetailFragment();
+    private Job job;
+
+    public static ProjectDetailFragment newInstance(@NonNull Job job) {
+        Bundle args = new Bundle(1);
+        args.putParcelable(ARG_JOB, job);
+        ProjectDetailFragment fragment = new ProjectDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private Job getJobArg() {
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(ARG_JOB))
+            return args.getParcelable(ARG_JOB);
+        else return null;
+    }
+
+    private void initJob() {
+        if (job == null)
+            job = getJobArg();
     }
 
     @Override
@@ -69,7 +91,9 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
 
     @Override
     public void onCreateActionBar(ActionBar actionBar) {
-
+        initJob();
+        String titleText = getResources().getString(R.string.project_number, job.getNumber());
+        actionBar.setTitle(titleText);
     }
 
     @Override
@@ -82,9 +106,18 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         emptyRecyclerView.setEmptyView(emptyListPlaceholder);
+        initJob();
         initFam();
         initOverlay();
         initAnimations();
+
+        populate();
+    }
+
+    private void populate() {
+        initJob();
+        Customer customer = job.getCustomer();
+        detailTitle.setText(customer.getCompanyName());
     }
 
     private void initOverlay() {

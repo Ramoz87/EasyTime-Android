@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#5B759F"
+            android:background="?attr/header_color"
+            android:id="@+id/companyName"
+            android:text="@string/placeholder_company_name_for_expenses"
+            android:padding="15dp"
+            android:gravity="right|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.example.paralect.easytime.views.EmptyRecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionButton
+        style="@style/FloatingActionButtonMiniStyle"
+        android:src="@drawable/ic_check_mark"
+        android:layout_marginRight="@dimen/fab_right_margin"
+        android:layout_marginBottom="@dimen/fab_bottom_margin"
+        android:layout_gravity="bottom|right"
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</FrameLayout>
