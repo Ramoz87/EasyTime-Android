@@ -13,12 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/png_project_art"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/info_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="175dp" />
+            android:layout_height="175dp"/>
 
         <LinearLayout
             android:paddingLeft="@dimen/project_information_left_padding"

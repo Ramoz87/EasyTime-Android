@@ -33,6 +33,7 @@ dependencies {
     implementation deps.pageindicatorview
     implementation deps.fab
     implementation deps.gridlayout
+    implementation deps.picasso
 
     implementation deps.butterKnife
     annotationProcessor deps.butterKnifeCompiler

@@ -3,9 +3,9 @@ package com.example.paralect.easytime.main.projects.project;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.projects.project.information.InformationFragment;
 import com.example.paralect.easytime.views.BaseFragmentPagerAdapter;
 
 /**

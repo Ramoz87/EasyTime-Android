@@ -1,6 +1,8 @@
-package com.example.paralect.easytime.main.projects.project;
+package com.example.paralect.easytime.main.projects.project.information;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.widget.ScrollView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.views.InfoLayout;
 
 import butterknife.BindView;
@@ -22,18 +25,16 @@ import butterknife.ButterKnife;
 
 public class InformationFragment extends BaseFragment {
 
-    @BindView(R.id.scrollView)
-    ScrollView scrollView;
-
-    @BindView(R.id.instructions)
-    InfoLayout instructions;
+    @BindView(R.id.scrollView) ScrollView scrollView;
+    @BindView(R.id.info_view_pager) ViewPager viewPager;
+    @BindView(R.id.instructions) InfoLayout instructions;
 
     public static InformationFragment newInstance() {
         return new InformationFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_project_information, parent, false);
     }
 
@@ -48,6 +49,9 @@ public class InformationFragment extends BaseFragment {
         instructions.addInfoItem(R.drawable.ic_watch, R.string.placeholder_project_info_delivery_time, null);
         instructions.addInfoItem(R.drawable.ic_phone, R.string.placeholder_project_info_contact, null);
         instructions.addInfoItem(R.drawable.ic_checkpoint, R.string.placeholder_project_info_address, null);
+
+        final InformationFilesAdapter adapter = new InformationFilesAdapter(File.mockList());
+        viewPager.setAdapter(adapter);
     }
 
     @Override
