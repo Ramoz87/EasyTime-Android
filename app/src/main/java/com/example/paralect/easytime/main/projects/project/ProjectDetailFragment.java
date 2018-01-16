@@ -104,6 +104,8 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
         Context context = getContext();
         Resources res = getResources();
         fam.setOnMenuToggleListener(this);
+        fam.getMenuIconView().setImageResource(R.drawable.ic_check);
+        fam.setAnimated(false);
     }
 
     private void initAnimations() {
