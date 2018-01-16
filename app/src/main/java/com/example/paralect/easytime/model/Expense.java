@@ -35,14 +35,8 @@ public class Expense implements Parcelable {
     @DatabaseField(columnName = "workTypeId")
     private String workTypeId;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private Object object;
-
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private Order order;
-
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private Project project;
+    @DatabaseField(columnName = "jobId")
+    private String jobId;
 
     private File photo;
 
@@ -58,9 +52,7 @@ public class Expense implements Parcelable {
         type = in.readString();
         value = in.readInt();
         workTypeId = in.readString();
-        object = in.readParcelable(Object.class.getClassLoader());
-        order = in.readParcelable(Order.class.getClassLoader());
-        project = in.readParcelable(Project.class.getClassLoader());
+        jobId = in.readString();
     }
 
     @Override
@@ -72,9 +64,7 @@ public class Expense implements Parcelable {
         dest.writeString(type);
         dest.writeInt(value);
         dest.writeString(workTypeId);
-        dest.writeParcelable(object, flags);
-        dest.writeParcelable(order, flags);
-        dest.writeParcelable(project, flags);
+        dest.writeString(jobId);
     }
 
     @Override
@@ -150,25 +140,12 @@ public class Expense implements Parcelable {
         this.workTypeId = workTypeId;
     }
 
-    public Job getJob() {
-        if (object != null) return object;
-        else if (order != null) return order;
-        else return project;
+
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setJob(Job job) {
-        if (job instanceof Object) {
-            this.object = (Object) job;
-            this.order = null;
-            this.project = null;
-        } else if (job instanceof Order) {
-            this.object = null;
-            this.order = (Order) job;
-            this.project = null;
-        } else if (job instanceof Project) {
-            this.object = null;
-            this.order = null;
-            this.project = (Project) job;
-        }
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 }

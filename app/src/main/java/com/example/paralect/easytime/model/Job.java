@@ -46,9 +46,6 @@ public class Job implements Parcelable, ProjectType {
     @DatabaseField(columnName = "typeId")
     private String typeId;
 
-    @ForeignCollectionField
-    private ForeignCollection<Expense> expenses;
-
     private File image;
 
     private Customer customer;
@@ -191,14 +188,6 @@ public class Job implements Parcelable, ProjectType {
 
     public void setTypeId(String typeId) {
         this.typeId = typeId;
-    }
-
-    public ForeignCollection<Expense> getExpenses() {
-        return expenses;
-    }
-
-    public void setExpenses(ForeignCollection<Expense> expenses) {
-        this.expenses = expenses;
     }
 
     public File getImage() {

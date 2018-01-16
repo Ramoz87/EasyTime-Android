@@ -57,6 +57,41 @@ public final class EasyTimeManager {
     }
 
     // region Jobs
+    public List<Job> getAllJobs() {
+        List<Job> jobs = new ArrayList<>();
+        try {
+            Dao<Object, String> objectDao = helper.getObjectDao();
+            Dao<Order, String> orderDao = helper.getOrderDao();
+            Dao<Project, String> projectDao = helper.getProjectDao();
+
+            List<Object> objects = getList(objectDao, null, null, null);
+            List<Order> orders = getList(orderDao, null, null, null);
+            List<Project> projects = getList(projectDao, null, null, null);
+
+            jobs.addAll(objects);
+            jobs.addAll(orders);
+            jobs.addAll(projects);
+
+            Dao<Customer, String> customerDao = helper.getCustomerDao();
+            for (Job job : jobs) {
+                String customerId = job.getCustomerId();
+                Customer customer = customerDao.queryForId(customerId);
+                job.setCustomer(customer);
+            }
+
+            Dao<Address, Long> addressDao = helper.getAddressDao();
+            for (Job job : jobs) {
+                if (job instanceof JobWithAddress) {
+                    JobWithAddress jobWithAddress = (JobWithAddress) job;
+                    jobWithAddress.setAddress(addressDao.queryForId(jobWithAddress.getAddressId()));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return jobs;
+    }
+
     public List<Object> getObjects(Customer customer) throws SQLException {
         return getJobs(helper.getObjectDao(), customer, null, null);
     }
@@ -247,16 +282,24 @@ public final class EasyTimeManager {
         List<Expense> expenses = new ArrayList<>();
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
-            List<Expense> objectExpenses = dao.queryForEq("object_id", jobId);
-            List<Expense> orderExpenses = dao.queryForEq("order_id", jobId);
-            List<Expense> projectExpenses = dao.queryForEq("project_id", jobId);
-
-            expenses.addAll(objectExpenses);
-            expenses.addAll(orderExpenses);
-            expenses.addAll(projectExpenses);
+            List<Expense> foundExpenses = dao.queryForEq("jobId", jobId);
+            expenses.addAll(foundExpenses);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return expenses;
+    }
+
+    public List<Expense> getExpenses(Job job) {
+        return getExpenses(job.getJobId());
+    }
+
+    public void saveExpense(Expense expense) {
+        try {
+            Dao<Expense, Long> dao = helper.getExpenseDao();
+            dao.createOrUpdate(expense);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

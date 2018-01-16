@@ -101,6 +101,9 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
         Toast.makeText(getContext(), String.format("created new expense %s", expenseName), Toast.LENGTH_SHORT).show();
         Expense expense = new Expense();
         expense.setName(expenseName);
+        Job job = getJobArg();
+        expense.setJobId(job.getJobId());
+        EasyTimeManager.getInstance().saveExpense(expense);
         adapter.addExpense(expense);
     }
 
