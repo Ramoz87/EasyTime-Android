@@ -47,6 +47,11 @@ public class EasyTimeApplication extends Application {
             Log.d(TAG, "filling data from db");
             FakeCreator fakeCreator = getDefaultFakeCreator();
             fillData(fakeCreator);
+        } else {
+            List<Job> jobs = EasyTimeManager.getInstance().getAllJobs();
+            for (Job job : jobs) {
+                Log.d(TAG, "date for job: " + job.getDate());
+            }
         }
     }
 

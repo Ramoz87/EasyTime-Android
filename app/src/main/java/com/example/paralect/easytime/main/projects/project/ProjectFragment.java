@@ -1,10 +1,8 @@
 package com.example.paralect.easytime.main.projects.project;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,13 +11,11 @@ import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
-import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.IntentUtils;
 
@@ -73,6 +69,7 @@ public class ProjectFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        job = getJobArg();
         init();
     }
 
@@ -82,7 +79,8 @@ public class ProjectFragment extends BaseFragment {
     }
 
     private void init() {
-        adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager());
+        Job job = getJobArg();
+        adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager(), job);
         viewPager.setAdapter(adapter);
         viewPager.removeOnPageChangeListener(pageChangeListener);
         viewPager.addOnPageChangeListener(pageChangeListener);
@@ -91,7 +89,7 @@ public class ProjectFragment extends BaseFragment {
 
     private Job getJobArg() {
         Bundle args = getArguments();
-        if (args != null && args.containsKey(ARG_JOB))
+        if (args.containsKey(ARG_JOB))
             return args.getParcelable(ARG_JOB);
         else return null;
     }

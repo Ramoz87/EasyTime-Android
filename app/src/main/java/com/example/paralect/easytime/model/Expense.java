@@ -3,21 +3,41 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Created by alexei on 26.12.2017.
  */
 
+@DatabaseTable(tableName = "expenses")
 public class Expense implements Parcelable {
 
+    @DatabaseField(columnName = "discount", dataType = DataType.FLOAT)
     private float discount;
-    private int expensiveId;
+
+    @DatabaseField(columnName = "expensiveId", generatedId = true)
+    private long expensiveId;
+
+    @DatabaseField(columnName = "materialId")
     private String materialId;
+
+    @DatabaseField(columnName = "name")
     private String name;
+
+    @DatabaseField(columnName = "type")
     private String type;
+
+    @DatabaseField(columnName = "value")
     private int value;
+
+    @DatabaseField(columnName = "workTypeId")
     private String workTypeId;
 
-    private Job job;
+    @DatabaseField(columnName = "jobId")
+    private String jobId;
+
     private File photo;
 
     public Expense() {
@@ -26,25 +46,25 @@ public class Expense implements Parcelable {
 
     protected Expense(Parcel in) {
         discount = in.readFloat();
-        expensiveId = in.readInt();
+        expensiveId = in.readLong();
         materialId = in.readString();
         name = in.readString();
         type = in.readString();
         value = in.readInt();
         workTypeId = in.readString();
-        job = in.readParcelable(Job.class.getClassLoader());
+        jobId = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeFloat(discount);
-        dest.writeInt(expensiveId);
+        dest.writeLong(expensiveId);
         dest.writeString(materialId);
         dest.writeString(name);
         dest.writeString(type);
         dest.writeInt(value);
         dest.writeString(workTypeId);
-        dest.writeParcelable(job, flags);
+        dest.writeString(jobId);
     }
 
     @Override
@@ -72,11 +92,11 @@ public class Expense implements Parcelable {
         this.discount = discount;
     }
 
-    public int getExpensiveId() {
+    public long getExpensiveId() {
         return expensiveId;
     }
 
-    public void setExpensiveId(int expensiveId) {
+    public void setExpensiveId(long expensiveId) {
         this.expensiveId = expensiveId;
     }
 
@@ -118,5 +138,14 @@ public class Expense implements Parcelable {
 
     public void setWorkTypeId(String workTypeId) {
         this.workTypeId = workTypeId;
+    }
+
+
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 }

@@ -107,4 +107,11 @@
     <string name="expenses">Expenses</string>
     <string name="driving">Driving</string>
     <string name="other_expenses">Other expenses</string>
+    
+    <!--expense creator dialog-->
+    <string name="create_new_expense">Create new expense?</string>
+    <string name="enter_name">Enter name</string>
+    <string name="placeholder_for_expense_name">Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
 </resources>

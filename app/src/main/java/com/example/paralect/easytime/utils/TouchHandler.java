@@ -21,7 +21,7 @@ public abstract class TouchHandler implements View.OnTouchListener {
     private int normalColor;
     private int touchedColor;
 
-    public static final int TOUCH_DOWN = Color.LTGRAY;
+    public static final int TOUCH_DOWN = Color.rgb(211,211,211);
     public static final int TOUCH_UP = Color.WHITE;
 
     public TouchHandler() {
@@ -43,7 +43,7 @@ public abstract class TouchHandler implements View.OnTouchListener {
         } else if (action == MotionEvent.ACTION_UP
                 && view == touchedView) {
             onTouchUp(view);
-            onClick(view);// perform click
+            performClick(view);// perform click
         } else if (action == MotionEvent.ACTION_MOVE) {
             if (!touchedRect
                     .contains(view.getLeft() + (int) motionEvent.getX(), view.getTop() + (int) motionEvent.getY())) {
@@ -55,7 +55,11 @@ public abstract class TouchHandler implements View.OnTouchListener {
 
     private void onTouchDown(View view, int color) {
         old = view.getBackground();
-        normalColor = ((ColorDrawable) old).getColor();
+        if (old == null || !(old instanceof ColorDrawable)) {
+            normalColor = Color.TRANSPARENT;
+        } else {
+            normalColor = ((ColorDrawable) old).getColor();
+        }
         touchedView = view;
         touchedAlready = true;
         touchedRect = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
@@ -69,5 +73,5 @@ public abstract class TouchHandler implements View.OnTouchListener {
         view.setBackgroundColor(normalColor);
     }
 
-    public abstract void onClick(View v);
+    public abstract void performClick(View v);
 }

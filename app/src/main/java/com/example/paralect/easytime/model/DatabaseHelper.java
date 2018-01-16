@@ -30,6 +30,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Object, String> objectDao = null;
     private Dao<Order, String> orderDao = null;
     private Dao<Project, String> projectDao = null;
+    private Dao<Expense, Long> expenseDao = null;
 
     public DatabaseHelper(@NonNull Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -46,6 +47,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Object.class);
             TableUtils.createTableIfNotExists(connectionSource, Order.class);
             TableUtils.createTableIfNotExists(connectionSource, Project.class);
+            TableUtils.createTableIfNotExists(connectionSource, Expense.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -62,6 +64,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Object.class, true);
             TableUtils.dropTable(connectionSource, Order.class, true);
             TableUtils.dropTable(connectionSource, Project.class, true);
+            TableUtils.dropTable(connectionSource, Expense.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -89,6 +92,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return typeDao;
     }
 
+    public Dao<Expense, Long> getExpenseDao() throws SQLException {
+        if (expenseDao == null) {
+            expenseDao = getDao(Expense.class);
+        }
+        return expenseDao;
+    }
+
     @Override
     public void close() {
         addressDao = null;
@@ -99,6 +109,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         orderDao = null;
         objectDao = null;
         projectDao = null;
+        expenseDao = null;
 
         super.close();
     }

@@ -57,6 +57,41 @@ public final class EasyTimeManager {
     }
 
     // region Jobs
+    public List<Job> getAllJobs() {
+        List<Job> jobs = new ArrayList<>();
+        try {
+            Dao<Object, String> objectDao = helper.getObjectDao();
+            Dao<Order, String> orderDao = helper.getOrderDao();
+            Dao<Project, String> projectDao = helper.getProjectDao();
+
+            List<Object> objects = getList(objectDao, null, null, null);
+            List<Order> orders = getList(orderDao, null, null, null);
+            List<Project> projects = getList(projectDao, null, null, null);
+
+            jobs.addAll(objects);
+            jobs.addAll(orders);
+            jobs.addAll(projects);
+
+            Dao<Customer, String> customerDao = helper.getCustomerDao();
+            for (Job job : jobs) {
+                String customerId = job.getCustomerId();
+                Customer customer = customerDao.queryForId(customerId);
+                job.setCustomer(customer);
+            }
+
+            Dao<Address, Long> addressDao = helper.getAddressDao();
+            for (Job job : jobs) {
+                if (job instanceof JobWithAddress) {
+                    JobWithAddress jobWithAddress = (JobWithAddress) job;
+                    jobWithAddress.setAddress(addressDao.queryForId(jobWithAddress.getAddressId()));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return jobs;
+    }
+
     public List<Object> getObjects(Customer customer) throws SQLException {
         return getJobs(helper.getObjectDao(), customer, null, null);
     }
@@ -235,9 +270,45 @@ public final class EasyTimeManager {
         return materials;
     }
 
-    public Expense getDriving() {
-        Expense driving = new Expense();
-        driving.setName("Driving");
-        return driving;
+    public List<Expense> getDefaultExpenses() {
+        List<Expense> expenses = new ArrayList<>();
+        Expense expense = new Expense();
+        expense.setName("Driving");
+        expenses.add(expense);
+        return expenses;
+    }
+
+    public List<Expense> getExpenses(String jobId) {
+        List<Expense> expenses = new ArrayList<>();
+        try {
+            Dao<Expense, Long> dao = helper.getExpenseDao();
+            List<Expense> foundExpenses = dao.queryForEq("jobId", jobId);
+            expenses.addAll(foundExpenses);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return expenses;
+    }
+
+    public List<Expense> getExpenses(Job job) {
+        return getExpenses(job.getJobId());
+    }
+
+    public void saveExpense(Expense expense) {
+        try {
+            Dao<Expense, Long> dao = helper.getExpenseDao();
+            dao.createOrUpdate(expense);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateExpense(Expense expense) {
+        try {
+            Dao<Expense, Long> dao = helper.getExpenseDao();
+            dao.update(expense);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
