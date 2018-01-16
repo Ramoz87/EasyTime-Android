@@ -33,12 +33,12 @@ import pl.aprilapps.easyphotopicker.EasyImage;
  * Created by Oleg Tarashkevich on 16/01/2018.
  */
 
-public class GalleryFilesView extends RelativeLayout implements RxBus.Observer.EventListener<ResultEvent> {
+public class GalleryFilesView extends RelativeLayout implements IGalleryFilesView, RxBus.Observer.EventListener<ResultEvent> {
 
     @BindView(R.id.gallery_view_pager) ViewPager viewPager;
     @BindView(R.id.gallery_page_indicator) PageIndicatorView pageIndicatorView;
 
-    private RxBus.Observer<ResultEvent> eventObserver = new RxBus.Observer<>();
+    private GalleryFilesPresenter eventObserver = new GalleryFilesPresenter();
 
     public GalleryFilesView(Context context) {
         this(context, null);
@@ -71,6 +71,7 @@ public class GalleryFilesView extends RelativeLayout implements RxBus.Observer.E
         ButterKnife.bind(this);
     }
 
+    @Override
     public void setFiles(List<File> files) {
         final InformationFilesAdapter adapter = new InformationFilesAdapter(files);
         viewPager.setAdapter(adapter);
