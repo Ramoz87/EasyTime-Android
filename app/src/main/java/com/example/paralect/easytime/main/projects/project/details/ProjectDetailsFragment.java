@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.main.projects.project.details;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.CongratulationsActivity;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
 import com.example.paralect.easytime.model.Consumable;
@@ -28,6 +30,7 @@ import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.views.SignatureView;
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.List;
@@ -51,6 +54,13 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.overlay) View overlay;
     @BindView(R.id.fam) FloatingActionMenu fam;
+
+    @OnClick(R.id.action_send)
+    void send(FloatingActionButton fab) {
+        Intent intent = CongratulationsActivity.newIntent(getContext());
+        startActivity(intent);
+        // getMainActivity().jumpToRoot();
+    }
 
     private ProjectExpensesAdapter adapter = new ProjectExpensesAdapter();
     private ProjectExpensesPresenter presenter = new ProjectExpensesPresenter();

@@ -226,4 +226,10 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     public void jumpToRoot() {
         mNavController.clearStack();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        jumpToRoot();
+    }
 }

@@ -15,7 +15,6 @@
 
         <activity
             android:name=".main.MainActivity"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -26,6 +25,10 @@
 
         <activity
             android:name=".login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".main.CongratulationsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>

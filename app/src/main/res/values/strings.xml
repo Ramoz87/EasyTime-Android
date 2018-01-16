@@ -123,4 +123,8 @@
     <string name="placeholder_for_expense_name">Name</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
+
+    <!--congratulations-->
+    <string name="congratulations">Congratulations!</string>
+    <string name="ur_invoice_has_been_sent">Your invoice has been sent</string>
 </resources>
