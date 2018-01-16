@@ -1,5 +1,6 @@
-package com.example.paralect.easytime.views;
+package com.example.paralect.easytime.views.gallery;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -11,7 +12,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.model.File;
+import com.example.paralect.easytime.model.event.ResultEvent;
+import com.example.paralect.easytime.utils.IntentUtils;
+import com.example.paralect.easytime.utils.RxBus;
 import com.rd.PageIndicatorView;
 import com.squareup.picasso.Picasso;
 
@@ -21,16 +26,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 /**
  * Created by Oleg Tarashkevich on 16/01/2018.
  */
 
-public class GalleryFilesView extends RelativeLayout {
+public class GalleryFilesView extends RelativeLayout implements RxBus.Observer.EventListener<ResultEvent> {
 
     @BindView(R.id.gallery_view_pager) ViewPager viewPager;
     @BindView(R.id.gallery_page_indicator) PageIndicatorView pageIndicatorView;
-    
+
+    private RxBus.Observer<ResultEvent> eventObserver = new RxBus.Observer<>();
+
     public GalleryFilesView(Context context) {
         this(context, null);
     }
@@ -44,20 +53,62 @@ public class GalleryFilesView extends RelativeLayout {
         init();
     }
 
-    private void init(){
-       inflate(getContext(), R.layout.view_files_gallery, this);
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        eventObserver.setEventListener(this);
+        eventObserver.subscribe(ResultEvent.class);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        eventObserver.unSubscribe();
+    }
+
+    private void init() {
+        inflate(getContext(), R.layout.view_files_gallery, this);
         ButterKnife.bind(this);
     }
 
-    public void setFiles(List<File> files){
+    public void setFiles(List<File> files) {
         final InformationFilesAdapter adapter = new InformationFilesAdapter(files);
         viewPager.setAdapter(adapter);
         pageIndicatorView.setViewPager(viewPager);
     }
 
     @OnClick(R.id.gallery_capture_button)
-    public void onCaptureClick(){
+    public void onCaptureClick() {
+        Activity activity = IntentUtils.getActivity(getContext());
+        if (!IntentUtils.isFinishing(activity))
+            EasyImage.openCamera(activity, 0);
+    }
 
+    @Override
+    public void onEventReceived(ResultEvent event) {
+        Activity activity = IntentUtils.getActivity(getContext());
+        if (!IntentUtils.isFinishing(activity)) {
+            EasyImage.handleActivityResult(event.getRequestCode(), event.getResultCode(), event.getData(), activity, new DefaultCallback() {
+                @Override
+                public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onImagePicked(java.io.File imageFile, EasyImage.ImageSource source, int type) {
+
+                }
+
+                @Override
+                public void onCanceled(EasyImage.ImageSource source, int type) {
+                    //Cancel handling, you might wanna remove taken photo if it was canceled
+                    if (source == EasyImage.ImageSource.CAMERA) {
+                        java.io.File photoFile = EasyImage.lastlyTakenButCanceledPhoto(getContext());
+                        if (photoFile != null) photoFile.delete();
+                    }
+                }
+            });
+        }
     }
 
     private class InformationFilesAdapter extends PagerAdapter {

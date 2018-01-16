@@ -22,6 +22,8 @@ import com.example.paralect.easytime.main.customers.CustomersFragment;
 import com.example.paralect.easytime.main.materials.MaterialsFragment;
 import com.example.paralect.easytime.main.projects.ProjectsFragment;
 import com.example.paralect.easytime.main.settings.SettingsFragment;
+import com.example.paralect.easytime.model.event.ResultEvent;
+import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.ViewUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.github.clans.fab.FloatingActionMenu;
@@ -30,8 +32,13 @@ import com.ncapdevi.fragnav.FragNavSwitchController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
 import com.ncapdevi.fragnav.tabhistory.FragNavTabHistoryController;
 
+import java.io.File;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -216,8 +223,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     public void pushFragment(Fragment fragment) {
         mNavController.pushFragment(fragment, options);
     }
-    // endregion
-    // endregion
 
     public FragmentNavigator getFragmentNavigator() {
         return this;
@@ -225,5 +230,17 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     public void jumpToRoot() {
         mNavController.clearStack();
+    }
+    // endregion
+    // endregion
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Send and event to subscribers
+        ResultEvent event = new ResultEvent(requestCode, resultCode, data);
+        RxBus.getInstance().send(event);
+
     }
 }

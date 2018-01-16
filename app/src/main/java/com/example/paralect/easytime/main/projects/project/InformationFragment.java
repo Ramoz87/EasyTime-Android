@@ -13,7 +13,7 @@ import android.widget.ScrollView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.model.File;
-import com.example.paralect.easytime.views.GalleryFilesView;
+import com.example.paralect.easytime.views.gallery.GalleryFilesView;
 import com.example.paralect.easytime.views.InfoLayout;
 
 import butterknife.BindView;
