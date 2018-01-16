@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -20,7 +21,6 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.views.SignatureView;
-import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import butterknife.BindView;
@@ -55,7 +55,16 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_discount, menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.item_discount) {
+
+            return true;
+        } else
+            return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -65,7 +74,7 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
 
     @Override
     public boolean needsOptionsMenu() {
-        return false;
+        return true;
     }
 
     @Override
@@ -91,11 +100,15 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
 
     // adding overlay on front of app screen but under fam
     private void showOverlay() {
+        fam.getMenuIconView().setImageResource(R.drawable.ic_close);
+        fam.setMenuButtonColorNormalResId(R.color.dark_gray);
         overlay.startAnimation(fadeIn);
     }
 
     // removing overlay
     private void hideOverlay() {
+        fam.getMenuIconView().setImageResource(R.drawable.ic_check);
+        fam.setMenuButtonColorNormalResId(R.color.blue);
         overlay.startAnimation(fadeOut);
     }
 
@@ -104,6 +117,8 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
         Context context = getContext();
         Resources res = getResources();
         fam.setOnMenuToggleListener(this);
+        fam.getMenuIconView().setImageResource(R.drawable.ic_check);
+        fam.setIconAnimated(false);
     }
 
     private void initAnimations() {
@@ -154,5 +169,5 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
         });
     }
     // endregion
-    
+
 }
