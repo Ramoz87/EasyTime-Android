@@ -20,7 +20,6 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.views.SignatureView;
-import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import butterknife.BindView;
@@ -91,11 +90,15 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
 
     // adding overlay on front of app screen but under fam
     private void showOverlay() {
+        fam.getMenuIconView().setImageResource(R.drawable.ic_close);
+        fam.setMenuButtonColorNormalResId(R.color.dark_gray);
         overlay.startAnimation(fadeIn);
     }
 
     // removing overlay
     private void hideOverlay() {
+        fam.getMenuIconView().setImageResource(R.drawable.ic_check);
+        fam.setMenuButtonColorNormalResId(R.color.blue);
         overlay.startAnimation(fadeOut);
     }
 
@@ -105,7 +108,7 @@ public class ProjectDetailFragment extends BaseFragment implements FloatingActio
         Resources res = getResources();
         fam.setOnMenuToggleListener(this);
         fam.getMenuIconView().setImageResource(R.drawable.ic_check);
-        fam.setAnimated(false);
+        fam.setIconAnimated(false);
     }
 
     private void initAnimations() {
