@@ -302,4 +302,13 @@ public final class EasyTimeManager {
             throw new RuntimeException(e);
         }
     }
+
+    public void updateExpense(Expense expense) {
+        try {
+            Dao<Expense, Long> dao = helper.getExpenseDao();
+            dao.update(expense);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

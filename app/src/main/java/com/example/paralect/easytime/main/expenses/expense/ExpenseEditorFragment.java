@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.expenses.ExpensesFragment;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.views.KeypadEditorView;
 
@@ -35,6 +37,8 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     @BindView(R.id.keypad) KeypadEditorView keypadEditorView;
     @BindView(R.id.expenseName) TextView expenseName;
     @BindView(R.id.expenseCount) EditText expenseCount;
+
+    private Expense expense;
 
     public static ExpenseEditorFragment newInstance(@NonNull Expense expense) {
         Bundle args = new Bundle(1);
@@ -64,12 +68,18 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     }
 
     private void init() {
-        Expense expense = getExpenseArg();
+        expense = getExpenseArg();
+        int value = expense.getValue();
         expenseName.setText(expense.getName());
 
         expenseCount.setRawInputType(InputType.TYPE_CLASS_TEXT);
         expenseCount.setTextIsSelectable(true);
         expenseCount.requestFocus();
+        if (value != 0) {
+            String text = String.valueOf(value);
+            expenseCount.setText(text);
+            expenseCount.setSelection(text.length());
+        }
 
         keypadEditorView.setOnCompletionListener(this);
         keypadEditorView.setupEditText(expenseCount);
@@ -94,6 +104,13 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     public void onCompletion(String result) {
         String message = "completed";
         Log.d(TAG, message);
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        if (result.isEmpty()) {
+            expense.setValue(0);
+        } else {
+            expense.setValue(Integer.valueOf(result));
+        }
+        EasyTimeManager.getInstance().updateExpense(expense);
+        getMainActivity().onBackPressed();
     }
 }
