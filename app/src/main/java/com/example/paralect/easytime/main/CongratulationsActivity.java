@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.example.paralect.easytime.R;
 
@@ -13,7 +14,7 @@ import com.example.paralect.easytime.R;
  * Created by alexei on 16.01.2018.
  */
 
-public class CongratulationsActivity extends Activity implements Runnable {
+public class CongratulationsActivity extends Activity implements Runnable, View.OnClickListener {
 
     private static final int DELAY = 2000;
 
@@ -26,7 +27,7 @@ public class CongratulationsActivity extends Activity implements Runnable {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.activity_congratulations);
-
+        findViewById(R.id.root).setOnClickListener(this);
         Handler handler = new Handler();
         handler.postDelayed(this, DELAY);
     }
@@ -38,6 +39,11 @@ public class CongratulationsActivity extends Activity implements Runnable {
 
     @Override
     public void run() {
+        finish();
+    }
+
+    @Override
+    public void onClick(View view) {
         finish();
     }
 }
