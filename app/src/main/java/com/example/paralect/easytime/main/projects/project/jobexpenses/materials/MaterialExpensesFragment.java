@@ -3,6 +3,7 @@ package com.example.paralect.easytime.main.projects.project.jobexpenses.material
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.views.KeypadEditorView;
 
@@ -83,6 +85,10 @@ public class MaterialExpensesFragment extends BaseFragment implements IDataView<
         emptyRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         emptyRecyclerView.setLayoutManager(lm);
+        int color = ContextCompat.getColor(getContext(), R.color.list_divider_color);
+        int height = getResources().getInteger(R.integer.list_divider_height);
+        RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height, 25);
+        emptyRecyclerView.addItemDecoration(decor);
 
         presenter.setDataView(this)
                 .requestData(null);
