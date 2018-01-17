@@ -12,10 +12,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
-import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.IntentUtils;
+import com.example.paralect.easytime.utils.ListUtil;
 import com.rd.PageIndicatorView;
 import com.squareup.picasso.Picasso;
 
@@ -31,22 +30,20 @@ import pl.aprilapps.easyphotopicker.EasyImage;
  * Created by Oleg Tarashkevich on 16/01/2018.
  */
 
-public class GalleryFilesView extends RelativeLayout implements IGalleryFilesView<List<File>> {
+abstract class FilesView<E> extends RelativeLayout implements IFilesView<List<File>, E> {
 
     @BindView(R.id.gallery_view_pager) ViewPager viewPager;
     @BindView(R.id.gallery_page_indicator) PageIndicatorView pageIndicatorView;
 
-    private GalleryFilesPresenter presenter = new GalleryFilesPresenter();
-
-    public GalleryFilesView(Context context) {
+    public FilesView(Context context) {
         this(context, null);
     }
 
-    public GalleryFilesView(Context context, AttributeSet attrs) {
+    public FilesView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public GalleryFilesView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FilesView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -54,21 +51,23 @@ public class GalleryFilesView extends RelativeLayout implements IGalleryFilesVie
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        presenter.subscribe();
-        presenter.setGalleryFilesView(this);
+        getFilesPresenter().subscribe();
+        getFilesPresenter().setGalleryFilesView(this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        presenter.unSubscribe();
-        presenter.setGalleryFilesView(null);
+        getFilesPresenter().unSubscribe();
+        getFilesPresenter().setGalleryFilesView(null);
     }
 
     private void init() {
         inflate(getContext(), R.layout.view_files_gallery, this);
         ButterKnife.bind(this);
     }
+
+    protected abstract FilesPresenter getFilesPresenter();
 
     @Override
     public Context getViewContext() {
@@ -77,9 +76,12 @@ public class GalleryFilesView extends RelativeLayout implements IGalleryFilesVie
 
     @Override
     public void onDataReceived(List<File> files) {
-        final InformationFilesAdapter adapter = new InformationFilesAdapter(files);
-        viewPager.setAdapter(adapter);
-        pageIndicatorView.setViewPager(viewPager);
+        if (ListUtil.isNotEmpty(files)) {
+            final InformationFilesAdapter adapter = new InformationFilesAdapter(files);
+            viewPager.setAdapter(adapter);
+            pageIndicatorView.setViewPager(viewPager);
+            viewPager.setCurrentItem(files.size());
+        }
     }
 
     @OnClick(R.id.gallery_capture_button)
@@ -87,14 +89,6 @@ public class GalleryFilesView extends RelativeLayout implements IGalleryFilesVie
         Activity activity = IntentUtils.getActivity(getContext());
         if (!IntentUtils.isFinishing(activity))
             EasyImage.openCamera(activity, 0);
-    }
-
-    public void requestData(Job job) {
-        presenter.requestData(job);
-    }
-
-    public void requestData(Expense expense) {
-        presenter.requestData(expense);
     }
 
     private class InformationFilesAdapter extends PagerAdapter {
@@ -112,7 +106,7 @@ public class GalleryFilesView extends RelativeLayout implements IGalleryFilesVie
 
             ImageView imageView = new ImageView(container.getContext());
             Picasso.with(container.getContext())
-                    .load(file.getFileUrl())
+                    .load(file.getFullFileUrl())
                     .placeholder(R.drawable.materials_placeholder)
                     .error(R.drawable.materials_placeholder)
                     .fit()

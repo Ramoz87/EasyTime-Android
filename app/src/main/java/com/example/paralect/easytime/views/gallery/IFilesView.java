@@ -11,7 +11,9 @@ import java.util.List;
  * Created by Oleg Tarashkevich on 16/01/2018.
  */
 
-public interface IGalleryFilesView<DATA> extends IDataView<DATA>{
+interface IFilesView<DATA, E> extends IDataView<DATA>{
 
     Context getViewContext();
+
+    void setupWithEntity(E entity);
 }

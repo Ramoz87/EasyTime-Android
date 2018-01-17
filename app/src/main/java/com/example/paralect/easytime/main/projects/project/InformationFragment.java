@@ -12,10 +12,9 @@ import android.widget.ScrollView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
-import com.example.paralect.easytime.model.Expense;
-import com.example.paralect.easytime.model.File;
-import com.example.paralect.easytime.views.gallery.GalleryFilesView;
+import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.views.InfoLayout;
+import com.example.paralect.easytime.views.gallery.JobFilesView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,12 +25,18 @@ import butterknife.ButterKnife;
 
 public class InformationFragment extends BaseFragment {
 
+    public static final String ARG_JOB = "arg_job";
+
     @BindView(R.id.scrollView) ScrollView scrollView;
-    @BindView(R.id.info_gallery_view) GalleryFilesView galleryFilesView;
+    @BindView(R.id.info_gallery_view) JobFilesView galleryFilesView;
     @BindView(R.id.instructions) InfoLayout instructions;
 
-    public static InformationFragment newInstance() {
-        return new InformationFragment();
+    public static InformationFragment newInstance(Job job) {
+        Bundle args = new Bundle(1);
+        args.putParcelable(ARG_JOB, job);
+        InformationFragment fragment = new InformationFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -51,7 +56,8 @@ public class InformationFragment extends BaseFragment {
         instructions.addInfoItem(R.drawable.ic_phone, R.string.placeholder_project_info_contact, null);
         instructions.addInfoItem(R.drawable.ic_checkpoint, R.string.placeholder_project_info_address, null);
 
-        galleryFilesView.requestData(new Expense());
+        Job job = getJobArg();
+        galleryFilesView.setupWithEntity(job);
     }
 
     @Override
@@ -67,5 +73,11 @@ public class InformationFragment extends BaseFragment {
     @Override
     public boolean needsOptionsMenu() {
         return true;
+    }
+
+    private Job getJobArg() {
+        Bundle args = getArguments();
+        if (args == null || !args.containsKey(ARG_JOB)) return null;
+        else return args.getParcelable(ARG_JOB);
     }
 }

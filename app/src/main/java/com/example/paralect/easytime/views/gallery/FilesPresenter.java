@@ -2,24 +2,21 @@ package com.example.paralect.easytime.views.gallery;
 
 import android.app.Activity;
 
-import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Address;
-import com.example.paralect.easytime.model.Contact;
-import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.Expense;
+import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.model.File;
-import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.event.ResultEvent;
 import com.example.paralect.easytime.utils.IntentUtils;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.RxBus;
 
 import java.util.List;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
@@ -27,11 +24,11 @@ import pl.aprilapps.easyphotopicker.EasyImage;
  * Created by Oleg Tarashkevich on 16/01/2018.
  */
 
-final class GalleryFilesPresenter extends RxBus.Observer<ResultEvent> {
+abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements IDataPresenter<List<File>, E> {
 
-    private IGalleryFilesView<List<File>> mView;
+    protected IFilesView<List<File>, E> mView;
 
-    void subscribe(){
+    void subscribe() {
         subscribe(ResultEvent.class);
     }
 
@@ -48,7 +45,7 @@ final class GalleryFilesPresenter extends RxBus.Observer<ResultEvent> {
 
                     @Override
                     public void onImagePicked(java.io.File imageFile, EasyImage.ImageSource source, int type) {
-
+                        onFileReceived(imageFile);
                     }
 
                     @Override
@@ -64,47 +61,30 @@ final class GalleryFilesPresenter extends RxBus.Observer<ResultEvent> {
         }
     }
 
-    void setGalleryFilesView(IGalleryFilesView<List<File>> view) {
+    protected abstract void onFileReceived(java.io.File imageFile);
+
+    void setGalleryFilesView(IFilesView<List<File>, E> view) {
         mView = view;
     }
 
-    void requestData(Job job) {
-        Flowable<List<File>> flowable = Flowable.create(new FlowableOnSubscribe<List<File>>() {
+    protected void requestData(FlowableOnSubscribe<List<File>> flowableOnSubscribe) {
+        Flowable<List<File>> flowable = Flowable.create(flowableOnSubscribe, BackpressureStrategy.LATEST);
+
+        flowable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<File>>() {
             @Override
-            public void subscribe(FlowableEmitter<List<File>> emitter) throws Exception {
-                try {
-                    if (!emitter.isCancelled()) {
-
-                        EasyTimeManager.getInstance().getFiles()
-                        customer.setAddress(Address.mock());
-                        customer.setContacts(Contact.getMockContacts(4));
-
-                        emitter.onNext(customer);
-                        emitter.onComplete();
-                    }
-                } catch (Throwable e) {
-                    emitter.onError(e);
-                }
-            }
-        }, BackpressureStrategy.LATEST);
-
-        flowable.subscribe(new Consumer<List<File>>() {
-            @Override
-            public void accept(List<File> files) throws Exception {
+            public void accept(List<File> files) {
                 if (mView != null)
                     mView.onDataReceived(files);
             }
         }, new Consumer<Throwable>() {
             @Override
-            public void accept(Throwable throwable) throws Exception {
-                throwable.printStackTrace();
+            public void accept(Throwable throwable) {
+                Logger.e(throwable);
             }
         });
-
-    }
-
-    void requestData(Expense expense) {
-
     }
 
 }

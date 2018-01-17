@@ -324,6 +324,20 @@ public final class EasyTimeManager {
     }
 
     // region File
+    public void saveFile(File file) throws SQLException {
+        Dao<File, String> dao = helper.getFileDao();
+        dao.createOrUpdate(file);
+    }
+
+    public File getFile(Expense expense) throws SQLException {
+        Dao<File, String> dao = helper.getFileDao();
+        QueryBuilder<File, String> qb = dao.queryBuilder();
+        return dao.queryBuilder()
+                .where()
+                .eq("expensiveId", expense.getExpensiveId())
+                .queryForFirst();
+    }
+
     public List<File> getFiles(Expense expense) throws SQLException {
         Dao<File, String> dao = helper.getFileDao();
         QueryBuilder<File, String> qb = dao.queryBuilder();
@@ -332,7 +346,6 @@ public final class EasyTimeManager {
 
     public List<File> getFiles(Job job) throws SQLException {
         Dao<File, String> dao = helper.getFileDao();
-        QueryBuilder<File, String> qb = dao.queryBuilder();
         return dao.queryForEq("jobId", job.getJobId());
     }
 
