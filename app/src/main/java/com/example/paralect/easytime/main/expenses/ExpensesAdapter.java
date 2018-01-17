@@ -34,6 +34,17 @@ public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAda
         notifyDataSetChanged();
     }
 
+    public void setDefaultExpenses(List<Expense> defaultExpenses) {
+        this.defaultExpenses = defaultExpenses;
+        notifyDataSetChanged();
+    }
+
+    public void setExpenses(List<Expense> defaultExpenses, List<Expense> otherExpenses) {
+        this.defaultExpenses = defaultExpenses;
+        this.otherExpenses = otherExpenses;
+        notifyDataSetChanged();
+    }
+
     public void addExpense(Expense expense) {
         if (otherExpenses == null) {
             otherExpenses = new ArrayList<>();
@@ -64,7 +75,7 @@ public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAda
 
     @Override
     public int getCount() {
-        return defaultExpenses.size() /*for defaultExpenses*/
+        return (defaultExpenses != null ? defaultExpenses.size() : 0) /*for defaultExpenses*/
                 + 1 /*expense creator*/
                 + (otherExpenses == null ? 0 : otherExpenses.size()) /*other expenses*/;
     }

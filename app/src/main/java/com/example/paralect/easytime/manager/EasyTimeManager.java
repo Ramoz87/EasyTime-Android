@@ -3,6 +3,7 @@ package com.example.paralect.easytime.manager;
 import android.text.TextUtils;
 
 import com.example.paralect.easytime.EasyTimeApplication;
+import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
@@ -277,10 +278,11 @@ public final class EasyTimeManager {
         return materials;
     }
 
-    public List<Expense> getDefaultExpenses() {
+    public List<Expense> getDefaultExpenses(Job job) {
         List<Expense> expenses = new ArrayList<>();
         Expense expense = new Expense();
-        expense.setName("Driving");
+        expense.setName(EasyTimeApplication.getContext().getString(R.string.driving));
+        expense.setJobId(job.getJobId());
         expenses.add(expense);
         return expenses;
     }

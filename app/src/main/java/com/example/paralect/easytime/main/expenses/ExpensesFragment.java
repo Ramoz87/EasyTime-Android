@@ -33,7 +33,7 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
     public static final String ARG_JOB = "arg_job";
 
     private ExpensesPresenter presenter = new ExpensesPresenter();
-    private ExpensesAdapter adapter = new ExpensesAdapter(EasyTimeManager.getInstance().getDefaultExpenses());
+    private ExpensesAdapter adapter;
 
     public static ExpensesFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
@@ -52,9 +52,10 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         Job job = getJobArg();
         String jobId = job.getJobId();
+        adapter = new ExpensesAdapter(EasyTimeManager.getInstance().getDefaultExpenses(job));
+        super.onViewCreated(view, savedInstanceState);
         presenter.setDataView(this)
                 .requestData(new String[] { jobId });
     }
