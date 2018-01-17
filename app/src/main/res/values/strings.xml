@@ -127,4 +127,10 @@
     <!--congratulations-->
     <string name="congratulations">Congratulations!</string>
     <string name="ur_invoice_has_been_sent">Your invoice has been sent</string>
+
+    <!--projectType-->
+    <string name="job">Job</string>
+    <string name="project">Project</string>
+    <string name="object">Object</string>
+    <string name="order">Order</string>
 </resources>
