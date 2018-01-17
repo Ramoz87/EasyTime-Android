@@ -88,12 +88,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-//        jumpToRoot();
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
