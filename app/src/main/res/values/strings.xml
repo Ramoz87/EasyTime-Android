@@ -90,6 +90,7 @@
     <string name="project_detail_sign">Add signature</string>
     <string name="project_detail_discount">Discount</string>
     <string name="project_detail_completion">Completion</string>
+    <string name="project_detail_add_photo">Add photo</string>
 
     <!--project expenses-->
     <string name="project_number">Project #%d</string>

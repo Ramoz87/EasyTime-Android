@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -30,7 +31,10 @@ import pl.aprilapps.easyphotopicker.EasyImage;
  * Created by Oleg Tarashkevich on 16/01/2018.
  */
 
-abstract class FilesView<E> extends RelativeLayout implements IFilesView<List<File>, E> {
+abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>, E> {
+
+    @BindView(R.id.gallery_images_layout) View galleryView;
+    @BindView(R.id.gallery_empty_layout) View emptyView;
 
     @BindView(R.id.gallery_view_pager) ViewPager viewPager;
     @BindView(R.id.gallery_page_indicator) PageIndicatorView pageIndicatorView;
@@ -62,12 +66,12 @@ abstract class FilesView<E> extends RelativeLayout implements IFilesView<List<Fi
         getFilesPresenter().setGalleryFilesView(null);
     }
 
-    private void init() {
+    protected void init() {
         inflate(getContext(), R.layout.view_files_gallery, this);
         ButterKnife.bind(this);
     }
 
-    protected abstract FilesPresenter getFilesPresenter();
+    protected abstract FilesPresenter<E> getFilesPresenter();
 
     @Override
     public Context getViewContext() {
@@ -77,14 +81,19 @@ abstract class FilesView<E> extends RelativeLayout implements IFilesView<List<Fi
     @Override
     public void onDataReceived(List<File> files) {
         if (ListUtil.isNotEmpty(files)) {
+            galleryView.setVisibility(VISIBLE);
+            emptyView.setVisibility(GONE);
             final InformationFilesAdapter adapter = new InformationFilesAdapter(files);
             viewPager.setAdapter(adapter);
             pageIndicatorView.setViewPager(viewPager);
             viewPager.setCurrentItem(files.size());
+        } else {
+            galleryView.setVisibility(GONE);
+            emptyView.setVisibility(VISIBLE);
         }
     }
 
-    @OnClick(R.id.gallery_capture_button)
+    @OnClick({R.id.gallery_capture_button, R.id.gallery_start_capture_button})
     public void onCaptureClick() {
         Activity activity = IntentUtils.getActivity(getContext());
         if (!IntentUtils.isFinishing(activity))
