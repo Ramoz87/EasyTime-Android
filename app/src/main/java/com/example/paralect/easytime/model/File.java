@@ -21,7 +21,7 @@ public class File {
     private String name;
 
     @DatabaseField(columnName = "expensiveId")
-    private String expensiveId;
+    private long expensiveId;
 
     @DatabaseField(columnName = "jobId")
     private String jobId;
@@ -46,6 +46,10 @@ public class File {
         return "file://" + fileUrl;
     }
 
+    public java.io.File getImageFile(){
+       return new java.io.File(fileUrl);
+    }
+
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
     }
@@ -58,11 +62,11 @@ public class File {
         this.name = name;
     }
 
-    public String getExpensiveId() {
+    public long getExpensiveId() {
         return expensiveId;
     }
 
-    public void setExpensiveId(String expensiveId) {
+    public void setExpensiveId(long expensiveId) {
         this.expensiveId = expensiveId;
     }
 

@@ -5,11 +5,17 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
+import com.example.paralect.easytime.utils.Logger;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
+import io.reactivex.Completable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Oleg Tarashkevich on 17/01/2018.
@@ -47,7 +53,40 @@ final class ExpenseFilesPresenter extends FilesPresenter<Expense> {
     }
 
     @Override
-    protected void onFileReceived(java.io.File imageFile) {
-      // save file and retrieve from db
+    protected void onFileReceived(final java.io.File imageFile) {
+        Completable completable = Completable.fromCallable(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+
+                File file = new File();
+                file.setName("name");
+                file.setFileUrl(imageFile.getPath());
+                file.setExpensiveId(mExpense.getExpensiveId());
+                file.setFileId(System.currentTimeMillis());
+
+                EasyTimeManager.getInstance().saveFile(file);
+
+                return null;
+            }
+        });
+
+        completable
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        refreshFiles();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        Logger.e(throwable);
+                    }
+                });
+    }
+
+    @Override
+    protected void refreshFiles() {
+        requestData(mExpense);
     }
 }

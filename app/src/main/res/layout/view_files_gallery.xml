@@ -31,6 +31,18 @@
             app:piv_unselectedColor="@color/white_transparent"/>
 
         <ImageButton
+            android:id="@+id/gallery_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/gallery_view_pager"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_ripple"
+            android:shadowColor="@color/black"
+            android:shadowRadius="2"
+            android:src="@drawable/ic_close"/>
+
+        <ImageButton
             android:id="@+id/gallery_capture_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

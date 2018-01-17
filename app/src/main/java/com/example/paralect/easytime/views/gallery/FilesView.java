@@ -100,6 +100,16 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
             EasyImage.openCamera(activity, 0);
     }
 
+    @OnClick(R.id.gallery_delete_button)
+    public void onDeleteClick() {
+        int index = viewPager.getCurrentItem();
+        PagerAdapter adapter = viewPager.getAdapter();
+        if (adapter != null) {
+            File file = ((InformationFilesAdapter) adapter).getFile(index);
+            getFilesPresenter().deleteFile(file);
+        }
+    }
+
     private class InformationFilesAdapter extends PagerAdapter {
 
         private List<File> mFiles = new ArrayList<>();
@@ -111,7 +121,7 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-            File file = mFiles.get(position);
+            File file = getFile(position);
 
             ImageView imageView = new ImageView(container.getContext());
             Picasso.with(container.getContext())
@@ -138,6 +148,10 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
         @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
             return view == object;
+        }
+
+        public File getFile(int index) {
+            return mFiles.get(index);
         }
 
     }

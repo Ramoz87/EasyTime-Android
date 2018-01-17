@@ -21,6 +21,7 @@ import com.example.paralect.easytime.main.expenses.ExpensesFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.views.KeypadEditorView;
+import com.example.paralect.easytime.views.gallery.ExpenseFilesView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +38,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     @BindView(R.id.keypad) KeypadEditorView keypadEditorView;
     @BindView(R.id.expenseName) TextView expenseName;
     @BindView(R.id.expenseCount) EditText expenseCount;
+    @BindView(R.id.expense_file_view) ExpenseFilesView expenseFilesView;
 
     private Expense expense;
 
@@ -56,7 +58,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_expense_editor, parent, false);
     }
 
@@ -83,6 +85,8 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
         keypadEditorView.setOnCompletionListener(this);
         keypadEditorView.setupEditText(expenseCount);
+
+        expenseFilesView.setupWithEntity(expense);
     }
 
     @Override

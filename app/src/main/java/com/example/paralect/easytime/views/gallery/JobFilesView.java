@@ -26,7 +26,7 @@ public class JobFilesView extends FilesView<Job> {
     }
 
     @Override
-    protected FilesPresenter getFilesPresenter() {
+    protected FilesPresenter<Job> getFilesPresenter() {
         return presenter;
     }
 

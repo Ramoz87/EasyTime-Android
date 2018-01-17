@@ -3,6 +3,7 @@ package com.example.paralect.easytime.views.gallery;
 import android.app.Activity;
 
 import com.example.paralect.easytime.main.IDataPresenter;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.event.ResultEvent;
 import com.example.paralect.easytime.utils.IntentUtils;
@@ -10,11 +11,14 @@ import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.RxBus;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import io.reactivex.BackpressureStrategy;
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
@@ -26,7 +30,7 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 
 abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements IDataPresenter<List<File>, E> {
 
-    protected IFilesView<List<File>, E> mView;
+    private IFilesView<List<File>, E> mView;
 
     void subscribe() {
         subscribe(ResultEvent.class);
@@ -63,13 +67,41 @@ abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements 
 
     protected abstract void onFileReceived(java.io.File imageFile);
 
+    protected abstract void refreshFiles();
+
+    void deleteFile(final File file){
+        Completable completable = Completable.fromCallable(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                java.io.File imageFile = file.getImageFile();
+                boolean deleted = imageFile.delete();
+                EasyTimeManager.getInstance().deleteFile(file);
+                return null;
+            }
+        });
+
+        completable
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        refreshFiles();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        Logger.e(throwable);
+                    }
+                });
+    }
+
     void setGalleryFilesView(IFilesView<List<File>, E> view) {
         mView = view;
     }
 
     protected void requestData(FlowableOnSubscribe<List<File>> flowableOnSubscribe) {
         Flowable<List<File>> flowable = Flowable.create(flowableOnSubscribe, BackpressureStrategy.LATEST);
-
+        
         flowable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

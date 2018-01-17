@@ -57,7 +57,6 @@ final class JobFilesPresenter extends FilesPresenter<Job> {
 
     @Override
     protected void onFileReceived(final java.io.File imageFile) {
-
         Completable completable = Completable.fromCallable(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -79,7 +78,7 @@ final class JobFilesPresenter extends FilesPresenter<Job> {
                 .subscribe(new Action() {
             @Override
             public void run() throws Exception {
-                requestData(mJob);
+                refreshFiles();
             }
         }, new Consumer<Throwable>() {
             @Override
@@ -87,5 +86,10 @@ final class JobFilesPresenter extends FilesPresenter<Job> {
                 Logger.e(throwable);
             }
         });
+    }
+
+    @Override
+    protected void refreshFiles() {
+        requestData(mJob);
     }
 }

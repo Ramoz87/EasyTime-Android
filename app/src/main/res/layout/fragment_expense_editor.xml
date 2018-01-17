@@ -61,6 +61,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
+    <com.example.paralect.easytime.views.gallery.ExpenseFilesView
+        android:id="@+id/expense_file_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <com.example.paralect.easytime.views.KeypadEditorView
         android:id="@+id/keypad"
         android:layout_width="match_parent"
