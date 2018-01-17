@@ -6,10 +6,12 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.IDataView;
+import com.example.paralect.easytime.main.expenses.ExpensesFragment;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.utils.Sorter;
@@ -83,5 +85,12 @@ public class ObjectsOfProjectFragment extends AbsStickyFragment implements IData
     @Override
     public void onDataReceived(SortedMap<Character, List<Object>> characterListSortedMap) {
         adapter.setData(characterListSortedMap);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Object object = adapter.getItem(i);
+        ExpensesFragment fragment = ExpensesFragment.newInstance(object);
+        getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 }
