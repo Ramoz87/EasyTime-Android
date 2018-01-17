@@ -14,8 +14,8 @@ import android.widget.RelativeLayout;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.File;
+import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.IntentUtils;
-import com.example.paralect.easytime.utils.ListUtil;
 import com.rd.PageIndicatorView;
 import com.squareup.picasso.Picasso;
 
@@ -80,7 +80,7 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
 
     @Override
     public void onDataReceived(List<File> files) {
-        if (ListUtil.isNotEmpty(files)) {
+        if (CollectionUtils.isNotEmpty(files)) {
             galleryView.setVisibility(VISIBLE);
             emptyView.setVisibility(GONE);
             final InformationFilesAdapter adapter = new InformationFilesAdapter(files);

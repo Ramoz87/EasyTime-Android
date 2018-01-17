@@ -129,8 +129,9 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
         }
 
         @Override
-        public void onCompletion(String result) {
+        public void onCompletion(KeypadEditorView keypadEditorView, String result) {
             Log.d(TAG, "on completion");
+            keypadEditorView.collapse(true);
             Job job = adapter.job;
             if (job == null) return;
 

@@ -98,7 +98,7 @@ public class MaterialEditorFragment extends BaseFragment implements KeypadEditor
     }
 
     @Override
-    public void onCompletion(String result) {
+    public void onCompletion(KeypadEditorView keypadEditorView, String result) {
         Material material = getMaterialArg();
         material.setAdded(true);
         String text = materialCount.getText().toString();

@@ -26,7 +26,7 @@ public class KeypadEditorView extends KeypadView {
     }
 
     public interface OnCompletionListener {
-        void onCompletion(String result);
+        void onCompletion(KeypadEditorView editorView, String result);
     }
 
     public KeypadEditorView(@NonNull Context context) {
@@ -70,7 +70,7 @@ public class KeypadEditorView extends KeypadView {
             OnCompletionListener listener = keypadEditorView.onCompletionListener;
             EditText editText = keypadEditorView.editorField;
             if (listener != null && editText != null) {
-                listener.onCompletion(editText.getText().toString());
+                listener.onCompletion(keypadEditorView, editText.getText().toString());
             }
         }
 

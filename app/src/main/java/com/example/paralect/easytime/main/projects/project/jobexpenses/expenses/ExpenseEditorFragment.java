@@ -104,7 +104,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     }
 
     @Override
-    public void onCompletion(String result) {
+    public void onCompletion(KeypadEditorView keypadEditorView, String result) {
         String message = "completed";
         Log.d(TAG, message);
         // Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
