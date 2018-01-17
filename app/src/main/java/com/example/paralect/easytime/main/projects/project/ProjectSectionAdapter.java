@@ -29,7 +29,7 @@ public class ProjectSectionAdapter extends BaseFragmentPagerAdapter {
     public Fragment onCreateFragment(int position) {
         switch (position) {
             case 0: return ActivityFragment.newInstance(job);
-            case 1: return InformationFragment.newInstance();
+            case 1: return InformationFragment.newInstance(job);
             default: return new Fragment();
         }
     }
