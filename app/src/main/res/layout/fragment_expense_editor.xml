@@ -61,6 +61,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_margin="15dp"
+        android:scaleType="center"
+        android:id="@+id/addPhoto"
+        android:src="@drawable/png_add_photo_for_expense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <com.example.paralect.easytime.views.KeypadEditorView
         android:id="@+id/keypad"
         android:layout_width="match_parent"

@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.example.paralect.easytime.views.KeypadEditorView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by alexei on 15.01.2018.
@@ -37,6 +39,12 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     @BindView(R.id.keypad) KeypadEditorView keypadEditorView;
     @BindView(R.id.expenseName) TextView expenseName;
     @BindView(R.id.expenseCount) EditText expenseCount;
+    @BindView(R.id.addPhoto) ImageView addPhoto;
+
+    @OnClick(R.id.addPhoto)
+    void addPhoto(ImageView imgView) {
+        // to do something
+    }
 
     private Expense expense;
 
