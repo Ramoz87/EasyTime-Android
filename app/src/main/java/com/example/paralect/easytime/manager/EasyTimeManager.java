@@ -246,9 +246,13 @@ public final class EasyTimeManager {
     public List<File> getFiles(Expense expense) throws SQLException {
         Dao<File, String> dao = helper.getFileDao();
         QueryBuilder<File, String> qb = dao.queryBuilder();
-        qb.where().like("isAdded", true);
-        List<File> files = qb.query();
-        return files;
+        return dao.queryForEq("expensiveId", expense.getExpensiveId());
+    }
+
+    public List<File> getFiles(Job job) throws SQLException {
+        Dao<File, String> dao = helper.getFileDao();
+        QueryBuilder<File, String> qb = dao.queryBuilder();
+        return dao.queryForEq("jobId", job.getJobId());
     }
 
     // endregion

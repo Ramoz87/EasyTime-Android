@@ -20,11 +20,11 @@ public class File {
     @DatabaseField(columnName = "name")
     private String name;
 
-    @DatabaseField(columnName = "expense")
-    private Expense expense;
+    @DatabaseField(columnName = "expensiveId")
+    private String expensiveId;
 
-    @DatabaseField(columnName = "job")
-    private Job job;
+    @DatabaseField(columnName = "jobId")
+    private String jobId;
 
     public File() {
 
@@ -58,20 +58,20 @@ public class File {
         this.name = name;
     }
 
-    public Expense getExpense() {
-        return expense;
+    public String getExpensiveId() {
+        return expensiveId;
     }
 
-    public void setExpense(Expense expense) {
-        this.expense = expense;
+    public void setExpensiveId(String expensiveId) {
+        this.expensiveId = expensiveId;
     }
 
-    public Job getJob() {
-        return job;
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setJob(Job job) {
-        this.job = job;
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 
     public static List<File> mockList(){
