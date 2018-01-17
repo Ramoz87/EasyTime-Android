@@ -52,7 +52,8 @@ public class ExpensesPresenter extends SearchViewPresenter<List<Expense>> {
 
                     @Override
                     public void onError(Throwable e) {
-                        throw new RuntimeException(e);
+                        // throw new RuntimeException(e);
+                        e.printStackTrace();
                     }
 
                     @Override

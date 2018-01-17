@@ -87,7 +87,8 @@ public final class EasyTimeManager {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return jobs;
     }
@@ -163,7 +164,8 @@ public final class EasyTimeManager {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return jobs;
     }
@@ -205,7 +207,8 @@ public final class EasyTimeManager {
             Dao<Material, String> dao = helper.getMaterialDao();
             materials.addAll(dao.queryForAll());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return materials;
         // return getMaterials(null);
@@ -223,7 +226,8 @@ public final class EasyTimeManager {
 
             materials.addAll(qb.query());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return materials;
     }
@@ -241,7 +245,8 @@ public final class EasyTimeManager {
                 customers = qb.query();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return customers;
     }
@@ -251,7 +256,8 @@ public final class EasyTimeManager {
             Dao<Material, String> dao = helper.getMaterialDao();
             dao.update(material);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -265,7 +271,8 @@ public final class EasyTimeManager {
             List<Material> myMaterials = qb.query();
             materials.addAll(myMaterials);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return materials;
     }
@@ -285,7 +292,8 @@ public final class EasyTimeManager {
             List<Expense> foundExpenses = dao.queryForEq("jobId", jobId);
             expenses.addAll(foundExpenses);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return expenses;
     }
@@ -299,7 +307,8 @@ public final class EasyTimeManager {
             Dao<Expense, Long> dao = helper.getExpenseDao();
             dao.createOrUpdate(expense);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -308,7 +317,8 @@ public final class EasyTimeManager {
             Dao<Expense, Long> dao = helper.getExpenseDao();
             dao.update(expense);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
