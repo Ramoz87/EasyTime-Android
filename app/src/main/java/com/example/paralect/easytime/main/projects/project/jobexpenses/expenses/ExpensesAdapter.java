@@ -1,4 +1,4 @@
-package com.example.paralect.easytime.main.expenses;
+package com.example.paralect.easytime.main.projects.project.jobexpenses.expenses;
 
 import android.view.LayoutInflater;
 import android.view.View;

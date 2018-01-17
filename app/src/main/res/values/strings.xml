@@ -51,6 +51,7 @@
     <string name="placeholder_project_expense">Repair</string>
     <string name="placeholder_price_per_unit">$20</string>
     <string name="placeholder_project_expense_price">$80</string>
+    <string name="placeholder_chosen_count">0 item selected</string>
 
     <!--materials-->
     <string name="delete_materials">Delete</string>
@@ -123,6 +124,9 @@
     <string name="placeholder_for_expense_name">Name</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
+
+    <!--material expenses-->
+    <string name="item_selected">%d item(s) selected</string>
 
     <!--congratulations-->
     <string name="congratulations">Congratulations!</string>

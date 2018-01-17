@@ -1,10 +1,9 @@
-package com.example.paralect.easytime.main.expenses;
+package com.example.paralect.easytime.main.projects.project.jobexpenses.expenses;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.utils.TouchHandler;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

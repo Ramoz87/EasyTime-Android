@@ -11,10 +11,9 @@ import android.widget.AdapterView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.main.expenses.ExpensesFragment;
+import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Project;
-import com.example.paralect.easytime.utils.Sorter;
 
 import java.util.List;
 import java.util.SortedMap;
