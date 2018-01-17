@@ -35,6 +35,7 @@
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:tint="#3E8ED7"
         android:padding="8dp"
         android:src="@drawable/ic_minus_material"
         android:id="@+id/minus"
@@ -55,6 +56,7 @@
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:tint="#3E8ED7"
         android:padding="8dp"
         android:src="@drawable/ic_plus_material"
         android:id="@+id/plus"

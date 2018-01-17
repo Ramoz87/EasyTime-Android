@@ -7,13 +7,13 @@
 
     <group
         android:translateX="-319.000000"
-        android:translateY="-111.000000">
+        android:translateY="-259.000000">
         <group
             android:translateX="16.000000"
             android:translateY="104.000000">
             <group
                 android:translateX="303.000000"
-                android:translateY="7.000000">
+                android:translateY="155.000000">
                 <path
                     android:fillType="evenOdd"
                     android:strokeColor="#3E8ED7"
@@ -25,7 +25,9 @@
                     android:strokeWidth="1.83200002"
                     android:strokeLineJoin="round"
                     android:strokeLineCap="round"
-                    android:pathData="M8,8 L18,18 M18,8 L8,17.9999997" />
+                    android:pathData="M12.9999999,12.9999999 L8,8 L12.9999999,12.9999999 L18,8 L12.9999999,12.9999999
+Z M12.9999999,12.9999999 L8,17.9999997 L12.9999999,12.9999999 L18,18
+L12.9999999,12.9999999 Z" />
             </group>
         </group>
     </group>

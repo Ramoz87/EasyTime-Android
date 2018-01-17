@@ -12,7 +12,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "materials")
-public class Material implements Parcelable {
+public class Material implements Parcelable, Consumable {
 
     @DatabaseField(columnName = "currency")
     private String currency;
@@ -114,6 +114,11 @@ public class Material implements Parcelable {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean isMaterial() {
+        return true;
     }
 
     public void setName(String name) {

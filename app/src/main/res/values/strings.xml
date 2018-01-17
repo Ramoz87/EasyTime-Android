@@ -47,6 +47,10 @@
     <string name="placeholder_material_count">22</string>
     <string name="placeholder_driving_unit">km</string>
     <string name="placeholder_company">Company</string>
+    <string name="placeholder_company_name_for_expenses">LLC Mobexs</string>
+    <string name="placeholder_project_expense">Repair</string>
+    <string name="placeholder_price_per_unit">$20</string>
+    <string name="placeholder_project_expense_price">$80</string>
 
     <!--materials-->
     <string name="delete_materials">Delete</string>
@@ -87,6 +91,11 @@
     <string name="project_detail_discount">Discount</string>
     <string name="project_detail_completion">Completion</string>
 
+    <!--project expenses-->
+    <string name="project_number">Project #%d</string>
+    <string name="expense_price">$%d</string>
+    <string name="total_expense">Total</string>
+
      <!--signature-->
     <string name="signature_title">Signature</string>
     <string name="signature_switcher">Sign yourself</string>
@@ -107,4 +116,15 @@
     <string name="expenses">Expenses</string>
     <string name="driving">Driving</string>
     <string name="other_expenses">Other expenses</string>
+    
+    <!--expense creator dialog-->
+    <string name="create_new_expense">Create new expense?</string>
+    <string name="enter_name">Enter name</string>
+    <string name="placeholder_for_expense_name">Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+
+    <!--congratulations-->
+    <string name="congratulations">Congratulations!</string>
+    <string name="ur_invoice_has_been_sent">Your invoice has been sent</string>
 </resources>

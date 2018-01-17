@@ -22,11 +22,11 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
-    private Expense defaultExpense;
+    private List<Expense> defaultExpenses;
     private List<Expense> otherExpenses;
 
-    public ExpensesAdapter(Expense defaultExpense) {
-        this.defaultExpense = defaultExpense;
+    public ExpensesAdapter(List<Expense> defaultExpenses) {
+        this.defaultExpenses = defaultExpenses;
     }
 
     public void setOtherExpenses(List<Expense> otherExpenses) {
@@ -54,7 +54,7 @@ public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAda
     }
 
     private boolean isBasic(int position) {
-        return position <= 1;
+        return position <= defaultExpenses.size();
     }
 
     @Override
@@ -64,14 +64,16 @@ public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAda
 
     @Override
     public int getCount() {
-        return 1 /*for defaultExpense*/ + 1 /*expense creator*/ + (otherExpenses == null ? 0 : otherExpenses.size()) /*other expenses*/;
+        return defaultExpenses.size() /*for defaultExpenses*/
+                + 1 /*expense creator*/
+                + (otherExpenses == null ? 0 : otherExpenses.size()) /*other expenses*/;
     }
 
     @Override
     public Expense getItem(int i) {
-        if (i == 0) return defaultExpense;
-        else if (i == 1) return null;
-        else return otherExpenses.get(i - 2);
+        if (i < defaultExpenses.size()) return defaultExpenses.get(i);
+        else if (i == defaultExpenses.size()) return null;
+        else return otherExpenses.get(i - (defaultExpenses.size() + 1));
     }
 
     @Override

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,15 +17,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.TextView;
+
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.expenses.ExpensesFragment;
-import com.example.paralect.easytime.main.FragmentNavigator;
+import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
+import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -41,6 +42,8 @@ import butterknife.OnClick;
 public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener {
     private static final String TAG = ActivityFragment.class.getSimpleName();
 
+    public static final String ARG_JOB = "arg_job";
+
     @BindView(R.id.date) TextView date;
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
@@ -52,13 +55,23 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @OnClick(R.id.addTime)
     void addTime(FloatingActionButton fab) {
-        Fragment fragment = ExpensesFragment.newInstance();
+
+    }
+
+    @OnClick(R.id.addMaterials)
+    void addMaterials(FloatingActionButton fab) {
+
+    }
+
+    @OnClick(R.id.addExpenses)
+    void addExpenses(FloatingActionButton fab) {
+        Job job = getJobArg();
+        Fragment fragment = ExpensesFragment.newInstance(job);
         getMainActivity().pushFragment(fragment);
     }
 
     private Animation fadeIn;
     private Animation fadeOut;
-    private FragmentNavigator navigator;
 
     @OnClick(R.id.date)
     void onChooseDate(View view) {
@@ -68,19 +81,23 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         datePickerDialog.show();
     }
 
-    public static ActivityFragment newInstance() {
-        return new ActivityFragment();
+    public static ActivityFragment newInstance(Job job) {
+        Bundle args = new Bundle(1);
+        args.putParcelable(ARG_JOB, job);
+        ActivityFragment fragment = new ActivityFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private Job getJobArg() {
+        Bundle args = getArguments();
+        if (args == null || !args.containsKey(ARG_JOB)) return null;
+        else return args.getParcelable(ARG_JOB);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_project_activity, parent, false);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        navigator = (FragmentNavigator) context;
     }
 
     @Override
@@ -103,7 +120,8 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.item_new:
-                navigator.pushFragment(ProjectDetailFragment.newInstance());
+                getMainActivity().getFragmentNavigator()
+                        .pushFragment(ProjectDetailsFragment.newInstance(getJobArg()));
                 return true;
         }
         return true;

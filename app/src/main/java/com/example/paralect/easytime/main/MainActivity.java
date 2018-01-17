@@ -12,9 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
@@ -25,20 +22,13 @@ import com.example.paralect.easytime.main.settings.SettingsFragment;
 import com.example.paralect.easytime.model.event.ResultEvent;
 import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.ViewUtils;
-import com.example.paralect.easytime.utils.anim.AnimUtils;
-import com.github.clans.fab.FloatingActionMenu;
 import com.ncapdevi.fragnav.FragNavController;
 import com.ncapdevi.fragnav.FragNavSwitchController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
 import com.ncapdevi.fragnav.tabhistory.FragNavTabHistoryController;
 
-import java.io.File;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pl.aprilapps.easyphotopicker.DefaultCallback;
-import pl.aprilapps.easyphotopicker.EasyImage;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -95,6 +85,22 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     public void onBackPressed() {
         if (!mNavController.popFragment())
             super.onBackPressed();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        jumpToRoot();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Send event to subscribers
+        ResultEvent event = new ResultEvent(requestCode, resultCode, data);
+        RxBus.getInstance().send(event);
+
     }
 
     // works on Loli-Pop and higher
@@ -234,13 +240,4 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     // endregion
     // endregion
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Send and event to subscribers
-        ResultEvent event = new ResultEvent(requestCode, resultCode, data);
-        RxBus.getInstance().send(event);
-
-    }
 }

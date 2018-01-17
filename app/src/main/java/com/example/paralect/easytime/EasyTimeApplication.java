@@ -20,6 +20,7 @@ import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.model.User;
+import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.dao.Dao;
 
 import java.io.IOException;
@@ -41,12 +42,21 @@ public class EasyTimeApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sContext = this;
+
+        // TODO disable on release version!!!
+        Logger.setEnabled(true);
+
         ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
         preferenceManager.plusLaunch();
         if (BuildConfig.DEBUG && preferenceManager.isLaunchFirst()) { // pre-populate data from assets
             Log.d(TAG, "filling data from db");
             FakeCreator fakeCreator = getDefaultFakeCreator();
             fillData(fakeCreator);
+        } else {
+            List<Job> jobs = EasyTimeManager.getInstance().getAllJobs();
+            for (Job job : jobs) {
+                Log.d(TAG, "date for job: " + job.getDate());
+            }
         }
     }
 

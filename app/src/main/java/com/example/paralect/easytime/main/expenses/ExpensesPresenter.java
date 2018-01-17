@@ -1,10 +1,10 @@
-package com.example.paralect.easytime.main.materials;
+package com.example.paralect.easytime.main.expenses;
 
-import com.example.paralect.easytime.main.projects.ProjectsPresenter;
+import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.model.Material;
 
 import java.util.List;
 
@@ -12,24 +12,26 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.internal.util.EmptyComponent;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by alexei on 15.01.2018.
+ * Created by alexei on 16.01.2018.
  */
 
-public class MaterialsPresenter extends SearchViewPresenter<List<Material>> {
+public class ExpensesPresenter extends SearchViewPresenter<List<Expense>> {
 
     @Override
-    public MaterialsPresenter requestData(final String[] parameters) {
-        Observable<List<Material>> observable = Observable.create(new ObservableOnSubscribe<List<Material>>() {
+    public IDataPresenter<List<Expense>, String[]> requestData(final String[] parameters) {
+        Observable<List<Expense>> observable = Observable.create(new ObservableOnSubscribe<List<Expense>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<Material>> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<List<Expense>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        List<Material> materials = EasyTimeManager.getInstance().getMyMaterials();
-                        emitter.onNext(materials);
+                        final String jobId = parameters[0];
+                        List<Expense> expenses = EasyTimeManager.getInstance().getExpenses(jobId);
+                        emitter.onNext(expenses);
                         emitter.onComplete();
                     }
 
@@ -41,11 +43,11 @@ public class MaterialsPresenter extends SearchViewPresenter<List<Material>> {
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<List<Material>>() {
+                .subscribe(new DisposableObserver<List<Expense>>() {
                     @Override
-                    public void onNext(List<Material> materials) {
+                    public void onNext(List<Expense> expenses) {
                         if (mView != null)
-                            mView.onDataReceived(materials);
+                            mView.onDataReceived(expenses);
                     }
 
                     @Override

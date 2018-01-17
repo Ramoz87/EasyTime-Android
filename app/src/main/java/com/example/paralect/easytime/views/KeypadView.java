@@ -41,7 +41,7 @@ public class KeypadView extends ExpandableLayout {
     private OnTouchListener getNewNumberHandler() {
         return new TouchHandler() {
             @Override
-            public void onClick(View v) {
+            public void performClick(View v) {
                 Log.d(TAG, "clicked view has some tag");
                 Integer number = (Integer) v.getTag();
 
@@ -54,7 +54,7 @@ public class KeypadView extends ExpandableLayout {
 
     private final OnTouchListener nextHandler = new TouchHandler() {
         @Override
-        public void onClick(View v) {
+        public void performClick(View v) {
             if (onKeypadItemClickListener != null) {
                 onKeypadItemClickListener.onNextClick();
             }
@@ -63,7 +63,7 @@ public class KeypadView extends ExpandableLayout {
 
     private final OnTouchListener deleteHandler = new TouchHandler() {
         @Override
-        public void onClick(View v) {
+        public void performClick(View v) {
             if (onKeypadItemClickListener != null) {
                 onKeypadItemClickListener.onDeleteClick();
             }

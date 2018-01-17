@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.views.BaseFragmentPagerAdapter;
 
 /**
@@ -14,16 +15,18 @@ import com.example.paralect.easytime.views.BaseFragmentPagerAdapter;
 public class ProjectSectionAdapter extends BaseFragmentPagerAdapter {
 
     private Context context;
+    private Job job;
 
-    public ProjectSectionAdapter(Context context, FragmentManager fm) {
+    public ProjectSectionAdapter(Context context, FragmentManager fm, Job job) {
         super(fm);
         this.context = context;
+        this.job = job;
     }
 
     @Override
     public Fragment onCreateFragment(int position) {
         switch (position) {
-            case 0: return ActivityFragment.newInstance();
+            case 0: return ActivityFragment.newInstance(job);
             case 1: return InformationFragment.newInstance();
             default: return new Fragment();
         }
