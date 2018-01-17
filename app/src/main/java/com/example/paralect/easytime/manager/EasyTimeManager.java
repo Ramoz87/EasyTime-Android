@@ -7,6 +7,7 @@ import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
 import com.example.paralect.easytime.model.Expense;
+import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.JobWithAddress;
 import com.example.paralect.easytime.model.Material;
@@ -240,4 +241,15 @@ public final class EasyTimeManager {
         driving.setName("Driving");
         return driving;
     }
+
+    // region File
+    public List<File> getFiles(Expense expense) throws SQLException {
+        Dao<File, String> dao = helper.getFileDao();
+        QueryBuilder<File, String> qb = dao.queryBuilder();
+        qb.where().like("isAdded", true);
+        List<File> files = qb.query();
+        return files;
+    }
+
+    // endregion
 }

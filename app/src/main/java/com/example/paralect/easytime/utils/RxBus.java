@@ -67,11 +67,6 @@ public class RxBus {
     public static class Observer<T> extends DisposableObserver<T> {
 
         protected Disposable disposable;
-        private EventListener<T> eventListener;
-
-        public void setEventListener(EventListener<T> eventListener) {
-            this.eventListener = eventListener;
-        }
 
         public void subscribe(Class<T> eventType) {
             disposable = RxBus.getInstance().listen(eventType, this);
@@ -84,8 +79,7 @@ public class RxBus {
 
         @Override
         public void onNext(T t) {
-           if (eventListener != null)
-               eventListener.onEventReceived(t);
+
         }
 
         @Override
@@ -96,10 +90,6 @@ public class RxBus {
         @Override
         public void onComplete() {
 
-        }
-
-        public interface EventListener<T> {
-            void onEventReceived(T event);
         }
     }
 

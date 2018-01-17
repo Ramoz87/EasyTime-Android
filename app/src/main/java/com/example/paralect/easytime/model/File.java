@@ -1,5 +1,7 @@
 package com.example.paralect.easytime.model;
 
+import com.j256.ormlite.field.DatabaseField;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +11,19 @@ import java.util.List;
 
 public class File {
 
+    @DatabaseField(columnName = "fileId")
     private long fileId;
+
+    @DatabaseField(columnName = "fileUrl")
     private String fileUrl;
+
+    @DatabaseField(columnName = "name")
     private String name;
 
+    @DatabaseField(columnName = "expense")
     private Expense expense;
+
+    @DatabaseField(columnName = "job")
     private Job job;
 
     public File() {

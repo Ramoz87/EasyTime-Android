@@ -12,6 +12,7 @@ import android.widget.ScrollView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.views.gallery.GalleryFilesView;
 import com.example.paralect.easytime.views.InfoLayout;
@@ -50,7 +51,7 @@ public class InformationFragment extends BaseFragment {
         instructions.addInfoItem(R.drawable.ic_phone, R.string.placeholder_project_info_contact, null);
         instructions.addInfoItem(R.drawable.ic_checkpoint, R.string.placeholder_project_info_address, null);
 
-        galleryFilesView.setFiles(File.mockList());
+        galleryFilesView.requestData(new Expense());
     }
 
     @Override

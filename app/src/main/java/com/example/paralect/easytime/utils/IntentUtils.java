@@ -24,7 +24,7 @@ public class IntentUtils {
             try {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", number, null));
                 context.startActivity(intent);
-            } catch (ActivityNotFoundException e){
+            } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "Phone application is not found.", Toast.LENGTH_SHORT).show();
             }
@@ -73,12 +73,14 @@ public class IntentUtils {
         }
     }
 
-    public  static Activity getActivity(Context context) {
-        while (context instanceof ContextWrapper) {
-            if (context instanceof Activity) {
-                return (Activity)context;
+    public static Activity getActivity(@NonNull Context context) {
+        if (context != null) {
+            while (context instanceof ContextWrapper) {
+                if (context instanceof Activity) {
+                    return (Activity) context;
+                }
+                context = ((ContextWrapper) context).getBaseContext();
             }
-            context = ((ContextWrapper)context).getBaseContext();
         }
         return null;
     }

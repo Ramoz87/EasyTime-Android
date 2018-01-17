@@ -1,5 +1,8 @@
 package com.example.paralect.easytime.views.gallery;
 
+import android.content.Context;
+
+import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.File;
 
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
  * Created by Oleg Tarashkevich on 16/01/2018.
  */
 
-public interface IGalleryFilesView {
+public interface IGalleryFilesView<DATA> extends IDataView<DATA>{
 
-    void setFiles(List<File> files);
+    Context getViewContext();
 }
