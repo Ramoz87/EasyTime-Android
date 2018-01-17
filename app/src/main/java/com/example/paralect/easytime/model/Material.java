@@ -48,6 +48,17 @@ public class Material implements Parcelable, Consumable {
 
     }
 
+    public Material(Material toCopy) {
+        this.materialId = toCopy.materialId;
+        this.currency = toCopy.currency;
+        this.materialNr = toCopy.materialNr;
+        this.name = toCopy.name;
+        this.pricePerUnit = toCopy.pricePerUnit;
+        this.serialNr = toCopy.serialNr;
+        this.stockQuantity = toCopy.stockQuantity;
+        this.unitId = toCopy.unitId;
+    }
+
     protected Material(Parcel in) {
         currency = in.readString();
         materialId = in.readString();

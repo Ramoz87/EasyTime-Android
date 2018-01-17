@@ -15,6 +15,7 @@ public class VerticalDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private int color;
     private int height;
+    private int horizontalPadding = 0;
     private Paint paint = new Paint();
 
     public VerticalDividerItemDecoration(@ColorInt int color, int height) {
@@ -23,10 +24,15 @@ public class VerticalDividerItemDecoration extends RecyclerView.ItemDecoration {
         paint.setColor(color);
     }
 
+    public VerticalDividerItemDecoration(@ColorInt int color, int height, int horizontalPadding) {
+        this(color, height);
+        this.horizontalPadding = horizontalPadding;
+    }
+
     @Override
     public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
-        int left = parent.getPaddingLeft();
-        int right = parent.getWidth() - parent.getPaddingRight();
+        int left = parent.getPaddingLeft() + horizontalPadding;
+        int right = parent.getWidth() - parent.getPaddingRight() - horizontalPadding;
 
         int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {

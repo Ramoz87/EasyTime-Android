@@ -1,4 +1,4 @@
-package com.example.paralect.easytime.main.expenses.expense;
+package com.example.paralect.easytime.main.projects.project.jobexpenses.expenses;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,12 +13,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
-import com.example.paralect.easytime.main.MainActivity;
-import com.example.paralect.easytime.main.expenses.ExpensesFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.views.KeypadEditorView;

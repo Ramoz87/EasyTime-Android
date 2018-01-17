@@ -17,7 +17,6 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.JobsContainer;
-import com.example.paralect.easytime.utils.ListUtil;
 import com.example.paralect.easytime.utils.ViewUtils;
 import com.rd.PageIndicatorView;
 

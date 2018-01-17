@@ -20,8 +20,9 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
-import com.example.paralect.easytime.main.expenses.ExpensesFragment;
+import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
+import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.objectsofproject.ObjectsOfProjectFragment;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Project;
@@ -63,7 +64,8 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @OnClick(R.id.addMaterials)
     void addMaterials(FloatingActionButton fab) {
-
+        Fragment fragment = MaterialExpensesFragment.newInstance(getJobArg());
+        getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 
     @OnClick(R.id.addExpenses)
