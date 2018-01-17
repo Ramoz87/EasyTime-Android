@@ -1,5 +1,7 @@
 package com.example.paralect.easytime.model;
 
+import com.j256.ormlite.field.DatabaseField;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +11,20 @@ import java.util.List;
 
 public class File {
 
+    @DatabaseField(columnName = "fileId", id = true)
     private long fileId;
+
+    @DatabaseField(columnName = "fileUrl")
     private String fileUrl;
+
+    @DatabaseField(columnName = "name")
     private String name;
 
-    private Expense expense;
-    private Job job;
+    @DatabaseField(columnName = "expensiveId")
+    private long expensiveId;
+
+    @DatabaseField(columnName = "jobId")
+    private String jobId;
 
     public File() {
 
@@ -36,6 +46,10 @@ public class File {
         return "file://" + fileUrl;
     }
 
+    public java.io.File getImageFile(){
+       return new java.io.File(fileUrl);
+    }
+
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
     }
@@ -48,20 +62,20 @@ public class File {
         this.name = name;
     }
 
-    public Expense getExpense() {
-        return expense;
+    public long getExpensiveId() {
+        return expensiveId;
     }
 
-    public void setExpense(Expense expense) {
-        this.expense = expense;
+    public void setExpensiveId(long expensiveId) {
+        this.expensiveId = expensiveId;
     }
 
-    public Job getJob() {
-        return job;
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setJob(Job job) {
-        this.job = job;
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 
     public static List<File> mockList(){

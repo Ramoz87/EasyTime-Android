@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/gallery_images_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/gallery_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"/>
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/gallery_page_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/gallery_view_pager"
+            android:layout_below="@id/contacts_view_pager"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            app:piv_animationType="worm"
+            app:piv_dynamicCount="true"
+            app:piv_padding="5dp"
+            app:piv_radius="4dp"
+            app:piv_selectedColor="@color/white"
+            app:piv_unselectedColor="@color/white_transparent"/>
+
+        <ImageButton
+            android:id="@+id/gallery_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/gallery_view_pager"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_ripple"
+            android:shadowColor="@color/black"
+            android:shadowRadius="2"
+            android:src="@drawable/ic_close"/>
+
+        <ImageButton
+            android:id="@+id/gallery_capture_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/gallery_view_pager"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_ripple"
+            android:shadowColor="@color/black"
+            android:shadowRadius="2"
+            android:src="@drawable/ic_add_a_photo_white"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/gallery_empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/dashed_border">
+
+        <Button
+            android:id="@+id/gallery_start_capture_button"
+            android:layout_width="wrap_content"
+            android:textColor="@color/gray_blue"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_ripple"
+            android:drawableTop="@drawable/ic_add_a_photo_gray"
+            android:text="@string/project_detail_add_photo"/>
+
+    </FrameLayout>
+
+
+</FrameLayout>

@@ -1,8 +1,7 @@
-package com.example.paralect.easytime.main.projects.project.information;
+package com.example.paralect.easytime.main.projects.project;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,10 +14,10 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.views.InfoLayout;
+import com.example.paralect.easytime.views.gallery.JobFilesView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +32,7 @@ public class InformationFragment extends BaseFragment {
     public static final String ARG_JOB = "arg_job";
 
     @BindView(R.id.scrollView) ScrollView scrollView;
-    @BindView(R.id.info_view_pager) ViewPager viewPager;
+    @BindView(R.id.info_gallery_view) JobFilesView galleryFilesView;
     @BindView(R.id.instructions) InfoLayout instructions;
     @BindView(R.id.jobName) TextView jobName;
     @BindView(R.id.jobType) TextView jobType;
@@ -93,8 +92,8 @@ public class InformationFragment extends BaseFragment {
         instructions.addInfoItem(R.drawable.ic_phone, R.string.placeholder_project_info_contact, null);
         instructions.addInfoItem(R.drawable.ic_checkpoint, R.string.placeholder_project_info_address, null);
 
-        final InformationFilesAdapter adapter = new InformationFilesAdapter(File.mockList());
-        viewPager.setAdapter(adapter);
+        Job job = getJobArg();
+        galleryFilesView.setupWithEntity(job);
     }
 
     @Override
@@ -111,4 +110,5 @@ public class InformationFragment extends BaseFragment {
     public boolean needsOptionsMenu() {
         return true;
     }
+
 }

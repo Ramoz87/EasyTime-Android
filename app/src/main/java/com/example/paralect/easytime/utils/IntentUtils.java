@@ -3,12 +3,15 @@ package com.example.paralect.easytime.utils;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.widget.Toast;
+
+import static com.example.paralect.easytime.EasyTimeApplication.getContext;
 
 /**
  * Created by Oleg Tarashkevich on 12/01/2018.
@@ -21,7 +24,7 @@ public class IntentUtils {
             try {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", number, null));
                 context.startActivity(intent);
-            } catch (ActivityNotFoundException e){
+            } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "Phone application is not found.", Toast.LENGTH_SHORT).show();
             }
@@ -68,5 +71,17 @@ public class IntentUtils {
         } else {
             return activity == null || activity.isFinishing();
         }
+    }
+
+    public static Activity getActivity(@NonNull Context context) {
+        if (context != null) {
+            while (context instanceof ContextWrapper) {
+                if (context instanceof Activity) {
+                    return (Activity) context;
+                }
+                context = ((ContextWrapper) context).getBaseContext();
+            }
+        }
+        return null;
     }
 }

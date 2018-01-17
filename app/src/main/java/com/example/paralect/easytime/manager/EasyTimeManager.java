@@ -8,6 +8,7 @@ import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
 import com.example.paralect.easytime.model.Expense;
+import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.JobWithAddress;
 import com.example.paralect.easytime.model.Material;
@@ -356,4 +357,30 @@ public final class EasyTimeManager {
         }
         return objects;
     }
+
+    // region File
+    public File getFile(Expense expense) throws SQLException {
+        return helper.getFileDao().queryBuilder()
+                .where()
+                .eq("expensiveId", expense.getExpensiveId())
+                .queryForFirst();
+    }
+
+    public List<File> getFiles(Expense expense) throws SQLException {
+        return helper.getFileDao().queryForEq("expensiveId", expense.getExpensiveId());
+    }
+
+    public List<File> getFiles(Job job) throws SQLException {
+        return helper.getFileDao().queryForEq("jobId", job.getJobId());
+    }
+
+    public void saveFile(File file) throws SQLException {
+        helper.getFileDao().createOrUpdate(file);
+    }
+
+    public void deleteFile(File file) throws SQLException {
+        helper.getFileDao().delete(file);
+    }
+    // endregion
+    
 }

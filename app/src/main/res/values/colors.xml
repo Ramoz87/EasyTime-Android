@@ -12,6 +12,7 @@
     <color name="gray">#CCCCCC</color>
     <color name="dark_gray">#727272</color>
     <color name="gray_header">#F2F4F7</color>
+    <color name="gray_blue">#6D89AF</color>
     <color name="dark_gray_header">#5F5F5F</color>
     <color name="blue">#3e8ed7</color>
     <color name="dark_blue">#3280c9</color>

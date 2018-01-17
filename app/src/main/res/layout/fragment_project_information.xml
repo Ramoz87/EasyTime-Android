@@ -13,10 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/info_view_pager"
+        <com.example.paralect.easytime.views.gallery.JobFilesView
+            android:id="@+id/info_gallery_view"
             android:layout_width="match_parent"
-            android:layout_height="175dp"/>
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:paddingLeft="@dimen/project_information_left_padding"

@@ -61,13 +61,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
-    <android.support.v7.widget.AppCompatImageView
-        android:layout_margin="15dp"
-        android:scaleType="center"
-        android:id="@+id/addPhoto"
-        android:src="@drawable/png_add_photo_for_expense"
+    <com.example.paralect.easytime.views.gallery.ExpenseFilesView
+        android:id="@+id/expense_file_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <com.example.paralect.easytime.views.KeypadEditorView
         android:id="@+id/keypad"
