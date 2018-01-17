@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:textSize="15.5sp"
-        android:padding="10dp"
-        android:textColor="#242D3E"
-        android:text="@string/placeholder_chosen_count"
-        android:gravity="center"
-        android:id="@+id/itemCount"
+    <LinearLayout
+        android:id="@+id/header"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <View
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:background="@color/list_divider_color"
+        <android.support.v7.widget.AppCompatTextView
+            android:textSize="15.5sp"
+            android:padding="10dp"
+            android:textColor="#242D3E"
+            android:text="@string/placeholder_chosen_count"
+            android:gravity="center"
+            android:id="@+id/itemCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:background="@color/list_divider_color"
+            android:layout_width="match_parent"
+            android:layout_height="1.6dp"/>
+
+    </LinearLayout>
+
+    <com.example.paralect.easytime.views.KeypadEditorView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/keypad"
         android:layout_width="match_parent"
-        android:layout_height="1.6dp"/>
+        android:layout_height="wrap_content"/>
 
     <com.example.paralect.easytime.views.EmptyRecyclerView
+        android:layout_below="@id/header"
+        android:layout_above="@id/keypad"
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <Space
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-
-    <com.example.paralect.easytime.views.KeypadEditorView
-        android:id="@+id/keypad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+</RelativeLayout>

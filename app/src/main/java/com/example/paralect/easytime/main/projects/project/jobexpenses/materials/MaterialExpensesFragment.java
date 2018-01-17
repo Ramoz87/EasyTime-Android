@@ -82,6 +82,9 @@ public class MaterialExpensesFragment extends BaseFragment implements IDataView<
         Resources res = getResources();
         itemCount.setText(res.getString(R.string.item_selected, 0));
 
+        adapter.setKeypadEditorView(keypadEditorView);
+        adapter.setJob(job);
+
         emptyRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         emptyRecyclerView.setLayoutManager(lm);
@@ -89,6 +92,8 @@ public class MaterialExpensesFragment extends BaseFragment implements IDataView<
         int height = getResources().getInteger(R.integer.list_divider_height);
         RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height, 25);
         emptyRecyclerView.addItemDecoration(decor);
+
+        hideKeypad(false);
 
         presenter.setDataView(this)
                 .requestData(null);
@@ -112,5 +117,13 @@ public class MaterialExpensesFragment extends BaseFragment implements IDataView<
     @Override
     public void onDataReceived(List<Material> materials) {
         adapter.setData(materials);
+    }
+
+    private void showKeypad(boolean animate) {
+        keypadEditorView.expand(animate);
+    }
+
+    private void hideKeypad(boolean animate) {
+        keypadEditorView.collapse(animate);
     }
 }

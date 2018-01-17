@@ -1,15 +1,9 @@
 package com.example.paralect.easytime.main.projects.project.details;
 
-import com.example.paralect.easytime.main.IDataPresenter;
-import com.example.paralect.easytime.main.projects.ProjectsPresenter;
-import com.example.paralect.easytime.main.projects.project.ProjectSectionAdapter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Consumable;
-import com.example.paralect.easytime.model.Expense;
-import com.example.paralect.easytime.model.Job;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -33,9 +27,7 @@ public class ProjectExpensesPresenter extends SearchViewPresenter<List<Consumabl
                 try {
                     if (!emitter.isDisposed()) {
                         final String jobId = parameters[0];
-                        List<Consumable> consumables = new ArrayList<>();
-                        List<Expense> expenses = EasyTimeManager.getInstance().getExpenses(jobId);
-                        consumables.addAll(expenses);
+                        List<Consumable> consumables = EasyTimeManager.getInstance().getConsumables(jobId);
                         emitter.onNext(consumables);
                         emitter.onComplete();
                     }
