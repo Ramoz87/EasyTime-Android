@@ -3,6 +3,7 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public class Project extends Job implements Parcelable, ProjectType {
     private String dateEnd;
 
     // @ForeignCollectionField(columnName = "objectIds")
-    private List<String> objectIds;
+    @DatabaseField(columnName = "objectIds", dataType = DataType.SERIALIZABLE)
+    private String[] objectIds;
 
     public Project() {
 
@@ -30,7 +32,7 @@ public class Project extends Job implements Parcelable, ProjectType {
         super(in);
         dateStart = in.readString();
         dateEnd = in.readString();
-        objectIds = in.createStringArrayList();
+        objectIds = in.createStringArray();
     }
 
     @Override
@@ -38,7 +40,7 @@ public class Project extends Job implements Parcelable, ProjectType {
         super.writeToParcel(dest, flags);
         dest.writeString(dateStart);
         dest.writeString(dateEnd);
-        dest.writeStringList(objectIds);
+        dest.writeStringArray(objectIds);
     }
 
     @Override
@@ -79,11 +81,11 @@ public class Project extends Job implements Parcelable, ProjectType {
         return super.toString() + " | " + dateStart + " " + dateEnd;
     }
 
-    public List<String> getObjectIds() {
+    public String[] getObjectIds() {
         return objectIds;
     }
 
-    public void setObjectIds(List<String> objectIds) {
+    public void setObjectIds(String[] objectIds) {
         this.objectIds = objectIds;
     }
 

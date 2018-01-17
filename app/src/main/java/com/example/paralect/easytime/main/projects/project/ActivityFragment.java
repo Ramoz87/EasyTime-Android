@@ -22,7 +22,10 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.expenses.ExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
+import com.example.paralect.easytime.main.projects.project.objectsofproject.ObjectsOfProjectFragment;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.Project;
+import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
@@ -66,7 +69,12 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     @OnClick(R.id.addExpenses)
     void addExpenses(FloatingActionButton fab) {
         Job job = getJobArg();
-        Fragment fragment = ExpensesFragment.newInstance(job);
+        Fragment fragment;
+        if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT) {
+            fragment = ObjectsOfProjectFragment.newInstance((Project) job);
+        } else {
+            fragment = ExpensesFragment.newInstance(job);
+        }
         getMainActivity().pushFragment(fragment);
     }
 

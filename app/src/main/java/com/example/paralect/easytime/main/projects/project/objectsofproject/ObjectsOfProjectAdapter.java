@@ -1,5 +1,6 @@
-package com.example.paralect.easytime.main.projects.project;
+package com.example.paralect.easytime.main.projects.project.objectsofproject;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,17 +40,19 @@ public class ObjectsOfProjectAdapter extends AlphabetStickyAdapter<Object> {
         return view;
     }
 
-    private static class ViewHolder {
+    static class ViewHolder {
         @BindView(R.id.jobName) TextView jobName;
         @BindView(R.id.jobNumber) TextView jobNumber;
+        Resources res;
 
         ViewHolder(View itemView) {
             ButterKnife.bind(this, itemView);
+            res = itemView.getResources();
         }
 
         void bind(Object object) {
             jobName.setText(object.getName());
-            jobNumber.setText(object.getNumber());
+            jobNumber.setText(res.getString(R.string.job_number, object.getNumber()));
         }
     }
 }

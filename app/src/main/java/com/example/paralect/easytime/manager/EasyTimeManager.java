@@ -321,4 +321,37 @@ public final class EasyTimeManager {
             e.printStackTrace();
         }
     }
+
+    public List<Object> getObjects(Project project) {
+        List<Object> objects = new ArrayList<>();
+        try {
+            Dao<Object, String> dao = helper.getObjectDao();
+            String[] ids = project.getObjectIds();
+            if (ids != null) {
+                for (String id : ids) {
+                    Object o = dao.queryForId(id);
+                    objects.add(o);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return objects;
+    }
+
+    public List<Object> getObjects(String[] ids) {
+        List<Object> objects = new ArrayList<>();
+        try {
+            Dao<Object, String> dao = helper.getObjectDao();
+            if (ids != null) {
+                for (String id : ids) {
+                    Object o = dao.queryForId(id);
+                    objects.add(o);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return objects;
+    }
 }

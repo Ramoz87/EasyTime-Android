@@ -19,6 +19,9 @@ public class Object extends JobWithAddress implements Parcelable, ProjectType {
     @DatabaseField(columnName = "dateStart")
     private String dateStart;
 
+    @DatabaseField(columnName = "projectId")
+    private String projectId;
+
     public Object() {
 
     }
@@ -78,5 +81,13 @@ public class Object extends JobWithAddress implements Parcelable, ProjectType {
     @Type
     public int getProjectType() {
         return Type.TYPE_OBJECT;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 }

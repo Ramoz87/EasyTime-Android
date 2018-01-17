@@ -89,6 +89,7 @@ public class EasyTimeApplication extends Application {
             Log.d(TAG, String.format("===// %s //===", clazz.getSimpleName()));
 
             Dao<Address, Long> addressDao = EasyTimeManager.getInstance().getHelper().getAddressDao();
+            Dao<Object, String> objectDao = EasyTimeManager.getInstance().getHelper().getObjectDao();
             for (E item : items) {
                 Log.d(TAG, item.toString());
 
@@ -201,9 +202,12 @@ public class EasyTimeApplication extends Application {
                 project.setDateStart(fields[10]);
                 project.setDateEnd(fields[11]);
 
-                List<String> objectIds = new ArrayList<>();
-                objectIds.add(fields[13]);
-                project.setObjectIds(objectIds);
+                String objectIds = fields[13];
+                objectIds = objectIds.replace("\"", "");
+                String[] ids = objectIds.split(",[ ]*");
+
+                project.setObjectIds(ids);
+
                 return project;
             }
 
