@@ -1,7 +1,11 @@
 package com.example.paralect.easytime.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
 
@@ -42,10 +46,16 @@ public final class CalendarUtils {
     }
 
     public static SpannableString getSpannableDateString(@NonNull Context context, Calendar calendar) {
+        return getSpannableDateString(context, calendar, R.color.white);
+    }
+
+    public static SpannableString getSpannableDateString(@NonNull Context context, Calendar calendar, @ColorRes int colorId) {
         String space = "   ";
         String dateString = getDateString(calendar);
         SpannableString ss = new SpannableString(dateString + space);
-        Drawable d = context.getResources().getDrawable(R.drawable.ic_arrow_drop_down_black_24dp);
+        int color = ContextCompat.getColor(context, colorId);
+        Drawable d = context.getResources().getDrawable(R.drawable.ic_arrow_drop_down_black_24dp).getConstantState().newDrawable().mutate();
+        DrawableCompat.setTint(d, color);
         d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
         ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
         ss.setSpan(span, dateString.length(), dateString.length() + space.length(), 0);

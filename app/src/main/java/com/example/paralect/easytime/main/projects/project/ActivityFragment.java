@@ -5,7 +5,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,20 +24,24 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.objectsofproject.ObjectsOfProjectFragment;
+import com.example.paralect.easytime.model.Consumable;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.utils.CalendarUtils;
+import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +51,7 @@ import butterknife.OnClick;
  * Created by alexei on 27.12.2017.
  */
 
-public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener {
+public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener, IDataView<List<Consumable>> {
     private static final String TAG = ActivityFragment.class.getSimpleName();
 
     public static final String ARG_JOB = "arg_job";
@@ -80,6 +88,10 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         getMainActivity().pushFragment(fragment);
     }
 
+    private ActivityPresenter presenter = new ActivityPresenter();
+    private ActivityAdapter adapter = new ActivityAdapter();
+    private Job job;
+
     private Animation fadeIn;
     private Animation fadeOut;
 
@@ -103,6 +115,11 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         Bundle args = getArguments();
         if (args == null || !args.containsKey(ARG_JOB)) return null;
         else return args.getParcelable(ARG_JOB);
+    }
+
+    private void initJob() {
+        if (job == null)
+            job = getJobArg();
     }
 
     @Override
@@ -141,10 +158,36 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        emptyRecyclerView.setEmptyView(emptyListPlaceholder);
+        initJob();
+        initDate();
+        initList();
         initFam();
         initOverlay();
         initAnimations();
+        populate();
+    }
+
+    private void initDate() {
+        Calendar calendar = Calendar.getInstance();
+        String dateString = CalendarUtils.getDateString(calendar);
+        date.setText(dateString);
+    }
+
+    private void initList() {
+        emptyRecyclerView.setEmptyView(emptyListPlaceholder);
+        emptyRecyclerView.setAdapter(adapter);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
+        emptyRecyclerView.setLayoutManager(lm);
+
+        int color = ContextCompat.getColor(getContext(), R.color.list_divider_color);
+        int height = getResources().getInteger(R.integer.list_divider_height);
+        RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height, 25);
+        emptyRecyclerView.addItemDecoration(decor);
+    }
+
+    private void populate() {
+        presenter.setDataView(this)
+                .requestData(new String[] { job.getJobId() });
     }
 
     @Override
@@ -211,4 +254,8 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         }
     }
 
+    @Override
+    public void onDataReceived(List<Consumable> consumables) {
+        adapter.setData(consumables);
+    }
 }

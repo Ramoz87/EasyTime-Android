@@ -49,6 +49,7 @@
     <string name="placeholder_company">Company</string>
     <string name="placeholder_company_name_for_expenses">LLC Mobexs</string>
     <string name="placeholder_project_expense">Repair</string>
+    <string name="placeholder_expense_time">2:20</string>
     <string name="placeholder_price_per_unit">$20</string>
     <string name="placeholder_project_expense_price">$80</string>
     <string name="placeholder_chosen_count">0 item selected</string>
