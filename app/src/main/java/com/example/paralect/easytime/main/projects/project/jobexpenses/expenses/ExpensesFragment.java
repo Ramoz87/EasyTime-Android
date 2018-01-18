@@ -17,7 +17,9 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.Logger;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -97,13 +99,13 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
     }
 
     @Override
-    public void onCreate(ExpenseCreatorDialog dialog, String expenseName) {
+    public void onCreateNewExpenseTemplate(ExpenseCreatorDialog dialog, String expenseName) {
         Toast.makeText(getContext(), String.format("created new expense %s", expenseName), Toast.LENGTH_SHORT).show();
         Expense expense = new Expense();
         expense.setName(expenseName);
         Job job = getJobArg();
         expense.setJobId(job.getJobId());
-        EasyTimeManager.getInstance().saveExpense(expense);
+        EasyTimeManager.getInstance().saveOrUpdateExpense(expense);
         adapter.addExpense(expense);
     }
 

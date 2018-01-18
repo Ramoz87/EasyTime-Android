@@ -4,26 +4,27 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
+import com.example.paralect.easytime.model.File;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.gallery.ExpenseFilesView;
 
+import java.sql.SQLException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by alexei on 15.01.2018.
@@ -39,7 +40,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     @BindView(R.id.expenseCount) EditText expenseCount;
     @BindView(R.id.expense_file_view) ExpenseFilesView expenseFilesView;
 
-    private Expense expense;
+    private Expense mExpense;
 
     public static ExpenseEditorFragment newInstance(@NonNull Expense expense) {
         Bundle args = new Bundle(1);
@@ -69,23 +70,29 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     }
 
     private void init() {
-        expense = getExpenseArg();
-        int value = expense.getValue();
-        expenseName.setText(expense.getName());
+        mExpense = getExpenseArg();
 
-        expenseCount.setRawInputType(InputType.TYPE_CLASS_TEXT);
-        expenseCount.setTextIsSelectable(true);
-        expenseCount.requestFocus();
-        if (value != 0) {
-            String text = String.valueOf(value);
-            expenseCount.setText(text);
-            expenseCount.setSelection(text.length());
+        if (mExpense == null) {
+            getMainActivity().onBackPressed();
+
+        } else {
+            int value = mExpense.getValue();
+            expenseName.setText(mExpense.getName());
+
+            expenseCount.setRawInputType(InputType.TYPE_CLASS_TEXT);
+            expenseCount.setTextIsSelectable(true);
+            expenseCount.requestFocus();
+            if (value != 0) {
+                String text = String.valueOf(value);
+                expenseCount.setText(text);
+                expenseCount.setSelection(text.length());
+            }
+
+            keypadEditorView.setOnCompletionListener(this);
+            keypadEditorView.setupEditText(expenseCount);
+
+            expenseFilesView.setupWithEntity(null);
         }
-
-        keypadEditorView.setOnCompletionListener(this);
-        keypadEditorView.setupEditText(expenseCount);
-
-        expenseFilesView.setupWithEntity(expense);
     }
 
     @Override
@@ -105,15 +112,34 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
     @Override
     public void onCompletion(KeypadEditorView keypadEditorView, String result) {
-        String message = "completed";
-        Log.d(TAG, message);
-        // Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        Logger.d(TAG, "completed");
+
+        Expense expense = new Expense();
+        expense.setDiscount(mExpense.getDiscount());
+        expense.setJobId(mExpense.getJobId());
+        expense.setName(mExpense.getName());
+        expense.setType(mExpense.getType());
+        expense.setWorkTypeId(mExpense.getWorkTypeId());
+
         if (result.isEmpty()) {
             expense.setValue(0);
         } else {
             expense.setValue(Integer.valueOf(result));
         }
-        EasyTimeManager.getInstance().updateExpense(expense);
+
+        try {
+            expense = EasyTimeManager.getInstance().saveExpense(expense);
+            expenseFilesView.setExpense(expense);
+            Logger.d(TAG, "Expense created");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         getMainActivity().onBackPressed();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        expenseFilesView.checkFile();
     }
 }

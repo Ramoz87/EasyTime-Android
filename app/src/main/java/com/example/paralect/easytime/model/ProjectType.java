@@ -9,6 +9,9 @@ import java.lang.annotation.RetentionPolicy;
  * Created by Oleg Tarashkevich on 09/01/2018.
  */
 
+/**
+ * Helps for populating data in the listView
+ */
 public interface ProjectType {
 
     @IntDef({Type.TYPE_NONE, Type.TYPE_PROJECT, Type.TYPE_ORDER, Type.TYPE_OBJECT})

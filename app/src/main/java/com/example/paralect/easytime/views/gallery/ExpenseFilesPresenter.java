@@ -5,8 +5,11 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
+import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.Logger;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -21,34 +24,30 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Oleg Tarashkevich on 17/01/2018.
  */
 
-final class ExpenseFilesPresenter extends FilesPresenter<Expense> {
+final class ExpenseFilesPresenter extends FilesPresenter<Void> {
 
-    private Expense mExpense;
+    private final List<File> files = new ArrayList<>();
 
     @Override
-    public IDataPresenter<List<File>, Expense> setDataView(IDataView<List<File>> view) {
+    public IDataPresenter<List<File>, Void> setDataView(IDataView<List<File>> view) {
         return this;
     }
 
     @Override
-    public IDataPresenter<List<File>, Expense> requestData(final Expense expense) {
-        if (expense != null) {
-            mExpense = expense;
-            requestData(new FlowableOnSubscribe<List<File>>() {
-                @Override
-                public void subscribe(FlowableEmitter<List<File>> emitter) throws Exception {
-                    try {
-                        if (!emitter.isCancelled()) {
-                            List<File> files = EasyTimeManager.getInstance().getFiles(expense);
-                            emitter.onNext(files);
-                            emitter.onComplete();
-                        }
-                    } catch (Throwable e) {
-                        emitter.onError(e);
+    public IDataPresenter<List<File>, Void> requestData(final Void parameter) {
+        requestData(new FlowableOnSubscribe<List<File>>() {
+            @Override
+            public void subscribe(FlowableEmitter<List<File>> emitter) throws Exception {
+                try {
+                    if (!emitter.isCancelled()) {
+                        emitter.onNext(files);
+                        emitter.onComplete();
                     }
+                } catch (Throwable e) {
+                    emitter.onError(e);
                 }
-            });
-        }
+            }
+        });
         return this;
     }
 
@@ -57,15 +56,11 @@ final class ExpenseFilesPresenter extends FilesPresenter<Expense> {
         Completable completable = Completable.fromCallable(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-
+                // save temporary file
                 File file = new File();
                 file.setName("name");
                 file.setFileUrl(imageFile.getPath());
-                file.setExpensiveId(mExpense.getExpensiveId());
-                file.setFileId(System.currentTimeMillis());
-
-                EasyTimeManager.getInstance().saveFile(file);
-
+                files.add(file);
                 return null;
             }
         });
@@ -87,6 +82,39 @@ final class ExpenseFilesPresenter extends FilesPresenter<Expense> {
 
     @Override
     protected void refreshFiles() {
-        requestData(mExpense);
+        requestData((Void)null);
+    }
+
+    @Override
+    protected void deleteFile(File file) {
+        files.clear();
+        super.deleteFile(file);
+    }
+
+    /**
+     * Set expenseId to File
+     * @param expense
+     */
+    public void setExpense(Expense expense){
+        try {
+            File file = CollectionUtils.getFirst(files);
+            if (file != null) {
+                file.setExpensiveId(expense.getExpensiveId());
+                file = EasyTimeManager.getInstance().saveFileAndGet(file);
+                files.clear();
+                files.add(file);
+            }
+            Logger.d("file saved");
+        } catch (Throwable e) {
+            Logger.e(e);
+        }
+    }
+
+    public boolean isFileSaved(){
+        boolean isSaved = false;
+        File file = CollectionUtils.getFirst(files);
+        if (file != null)
+            isSaved = file.isSaved();
+        return isSaved;
     }
 }

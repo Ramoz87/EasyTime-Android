@@ -111,16 +111,27 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                int index = viewPager.getCurrentItem();
-                PagerAdapter adapter = viewPager.getAdapter();
-                if (adapter != null) {
-                    File file = ((InformationFilesAdapter) adapter).getFile(index);
-                    getFilesPresenter().deleteFile(file);
-                }
+                deleteSelectedFile();
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
         builder.show();
+    }
+
+    public void deleteSelectedFile() {
+        File file = getFile();
+        if (file != null)
+            getFilesPresenter().deleteFile(file);
+    }
+
+    public File getFile() {
+        File file = null;
+        int index = viewPager.getCurrentItem();
+        PagerAdapter adapter = viewPager.getAdapter();
+        if (adapter != null) {
+            file = ((InformationFilesAdapter) adapter).getFile(index);
+        }
+        return file;
     }
 
     private class InformationFilesAdapter extends PagerAdapter {

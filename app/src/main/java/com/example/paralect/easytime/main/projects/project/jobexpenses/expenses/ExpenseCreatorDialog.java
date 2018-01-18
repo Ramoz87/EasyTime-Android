@@ -28,7 +28,7 @@ public class ExpenseCreatorDialog extends Dialog {
     private Listener listener;
 
     public interface Listener {
-        void onCreate(ExpenseCreatorDialog dialog, String expenseName);
+        void onCreateNewExpenseTemplate(ExpenseCreatorDialog dialog, String expenseName);
     }
 
     public ExpenseCreatorDialog(@NonNull Context context, @NonNull Listener listener) {
@@ -60,7 +60,7 @@ public class ExpenseCreatorDialog extends Dialog {
             public void performClick(View v) {
                 ExpenseCreatorDialog dialog = ExpenseCreatorDialog.this;
                 dialog.cancel();
-                dialog.listener.onCreate(dialog, expenseName.getText().toString());
+                dialog.listener.onCreateNewExpenseTemplate(dialog, expenseName.getText().toString());
             }
         };
         create.setOnTouchListener(createAction);

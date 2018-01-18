@@ -69,7 +69,7 @@ abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements 
 
     protected abstract void refreshFiles();
 
-    void deleteFile(final File file){
+    protected void deleteFile(final File file){
         Completable completable = Completable.fromCallable(new Callable<Void>() {
             @Override
             public Void call() throws Exception {

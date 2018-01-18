@@ -78,6 +78,10 @@ public class File {
         this.jobId = jobId;
     }
 
+    public boolean isSaved(){
+        return getFileId() != 0;
+    }
+
     public static List<File> mockList(){
         String[] pictures = new String[]{
                 "https://cdn.pixabay.com/photo/2016/09/01/10/23/image-1635747_960_720.jpg",
