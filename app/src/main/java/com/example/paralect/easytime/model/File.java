@@ -11,7 +11,7 @@ import java.util.List;
 
 public class File {
 
-    @DatabaseField(columnName = "fileId", id = true)
+    @DatabaseField(columnName = "fileId", generatedId = true)
     private long fileId;
 
     @DatabaseField(columnName = "fileUrl")

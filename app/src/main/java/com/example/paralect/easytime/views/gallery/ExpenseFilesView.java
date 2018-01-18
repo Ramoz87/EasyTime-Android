@@ -5,12 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
-import com.example.paralect.easytime.model.File;
-import com.example.paralect.easytime.utils.Logger;
-
-import java.sql.SQLException;
 
 import butterknife.BindView;
 

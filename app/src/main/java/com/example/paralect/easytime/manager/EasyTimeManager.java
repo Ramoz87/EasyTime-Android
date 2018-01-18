@@ -441,7 +441,7 @@ public final class EasyTimeManager {
     }
 
     public void saveFile(File file) throws SQLException {
-        helper.getFileDao().createOrUpdate(file);
+        helper.getFileDao().create(file);
     }
 
     public File saveFileAndGet(File file) throws SQLException {

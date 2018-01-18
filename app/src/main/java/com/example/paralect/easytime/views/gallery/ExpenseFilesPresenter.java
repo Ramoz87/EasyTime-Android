@@ -8,7 +8,6 @@ import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.Logger;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
