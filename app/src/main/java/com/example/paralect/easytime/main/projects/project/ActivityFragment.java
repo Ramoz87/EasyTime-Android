@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -158,11 +159,18 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         initJob();
+        initDate();
         initList();
         initFam();
         initOverlay();
         initAnimations();
         populate();
+    }
+
+    private void initDate() {
+        Calendar calendar = Calendar.getInstance();
+        String dateString = CalendarUtils.getDateString(calendar);
+        date.setText(dateString);
     }
 
     private void initList() {
