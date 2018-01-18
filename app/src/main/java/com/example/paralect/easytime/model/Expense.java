@@ -38,8 +38,6 @@ public class Expense implements Parcelable, Consumable {
     @DatabaseField(columnName = "jobId")
     private String jobId;
 
-    private File photo;
-
     public Expense() {
 
     }

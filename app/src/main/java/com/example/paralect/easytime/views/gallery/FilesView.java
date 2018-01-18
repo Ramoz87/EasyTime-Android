@@ -2,9 +2,11 @@ package com.example.paralect.easytime.views.gallery;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,12 +104,23 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
 
     @OnClick(R.id.gallery_delete_button)
     public void onDeleteClick() {
-        int index = viewPager.getCurrentItem();
-        PagerAdapter adapter = viewPager.getAdapter();
-        if (adapter != null) {
-            File file = ((InformationFilesAdapter) adapter).getFile(index);
-            getFilesPresenter().deleteFile(file);
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.DialogAnimation);
+        builder.setIcon(R.drawable.ic_trash);
+        builder.setTitle(R.string.delete_file_title);
+        builder.setMessage(R.string.delete_file_message);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int index = viewPager.getCurrentItem();
+                PagerAdapter adapter = viewPager.getAdapter();
+                if (adapter != null) {
+                    File file = ((InformationFilesAdapter) adapter).getFile(index);
+                    getFilesPresenter().deleteFile(file);
+                }
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.show();
     }
 
     private class InformationFilesAdapter extends PagerAdapter {

@@ -138,4 +138,9 @@
     <string name="project">Project</string>
     <string name="object">Object</string>
     <string name="order">Order</string>
+
+    <!--Files-->
+    <string name="delete_file_title">Delete file?</string>
+    <string name="delete_file_message">The file will be deleted immediately</string>
+
 </resources>
