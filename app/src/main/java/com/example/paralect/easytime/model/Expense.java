@@ -53,6 +53,18 @@ public class Expense implements Parcelable, Consumable {
     @DatabaseField(columnName = "jobId")
     private String jobId;
 
+    public static Expense reCreate(Expense ex) {
+        Expense expense = new Expense();
+        if (ex != null) {
+            expense.setDiscount(ex.getDiscount());
+            expense.setJobId(ex.getJobId());
+            expense.setName(ex.getName());
+            expense.setType(ex.getType());
+            expense.setWorkTypeId(ex.getWorkTypeId());
+        }
+        return expense;
+    }
+
     public Expense() {
 
     }

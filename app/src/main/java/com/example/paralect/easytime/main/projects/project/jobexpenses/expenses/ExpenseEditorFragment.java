@@ -114,25 +114,16 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     public void onCompletion(KeypadEditorView keypadEditorView, String result) {
         Logger.d(TAG, "completed");
 
-        Expense expense = new Expense();
-        expense.setDiscount(mExpense.getDiscount());
-        expense.setJobId(mExpense.getJobId());
-        expense.setName(mExpense.getName());
-        expense.setType(mExpense.getType());
-        expense.setWorkTypeId(mExpense.getWorkTypeId());
-
-        if (result.isEmpty()) {
-            expense.setValue(0);
-        } else {
-            expense.setValue(Integer.valueOf(result));
-        }
+        Expense expense =  Expense.reCreate(mExpense);
+        int value = result.isEmpty() ? 0 : Integer.valueOf(result);
+        expense.setValue(value);
 
         try {
             expense = EasyTimeManager.getInstance().saveExpense(expense);
             expenseFilesView.setExpense(expense);
             Logger.d(TAG, "Expense created");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            Logger.e(e);
         }
         getMainActivity().onBackPressed();
     }
