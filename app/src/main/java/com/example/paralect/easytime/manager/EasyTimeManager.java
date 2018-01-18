@@ -364,7 +364,7 @@ public final class EasyTimeManager {
         List<Consumable> consumables = new ArrayList<>();
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
-            List<Expense> expenses = dao.queryForAll();
+            List<Expense> expenses = dao.queryForEq("jobId", jobId);
             Dao<Material, String> materialDao = helper.getMaterialDao();
             for (Expense e : expenses) {
                 String materialId = e.getMaterialId();
@@ -381,6 +381,10 @@ public final class EasyTimeManager {
             e.printStackTrace();
         }
         return consumables;
+    }
+
+    public void deleteConsumable(Consumable consumable) {
+        // delete expense
     }
 
     public void saveExpense(String jobId, Material material, int value) {
