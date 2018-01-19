@@ -2,10 +2,15 @@ package com.example.paralect.easytime.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -13,6 +18,15 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "expenses")
 public class Expense implements Parcelable, Consumable {
+
+    @StringDef({Type.TIME, Type.MATERIAL, Type.DRIVING, Type.OTHER})
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface Type {
+        String TIME = "Time";
+        String MATERIAL = "Material";
+        String DRIVING = "Driving";
+        String OTHER = "Other";
+    }
 
     @DatabaseField(columnName = "discount", dataType = DataType.FLOAT)
     private float discount;
@@ -26,6 +40,7 @@ public class Expense implements Parcelable, Consumable {
     @DatabaseField(columnName = "name")
     private String name;
 
+    @Type
     @DatabaseField(columnName = "type")
     private String type;
 
@@ -37,6 +52,18 @@ public class Expense implements Parcelable, Consumable {
 
     @DatabaseField(columnName = "jobId")
     private String jobId;
+
+    public static Expense reCreate(Expense ex) {
+        Expense expense = new Expense();
+        if (ex != null) {
+            expense.setDiscount(ex.getDiscount());
+            expense.setJobId(ex.getJobId());
+            expense.setName(ex.getName());
+            expense.setType(ex.getType());
+            expense.setWorkTypeId(ex.getWorkTypeId());
+        }
+        return expense;
+    }
 
     public Expense() {
 

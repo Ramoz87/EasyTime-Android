@@ -11,7 +11,7 @@ import java.util.List;
 
 public class File {
 
-    @DatabaseField(columnName = "fileId", id = true)
+    @DatabaseField(columnName = "fileId", generatedId = true)
     private long fileId;
 
     @DatabaseField(columnName = "fileUrl")
@@ -76,6 +76,10 @@ public class File {
 
     public void setJobId(String jobId) {
         this.jobId = jobId;
+    }
+
+    public boolean isSaved(){
+        return getFileId() != 0;
     }
 
     public static List<File> mockList(){

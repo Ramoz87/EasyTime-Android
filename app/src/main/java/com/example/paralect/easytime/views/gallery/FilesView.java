@@ -3,18 +3,24 @@ package com.example.paralect.easytime.views.gallery;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.camera.CameraActivity;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.IntentUtils;
@@ -27,7 +33,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.aprilapps.easyphotopicker.EasyImage;
 
 /**
  * Created by Oleg Tarashkevich on 16/01/2018.
@@ -99,7 +104,7 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
     public void onCaptureClick() {
         Activity activity = IntentUtils.getActivity(getContext());
         if (!IntentUtils.isFinishing(activity))
-            EasyImage.openCamera(activity, 0);
+            activity.startActivityForResult(new Intent(activity, CameraActivity.class), 0);
     }
 
     @OnClick(R.id.gallery_delete_button)
@@ -111,16 +116,27 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                int index = viewPager.getCurrentItem();
-                PagerAdapter adapter = viewPager.getAdapter();
-                if (adapter != null) {
-                    File file = ((InformationFilesAdapter) adapter).getFile(index);
-                    getFilesPresenter().deleteFile(file);
-                }
+                deleteSelectedFile();
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
         builder.show();
+    }
+
+    public void deleteSelectedFile() {
+        File file = getFile();
+        if (file != null)
+            getFilesPresenter().deleteFile(file);
+    }
+
+    public File getFile() {
+        File file = null;
+        int index = viewPager.getCurrentItem();
+        PagerAdapter adapter = viewPager.getAdapter();
+        if (adapter != null) {
+            file = ((InformationFilesAdapter) adapter).getFile(index);
+        }
+        return file;
     }
 
     private class InformationFilesAdapter extends PagerAdapter {
@@ -137,6 +153,8 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
             File file = getFile(position);
 
             ImageView imageView = new ImageView(container.getContext());
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setBackgroundColor(Color.GREEN);
             Picasso.with(container.getContext())
                     .load(file.getFullFileUrl())
                     .placeholder(R.drawable.materials_placeholder)
@@ -144,7 +162,8 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
                     .fit()
                     .centerCrop()
                     .into(imageView);
-            container.addView(imageView, 0);
+            container.addView(imageView);
+
             return imageView;
         }
 

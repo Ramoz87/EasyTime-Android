@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.views;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
@@ -12,6 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,4 +79,31 @@ public class SignatureView extends RelativeLayout {
 
         void onCanceled();
     }
+
+    /*
+    Save to file
+
+        try {
+                //create a file to write bitmap data
+//                File f = new File(getContext().getCacheDir(), "signature.png");
+                File f = new File(getContext().getExternalFilesDir("photos"), "signature.png");
+                f.createNewFile();
+
+//Convert bitmap to byte array
+                Bitmap bitmap = canvasView.getBitmap();
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+    byte[] bitmapdata = bos.toByteArray();
+
+    //write the bytes in file
+    FileOutputStream fos = new FileOutputStream(f);
+                fos.write(bitmapdata);
+                fos.flush();
+                fos.close();
+
+} catch (Throwable e){
+        e.printStackTrace();
+        }
+
+     */
 }

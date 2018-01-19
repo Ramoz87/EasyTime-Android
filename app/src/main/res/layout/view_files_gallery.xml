@@ -32,6 +32,7 @@
 
         <ImageButton
             android:id="@+id/gallery_delete_button"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/gallery_view_pager"

@@ -13,7 +13,7 @@ import butterknife.BindView;
  * Created by Oleg Tarashkevich on 17/01/2018.
  */
 
-public class ExpenseFilesView extends FilesView<Expense> {
+public class ExpenseFilesView extends FilesView<Void> {
 
     @BindView(R.id.gallery_capture_button) View captureButton;
 
@@ -38,12 +38,24 @@ public class ExpenseFilesView extends FilesView<Expense> {
     }
 
     @Override
-    protected FilesPresenter<Expense> getFilesPresenter() {
+    protected FilesPresenter<Void> getFilesPresenter() {
         return presenter;
     }
 
     @Override
-    public void setupWithEntity(Expense entity) {
+    public void setupWithEntity(Void entity) {
         presenter.requestData(entity);
     }
+
+    public void setExpense(Expense expense){
+        presenter.setExpense(expense);
+    }
+    /**
+     * Remove the file if it has no expenseId
+     */
+    public void checkFile(){
+        if (!presenter.isFileSaved())
+            deleteSelectedFile();
+    }
+
 }
