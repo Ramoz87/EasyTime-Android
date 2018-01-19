@@ -23,6 +23,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.CongratulationsActivity;
 import com.example.paralect.easytime.main.IDataView;
+import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
 import com.example.paralect.easytime.model.Consumable;
 import com.example.paralect.easytime.model.Customer;
@@ -58,7 +59,8 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
     @OnClick(R.id.action_send)
     void send(FloatingActionButton fab) {
         Intent intent = CongratulationsActivity.newIntent(getContext());
-        startActivity(intent);
+        MainActivity activity = getMainActivity();
+        activity.startActivityForResult(intent, MainActivity.REQUEST_CONGRATULATIONS);
         // getMainActivity().jumpToRoot();
     }
 

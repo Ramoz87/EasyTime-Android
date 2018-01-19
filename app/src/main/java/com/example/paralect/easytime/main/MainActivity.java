@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -37,11 +38,14 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements FragmentNavigator,
         FragNavController.TransactionListener,
         FragNavController.RootFragmentListener {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private final int INDEX_PROJECTS = FragNavController.TAB1;
     private final int INDEX_MATERIALS = FragNavController.TAB2;
     private final int INDEX_CLIENTS = FragNavController.TAB3;
     private final int INDEX_SETTINGS = FragNavController.TAB4;
+
+    public static final int REQUEST_CONGRATULATIONS = 0;
 
     private FragNavController mNavController;
 
@@ -95,6 +99,10 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         ResultEvent event = new ResultEvent(requestCode, resultCode, data);
         RxBus.getInstance().send(event);
 
+        if (requestCode == REQUEST_CONGRATULATIONS) {
+            Log.d(TAG, "returned from Congratulations screen");
+            mNavController.clearStack();
+        }
     }
 
     // works on Loli-Pop and higher
