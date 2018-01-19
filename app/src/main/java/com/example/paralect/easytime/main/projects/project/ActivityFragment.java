@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +27,7 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
+import com.example.paralect.easytime.main.projects.project.jobexpenses.time.TimeExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.objectsofproject.ObjectsOfProjectFragment;
 import com.example.paralect.easytime.model.Consumable;
 import com.example.paralect.easytime.model.Job;
@@ -67,7 +67,15 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @OnClick(R.id.addTime)
     void addTime(FloatingActionButton fab) {
+        Job job = getJobArg();
+        Fragment fragment;
+        if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT)
+            // TODO Push to objects and orders list
+            fragment = ObjectsOfProjectFragment.newInstance((Project) job);
+        else
+            fragment = TimeExpensesFragment.newInstance(job);
 
+        getMainActivity().pushFragment(fragment);
     }
 
     @OnClick(R.id.addMaterials)
@@ -187,7 +195,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     private void populate() {
         presenter.setDataView(this)
-                .requestData(new String[] { job.getJobId() });
+                .requestData(new String[]{job.getJobId()});
     }
 
     @Override
