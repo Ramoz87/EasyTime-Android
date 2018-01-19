@@ -102,7 +102,7 @@
             android:layout_height="70dp"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/selector_ripple"
+            android:background="@drawable/selector_ripple_white"
             android:src="@drawable/camera_confirm"
             tools:ignore="ContentDescription"/>
 
@@ -113,7 +113,7 @@
             android:layout_gravity="bottom|left"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="40dp"
-            android:background="@drawable/selector_ripple"
+            android:background="@drawable/selector_ripple_white"
             android:src="@drawable/camera_cancel"
             tools:ignore="ContentDescription"/>
 

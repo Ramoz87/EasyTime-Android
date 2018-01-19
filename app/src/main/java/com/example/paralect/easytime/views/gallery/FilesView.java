@@ -10,8 +10,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -150,7 +153,7 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
             File file = getFile(position);
 
             ImageView imageView = new ImageView(container.getContext());
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setBackgroundColor(Color.GREEN);
             Picasso.with(container.getContext())
                     .load(file.getFullFileUrl())
@@ -159,8 +162,8 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
                     .fit()
                     .centerCrop()
                     .into(imageView);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            container.addView(imageView, params);
+            container.addView(imageView);
+
             return imageView;
         }
 
