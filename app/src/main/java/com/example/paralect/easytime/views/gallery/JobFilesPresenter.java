@@ -56,14 +56,14 @@ final class JobFilesPresenter extends FilesPresenter<Job> {
     }
 
     @Override
-    protected void onFileReceived(final java.io.File imageFile) {
+    protected void onFilePathReceived(final String filePath) {
         Completable completable = Completable.fromCallable(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
 
                 File file = new File();
                 file.setName("name");
-                file.setFileUrl(imageFile.getPath());
+                file.setFileUrl(filePath);
                 file.setJobId(mJob.getJobId());
 
                 EasyTimeManager.getInstance().saveFile(file);

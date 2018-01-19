@@ -51,14 +51,14 @@ final class ExpenseFilesPresenter extends FilesPresenter<Void> {
     }
 
     @Override
-    protected void onFileReceived(final java.io.File imageFile) {
+    protected void onFilePathReceived(final String filePath) {
         Completable completable = Completable.fromCallable(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
                 // save temporary file
                 File file = new File();
                 file.setName("name");
-                file.setFileUrl(imageFile.getPath());
+                file.setFileUrl(filePath);
                 files.add(file);
                 return null;
             }

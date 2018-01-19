@@ -9,6 +9,7 @@ import com.example.paralect.easytime.model.event.ResultEvent;
 import com.example.paralect.easytime.utils.IntentUtils;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.RxBus;
+import com.example.paralect.easytime.utils.TextUtil;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -21,6 +22,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.example.paralect.easytime.main.camera.CameraActivity.PICTURE_FILE_PATH;
 
 /**
  * Created by Oleg Tarashkevich on 16/01/2018.
@@ -39,35 +42,18 @@ abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements 
         if (mView != null) {
             Activity activity = IntentUtils.getActivity(mView.getViewContext());
             if (!IntentUtils.isFinishing(activity)) {
-//                EasyImage.handleActivityResult(event.getRequestCode(), event.getResultCode(), event.getData(), activity, new DefaultCallback() {
-//                    @Override
-//                    public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    @Override
-//                    public void onImagePicked(java.io.File imageFile, EasyImage.ImageSource source, int type) {
-//                        onFileReceived(imageFile);
-//                    }
-//
-//                    @Override
-//                    public void onCanceled(EasyImage.ImageSource source, int type) {
-//                        //Cancel handling, you might wanna remove taken photo if it was canceled
-//                        if (source == EasyImage.ImageSource.CAMERA) {
-//                            java.io.File photoFile = EasyImage.lastlyTakenButCanceledPhoto(mView.getViewContext());
-//                            if (photoFile != null) photoFile.delete();
-//                        }
-//                    }
-//                });
+                String filePath = event.getData().getStringExtra(PICTURE_FILE_PATH);
+                if (TextUtil.isNotEmpty(filePath))
+                    onFilePathReceived(filePath);
             }
         }
     }
 
-    protected abstract void onFileReceived(java.io.File imageFile);
+    protected abstract void onFilePathReceived(String filePath);
 
     protected abstract void refreshFiles();
 
-    protected void deleteFile(final File file){
+    protected void deleteFile(final File file) {
         Completable completable = Completable.fromCallable(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -99,22 +85,22 @@ abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements 
 
     protected void requestData(FlowableOnSubscribe<List<File>> flowableOnSubscribe) {
         Flowable<List<File>> flowable = Flowable.create(flowableOnSubscribe, BackpressureStrategy.LATEST);
-        
+
         flowable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<File>>() {
-            @Override
-            public void accept(List<File> files) {
-                if (mView != null)
-                    mView.onDataReceived(files);
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) {
-                Logger.e(throwable);
-            }
-        });
+                    @Override
+                    public void accept(List<File> files) {
+                        if (mView != null)
+                            mView.onDataReceived(files);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        Logger.e(throwable);
+                    }
+                });
     }
 
 }

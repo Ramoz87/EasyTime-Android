@@ -1,10 +1,10 @@
 package com.example.paralect.easytime.main.camera;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -19,6 +19,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.fotoapparat.Fotoapparat;
 import io.fotoapparat.configuration.CameraConfiguration;
 import io.fotoapparat.configuration.UpdateConfiguration;
@@ -52,13 +55,27 @@ import static io.fotoapparat.selector.ResolutionSelectorsKt.highestResolution;
 import static io.fotoapparat.selector.SelectorsKt.firstAvailable;
 import static io.fotoapparat.selector.SensorSensitivitySelectorsKt.highestSensorSensitivity;
 
+/**
+ * Copied from: https://github.com/Fotoapparat/Fotoapparat/blob/master/sample/src/main/java/io/fotoapparat/sample/ActivityJava.java
+ */
+
 public class CameraActivity extends AppCompatActivity {
+
+    public static final String PICTURE_FILE_PATH = "picture_file_path";
+
+    @BindView(R.id.cameraView) CameraView cameraView;
+    @BindView(R.id.zoomSeekBar) SeekBar seekBar;
+    @BindView(R.id.switchCamera) View switchCameraButton;
+    @BindView(R.id.torchSwitch) SwitchCompat torchSwitch;
+    @BindView(R.id.result) ImageView imageView;
+
+    @BindView(R.id.result_layout) View resultView;
 
     private final PermissionsDelegate permissionsDelegate = new PermissionsDelegate(this);
     private boolean hasCameraPermission;
-    private CameraView cameraView;
 
     private Fotoapparat fotoapparat;
+    private PhotoResult photoResult;
 
     private CameraConfiguration cameraConfiguration = CameraConfiguration
             .builder()
@@ -85,8 +102,8 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        ButterKnife.bind(this);
 
-        cameraView = findViewById(R.id.cameraView);
         hasCameraPermission = permissionsDelegate.hasCameraPermission();
 
         if (hasCameraPermission) {
@@ -97,9 +114,9 @@ public class CameraActivity extends AppCompatActivity {
 
         fotoapparat = createFotoapparat();
 
-        takePictureOnClick();
-        focusOnLongClick();
-        switchCameraOnClick();
+        boolean hasFrontCamera = fotoapparat.isAvailable(front());
+        switchCameraButton.setVisibility(hasFrontCamera ? View.VISIBLE : View.GONE);
+
         toggleTorchOnSwitch();
         zoomSeekBar();
     }
@@ -116,10 +133,7 @@ public class CameraActivity extends AppCompatActivity {
                         return null;
                     }
                 })
-                .logger(loggers(
-                        logcat(),
-                        fileLogger(this)
-                ))
+                .logger(loggers(logcat()))
                 .cameraErrorCallback(new Function1<CameraException, Unit>() {
                     @Override
                     public Unit invoke(CameraException e) {
@@ -131,8 +145,6 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void zoomSeekBar() {
-        SeekBar seekBar = findViewById(R.id.zoomSeekBar);
-
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -151,23 +163,7 @@ public class CameraActivity extends AppCompatActivity {
         });
     }
 
-    private void switchCameraOnClick() {
-        View switchCameraButton = findViewById(R.id.switchCamera);
-
-        boolean hasFrontCamera = fotoapparat.isAvailable(front());
-
-        switchCameraButton.setVisibility(
-                hasFrontCamera ? View.VISIBLE : View.GONE
-        );
-
-        if (hasFrontCamera) {
-            switchCameraOnClick(switchCameraButton);
-        }
-    }
-
     private void toggleTorchOnSwitch() {
-        SwitchCompat torchSwitch = findViewById(R.id.torchSwitch);
-
         torchSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -182,48 +178,24 @@ public class CameraActivity extends AppCompatActivity {
         });
     }
 
-    private void switchCameraOnClick(View view) {
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fotoapparat.switchTo(
-                        front(),
-                        cameraConfiguration
-                );
-            }
-        });
+    @OnClick(R.id.switchCamera)
+    public void switchCameraOnClick(){
+        fotoapparat.switchTo(
+                front(),
+                cameraConfiguration
+        );
     }
 
-    private void focusOnLongClick() {
-        cameraView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                fotoapparat.autoFocus();
-
-                return true;
-            }
-        });
+    @OnClick(R.id.cameraView)
+    public void focusOnClick(){
+        fotoapparat.focus();
     }
 
-    private void takePictureOnClick() {
-        cameraView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                takePicture();
-            }
-        });
-    }
-
-    private void takePicture() {
-        PhotoResult photoResult = fotoapparat.takePicture();
-
-        photoResult.saveToFile(new File(
-                getExternalFilesDir("photos"),
-                "photo.jpg"
-        ));
-
+    @OnClick(R.id.capture_button)
+    public void captureOnClick(){
+        photoResult = fotoapparat.takePicture();
         photoResult
-                .toBitmap(scaled(0.25f))
+                .toBitmap()
                 .whenDone(new WhenDoneListener<BitmapPhoto>() {
                     @Override
                     public void whenDone(@Nullable BitmapPhoto bitmapPhoto) {
@@ -231,12 +203,30 @@ public class CameraActivity extends AppCompatActivity {
                             Logger.d("Couldn't capture photo.");
                             return;
                         }
-                        ImageView imageView = findViewById(R.id.result);
 
+                        resultView.setVisibility(View.VISIBLE);
                         imageView.setImageBitmap(bitmapPhoto.bitmap);
                         imageView.setRotation(-bitmapPhoto.rotationDegrees);
                     }
                 });
+    }
+
+    @OnClick(R.id.capture_done_button)
+    public void doneOnClick(){
+        if (photoResult != null) {
+            File file = new File(getExternalFilesDir("photos"), System.currentTimeMillis() + ".jpg");
+            photoResult.saveToFile(file);
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(PICTURE_FILE_PATH, file.getPath());
+            setResult(RESULT_OK, resultIntent);
+            finish();
+        }
+    }
+
+    @OnClick(R.id.capture_cancel_button)
+    public void cancelOnClick(){
+       resultView.setVisibility(View.GONE);
     }
 
     @Override
