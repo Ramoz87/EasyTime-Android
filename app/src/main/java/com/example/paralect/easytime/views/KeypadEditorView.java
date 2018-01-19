@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
@@ -54,6 +55,7 @@ public class KeypadEditorView extends KeypadView {
 
     public void setupEditText(EditText editText) {
         this.editorField = editText;
+        editText.setInputType(InputType.TYPE_NULL);
     }
 
     private static final class KeypadHandler implements OnKeypadItemClickListener {
