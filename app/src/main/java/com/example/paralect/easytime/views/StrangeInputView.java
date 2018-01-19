@@ -78,13 +78,13 @@ public class StrangeInputView extends LinearLayout implements View.OnFocusChange
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         setSelected(hasFocus);
-        if (hasFocus) {
-            mainTextView.setTextColor(blueColor);
-            detailsTextView.setTextColor(blueColor);
-        } else {
-            mainTextView.setTextColor(grayColor);
-            detailsTextView.setTextColor(grayColor);
-        }
+//        if (hasFocus) {
+//            mainTextView.setTextColor(blueColor);
+//            detailsTextView.setTextColor(blueColor);
+//        } else {
+//            mainTextView.setTextColor(grayColor);
+//            detailsTextView.setTextColor(grayColor);
+//        }
     }
 
 

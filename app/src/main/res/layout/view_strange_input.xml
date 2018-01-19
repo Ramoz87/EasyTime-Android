@@ -4,9 +4,9 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:background="@drawable/strange_selector"
+              android:duplicateParentState="true"
               android:gravity="center"
               android:orientation="vertical"
-              android:duplicateParentState="true"
               android:paddingBottom="10dp"
               android:paddingLeft="30dp"
               android:paddingRight="30dp"
@@ -20,6 +20,7 @@
         android:duplicateParentState="true"
         android:includeFontPadding="false"
         android:maxLength="2"
+        android:textColor="@drawable/strange_text_selector"
         android:textSize="@dimen/strange_main_text_size"
         tools:text="00"/>
 
@@ -30,6 +31,7 @@
         android:background="@android:color/transparent"
         android:duplicateParentState="true"
         android:includeFontPadding="false"
+        android:textColor="@drawable/strange_text_selector"
         android:textSize="@dimen/strange_details_text_size"
         tools:text="Details"/>
 
