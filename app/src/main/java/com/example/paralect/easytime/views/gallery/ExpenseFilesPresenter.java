@@ -98,7 +98,7 @@ final class ExpenseFilesPresenter extends FilesPresenter<Void> {
         try {
             File file = CollectionUtils.getFirst(files);
             if (file != null) {
-                file.setExpensiveId(expense.getExpensiveId());
+                file.setExpensiveId(expense.getExpenseId());
                 file = EasyTimeManager.getInstance().saveFileAndGet(file);
                 files.clear();
                 files.add(file);

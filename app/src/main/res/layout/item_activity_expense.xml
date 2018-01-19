@@ -34,7 +34,6 @@
         android:layout_height="wrap_content" />
 
     <android.support.v7.widget.AppCompatImageView
-        android:visibility="gone"
         android:layout_marginLeft="10dp"
         app:tint="@color/gray_blue"
         android:src="@drawable/ic_trash"

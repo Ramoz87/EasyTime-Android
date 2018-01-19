@@ -151,6 +151,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
                         .pushFragment(ProjectDetailsFragment.newInstance(getJobArg()));
                 return true;
             case R.id.item_delete: {
+                Log.d(TAG, "toggled to delete items");
                 adapter.toggle();
                 return true;
             }

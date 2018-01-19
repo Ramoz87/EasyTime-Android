@@ -2,7 +2,6 @@ package com.example.paralect.easytime.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
 
 import com.j256.ormlite.field.DataType;
@@ -31,8 +30,8 @@ public class Expense implements Parcelable, Consumable {
     @DatabaseField(columnName = "discount", dataType = DataType.FLOAT)
     private float discount;
 
-    @DatabaseField(columnName = "expensiveId", generatedId = true)
-    private long expensiveId;
+    @DatabaseField(columnName = "expenseId", generatedId = true)
+    private long expenseId;
 
     @DatabaseField(columnName = "materialId")
     private String materialId;
@@ -71,7 +70,7 @@ public class Expense implements Parcelable, Consumable {
 
     protected Expense(Parcel in) {
         discount = in.readFloat();
-        expensiveId = in.readLong();
+        expenseId = in.readLong();
         materialId = in.readString();
         name = in.readString();
         type = in.readString();
@@ -83,7 +82,7 @@ public class Expense implements Parcelable, Consumable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeFloat(discount);
-        dest.writeLong(expensiveId);
+        dest.writeLong(expenseId);
         dest.writeString(materialId);
         dest.writeString(name);
         dest.writeString(type);
@@ -117,12 +116,12 @@ public class Expense implements Parcelable, Consumable {
         this.discount = discount;
     }
 
-    public long getExpensiveId() {
-        return expensiveId;
+    public long getExpenseId() {
+        return expenseId;
     }
 
-    public void setExpensiveId(long expensiveId) {
-        this.expensiveId = expensiveId;
+    public void setExpenseId(long expenseId) {
+        this.expenseId = expenseId;
     }
 
     public String getMaterialId() {

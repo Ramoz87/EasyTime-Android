@@ -17,6 +17,7 @@ import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.utils.CollectionUtils;
+import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -324,7 +325,7 @@ public final class EasyTimeManager {
         dao.createOrUpdate(expense);
         // retrieve
         PreparedQuery<Expense> query = dao.queryBuilder()
-                .orderBy("expensiveId", false)
+                .orderBy("expenseId", false)
                 .limit(1L)
                 .prepare();
 
@@ -382,7 +383,7 @@ public final class EasyTimeManager {
             Dao<Material, String> materialDao = helper.getMaterialDao();
             for (Expense e : expenses) {
                 String materialId = e.getMaterialId();
-                List<File> files = getFilesByExpenseId(e.getExpensiveId());
+                List<File> files = getFilesByExpenseId(e.getExpenseId());
                 if (materialId != null) {
                     Material m = materialDao.queryForId(materialId);
                     Material newMaterial = new Material(m);
@@ -400,6 +401,20 @@ public final class EasyTimeManager {
 
     public void deleteConsumable(Consumable consumable) {
         // delete expense
+        try {
+            Dao<Expense, Long> expenseDao = helper.getExpenseDao();
+            if (!consumable.isMaterial()) {
+                Expense expense = (Expense) consumable;
+                expenseDao.delete(expense);
+            } else {
+                Material material = (Material) consumable;
+                String materialId = material.getMaterialId();
+                // TOTALLY NEED TO CHANGE LOGIC OF CREATING EXPENSES OF MATERIALS
+            }
+        } catch (SQLException exc) {
+            Logger.d(exc.getMessage());
+            exc.printStackTrace();
+        }
     }
 
     public void saveExpense(String jobId, Material material, int value) {
@@ -429,12 +444,12 @@ public final class EasyTimeManager {
     public File getFile(Expense expense) throws SQLException {
         return helper.getFileDao().queryBuilder()
                 .where()
-                .eq("expensiveId", expense.getExpensiveId())
+                .eq("expenseId", expense.getExpenseId())
                 .queryForFirst();
     }
 
     public List<File> getFilesByExpenseId(Long expenseId) throws SQLException {
-        return helper.getFileDao().queryForEq("expensiveId", expenseId);
+        return helper.getFileDao().queryForEq("expenseId", expenseId);
     }
 
     public List<File> getFiles(Job job) throws SQLException {
