@@ -154,7 +154,6 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
 
             ImageView imageView = new ImageView(container.getContext());
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setBackgroundColor(Color.GREEN);
             Picasso.with(container.getContext())
                     .load(file.getFullFileUrl())
                     .placeholder(R.drawable.materials_placeholder)
