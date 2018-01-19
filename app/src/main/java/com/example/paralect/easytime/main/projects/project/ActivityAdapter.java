@@ -14,6 +14,7 @@ import com.example.paralect.easytime.model.Consumable;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Material;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,6 +36,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
 
     private List<Consumable> consumables;
+    private List<ViewHolder> viewHolders = new ArrayList<>();
 
     public void setData(List<Consumable> consumables) {
         this.consumables = consumables;
@@ -50,10 +52,20 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         notifyItemRemoved(position);
     }
 
+    public void toggle() {
+        for (ViewHolder vh : viewHolders) {
+            View delete = vh.delete;
+            int visibility = delete.getVisibility();
+            delete.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+        }
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_activity_expense, parent, false);
-        return new ViewHolder(itemView, this);
+        ViewHolder holder = new ViewHolder(itemView, this);
+        viewHolders.add(holder);
+        return holder;
     }
 
     @Override
