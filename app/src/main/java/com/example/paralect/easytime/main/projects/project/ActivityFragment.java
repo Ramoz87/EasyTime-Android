@@ -260,6 +260,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @Override
     public void onDataReceived(List<Consumable> consumables) {
+        Log.d(TAG, String.format("received %s consumables", consumables.size()));
         adapter.setData(consumables);
     }
 }
