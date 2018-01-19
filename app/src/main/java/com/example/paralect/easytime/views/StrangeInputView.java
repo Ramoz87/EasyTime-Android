@@ -88,4 +88,9 @@ public class StrangeInputView extends LinearLayout implements View.OnFocusChange
     }
 
 
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener l) {
+        super.setOnClickListener(l);
+        requestFocus();
+    }
 }
