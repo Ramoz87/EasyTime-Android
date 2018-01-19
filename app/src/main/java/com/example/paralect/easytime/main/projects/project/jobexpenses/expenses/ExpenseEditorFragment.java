@@ -114,7 +114,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     public void onCompletion(KeypadEditorView keypadEditorView, String result) {
         Logger.d(TAG, "completed");
 
-        Expense expense =  Expense.reCreate(mExpense);
+        Expense expense = Expense.reCreate(mExpense);
         int value = result.isEmpty() ? 0 : Integer.valueOf(result);
         expense.setValue(value);
 

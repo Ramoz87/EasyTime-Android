@@ -105,8 +105,8 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
         expense.setName(expenseName);
         Job job = getJobArg();
         expense.setJobId(job.getJobId());
-        EasyTimeManager.getInstance().saveOrUpdateExpense(expense);
-        adapter.addExpense(expense);
+        ExpenseEditorFragment fragment = ExpenseEditorFragment.newInstance(expense);
+        getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 
     @Override
