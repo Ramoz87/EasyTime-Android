@@ -3,6 +3,7 @@ package com.example.paralect.easytime.views.gallery;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -12,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.camera.CameraActivity;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.IntentUtils;
@@ -27,7 +28,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.aprilapps.easyphotopicker.EasyImage;
 
 /**
  * Created by Oleg Tarashkevich on 16/01/2018.
@@ -99,7 +99,7 @@ abstract class FilesView<E> extends FrameLayout implements IFilesView<List<File>
     public void onCaptureClick() {
         Activity activity = IntentUtils.getActivity(getContext());
         if (!IntentUtils.isFinishing(activity))
-            EasyImage.openCamera(activity, 0);
+            activity.startActivityForResult(new Intent(activity, CameraActivity.class), 0);
     }
 
     @OnClick(R.id.gallery_delete_button)

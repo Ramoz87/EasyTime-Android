@@ -21,8 +21,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import pl.aprilapps.easyphotopicker.DefaultCallback;
-import pl.aprilapps.easyphotopicker.EasyImage;
 
 /**
  * Created by Oleg Tarashkevich on 16/01/2018.
@@ -41,26 +39,26 @@ abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements 
         if (mView != null) {
             Activity activity = IntentUtils.getActivity(mView.getViewContext());
             if (!IntentUtils.isFinishing(activity)) {
-                EasyImage.handleActivityResult(event.getRequestCode(), event.getResultCode(), event.getData(), activity, new DefaultCallback() {
-                    @Override
-                    public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onImagePicked(java.io.File imageFile, EasyImage.ImageSource source, int type) {
-                        onFileReceived(imageFile);
-                    }
-
-                    @Override
-                    public void onCanceled(EasyImage.ImageSource source, int type) {
-                        //Cancel handling, you might wanna remove taken photo if it was canceled
-                        if (source == EasyImage.ImageSource.CAMERA) {
-                            java.io.File photoFile = EasyImage.lastlyTakenButCanceledPhoto(mView.getViewContext());
-                            if (photoFile != null) photoFile.delete();
-                        }
-                    }
-                });
+//                EasyImage.handleActivityResult(event.getRequestCode(), event.getResultCode(), event.getData(), activity, new DefaultCallback() {
+//                    @Override
+//                    public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    @Override
+//                    public void onImagePicked(java.io.File imageFile, EasyImage.ImageSource source, int type) {
+//                        onFileReceived(imageFile);
+//                    }
+//
+//                    @Override
+//                    public void onCanceled(EasyImage.ImageSource source, int type) {
+//                        //Cancel handling, you might wanna remove taken photo if it was canceled
+//                        if (source == EasyImage.ImageSource.CAMERA) {
+//                            java.io.File photoFile = EasyImage.lastlyTakenButCanceledPhoto(mView.getViewContext());
+//                            if (photoFile != null) photoFile.delete();
+//                        }
+//                    }
+//                });
             }
         }
     }

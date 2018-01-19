@@ -382,6 +382,7 @@ public final class EasyTimeManager {
             Dao<Material, String> materialDao = helper.getMaterialDao();
             for (Expense e : expenses) {
                 String materialId = e.getMaterialId();
+                List<File> files = getFilesByExpenseId(e.getExpensiveId());
                 if (materialId != null) {
                     Material m = materialDao.queryForId(materialId);
                     Material newMaterial = new Material(m);

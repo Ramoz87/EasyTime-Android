@@ -34,7 +34,7 @@ dependencies {
     implementation deps.fab
     implementation deps.gridlayout
     implementation deps.picasso
-    implementation deps.easyImage
+    implementation deps.fotoapparat
 
     implementation deps.butterKnife
     annotationProcessor deps.butterKnifeCompiler

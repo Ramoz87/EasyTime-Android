@@ -36,6 +36,7 @@ ext {
     fabVersion = '1.6.4'
     gridlayoutVersion = '25.2.0'
     easyImageVersion = '1.3.1'
+    fotoapparatVersion = '2.1.2'
 
     deps = [
 
@@ -79,6 +80,7 @@ ext {
             eventBus           : "org.greenrobot:eventbus:${eventBusVersion}",
             multidex           : "com.android.support:multidex:${multidexVersion}",
             easyImage          : "com.github.jkwiecien:EasyImage:${easyImageVersion}",
+            fotoapparat          : "io.fotoapparat.fotoapparat:library:${fotoapparatVersion}",
 
             // Network
             gson               : "com.google.code.gson:gson:${gsonVersion}",
