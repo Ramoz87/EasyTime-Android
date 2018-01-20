@@ -301,10 +301,10 @@ public final class EasyTimeManager {
             List<Expense> foundExpenses = dao.queryForEq("jobId", jobId);
             for (Expense exp : foundExpenses) {
                 if (exp.isMaterialExpense() == isMaterial) {
-                    Material material = materialDao.queryForId(exp.getMaterialId());
-                    exp.setMaterial(material);
-                    expenses.add(exp);
-                } else {
+                    if (isMaterial) {
+                        Material material = materialDao.queryForId(exp.getMaterialId());
+                        exp.setMaterial(material);
+                    }
                     expenses.add(exp);
                 }
             }
