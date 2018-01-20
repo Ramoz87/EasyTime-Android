@@ -40,5 +40,8 @@
     <color name="delete">#CB4B4A</color>
     <color name="keypad_border">#6D89AF</color>
 
+    <color name="pressed">#E1E1E1</color>
+    <color name="long_pressed">#C3C3C3</color>
+
     <color name="project_expense_text">#5B759F</color>
 </resources>
