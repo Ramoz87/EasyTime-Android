@@ -67,6 +67,16 @@ public class Expense implements Parcelable {
         return expense;
     }
 
+    public static Expense createTimeExpense(Job job, int hours, int minutes) {
+        int total = hours * 60 + minutes;
+        Expense expense = new Expense();
+        expense.setType(Expense.Type.TIME);
+        expense.setName(job.getName());
+        expense.setJobId(job.getJobId());
+        expense.setValue(total);
+        return expense;
+    }
+
     public Expense() {
 
     }

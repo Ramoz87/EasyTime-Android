@@ -130,6 +130,11 @@
     <!--material expenses-->
     <string name="item_selected">%d item(s) selected</string>
 
+    <!--time expenses-->
+    <string name="time_exp_title">New time</string>
+    <string name="time_exp_hours">Hours</string>
+    <string name="time_exp_minutes">Minutes</string>
+
     <!--congratulations-->
     <string name="congratulations">Congratulations!</string>
     <string name="ur_invoice_has_been_sent">Your invoice has been sent</string>

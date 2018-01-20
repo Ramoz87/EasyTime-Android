@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools">
+
+    <EditText
+        android:id="@+id/strange_main_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:includeFontPadding="false"
+        android:singleLine="true"
+        android:textColor="@drawable/strange_text_selector"
+        android:textSize="@dimen/strange_main_text_size"
+        tools:text="00"/>
+
+    <TextView
+        android:id="@+id/strange_details_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        android:background="@android:color/transparent"
+        android:includeFontPadding="false"
+        android:textColor="@drawable/strange_text_selector"
+        android:textSize="@dimen/strange_details_text_size"
+        tools:text="Details"/>
+
+</merge>

@@ -17,6 +17,8 @@ import android.view.View;
 
 public abstract class BaseFragment extends Fragment {
 
+    public static String FRAGMENT_KEY = "FRAGMENT_KEY";
+
     public MainActivity getMainActivity() {
         return (MainActivity) getActivity();
     }

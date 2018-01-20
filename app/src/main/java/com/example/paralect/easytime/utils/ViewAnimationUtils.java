@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.utils;
 
 import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.view.View;
@@ -143,5 +144,11 @@ public final class ViewAnimationUtils {
             }
         });
         animator.start();
+    }
+
+    public static void shakeAnimation(View v, long duration) {
+        ObjectAnimator shakeAnimator = ObjectAnimator.ofFloat(v, "translationX", 0, 25, -25, 25, -25, 15, -15, 6, -6, 0);
+        shakeAnimator.setDuration(duration);
+        shakeAnimator.start();
     }
 }

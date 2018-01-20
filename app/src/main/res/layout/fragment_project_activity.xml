@@ -88,7 +88,7 @@
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/addMaterials"
             style="@style/FloatingActionButtonMiniStyle"
-            android:src="@drawable/ic_materials"
+            android:src="@drawable/ic_materials_blue"
             app:fab_label="@string/add_material"/>
 
         <com.github.clans.fab.FloatingActionButton
