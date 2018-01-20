@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.StringDef;
 
+import com.example.paralect.easytime.utils.TextUtil;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -165,6 +166,29 @@ public class Expense implements Parcelable {
 
     public int getValue() {
         return value;
+    }
+
+    public String getTypedValue() {
+        String text = String.valueOf(value);
+        if (TextUtil.isNotEmpty(type)) {
+
+            switch (type) {
+                case Type.TIME:
+                    text += " min";
+                    break;
+
+                case Type.DRIVING:
+                    text += " km";
+                    break;
+
+                case Type.MATERIAL:
+                case Type.OTHER:
+                default:
+                    text += " pc";
+            }
+
+        }
+        return text;
     }
 
     public void setValue(int value) {

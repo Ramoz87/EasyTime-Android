@@ -27,6 +27,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.paralect.easytime.model.Constants.DRIVING;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -287,7 +289,8 @@ public final class EasyTimeManager {
     public List<Expense> getDefaultExpenses(Job job) {
         List<Expense> expenses = new ArrayList<>();
         Expense expense = new Expense();
-        expense.setName(EasyTimeApplication.getContext().getString(R.string.driving));
+        expense.setName(DRIVING);
+        expense.setType(Expense.Type.DRIVING);
         expense.setJobId(job.getJobId());
         expenses.add(expense);
         return expenses;
