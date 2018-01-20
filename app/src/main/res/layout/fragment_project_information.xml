@@ -131,13 +131,13 @@
             android:background="@color/dark_blue" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/companyName"
+            android:id="@+id/client"
             android:gravity="center_vertical|left"
             android:paddingLeft="@dimen/project_information_left_padding"
             android:paddingStart="@dimen/project_information_left_padding"
             android:textColor="@color/black"
             android:textSize="@dimen/project_information_text_normal"
-            android:text="@string/placeholder_project_info_client"
+            android:text="@string/client"
             android:layout_width="match_parent"
             android:layout_height="@dimen/project_information_item_height" />
 
