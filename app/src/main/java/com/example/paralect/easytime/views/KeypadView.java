@@ -29,14 +29,10 @@ import butterknife.ButterKnife;
 public class KeypadView extends ExpandableLayout {
     private static final String TAG = KeypadView.class.getSimpleName();
 
-    @BindView(R.id.keypadContent)
-    GridLayout keypadContent;
-
-    @BindView(R.id.keypadNext)
-    View next;
-
-    @BindView(R.id.keypadDelete)
-    View delete;
+    @BindView(R.id.keypadContent) GridLayout keypadContent;
+    @BindView(R.id.keypadNext) View next;
+    @BindView(R.id.keypadDelete) View delete;
+    @BindView(R.id.shadow) View shadow;
 
     private OnTouchListener getNewNumberHandler() {
         return new TouchHandler() {
@@ -139,5 +135,9 @@ public class KeypadView extends ExpandableLayout {
         ((TextView) view).setText(String.valueOf(number));
         view.setTag(number);
         view.setOnTouchListener(getNewNumberHandler());
+    }
+
+    public View getShadowView() {
+        return shadow;
     }
 }

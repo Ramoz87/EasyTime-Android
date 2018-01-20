@@ -78,7 +78,6 @@
     <com.example.paralect.easytime.views.KeypadEditorView
         android:id="@+id/keypad"
         android:layout_width="match_parent"
-        android:background="@color/gray"
         android:layout_height="wrap_content" />
 
     <!--<include layout="@layout/include_keypad_content" />-->
