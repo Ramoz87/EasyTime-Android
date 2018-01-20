@@ -298,14 +298,18 @@ public final class EasyTimeManager {
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
             Dao<Material, String> materialDao = helper.getMaterialDao();
-            List<Expense> foundExpenses = dao.queryForEq("jobId", jobId);
-            for (Expense exp : foundExpenses) {
-                if (exp.isMaterialExpense() == isMaterial) {
-                    if (isMaterial) {
-                        Material material = materialDao.queryForId(exp.getMaterialId());
-                        exp.setMaterial(material);
-                    }
-                    expenses.add(exp);
+            QueryBuilder<Expense, Long> qb = dao.queryBuilder();
+            if (isMaterial) {
+                qb.where().eq("jobId", jobId).and().isNotNull("materialId");
+            } else {
+                qb.where().eq("jobId", jobId).and().isNull("materialId");
+            }
+            List<Expense> foundExpenses = qb.query();
+
+            if (isMaterial) {
+                for (Expense exp : foundExpenses) {
+                    Material material = materialDao.queryForId(exp.getMaterialId());
+                    exp.setMaterial(material);
                 }
             }
             expenses.addAll(foundExpenses);
