@@ -3,6 +3,9 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +13,10 @@ import java.util.List;
  * Created by alexei on 26.12.2017.
  */
 
+@DatabaseTable(tableName = "contacts")
 public class Contact implements Parcelable {
 
+    @DatabaseField
     private long contactId;
     private String email;
     private String fax;

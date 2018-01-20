@@ -108,6 +108,16 @@ public class InfoLayout extends FrameLayout {
         infoList.addView(infoItem);
     }
 
+    public void addInfoItem(@DrawableRes int drawableResId, String title, OnClickListener eventHandler) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        // View infoItem = inflate(getContext(), R.layout.include_info_item, infoList);
+        View infoItem = inflater.inflate(R.layout.include_info_item, infoList, false);
+        ((ImageView) infoItem.findViewById(R.id.icon)).setImageResource(drawableResId);
+        ((TextView) infoItem.findViewById(R.id.text)).setText(title);
+        infoItem.setOnClickListener(eventHandler);
+        infoList.addView(infoItem);
+    }
+
     public void setTitle(@StringRes int stringResId) {
         title.setText(stringResId);
     }

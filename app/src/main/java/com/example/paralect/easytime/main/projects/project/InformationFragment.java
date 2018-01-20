@@ -17,6 +17,7 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.views.InfoLayout;
 import com.example.paralect.easytime.views.gallery.JobFilesView;
@@ -96,9 +97,14 @@ public class InformationFragment extends BaseFragment {
         if (date == null) date = "no date";
         jobTerm.setText(date);
 
-        instructions.addInfoItem(R.drawable.ic_watch, R.string.placeholder_project_info_delivery_time, null);
-        instructions.addInfoItem(R.drawable.ic_phone, R.string.placeholder_project_info_contact, null);
-        instructions.addInfoItem(R.drawable.ic_checkpoint, R.string.placeholder_project_info_address, null);
+        if (job.getProjectType() == ProjectType.Type.TYPE_ORDER) {
+            Order order = (Order) job;
+            instructions.addInfoItem(R.drawable.ic_watch, order.getDeliveryTime(), null);
+            instructions.addInfoItem(R.drawable.ic_phone, order.getContact(), null);
+            instructions.addInfoItem(R.drawable.ic_checkpoint, order.getAddress().toString(), null);
+        } else {
+            instructions.setVisibility(View.GONE);
+        }
 
         Job job = getJobArg();
         galleryFilesView.setupWithEntity(job);

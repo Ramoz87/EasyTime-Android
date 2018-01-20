@@ -184,8 +184,8 @@ public class EasyTimeApplication extends Application {
                 Order order = new Order();
                 fillJob(order, fields);
 
-                order.setContact(fields[13]);
-                order.setDeliveryTime(fields[14]);
+                order.setContact(fields[14]);
+                order.setDeliveryTime(fields[15]);
 
                 Address address = new Address();
                 address.setStreet(fields[15]);
