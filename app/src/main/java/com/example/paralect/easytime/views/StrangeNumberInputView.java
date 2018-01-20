@@ -159,6 +159,10 @@ public class StrangeNumberInputView extends LinearLayout implements View.OnFocus
         return mMainTextView.getText().toString();
     }
 
+    public int getIntValue(){
+        return Integer.valueOf(getValue());
+    }
+
     public interface OnChangeListener {
 
         void onSelected(StrangeNumberInputView view, boolean isSelected);

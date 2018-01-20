@@ -29,8 +29,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  */
 
 public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreatorDialog.Listener, IDataView<List<Expense>> {
-    private static final String TAG = ExpensesFragment.class.getSimpleName();
 
+    public static final String TAG = ExpensesFragment.class.getSimpleName();
     public static final String ARG_JOB = "arg_job";
 
     private ExpensesPresenter presenter = new ExpensesPresenter();

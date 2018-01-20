@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.views.KeypadEditorView;
@@ -26,7 +28,9 @@ import butterknife.ButterKnife;
 
 public class TimeExpensesFragment extends BaseFragment implements StrangeNumberInputView.OnChangeListener {
 
+    public static final String TAG = TimeExpensesFragment.class.getSimpleName();
     public static final String ARG_JOB = "arg_job";
+
     private final int MAX_HOURS = 23;
     private final int MAX_MINS = 59;
 
@@ -115,10 +119,16 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
 
     @Override
     public void onCompleted() {
-        String hours = hoursView.getValue();
-        String minutes = minutesView.getValue();
-
-        Logger.d("Time: " + hours + ":" + minutes);
+        try {
+            int hours = hoursView.getIntValue();
+            int minutes = minutesView.getIntValue();
+            Expense expense = Expense.createTimeExpense(job, hours, minutes);
+            expense = EasyTimeManager.getInstance().saveExpense(expense);
+            Logger.d(TAG, "Expense created");
+        } catch (Throwable e) {
+            Logger.e(e);
+        }
+        getMainActivity().onBackPressed();
     }
 
 }

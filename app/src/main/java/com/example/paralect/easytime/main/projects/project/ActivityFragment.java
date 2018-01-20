@@ -70,8 +70,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         Job job = getJobArg();
         Fragment fragment;
         if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT)
-            // TODO Push to objects and orders list
-            fragment = ObjectsOfProjectFragment.newInstance((Project) job);
+            fragment = ObjectsOfProjectFragment.newInstance((Project) job, TimeExpensesFragment.TAG);
         else
             fragment = TimeExpensesFragment.newInstance(job);
 
@@ -89,7 +88,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         Job job = getJobArg();
         Fragment fragment;
         if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT) {
-            fragment = ObjectsOfProjectFragment.newInstance((Project) job);
+            fragment = ObjectsOfProjectFragment.newInstance((Project) job, ExpensesFragment.TAG);
         } else {
             fragment = ExpensesFragment.newInstance(job);
         }
