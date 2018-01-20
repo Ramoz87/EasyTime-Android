@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     final FragNavTransactionOptions options = FragNavTransactionOptions.newBuilder()
             .customAnimations(R.anim.fade_in, R.anim.fade_out)
+            .allowStateLoss(false)
             .build();
 
     @BindView(R.id.navigationView) BottomNavigationView bottomBar;

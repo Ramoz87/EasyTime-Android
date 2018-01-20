@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,10 @@ import butterknife.ButterKnife;
  */
 
 public abstract class AbsListFragment extends BaseFragment {
+
+    private static final String STATE_FIRST_VISIBLE_POS = "first_visible_position";
+
+    private int firstVisiblePosition = 0;
 
     @BindView(R.id.list)
     EmptyRecyclerView list;
@@ -62,5 +67,20 @@ public abstract class AbsListFragment extends BaseFragment {
 
     protected FrameLayout getEmptyViewContainer() {
         return emptyViewContainer;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle instanceState) {
+        instanceState.putInt(STATE_FIRST_VISIBLE_POS, firstVisiblePosition);
+        super.onSaveInstanceState(instanceState);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle instanceState) {
+        super.onViewStateRestored(instanceState);
+        if (instanceState != null) {
+            firstVisiblePosition = instanceState.getInt(STATE_FIRST_VISIBLE_POS, 0);
+            list.smoothScrollToPosition(firstVisiblePosition);
+        }
     }
 }

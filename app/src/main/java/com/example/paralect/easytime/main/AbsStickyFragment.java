@@ -2,7 +2,8 @@ package com.example.paralect.easytime.main;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.INotificationSideChannel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,10 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public abstract class AbsStickyFragment extends BaseFragment
         implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private static final String TAG = AbsStickyFragment.class.getSimpleName();
+
+    private static final String STATE_FIRST_VISIBLE_POS = "first_visible_pos";
+
+    private int firstVisiblePosition = 0;
 
     @BindView(R.id.sticky_list_headers_list_view)
     StickyListHeadersListView stickyListHeadersListView;
@@ -58,5 +63,22 @@ public abstract class AbsStickyFragment extends BaseFragment
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
         return false;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle instanceState) {
+        Log.d(TAG, "saving fragment state");
+        instanceState.putInt(STATE_FIRST_VISIBLE_POS, firstVisiblePosition);
+        super.onSaveInstanceState(instanceState);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle instanceState) {
+        Log.d(TAG, "restoring fragment state");
+        super.onViewStateRestored(instanceState);
+        if (instanceState != null) {
+            firstVisiblePosition = instanceState.getInt(STATE_FIRST_VISIBLE_POS, 0);
+            stickyListHeadersListView.smoothScrollToPosition(firstVisiblePosition);
+        }
     }
 }
