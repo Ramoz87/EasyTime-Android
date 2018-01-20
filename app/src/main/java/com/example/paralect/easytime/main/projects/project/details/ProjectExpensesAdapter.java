@@ -123,14 +123,12 @@ public class ProjectExpensesAdapter extends RecyclerView.Adapter<ProjectExpenses
         void bind(Expense expense) {
             Resources res = itemView.getResources();
             expenseName.setText(expense.getName());
-            int price;
+            int price = expense.getValue();
             if (expense.isMaterialExpense()) {
                 Material material = expense.getMaterial();
-                price = material.getPricePerUnit() * material.getStockQuantity();
                 pricePerUnit.setVisibility(View.VISIBLE);
                 pricePerUnit.setText(res.getString(R.string.expense_price, material.getPricePerUnit()));
             } else {
-                price = expense.getValue();
                 pricePerUnit.setVisibility(View.GONE);
             }
 

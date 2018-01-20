@@ -407,13 +407,14 @@ public final class EasyTimeManager {
         }
     }
 
-    public void saveExpense(String jobId, Material material, int value) {
+    public void saveExpense(String jobId, Material material, int countOfMaterials) {
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
             Where<Expense, Long> where = dao.queryBuilder().where();
             where.eq("jobId", jobId).and().eq("materialId", material.getMaterialId());
             List<Expense> foundExpenses = where.query();
             Expense expense;
+            int value = countOfMaterials * material.getPricePerUnit();
             if (CollectionUtils.isEmpty(foundExpenses)) {
                 expense = new Expense();
                 expense.setJobId(jobId);
