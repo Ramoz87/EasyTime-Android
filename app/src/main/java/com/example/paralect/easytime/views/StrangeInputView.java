@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by Oleg Tarashkevich on 19/01/2018.
  */
 
-public class StrangeInputView extends LinearLayout implements View.OnFocusChangeListener {
+public class StrangeInputView extends LinearLayout implements View.OnFocusChangeListener, View.OnClickListener {
 
     private int mMaxInputSize = 2;
 
@@ -50,8 +50,15 @@ public class StrangeInputView extends LinearLayout implements View.OnFocusChange
         if (!isInEditMode()) {
             ButterKnife.bind(this);
         }
-        mainTextView.setOnFocusChangeListener(this);
         mainTextView.setInputType(InputType.TYPE_NULL);
+
+        setOnFocusChangeListener(this);
+        mainTextView.setOnFocusChangeListener(this);
+        detailsTextView.setOnFocusChangeListener(this);
+
+        setOnClickListener(this);
+        mainTextView.setOnClickListener(this);
+        detailsTextView.setOnClickListener(this);
     }
 
     public void setMaxInputSize(int maxInputSize) {
@@ -78,19 +85,10 @@ public class StrangeInputView extends LinearLayout implements View.OnFocusChange
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         setSelected(hasFocus);
-//        if (hasFocus) {
-//            mainTextView.setTextColor(blueColor);
-//            detailsTextView.setTextColor(blueColor);
-//        } else {
-//            mainTextView.setTextColor(grayColor);
-//            detailsTextView.setTextColor(grayColor);
-//        }
     }
 
-
     @Override
-    public void setOnClickListener(@Nullable OnClickListener l) {
-        super.setOnClickListener(l);
+    public void onClick(View view) {
         requestFocus();
     }
 }

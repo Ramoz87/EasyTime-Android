@@ -94,13 +94,14 @@ public class TimeExpensesFragment extends BaseFragment implements KeypadEditorVi
 
     }
 
-    @OnClick(R.id.time_exp_hours_view)
-    public void onHoursClick() {
-        keypadEditorView.setupEditText(hoursView.getMainTextView());
-    }
+//    @OnClick(R.id.time_exp_hours_view)
+//    public void onHoursClick() {
+//        keypadEditorView.setupEditText(hoursView.getMainTextView());
+//    }
+//
+//    @OnClick(R.id.time_exp_minutes_view)
+//    public void onMinutesClick() {
+//        keypadEditorView.setupEditText(minutesView.getMainTextView());
+//    }
 
-    @OnClick(R.id.time_exp_minutes_view)
-    public void onMinutesClick() {
-        keypadEditorView.setupEditText(minutesView.getMainTextView());
-    }
 }
