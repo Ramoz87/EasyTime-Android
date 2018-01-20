@@ -18,8 +18,8 @@ import android.widget.EditText;
 public class KeypadEditorView extends KeypadView {
     private static final String TAG = KeypadEditorView.class.getSimpleName();
 
-    private EditText editorField;
-    private OnCompletionListener onCompletionListener;
+    protected EditText editorField;
+    protected OnCompletionListener onCompletionListener;
     private final KeypadHandler handler = new KeypadHandler(this);
 
     public void setOnCompletionListener(OnCompletionListener onCompletionListener) {
@@ -49,7 +49,7 @@ public class KeypadEditorView extends KeypadView {
         init();
     }
 
-    private void init() {
+    protected void init() {
         this.setOnKeypadItemClickListener(handler);
     }
 

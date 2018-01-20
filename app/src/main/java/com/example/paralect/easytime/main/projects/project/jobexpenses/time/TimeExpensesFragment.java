@@ -9,14 +9,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.views.KeypadEditorView;
-import com.example.paralect.easytime.views.KeypadView;
-import com.example.paralect.easytime.views.StrangeInputView;
+import com.example.paralect.easytime.views.StrangeNumberInputView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,13 +24,15 @@ import butterknife.ButterKnife;
  * Created by Oleg Tarashkevich on 19/01/2018.
  */
 
-public class TimeExpensesFragment extends BaseFragment implements StrangeInputView.OnSelectedChangeListener, KeypadView.OnKeypadItemClickListener {
+public class TimeExpensesFragment extends BaseFragment implements StrangeNumberInputView.OnChangeListener {
 
     public static final String ARG_JOB = "arg_job";
+    private final int MAX_HOURS = 23;
+    private final int MAX_MINS = 59;
 
     @BindView(R.id.keypad) KeypadEditorView keypadEditorView;
-    @BindView(R.id.time_exp_hours_view) StrangeInputView hoursView;
-    @BindView(R.id.time_exp_minutes_view) StrangeInputView minutesView;
+    @BindView(R.id.time_exp_hours_view) StrangeNumberInputView hoursView;
+    @BindView(R.id.time_exp_minutes_view) StrangeNumberInputView minutesView;
 
     private Job job;
 
@@ -60,13 +61,11 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeInputVi
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        keypadEditorView.setOnKeypadItemClickListener(this);
-
         hoursView.setMainText("00");
-        hoursView.setDetailsText("Hours");
+        hoursView.setDetailsText(R.string.time_exp_hours);
 
         minutesView.setMainText("00");
-        minutesView.setDetailsText("Minutes");
+        minutesView.setDetailsText(R.string.time_exp_minutes);
 
         hoursView.setOnSelectedChangeListener(this);
         minutesView.setOnSelectedChangeListener(this);
@@ -97,59 +96,29 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeInputVi
     }
 
     @Override
-    public void onSelected(StrangeInputView view, boolean isSelected) {
+    public void onSelected(StrangeNumberInputView view, boolean isSelected) {
+
         keypadEditorView.setupEditText(view.getMainTextView());
-    }
+        keypadEditorView.setOnKeypadItemClickListener(view.getKeypadItemClickListener());
 
-    // region KeypadView
-    @Override
-    public void onNextClick() {
+        switch (view.getId()) {
 
-    }
+            case R.id.time_exp_hours_view:
+                view.setMaxInputNumber(MAX_HOURS);
+                break;
 
-    @Override
-    public void onDeleteClick() {
-        EditText editText = hoursView.getMainTextView();
-        String currentText = editText.getText().toString();
-
-        if (currentText.length() == 2) {
-            int first = Character.getNumericValue(currentText.charAt(0));
-            int second = Character.getNumericValue(currentText.charAt(1));
-
-            String result = currentText;
-            if (first != 0 && second != 0) {
-                result = first + "" + 0;
-            } else if (first != 0 && second == 0) {
-                result = "00";
-            } else if (first == 0 && second != 0) {
-                result = first + "" + "0";
-            }
-
-            editText.setText(result);
+            case R.id.time_exp_minutes_view:
+                view.setMaxInputNumber(MAX_MINS);
+                break;
         }
     }
 
     @Override
-    public void onNumberClick(int number) {
-        EditText editText = hoursView.getMainTextView();
-        String currentText = editText.getText().toString();
+    public void onCompleted() {
+        String hours = hoursView.getValue();
+        String minutes = minutesView.getValue();
 
-        if (currentText.length() == 2) {
-            int first = Character.getNumericValue(currentText.charAt(0));
-            int second = Character.getNumericValue(currentText.charAt(1));
-
-            String result = currentText;
-            if (first == 0 && second == 0) {
-                result = first + "" + number;
-            } else if (first == 0 && second != 0) {
-                result = second + "" + number;
-            } else if (first != 0 && second == 0) {
-                result = first + "" + number;
-            }
-
-            editText.setText(result);
-        }
+        Logger.d("Time: " + hours + ":" + minutes);
     }
-    // endregion
 
 }
