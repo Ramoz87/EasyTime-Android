@@ -20,7 +20,7 @@ public class File {
     @DatabaseField(columnName = "name")
     private String name;
 
-    @DatabaseField(columnName = "expensiveId")
+    @DatabaseField(columnName = "expenseId")
     private long expensiveId;
 
     @DatabaseField(columnName = "jobId")
