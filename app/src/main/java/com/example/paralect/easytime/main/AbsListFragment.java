@@ -71,6 +71,11 @@ public abstract class AbsListFragment extends BaseFragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle instanceState) {
+        RecyclerView.LayoutManager lm = list.getLayoutManager();
+        if (lm instanceof LinearLayoutManager) {
+            firstVisiblePosition = ((LinearLayoutManager) lm).findFirstVisibleItemPosition();
+        }
+        if (firstVisiblePosition < 0) firstVisiblePosition = 0;
         instanceState.putInt(STATE_FIRST_VISIBLE_POS, firstVisiblePosition);
         super.onSaveInstanceState(instanceState);
     }
@@ -82,5 +87,12 @@ public abstract class AbsListFragment extends BaseFragment {
             firstVisiblePosition = instanceState.getInt(STATE_FIRST_VISIBLE_POS, 0);
             list.smoothScrollToPosition(firstVisiblePosition);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Bundle state = new Bundle();
+        onSaveInstanceState(state);
     }
 }

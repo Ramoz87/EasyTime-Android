@@ -68,6 +68,7 @@ public abstract class AbsStickyFragment extends BaseFragment
     @Override
     public void onSaveInstanceState(@NonNull Bundle instanceState) {
         Log.d(TAG, "saving fragment state");
+        firstVisiblePosition = stickyListHeadersListView.getFirstVisiblePosition();
         instanceState.putInt(STATE_FIRST_VISIBLE_POS, firstVisiblePosition);
         super.onSaveInstanceState(instanceState);
     }
@@ -80,5 +81,13 @@ public abstract class AbsStickyFragment extends BaseFragment
             firstVisiblePosition = instanceState.getInt(STATE_FIRST_VISIBLE_POS, 0);
             stickyListHeadersListView.smoothScrollToPosition(firstVisiblePosition);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "on pause");
+        Bundle state = new Bundle();
+        onSaveInstanceState(state);
     }
 }

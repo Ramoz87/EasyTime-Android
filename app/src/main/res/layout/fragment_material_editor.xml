@@ -54,9 +54,10 @@
                 android:layout_height="wrap_content" />
 
             <android.support.v7.widget.AppCompatEditText
+                android:gravity="right"
                 android:inputType="number"
                 android:textColor="@color/list_item_secondary_text"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:id="@+id/materialCount"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content" />
