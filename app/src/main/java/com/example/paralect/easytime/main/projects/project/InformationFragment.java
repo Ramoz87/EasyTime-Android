@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.customers.customer.CustomerFragment;
 import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
@@ -24,6 +25,7 @@ import com.example.paralect.easytime.views.gallery.JobFilesView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by alexei on 27.12.2017.
@@ -41,8 +43,15 @@ public class InformationFragment extends BaseFragment {
     @BindView(R.id.jobType) TextView jobType;
     @BindView(R.id.jobStatus) TextView jobStatus;
     @BindView(R.id.jobTerm) TextView jobTerm;
-    @BindView(R.id.companyName) TextView companyName;
+    @BindView(R.id.client) TextView client;
     @BindView(R.id.jobDescription) TextView jobDescription;
+
+    @OnClick(R.id.client)
+    void jumpToClient(View view) {
+        Customer customer = job.getCustomer();
+        CustomerFragment fragment = CustomerFragment.newInstance(customer);
+        getMainActivity().getFragmentNavigator().pushFragment(fragment);
+    }
 
     private Job job;
 
@@ -90,7 +99,7 @@ public class InformationFragment extends BaseFragment {
         else if (type == ProjectType.Type.TYPE_ORDER) jobType.setText(R.string.order);
 
         Customer customer = job.getCustomer();
-        companyName.setText(customer.getCompanyName());
+        // client.setText(customer.getCompanyName());
 
         jobDescription.setText(job.getInformation());
         String date = job.getDate();
