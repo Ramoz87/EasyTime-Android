@@ -188,9 +188,9 @@ public class EasyTimeApplication extends Application {
                 order.setDeliveryTime(fields[15]);
 
                 Address address = new Address();
-                address.setStreet(fields[15]);
-                address.setCity(fields[16]);
-                address.setZip(fields[17]);
+                address.setStreet(fields[16]);
+                address.setCity(fields[17]);
+                address.setZip(fields[18]);
                 order.setAddress(address);
                 return order;
             }
