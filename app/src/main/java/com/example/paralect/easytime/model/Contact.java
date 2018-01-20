@@ -16,12 +16,22 @@ import java.util.List;
 @DatabaseTable(tableName = "contacts")
 public class Contact implements Parcelable {
 
-    @DatabaseField
+    @DatabaseField(columnName = "contactId")
     private long contactId;
+
+    @DatabaseField(columnName = "email")
     private String email;
+
+    @DatabaseField(columnName = "fax")
     private String fax;
+
+    @DatabaseField(columnName = "firstName")
     private String firstName;
+
+    @DatabaseField(columnName = "lastName")
     private String lastName;
+
+    @DatabaseField(columnName = "phone")
     private String phone;
 
     public Contact() {
