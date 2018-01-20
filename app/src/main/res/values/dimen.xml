@@ -33,7 +33,8 @@
     <dimen name="keypad_item_margin">2px</dimen>
 
     <!--StrangeInputView-->
-    <dimen name="strange_main_text_size">70sp</dimen>
+    <dimen name="strange_main_text_size">80sp</dimen>
+    <dimen name="strange_dots_text_size">50sp</dimen>
     <dimen name="strange_details_text_size">20sp</dimen>
 
 </resources>

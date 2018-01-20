@@ -1,7 +1,6 @@
 package com.example.paralect.easytime.views;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.text.InputFilter;
@@ -31,6 +30,8 @@ public class StrangeInputView extends LinearLayout implements View.OnFocusChange
 
     @BindColor(R.color.blue) int blueColor;
     @BindColor(R.color.gray) int grayColor;
+
+    private OnSelectedChangeListener onSelectedChangeListener;
 
     public StrangeInputView(Context context) {
         this(context, null);
@@ -85,10 +86,21 @@ public class StrangeInputView extends LinearLayout implements View.OnFocusChange
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         setSelected(hasFocus);
+
+        if (onSelectedChangeListener != null)
+            onSelectedChangeListener.onSelected(StrangeInputView.this, hasFocus);
     }
 
     @Override
     public void onClick(View view) {
         requestFocus();
+    }
+
+    public void setOnSelectedChangeListener(OnSelectedChangeListener onSelectedChangeListener) {
+        this.onSelectedChangeListener = onSelectedChangeListener;
+    }
+
+    public interface OnSelectedChangeListener {
+        void onSelected(StrangeInputView view, boolean isSelected);
     }
 }

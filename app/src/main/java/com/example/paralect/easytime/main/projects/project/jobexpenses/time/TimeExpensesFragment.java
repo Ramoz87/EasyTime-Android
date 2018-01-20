@@ -18,13 +18,12 @@ import com.example.paralect.easytime.views.StrangeInputView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by Oleg Tarashkevich on 19/01/2018.
  */
 
-public class TimeExpensesFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener {
+public class TimeExpensesFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener, StrangeInputView.OnSelectedChangeListener {
 
     public static final String ARG_JOB = "arg_job";
 
@@ -63,8 +62,14 @@ public class TimeExpensesFragment extends BaseFragment implements KeypadEditorVi
 
         hoursView.setMainText("00");
         hoursView.setDetailsText("Hours");
+
         minutesView.setMainText("00");
         minutesView.setDetailsText("Minutes");
+
+        hoursView.setOnSelectedChangeListener(this);
+        minutesView.setOnSelectedChangeListener(this);
+
+        hoursView.requestFocus();
     }
 
     @Override
@@ -94,14 +99,9 @@ public class TimeExpensesFragment extends BaseFragment implements KeypadEditorVi
 
     }
 
-//    @OnClick(R.id.time_exp_hours_view)
-//    public void onHoursClick() {
-//        keypadEditorView.setupEditText(hoursView.getMainTextView());
-//    }
-//
-//    @OnClick(R.id.time_exp_minutes_view)
-//    public void onMinutesClick() {
-//        keypadEditorView.setupEditText(minutesView.getMainTextView());
-//    }
+    @Override
+    public void onSelected(StrangeInputView view, boolean isSelected) {
+        keypadEditorView.setupEditText(view.getMainTextView());
+    }
 
 }

@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:background="@drawable/strange_selector"
-              android:duplicateParentState="true"
-              android:gravity="center"
-              android:orientation="vertical"
-              android:paddingBottom="10dp"
-              android:paddingLeft="30dp"
-              android:paddingRight="30dp"
-              android:paddingTop="10dp">
+              xmlns:tools="http://schemas.android.com/tools">
 
     <EditText
         android:id="@+id/strange_main_edit_text"
@@ -28,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:layout_marginTop="-10dp"
         android:includeFontPadding="false"
         android:textColor="@drawable/strange_text_selector"
         android:textSize="@dimen/strange_details_text_size"
