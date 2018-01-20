@@ -9,11 +9,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.views.KeypadEditorView;
+import com.example.paralect.easytime.views.KeypadView;
 import com.example.paralect.easytime.views.StrangeInputView;
 
 import butterknife.BindView;
@@ -23,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by Oleg Tarashkevich on 19/01/2018.
  */
 
-public class TimeExpensesFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener, StrangeInputView.OnSelectedChangeListener {
+public class TimeExpensesFragment extends BaseFragment implements StrangeInputView.OnSelectedChangeListener, KeypadView.OnKeypadItemClickListener {
 
     public static final String ARG_JOB = "arg_job";
 
@@ -58,7 +60,7 @@ public class TimeExpensesFragment extends BaseFragment implements KeypadEditorVi
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        keypadEditorView.setOnCompletionListener(this);
+        keypadEditorView.setOnKeypadItemClickListener(this);
 
         hoursView.setMainText("00");
         hoursView.setDetailsText("Hours");
@@ -95,13 +97,59 @@ public class TimeExpensesFragment extends BaseFragment implements KeypadEditorVi
     }
 
     @Override
-    public void onCompletion(KeypadEditorView editorView, String result) {
+    public void onSelected(StrangeInputView view, boolean isSelected) {
+        keypadEditorView.setupEditText(view.getMainTextView());
+    }
+
+    // region KeypadView
+    @Override
+    public void onNextClick() {
 
     }
 
     @Override
-    public void onSelected(StrangeInputView view, boolean isSelected) {
-        keypadEditorView.setupEditText(view.getMainTextView());
+    public void onDeleteClick() {
+        EditText editText = hoursView.getMainTextView();
+        String currentText = editText.getText().toString();
+
+        if (currentText.length() == 2) {
+            int first = Character.getNumericValue(currentText.charAt(0));
+            int second = Character.getNumericValue(currentText.charAt(1));
+
+            String result = currentText;
+            if (first != 0 && second != 0) {
+                result = first + "" + 0;
+            } else if (first != 0 && second == 0) {
+                result = "00";
+            } else if (first == 0 && second != 0) {
+                result = first + "" + "0";
+            }
+
+            editText.setText(result);
+        }
     }
+
+    @Override
+    public void onNumberClick(int number) {
+        EditText editText = hoursView.getMainTextView();
+        String currentText = editText.getText().toString();
+
+        if (currentText.length() == 2) {
+            int first = Character.getNumericValue(currentText.charAt(0));
+            int second = Character.getNumericValue(currentText.charAt(1));
+
+            String result = currentText;
+            if (first == 0 && second == 0) {
+                result = first + "" + number;
+            } else if (first == 0 && second != 0) {
+                result = second + "" + number;
+            } else if (first != 0 && second == 0) {
+                result = first + "" + number;
+            }
+
+            editText.setText(result);
+        }
+    }
+    // endregion
 
 }
