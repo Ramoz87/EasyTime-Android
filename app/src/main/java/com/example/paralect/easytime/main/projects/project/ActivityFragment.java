@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +28,7 @@ import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.
 import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.objectsofproject.ObjectsOfProjectFragment;
-import com.example.paralect.easytime.model.Consumable;
+import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
@@ -51,7 +50,7 @@ import butterknife.OnClick;
  * Created by alexei on 27.12.2017.
  */
 
-public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener, IDataView<List<Consumable>> {
+public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
     private static final String TAG = ActivityFragment.class.getSimpleName();
 
     public static final String ARG_JOB = "arg_job";
@@ -260,8 +259,8 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     }
 
     @Override
-    public void onDataReceived(List<Consumable> consumables) {
-        Log.d(TAG, String.format("received %s consumables", consumables.size()));
-        adapter.setData(consumables);
+    public void onDataReceived(List<Expense> expenses) {
+        Log.d(TAG, String.format("received %s expenses", expenses.size()));
+        adapter.setData(expenses);
     }
 }

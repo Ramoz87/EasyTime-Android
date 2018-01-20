@@ -16,7 +16,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 @DatabaseTable(tableName = "expenses")
-public class Expense implements Parcelable, Consumable {
+public class Expense implements Parcelable {
 
     @StringDef({Type.TIME, Type.MATERIAL, Type.DRIVING, Type.OTHER})
     @Retention(RetentionPolicy.RUNTIME)
@@ -35,6 +35,9 @@ public class Expense implements Parcelable, Consumable {
 
     @DatabaseField(columnName = "materialId")
     private String materialId;
+
+    /* to simplify the access to material of expense we need to hold reference to that material */
+    private Material material;
 
     @DatabaseField(columnName = "name")
     private String name;
@@ -72,6 +75,7 @@ public class Expense implements Parcelable, Consumable {
         discount = in.readFloat();
         expenseId = in.readLong();
         materialId = in.readString();
+        material = in.readParcelable(Material.class.getClassLoader());
         name = in.readString();
         type = in.readString();
         value = in.readInt();
@@ -84,6 +88,7 @@ public class Expense implements Parcelable, Consumable {
         dest.writeFloat(discount);
         dest.writeLong(expenseId);
         dest.writeString(materialId);
+        dest.writeParcelable(material, flags);
         dest.writeString(name);
         dest.writeString(type);
         dest.writeInt(value);
@@ -136,21 +141,6 @@ public class Expense implements Parcelable, Consumable {
         return name;
     }
 
-    @Override
-    public boolean isMaterial() {
-        return false;
-    }
-
-    @Override
-    public int getStockQuantity() {
-        return 1;
-    }
-
-    @Override
-    public int getPricePerUnit() {
-        return value;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -179,6 +169,17 @@ public class Expense implements Parcelable, Consumable {
         this.workTypeId = workTypeId;
     }
 
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
+    public boolean isMaterialExpense() {
+        return materialId != null;
+    }
 
     public String getJobId() {
         return jobId;

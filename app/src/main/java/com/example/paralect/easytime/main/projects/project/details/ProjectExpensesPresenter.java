@@ -2,7 +2,7 @@ package com.example.paralect.easytime.main.projects.project.details;
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Consumable;
+import com.example.paralect.easytime.model.Expense;
 
 import java.util.List;
 
@@ -17,17 +17,17 @@ import io.reactivex.schedulers.Schedulers;
  * Created by alexei on 16.01.2018.
  */
 
-public class ProjectExpensesPresenter extends SearchViewPresenter<List<Consumable>> {
+public class ProjectExpensesPresenter extends SearchViewPresenter<List<Expense>> {
 
     @Override
     public ProjectExpensesPresenter requestData(final String[] parameters) {
-        Observable<List<Consumable>> observable = Observable.create(new ObservableOnSubscribe<List<Consumable>>() {
+        Observable<List<Expense>> observable = Observable.create(new ObservableOnSubscribe<List<Expense>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<Consumable>> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<List<Expense>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
                         final String jobId = parameters[0];
-                        List<Consumable> consumables = EasyTimeManager.getInstance().getConsumables(jobId);
+                        List<Expense> consumables = EasyTimeManager.getInstance().getAllExpenses(jobId);
                         emitter.onNext(consumables);
                         emitter.onComplete();
                     }
@@ -40,9 +40,9 @@ public class ProjectExpensesPresenter extends SearchViewPresenter<List<Consumabl
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<List<Consumable>>() {
+                .subscribe(new DisposableObserver<List<Expense>>() {
                     @Override
-                    public void onNext(List<Consumable> consumables) {
+                    public void onNext(List<Expense> consumables) {
                         if (mView != null)
                             mView.onDataReceived(consumables);
                     }

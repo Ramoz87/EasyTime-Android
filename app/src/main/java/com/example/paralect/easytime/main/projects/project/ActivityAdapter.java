@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.projects.project;
 
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +9,7 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Consumable;
 import com.example.paralect.easytime.model.Expense;
-import com.example.paralect.easytime.model.Material;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -35,20 +31,20 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
 
-    private List<Consumable> consumables;
+    private List<Expense> expenses;
     private List<ViewHolder> viewHolders = new ArrayList<>();
 
-    public void setData(List<Consumable> consumables) {
-        this.consumables = consumables;
+    public void setData(List<Expense> expenses) {
+        this.expenses = expenses;
         notifyDataSetChanged();
     }
 
-    private Consumable getItem(int position) {
-        return consumables.get(position);
+    private Expense getItem(int position) {
+        return expenses.get(position);
     }
 
     private void removeItem(int position) {
-        consumables.remove(position);
+        expenses.remove(position);
         notifyItemRemoved(position);
     }
 
@@ -70,13 +66,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Consumable item = getItem(position);
+        Expense item = getItem(position);
         holder.bind(item);
     }
 
     @Override
     public int getItemCount() {
-        return consumables != null ? consumables.size() : 0;
+        return expenses != null ? expenses.size() : 0;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -92,11 +88,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
         @OnClick(R.id.delete)
         void delete() {
-            asyncDelete(consumable);
+            asyncDelete(expense);
         }
 
         ActivityAdapter adapter;
-        Consumable consumable;
+        Expense expense;
 
         public ViewHolder(View itemView, ActivityAdapter adapter) {
             super(itemView);
@@ -104,21 +100,19 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             this.adapter = adapter;
         }
 
-        void bind(Consumable consumable) {
-            this.consumable = consumable;
-            expenseName.setText(consumable.getName());
-            //expenseTime.setVisibility(View.GONE);
-            //delete.setVisibility(View.GONE);
+        void bind(Expense expense) {
+            this.expense = expense;
+            expenseName.setText(expense.getName());
         }
 
-        private void asyncDelete(final Consumable consumable) {
-            Observable<Consumable> observable = Observable.create(new ObservableOnSubscribe<Consumable>() {
+        private void asyncDelete(final Expense expense) {
+            Observable<Expense> observable = Observable.create(new ObservableOnSubscribe<Expense>() {
                 @Override
-                public void subscribe(ObservableEmitter<Consumable> emitter) throws Exception {
+                public void subscribe(ObservableEmitter<Expense> emitter) throws Exception {
                     try {
                         if (!emitter.isDisposed()) {
-                            EasyTimeManager.getInstance().deleteConsumable(consumable);
-                            emitter.onNext(consumable);
+                            EasyTimeManager.getInstance().deleteExpense(expense);
+                            emitter.onNext(expense);
                             emitter.onComplete();
                         }
 
@@ -128,14 +122,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 }
             });
 
-            Observer<Consumable> observer = new Observer<Consumable>() {
+            Observer<Expense> observer = new Observer<Expense>() {
                 @Override
                 public void onSubscribe(Disposable d) {
 
                 }
 
                 @Override
-                public void onNext(Consumable consumable) {
+                public void onNext(Expense expense) {
                     adapter.removeItem(getAdapterPosition());
                 }
 

@@ -25,8 +25,8 @@ import com.example.paralect.easytime.main.CongratulationsActivity;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
-import com.example.paralect.easytime.model.Consumable;
 import com.example.paralect.easytime.model.Customer;
+import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
@@ -44,7 +44,7 @@ import butterknife.OnClick;
  * Created by Oleg Tarashkevich on 15/01/2018.
  */
 
-public class ProjectDetailsFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<Consumable>> {
+public class ProjectDetailsFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
 
     private static final String TAG = ProjectDetailsFragment.class.getSimpleName();
 
@@ -232,9 +232,9 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
     }
 
     @Override
-    public void onDataReceived(List<Consumable> consumables) {
-        Log.d(TAG, String.format("received %s consumables", consumables.size()));
-        adapter.setData(consumables);
+    public void onDataReceived(List<Expense> expenses) {
+        Log.d(TAG, String.format("received %s expenses", expenses.size()));
+        adapter.setData(expenses);
     }
     // endregion
 
