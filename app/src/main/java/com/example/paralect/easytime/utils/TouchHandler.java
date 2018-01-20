@@ -21,7 +21,7 @@ public abstract class TouchHandler implements View.OnTouchListener {
     private int normalColor;
     private int touchedColor;
 
-    public static final int TOUCH_DOWN = Color.rgb(211,211,211);
+    public static final int TOUCH_DOWN = Color.rgb(228,228,228);
     public static final int TOUCH_UP = Color.WHITE;
 
     public TouchHandler() {
