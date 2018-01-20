@@ -39,6 +39,7 @@ public class InformationFragment extends BaseFragment {
     @BindView(R.id.jobName) TextView jobName;
     @BindView(R.id.jobType) TextView jobType;
     @BindView(R.id.jobStatus) TextView jobStatus;
+    @BindView(R.id.jobTerm) TextView jobTerm;
     @BindView(R.id.companyName) TextView companyName;
     @BindView(R.id.jobDescription) TextView jobDescription;
 
@@ -89,6 +90,11 @@ public class InformationFragment extends BaseFragment {
 
         Customer customer = job.getCustomer();
         companyName.setText(customer.getCompanyName());
+
+        jobDescription.setText(job.getInformation());
+        String date = job.getDate();
+        if (date == null) date = "no date";
+        jobTerm.setText(date);
 
         instructions.addInfoItem(R.drawable.ic_watch, R.string.placeholder_project_info_delivery_time, null);
         instructions.addInfoItem(R.drawable.ic_phone, R.string.placeholder_project_info_contact, null);
