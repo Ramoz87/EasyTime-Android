@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.ProjectType;
@@ -109,6 +111,18 @@ public class InformationFragment extends BaseFragment {
     @Override
     public boolean needsOptionsMenu() {
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_new: {
+                getMainActivity().getFragmentNavigator()
+                        .pushFragment(ProjectDetailsFragment.newInstance(getJobArg()));
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
