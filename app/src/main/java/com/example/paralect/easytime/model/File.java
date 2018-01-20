@@ -21,7 +21,7 @@ public class File {
     private String name;
 
     @DatabaseField(columnName = "expenseId")
-    private long expensiveId;
+    private long expenseId;
 
     @DatabaseField(columnName = "jobId")
     private String jobId;
@@ -62,12 +62,12 @@ public class File {
         this.name = name;
     }
 
-    public long getExpensiveId() {
-        return expensiveId;
+    public long getExpenseId() {
+        return expenseId;
     }
 
-    public void setExpensiveId(long expensiveId) {
-        this.expensiveId = expensiveId;
+    public void setExpenseId(long expenseId) {
+        this.expenseId = expenseId;
     }
 
     public String getJobId() {
