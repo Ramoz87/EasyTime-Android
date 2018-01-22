@@ -40,6 +40,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRATULATIONS;
+
 /**
  * Created by Oleg Tarashkevich on 15/01/2018.
  */
@@ -60,7 +62,7 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
     void send(FloatingActionButton fab) {
         Intent intent = CongratulationsActivity.newIntent(getContext());
         MainActivity activity = getMainActivity();
-        activity.startActivityForResult(intent, MainActivity.REQUEST_CONGRATULATIONS);
+        activity.startActivityForResult(intent, REQUEST_CODE_CONGRATULATIONS);
         // getMainActivity().jumpToRoot();
     }
 

@@ -57,15 +57,11 @@
         android:layout_height="1dp"
         android:background="#E3E7EE" />
 
-    <Space
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-
     <com.example.paralect.easytime.views.gallery.ExpenseFilesView
         android:id="@+id/expense_file_view"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"/>
 
     <com.example.paralect.easytime.views.KeypadEditorView
         android:id="@+id/keypad"

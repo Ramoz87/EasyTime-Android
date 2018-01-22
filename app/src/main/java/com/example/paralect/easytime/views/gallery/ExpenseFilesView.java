@@ -1,61 +1,124 @@
 package com.example.paralect.easytime.views.gallery;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.camera.CameraActivity;
 import com.example.paralect.easytime.model.Expense;
+import com.example.paralect.easytime.model.File;
+import com.example.paralect.easytime.utils.CollectionUtils;
+import com.example.paralect.easytime.utils.IntentUtils;
+import com.rd.PageIndicatorView;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CAMERA;
 
 /**
  * Created by Oleg Tarashkevich on 17/01/2018.
  */
 
-public class ExpenseFilesView extends FilesView<Void> {
+public class ExpenseFilesView extends FrameLayout implements IFilesView<File, Expense> {
 
-    @BindView(R.id.gallery_capture_button) View captureButton;
+    @BindView(R.id.image_layout) View galleryView;
+    @BindView(R.id.empty_layout) View emptyView;
+    @BindView(R.id.file_image_view) ImageView imageView;
 
     private ExpenseFilesPresenter presenter = new ExpenseFilesPresenter();
 
     public ExpenseFilesView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public ExpenseFilesView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public ExpenseFilesView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        presenter.subscribe();
+        presenter.setGalleryFilesView(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        presenter.unSubscribe();
+        presenter.setGalleryFilesView(null);
+    }
+
     protected void init() {
-        super.init();
-        captureButton.setVisibility(GONE);
+        inflate(getContext(), R.layout.view_file_expense, this);
+        ButterKnife.bind(this);
     }
 
     @Override
-    protected FilesPresenter<Void> getFilesPresenter() {
-        return presenter;
+    public Context getViewContext() {
+        return getContext();
     }
 
     @Override
-    public void setupWithEntity(Void entity) {
-        presenter.requestData(entity);
+    public void onDataReceived(File file) {
+        if (file != null) {
+
+            galleryView.setVisibility(VISIBLE);
+            emptyView.setVisibility(GONE);
+
+            Picasso.with(getContext())
+                    .load(file.getFullFileUrl())
+                    .placeholder(R.drawable.materials_placeholder)
+                    .error(R.drawable.materials_placeholder)
+                    .fit()
+                    .centerInside()
+                    .into(imageView);
+        } else {
+            galleryView.setVisibility(GONE);
+            emptyView.setVisibility(VISIBLE);
+        }
     }
 
-    public void setExpense(Expense expense){
+    @OnClick({R.id.gallery_capture_button, R.id.gallery_start_capture_button})
+    public void onCaptureClick() {
+        Activity activity = IntentUtils.getActivity(getContext());
+        if (!IntentUtils.isFinishing(activity))
+            activity.startActivityForResult(new Intent(activity, CameraActivity.class), REQUEST_CODE_CAMERA);
+    }
+
+    @Override
+    public void setupWithEntity(Expense expense) {
         presenter.setExpense(expense);
     }
+
     /**
      * Remove the file if it has no expenseId
      */
-    public void checkFile(){
+    public void checkFile() {
         if (!presenter.isFileSaved())
-            deleteSelectedFile();
+            presenter.deleteFile();
     }
 
 }
