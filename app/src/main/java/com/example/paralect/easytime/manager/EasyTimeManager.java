@@ -417,7 +417,8 @@ public final class EasyTimeManager {
             where.eq("jobId", jobId).and().eq("materialId", material.getMaterialId());
             List<Expense> foundExpenses = where.query();
             Expense expense;
-            int value = countOfMaterials * material.getPricePerUnit();
+            // TODO Should we count the price right here ???
+            int value = countOfMaterials;// * material.getPricePerUnit();
             if (CollectionUtils.isEmpty(foundExpenses)) {
                 expense = new Expense();
                 expense.setJobId(jobId);
