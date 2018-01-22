@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.StringDef;
 
+import com.example.paralect.easytime.utils.CalendarUtils;
+import com.example.paralect.easytime.utils.TextUtil;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -47,7 +49,7 @@ public class Expense implements Parcelable {
     private String type;
 
     @DatabaseField(columnName = "value")
-    private int value;
+    private long value;
 
     @DatabaseField(columnName = "workTypeId")
     private String workTypeId;
@@ -68,7 +70,7 @@ public class Expense implements Parcelable {
     }
 
     public static Expense createTimeExpense(Job job, int hours, int minutes) {
-        int total = hours * 60 + minutes;
+        long total = hours * 60 + minutes;
         Expense expense = new Expense();
         expense.setType(Expense.Type.TIME);
         expense.setName(job.getName());
@@ -101,7 +103,7 @@ public class Expense implements Parcelable {
         dest.writeParcelable(material, flags);
         dest.writeString(name);
         dest.writeString(type);
-        dest.writeInt(value);
+        dest.writeLong(value);
         dest.writeString(workTypeId);
         dest.writeString(jobId);
     }
@@ -163,11 +165,35 @@ public class Expense implements Parcelable {
         this.type = type;
     }
 
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public String getTypedValue() {
+        String text = String.valueOf(value);
+        if (TextUtil.isNotEmpty(type)) {
+
+            switch (type) {
+                case Type.TIME:
+                    text = CalendarUtils.timeToString(value) + " min";
+                    break;
+
+                case Type.DRIVING:
+                    text += " km";
+                    break;
+
+                case Type.MATERIAL:
+                case Type.OTHER:
+                default:
+                    text += " pcs";
+            }
+
+        } else
+            text += " pcs";
+        return text;
+    }
+
+    public void setValue(long value) {
         this.value = value;
     }
 
