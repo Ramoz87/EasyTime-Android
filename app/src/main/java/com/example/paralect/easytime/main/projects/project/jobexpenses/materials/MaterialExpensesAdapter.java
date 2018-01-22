@@ -7,31 +7,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.views.KeypadEditorView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by alexei on 17.01.2018.
@@ -40,13 +32,10 @@ import io.reactivex.schedulers.Schedulers;
 public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapter.ViewHolder> {
     private static final String TAG = MaterialExpensesAdapter.class.getSimpleName();
 
-    private Job job;
     private List<Material> materials;
     private KeypadEditorView keypadEditorView;
-
-    public void setJob(Job job) {
-        this.job = job;
-    }
+    private List<MaterialExpense> materialExpenses = new ArrayList<>();
+    private OnCheckedCountChangeListener onCheckedCountChangeListener;
 
     public void setKeypadEditorView(KeypadEditorView editorView) {
         this.keypadEditorView = editorView;
@@ -54,11 +43,27 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
 
     public void setData(List<Material> materials) {
         this.materials = materials;
+        materialExpenses.clear();
+        for (Material material : materials) {
+            materialExpenses.add(new MaterialExpense(material));
+        }
         notifyDataSetChanged();
     }
 
     private Material getItem(int position) {
         return materials.get(position);
+    }
+
+    private MaterialExpense getMaterialExpense(int position) {
+        return materialExpenses.get(position);
+    }
+
+    public List<Material> getItems() {
+        return materials;
+    }
+
+    public List<MaterialExpense> getCheckedMaterials() {
+        return materialExpenses;
     }
 
     @Override
@@ -69,13 +74,21 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Material item = getItem(position);
+        MaterialExpense item = getMaterialExpense(position);
         holder.bind(item);
     }
 
     @Override
     public int getItemCount() {
         return materials != null ? materials.size() : 0;
+    }
+
+    public void setOnCheckedCountChangeListener(OnCheckedCountChangeListener onCheckedCountChangeListener) {
+        this.onCheckedCountChangeListener = onCheckedCountChangeListener;
+    }
+
+    public interface OnCheckedCountChangeListener {
+        void onCheckedCountChange(int totalCount);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder
@@ -86,6 +99,20 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
         @BindView(R.id.switcher) ViewSwitcher switcher;
         @BindView(R.id.materialCount) TextView materialCount;
         @BindView(R.id.materialCountEditor) EditText materialCountEditor;
+        @BindView(R.id.checkBox) CheckBox checkBox;
+
+        @OnCheckedChanged(R.id.checkBox)
+        void onCheckedChanged(CheckBox checkBox, boolean isChecked) {
+            materialExpense.isAdded = isChecked;
+            OnCheckedCountChangeListener listener = adapter.onCheckedCountChangeListener;
+            if (listener != null) {
+                int totalCount = 0;
+                for (MaterialExpense me : adapter.materialExpenses) {
+                    if (me.isAdded) totalCount++;
+                }
+                listener.onCheckedCountChange(totalCount);
+            }
+        }
 
         @OnFocusChange(R.id.materialCountEditor)
         void onFocusChange(View view, boolean b) {
@@ -95,7 +122,7 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
 
         @OnClick(R.id.materialCount)
         void onMaterialCountClick(TextView materialCount) {
-            Log.d(TAG, "on material count click");
+            Log.d(TAG, "on materialExpense count click");
             KeypadEditorView editorView = adapter.keypadEditorView;
             if (editorView != null) {
                 editorView.setupEditText(materialCountEditor);
@@ -107,7 +134,7 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
         }
 
         MaterialExpensesAdapter adapter;
-        Material material;
+        MaterialExpense materialExpense;
         Resources res;
 
         public ViewHolder(View itemView, MaterialExpensesAdapter adapter) {
@@ -121,8 +148,9 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
             materialCountEditor.requestFocus();
         }
 
-        void bind(Material material) {
-            this.material = material;
+        void bind(MaterialExpense materialExpense) {
+            this.materialExpense = materialExpense;
+            Material material = materialExpense.material;
             materialName.setText(material.getName());
             materialNumber.setText(res.getString(R.string.material_number, material.getMaterialNr()));
             materialCount.setText(String.valueOf(material.getCount()));
@@ -131,63 +159,13 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
         @Override
         public void onCompletion(KeypadEditorView keypadEditorView, String result) {
             Log.d(TAG, "on completion");
+            materialCount.clearFocus();
             keypadEditorView.collapse(true);
-            Job job = adapter.job;
-            if (job == null) return;
-
-            int value;
-            if (result.isEmpty()) value = 0;
-            else value = Integer.valueOf(result);
-
-            asyncCreateOrUpdateExpense(job.getJobId(), material, value);
+            materialExpense.value = valueFromString(result);
         }
 
-        private void asyncCreateOrUpdateExpense(final String jobId, final Material material, final int value) {
-            Observable<Material> observable = Observable.create(new ObservableOnSubscribe<Material>() {
-                @Override
-                public void subscribe(ObservableEmitter<Material> emitter) throws Exception {
-                    try {
-                        if (!emitter.isDisposed()) {
-                            EasyTimeManager.getInstance().saveExpense(jobId, material, value);
-                            material.setCount(value);
-                            emitter.onNext(material);
-                            emitter.onComplete();
-                        }
-
-                    } catch (Throwable e) {
-                        emitter.onError(e);
-                    }
-                }
-            });
-
-            observable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Material>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(Material material) {
-                            Log.d(TAG, "successfully");
-                            //switcher.showPrevious();
-                            materialCountEditor.clearFocus();
-                            materialCount.setText(String.valueOf(material.getCount()));
-                            // Toast.makeText(itemView.getContext(), "Saved", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e(TAG, "error");
-                            // Toast.makeText(itemView.getContext(), "Error", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
+        private long valueFromString(String result) {
+            return result.isEmpty() ? 0 : Long.valueOf(result);
         }
     }
 }
