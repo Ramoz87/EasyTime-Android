@@ -18,7 +18,6 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.views.KeypadEditorView;
-import com.example.paralect.easytime.views.KeypadView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +59,7 @@ public class MaterialEditorFragment extends BaseFragment implements KeypadEditor
         ButterKnife.bind(this, view);
 
         Material material = getMaterialArg();
-        int count = material.getCount();
+        int count = material.getStockQuantity();
         if (count > 0) {
             materialCount.setText(String.valueOf(count));
         }
@@ -103,10 +102,10 @@ public class MaterialEditorFragment extends BaseFragment implements KeypadEditor
         material.setAdded(true);
         String text = materialCount.getText().toString();
         int count = Integer.valueOf(text.isEmpty() ? "0" : text);
-        material.setCount(count);
+        material.setStockQuantity(count);
         EasyTimeManager.getInstance().updateMaterial(material);
 
-        Log.d(TAG, String.format("completed: material = %s, count = %s", material.getName(), material.getCount()));
+        Log.d(TAG, String.format("completed: material = %s, count = %s", material.getName(), material.getStockQuantity()));
         Toast.makeText(getContext(), "Completed", Toast.LENGTH_SHORT).show();
 
         getMainActivity().jumpToRoot();

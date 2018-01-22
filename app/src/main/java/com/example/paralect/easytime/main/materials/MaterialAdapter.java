@@ -90,7 +90,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             return new DisposableObserver<Material>() {
                 @Override
                 public void onNext(Material material) {
-                    count.setText(String.valueOf(material.getCount()));
+                    count.setText(String.valueOf(material.getStockQuantity()));
                 }
 
                 @Override
@@ -136,7 +136,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             public void onClick(View view) {
                 view.startAnimation(incDec);
                 material.setAdded(false);
-                material.setCount(0);
+                material.setStockQuantity(0);
                 asyncUpdate(material, newRemoveObserver());
             }
         };
@@ -152,7 +152,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         void plus(View view) {
             view.startAnimation(incDec);
             int result = changeCount(1);
-            material.setCount(result);
+            material.setStockQuantity(result);
             asyncUpdate(material, newUpdateObserver());
         }
 
@@ -160,7 +160,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         void minus(View view) {
             view.startAnimation(incDec);
             int result = changeCount(-1);
-            material.setCount(result);
+            material.setStockQuantity(result);
             asyncUpdate(material, newUpdateObserver());
         }
 
@@ -178,7 +178,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             name.setText(material.getName());
             Resources res = itemView.getResources();
             number.setText(res.getString(R.string.material_number, material.getMaterialNr()));
-            count.setText(String.valueOf(material.getCount()));
+            count.setText(String.valueOf(material.getStockQuantity()));
         }
 
         private int changeCount(int diff) {

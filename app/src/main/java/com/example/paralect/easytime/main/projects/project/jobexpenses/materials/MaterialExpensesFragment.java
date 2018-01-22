@@ -173,7 +173,7 @@ public class MaterialExpensesFragment extends BaseFragment implements IDataView<
                         EasyTimeManager manager = EasyTimeManager.getInstance();
                         for (MaterialExpense expense : materialExpenses) {
                             if (expense.isAdded) {
-                                manager.saveExpense(job.getJobId(), expense.material, expense.value);
+                                manager.saveExpense(job.getJobId(), expense.material, expense.count);
                             }
                         }
                         emitter.onNext(materialExpenses);

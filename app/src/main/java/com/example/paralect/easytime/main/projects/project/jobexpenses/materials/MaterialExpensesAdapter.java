@@ -153,7 +153,7 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
             Material material = materialExpense.material;
             materialName.setText(material.getName());
             materialNumber.setText(res.getString(R.string.material_number, material.getMaterialNr()));
-            materialCount.setText(String.valueOf(material.getCount()));
+            materialCount.setText(String.valueOf(material.getStockQuantity()));
         }
 
         @Override
@@ -161,11 +161,11 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
             Log.d(TAG, "on completion");
             materialCount.clearFocus();
             keypadEditorView.collapse(true);
-            materialExpense.value = valueFromString(result);
+            materialExpense.count = valueFromString(result);
         }
 
-        private long valueFromString(String result) {
-            return result.isEmpty() ? 0 : Long.valueOf(result);
+        private int valueFromString(String result) {
+            return result.isEmpty() ? 0 : Integer.valueOf(result);
         }
     }
 }

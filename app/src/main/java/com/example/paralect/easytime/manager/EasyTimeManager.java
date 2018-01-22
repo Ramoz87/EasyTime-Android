@@ -1,11 +1,9 @@
 package com.example.paralect.easytime.manager;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.paralect.easytime.EasyTimeApplication;
-import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
@@ -17,10 +15,8 @@ import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
-import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
@@ -218,26 +214,6 @@ public final class EasyTimeManager {
             Dao<Material, String> dao = helper.getMaterialDao();
             materials.addAll(dao.queryForAll());
         } catch (SQLException e) {
-            // throw new RuntimeException(e);
-            e.printStackTrace();
-        }
-        return materials;
-        // return getMaterials(null);
-    }
-
-    public List<Material> getMaterials(String query) {
-        List<Material> materials = new ArrayList<>();
-        try {
-            Dao<Material, String> dao = helper.getMaterialDao();
-            QueryBuilder<Material, String> qb = dao.queryBuilder();
-            // Where where = null;
-            if (query != null && !query.isEmpty()) {
-                qb.where().like("name", "%" + query + "%");
-            }
-
-            materials.addAll(qb.query());
-        } catch (SQLException e) {
-            // throw new RuntimeException(e);
             e.printStackTrace();
         }
         return materials;
@@ -288,58 +264,6 @@ public final class EasyTimeManager {
         return materials;
     }
 
-    @Nullable
-    public Expense findMaterialExpense(String jobId, String materialId) {
-        try {
-            Dao<Expense, Long> dao = helper.getExpenseDao();
-            List<Expense> foundExpenses = dao
-                    .queryBuilder()
-                    .where()
-                    .eq("jobId", jobId)
-                    .and()
-                    .eq("materialId", materialId)
-                    .query();
-            if (foundExpenses.isEmpty()) return null;
-            else return foundExpenses.get(0);
-        } catch (SQLException e) {
-            Logger.e(e.getMessage());
-            return null;
-        }
-    }
-
-    public void deleteMaterialExpense(String jobId, String materialId) {
-        try {
-            Dao<Expense, Long> dao = helper.getExpenseDao();
-            DeleteBuilder deleteBuilder = dao.deleteBuilder();
-            deleteBuilder
-                    .where()
-                    .eq("jobId", jobId)
-                    .and()
-                    .eq("materialId", materialId);
-            deleteBuilder.delete();
-            Log.d(TAG, "deleted material expense");
-        } catch (SQLException e) {
-            Logger.e(TAG, e.getMessage());
-        }
-    }
-
-    public boolean isMaterialAddedToJob(String jobId, Material material) {
-        try {
-            Dao<Expense, Long> dao = helper.getExpenseDao();
-            List<Expense> foundExpenses = dao
-                    .queryBuilder()
-                    .where()
-                    .eq("jobId", jobId)
-                    .and()
-                    .eq("materialId", material.getMaterialId())
-                    .query();
-            return !foundExpenses.isEmpty();
-        } catch (SQLException e) {
-            Logger.e(e.getMessage());
-            return false;
-        }
-    }
-
     public List<Expense> getDefaultExpenses(Job job) {
         List<Expense> expenses = new ArrayList<>();
         Expense expense = new Expense();
@@ -371,7 +295,6 @@ public final class EasyTimeManager {
             }
             expenses.addAll(foundExpenses);
         } catch (SQLException e) {
-            // throw new RuntimeException(e);
             e.printStackTrace();
         }
         return expenses;
@@ -402,7 +325,6 @@ public final class EasyTimeManager {
                 expenses.add(exp);
             }
         } catch (SQLException e) {
-            // e.printStackTrace();
             Logger.e(e.getMessage());
         }
         return expenses;
@@ -419,23 +341,6 @@ public final class EasyTimeManager {
                 .prepare();
 
         return dao.query(query).get(0);
-    }
-
-    public List<Object> getObjects(Project project) {
-        List<Object> objects = new ArrayList<>();
-        try {
-            Dao<Object, String> dao = helper.getObjectDao();
-            String[] ids = project.getObjectIds();
-            if (ids != null) {
-                for (String id : ids) {
-                    Object o = dao.queryForId(id);
-                    objects.add(o);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return objects;
     }
 
     public List<Object> getObjects(String[] ids) {
@@ -464,17 +369,20 @@ public final class EasyTimeManager {
         }
     }
 
-    public void saveExpense(String jobId, Material material, long countOfMaterials) {
+    public void saveExpense(String jobId, Material material, int countOfMaterials) {
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
+            Dao<Material, String> materialDao = helper.getMaterialDao();
             Expense expense = new Expense();
             expense.setJobId(jobId);
             expense.setName(material.getName());
             expense.setMaterialId(material.getMaterialId());
             expense.setType(Expense.Type.MATERIAL);
             expense.setValue(countOfMaterials);
+            material.setStockQuantity(material.getStockQuantity() - countOfMaterials);
             // TODO Should we count the price right here ???
             dao.createOrUpdate(expense);
+            materialDao.update(material);
         } catch (SQLException e) {
             e.printStackTrace();
         }

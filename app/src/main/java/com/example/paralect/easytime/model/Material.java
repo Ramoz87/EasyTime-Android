@@ -32,17 +32,14 @@ public class Material implements Parcelable {
     @DatabaseField(columnName = "serialNr")
     private long serialNr;
 
-    @DatabaseField(columnName = "stockQuantity")
-    private int stockQuantity;
-
     @DatabaseField(columnName = "unitId")
     private String unitId;
 
     @DatabaseField(columnName = "isAdded", dataType = DataType.BOOLEAN)
     private boolean isAdded = false;
 
-    @DatabaseField(columnName = "count")
-    private int count = 0;
+    @DatabaseField(columnName = "stockQuantity")
+    private int stockQuantity = 0;
 
     public Material() {
 
@@ -147,14 +144,6 @@ public class Material implements Parcelable {
         this.serialNr = serialNr;
     }
 
-    public int getStockQuantity() {
-        return stockQuantity;
-    }
-
-    public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
-    }
-
     public String getUnitId() {
         return unitId;
     }
@@ -176,11 +165,11 @@ public class Material implements Parcelable {
         isAdded = added;
     }
 
-    public int getCount() {
-        return count;
+    public int getStockQuantity() {
+        return stockQuantity;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setStockQuantity(int count) {
+        this.stockQuantity = count;
     }
 }
