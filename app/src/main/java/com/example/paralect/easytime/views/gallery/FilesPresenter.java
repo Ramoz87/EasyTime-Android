@@ -11,7 +11,6 @@ import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.TextUtil;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import io.reactivex.BackpressureStrategy;
@@ -24,14 +23,15 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.paralect.easytime.main.camera.CameraActivity.PICTURE_FILE_PATH;
+import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CAMERA;
 
 /**
  * Created by Oleg Tarashkevich on 16/01/2018.
  */
 
-abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements IDataPresenter<List<File>, E> {
+abstract class FilesPresenter<DATA, E> extends RxBus.Observer<ResultEvent> implements IDataPresenter<DATA, E> {
 
-    private IFilesView<List<File>, E> mView;
+    private IFilesView<DATA, E> mView;
 
     void subscribe() {
         subscribe(ResultEvent.class);
@@ -41,7 +41,7 @@ abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements 
     public void onNext(ResultEvent event) {
         if (mView != null) {
             Activity activity = IntentUtils.getActivity(mView.getViewContext());
-            if (!IntentUtils.isFinishing(activity)) {
+            if (!IntentUtils.isFinishing(activity) && event.getRequestCode() == REQUEST_CODE_CAMERA) {
                 String filePath = event.getData().getStringExtra(PICTURE_FILE_PATH);
                 if (TextUtil.isNotEmpty(filePath))
                     onFilePathReceived(filePath);
@@ -49,51 +49,52 @@ abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements 
         }
     }
 
-    protected abstract void onFilePathReceived(String filePath);
+    abstract void onFilePathReceived(String filePath);
 
-    protected abstract void refreshFiles();
+    abstract void refreshData();
 
     protected void deleteFile(final File file) {
-        Completable completable = Completable.fromCallable(new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                java.io.File imageFile = file.getImageFile();
-                boolean deleted = imageFile.delete();
-                EasyTimeManager.getInstance().deleteFile(file);
-                return null;
-            }
-        });
+        if (file != null) {
+            Completable completable = Completable.fromCallable(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    java.io.File imageFile = file.getImageFile();
+                    boolean deleted = imageFile.delete();
+                    EasyTimeManager.getInstance().deleteFile(file);
+                    return null;
+                }
+            });
 
-        completable
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        refreshFiles();
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        Logger.e(throwable);
-                    }
-                });
+            completable
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Action() {
+                        @Override
+                        public void run() throws Exception {
+                            refreshData();
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) {
+                            Logger.e(throwable);
+                        }
+                    });
+        }
     }
 
-    void setGalleryFilesView(IFilesView<List<File>, E> view) {
+    void setGalleryFilesView(IFilesView<DATA, E> view) {
         mView = view;
     }
 
-    protected void requestData(FlowableOnSubscribe<List<File>> flowableOnSubscribe) {
-        Flowable<List<File>> flowable = Flowable.create(flowableOnSubscribe, BackpressureStrategy.LATEST);
+    protected void requestData(FlowableOnSubscribe<DATA> flowableOnSubscribe) {
+        Flowable<DATA> flowable = Flowable.create(flowableOnSubscribe, BackpressureStrategy.LATEST);
 
         flowable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<File>>() {
+                .subscribe(new Consumer<DATA>() {
                     @Override
-                    public void accept(List<File> files) {
-                        if (mView != null)
-                            mView.onDataReceived(files);
+                    public void accept(DATA data) {
+                        onDataReceived(data);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -103,4 +104,8 @@ abstract class FilesPresenter<E> extends RxBus.Observer<ResultEvent> implements 
                 });
     }
 
+    protected void onDataReceived(DATA data){
+        if (mView != null)
+            mView.onDataReceived(data);
+    }
 }

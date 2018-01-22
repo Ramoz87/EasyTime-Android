@@ -94,6 +94,7 @@
     <string name="project_detail_discount">Discount</string>
     <string name="project_detail_completion">Completion</string>
     <string name="project_detail_add_photo">Add photo</string>
+    <string name="project_detail_change_photo">Change</string>
 
     <!--project expenses-->
     <string name="project_number">Project #%d</string>

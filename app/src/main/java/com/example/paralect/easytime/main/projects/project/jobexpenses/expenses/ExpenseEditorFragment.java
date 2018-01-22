@@ -90,8 +90,6 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
             keypadEditorView.setOnCompletionListener(this);
             keypadEditorView.setupEditText(expenseCount);
-
-            expenseFilesView.setupWithEntity(null);
         }
     }
 
@@ -120,7 +118,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
         try {
             expense = EasyTimeManager.getInstance().saveExpense(expense);
-            expenseFilesView.setExpense(expense);
+            expenseFilesView.setupWithEntity(expense);
             Logger.d(TAG, "Expense created");
         } catch (Throwable e) {
             Logger.e(e);

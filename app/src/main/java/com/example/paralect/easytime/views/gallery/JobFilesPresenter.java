@@ -3,7 +3,6 @@ package com.example.paralect.easytime.views.gallery;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.Logger;
@@ -11,9 +10,7 @@ import com.example.paralect.easytime.utils.Logger;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.functions.Action;
@@ -24,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Oleg Tarashkevich on 17/01/2018.
  */
 
-final class JobFilesPresenter extends FilesPresenter<Job> {
+final class JobFilesPresenter extends FilesPresenter<List<File>, Job> {
 
     private Job mJob;
 
@@ -77,7 +74,7 @@ final class JobFilesPresenter extends FilesPresenter<Job> {
                 .subscribe(new Action() {
             @Override
             public void run() throws Exception {
-                refreshFiles();
+                refreshData();
             }
         }, new Consumer<Throwable>() {
             @Override
@@ -88,7 +85,7 @@ final class JobFilesPresenter extends FilesPresenter<Job> {
     }
 
     @Override
-    protected void refreshFiles() {
+    protected void refreshData() {
         requestData(mJob);
     }
 }

@@ -31,6 +31,8 @@ import com.ncapdevi.fragnav.tabhistory.FragNavTabHistoryController;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRATULATIONS;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -44,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     private final int INDEX_MATERIALS = FragNavController.TAB2;
     private final int INDEX_CLIENTS = FragNavController.TAB3;
     private final int INDEX_SETTINGS = FragNavController.TAB4;
-
-    public static final int REQUEST_CONGRATULATIONS = 0;
 
     private FragNavController mNavController;
 
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         ResultEvent event = new ResultEvent(requestCode, resultCode, data);
         RxBus.getInstance().send(event);
 
-        if (requestCode == REQUEST_CONGRATULATIONS) {
+        if (requestCode == REQUEST_CODE_CONGRATULATIONS) {
             Log.d(TAG, "returned from Congratulations screen");
             mNavController.clearStack();
         }
