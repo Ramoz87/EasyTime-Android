@@ -53,7 +53,7 @@ public class ProjectExpensesAdapter extends RecyclerView.Adapter<ProjectExpenses
             }
 
             @Override
-            public int getValue() {
+            public long getValue() {
                 int totalPrice = 0;
                 for (Expense e : expenses) {
                     totalPrice += e.getValue();
@@ -123,16 +123,18 @@ public class ProjectExpensesAdapter extends RecyclerView.Adapter<ProjectExpenses
         void bind(Expense expense) {
             Resources res = itemView.getResources();
             expenseName.setText(expense.getName());
-            int price = expense.getValue();
+            long value = expense.getValue();
             if (expense.isMaterialExpense()) {
                 Material material = expense.getMaterial();
                 pricePerUnit.setVisibility(View.VISIBLE);
+                long unitPrice = material.getPricePerUnit();
                 pricePerUnit.setText(res.getString(R.string.expense_price, material.getPricePerUnit()));
+                value = value * unitPrice;
             } else {
                 pricePerUnit.setVisibility(View.GONE);
             }
 
-            totalPrice.setText(res.getString(R.string.expense_price, price));
+            totalPrice.setText(res.getString(R.string.expense_price, value));
         }
     }
 
@@ -146,7 +148,7 @@ public class ProjectExpensesAdapter extends RecyclerView.Adapter<ProjectExpenses
             Resources res = itemView.getResources();
             pricePerUnit.setVisibility(View.GONE);
             expenseName.setText(R.string.total_expense);
-            int price = expense.getValue();
+            long price = expense.getValue();
             totalPrice.setText(res.getString(R.string.expense_price, price));
         }
     }

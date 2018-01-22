@@ -80,8 +80,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         @BindView(R.id.expenseName)
         TextView expenseName;
 
-        @BindView(R.id.expenseTime)
-        TextView expenseTime;
+        @BindView(R.id.expenseValue)
+        TextView expenseValue;
 
         @BindView(R.id.delete)
         ImageView delete;
@@ -103,6 +103,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         void bind(Expense expense) {
             this.expense = expense;
             expenseName.setText(expense.getName());
+            expenseValue.setText(expense.getTypedValue());
         }
 
         private void asyncDelete(final Expense expense) {

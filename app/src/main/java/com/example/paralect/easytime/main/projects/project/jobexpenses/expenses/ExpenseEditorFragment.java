@@ -76,7 +76,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
             getMainActivity().onBackPressed();
 
         } else {
-            int value = mExpense.getValue();
+            long value = mExpense.getValue();
             expenseName.setText(mExpense.getName());
 
             expenseCount.setRawInputType(InputType.TYPE_CLASS_TEXT);

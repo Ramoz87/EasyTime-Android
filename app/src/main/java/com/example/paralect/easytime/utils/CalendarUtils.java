@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
@@ -97,5 +98,17 @@ public final class CalendarUtils {
 
     public static String stringFromDate(Date date, SimpleDateFormat format) {
         return format.format(date);
+    }
+
+    public static String timeToString(long minutes) {
+        String timeString = "";
+
+        long hours = TimeUnit.MINUTES.toHours(minutes);
+        minutes = minutes - TimeUnit.HOURS.toMinutes(hours);
+
+        timeString += (hours < 10) ? "0" + hours + ":" : hours + ":";
+        timeString += (minutes < 10) ? "0" + minutes : minutes;
+
+        return timeString;
     }
 }

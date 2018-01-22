@@ -179,7 +179,7 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.d(TAG, "error");
+                            Log.e(TAG, "error");
                             // Toast.makeText(itemView.getContext(), "Error", Toast.LENGTH_SHORT).show();
                         }
 
