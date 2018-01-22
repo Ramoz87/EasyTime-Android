@@ -131,6 +131,8 @@
 
     <!--material expenses-->
     <string name="item_selected">%d item(s) selected</string>
+    <string name="add_materials">Add %d material(s)</string>
+    <string name="confirm_materials">Confirm %d materials</string>
 
     <!--time expenses-->
     <string name="time_exp_title">New time</string>

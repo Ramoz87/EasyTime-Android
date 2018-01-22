@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.manager;
 
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -19,6 +20,7 @@ import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
@@ -286,6 +288,58 @@ public final class EasyTimeManager {
         return materials;
     }
 
+    @Nullable
+    public Expense findMaterialExpense(String jobId, String materialId) {
+        try {
+            Dao<Expense, Long> dao = helper.getExpenseDao();
+            List<Expense> foundExpenses = dao
+                    .queryBuilder()
+                    .where()
+                    .eq("jobId", jobId)
+                    .and()
+                    .eq("materialId", materialId)
+                    .query();
+            if (foundExpenses.isEmpty()) return null;
+            else return foundExpenses.get(0);
+        } catch (SQLException e) {
+            Logger.e(e.getMessage());
+            return null;
+        }
+    }
+
+    public void deleteMaterialExpense(String jobId, String materialId) {
+        try {
+            Dao<Expense, Long> dao = helper.getExpenseDao();
+            DeleteBuilder deleteBuilder = dao.deleteBuilder();
+            deleteBuilder
+                    .where()
+                    .eq("jobId", jobId)
+                    .and()
+                    .eq("materialId", materialId);
+            deleteBuilder.delete();
+            Log.d(TAG, "deleted material expense");
+        } catch (SQLException e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    public boolean isMaterialAddedToJob(String jobId, Material material) {
+        try {
+            Dao<Expense, Long> dao = helper.getExpenseDao();
+            List<Expense> foundExpenses = dao
+                    .queryBuilder()
+                    .where()
+                    .eq("jobId", jobId)
+                    .and()
+                    .eq("materialId", material.getMaterialId())
+                    .query();
+            return !foundExpenses.isEmpty();
+        } catch (SQLException e) {
+            Logger.e(e.getMessage());
+            return false;
+        }
+    }
+
     public List<Expense> getDefaultExpenses(Job job) {
         List<Expense> expenses = new ArrayList<>();
         Expense expense = new Expense();
@@ -410,25 +464,16 @@ public final class EasyTimeManager {
         }
     }
 
-    public void saveExpense(String jobId, Material material, int countOfMaterials) {
+    public void saveExpense(String jobId, Material material, long countOfMaterials) {
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
-            Where<Expense, Long> where = dao.queryBuilder().where();
-            where.eq("jobId", jobId).and().eq("materialId", material.getMaterialId());
-            List<Expense> foundExpenses = where.query();
-            Expense expense;
+            Expense expense = new Expense();
+            expense.setJobId(jobId);
+            expense.setName(material.getName());
+            expense.setMaterialId(material.getMaterialId());
+            expense.setType(Expense.Type.MATERIAL);
+            expense.setValue(countOfMaterials);
             // TODO Should we count the price right here ???
-            int value = countOfMaterials;// * material.getPricePerUnit();
-            if (CollectionUtils.isEmpty(foundExpenses)) {
-                expense = new Expense();
-                expense.setJobId(jobId);
-                expense.setName(material.getName());
-                expense.setMaterialId(material.getMaterialId());
-                expense.setValue(value);
-            } else {
-                expense = foundExpenses.get(0);
-                expense.setValue(value);
-            }
             dao.createOrUpdate(expense);
         } catch (SQLException e) {
             e.printStackTrace();
