@@ -20,6 +20,15 @@
             android:orientation="vertical"
             android:id="@+id/info_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" >
+
+        </LinearLayout>
     </net.cachapa.expandablelayout.ExpandableLayout>
+
+    <View
+        android:layout_marginLeft="@dimen/project_information_left_padding"
+        android:id="@+id/divider"
+        android:layout_height="1px"
+        android:layout_width="match_parent"
+        android:background="@color/dark_blue" />
 </LinearLayout>

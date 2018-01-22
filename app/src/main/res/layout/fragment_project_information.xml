@@ -123,13 +123,6 @@
             android:layout_height="wrap_content"
             app:title="@string/instructions" />
 
-        <View
-            android:layout_marginLeft="@dimen/project_information_left_padding"
-            android:layout_marginStart="@dimen/project_information_left_padding"
-            android:layout_height="1px"
-            android:layout_width="match_parent"
-            android:background="@color/dark_blue" />
-
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/client"
             android:gravity="center_vertical|left"
