@@ -4,10 +4,13 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.JobsContainer;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.ProjectType;
 
 import java.util.ArrayList;
 
@@ -15,24 +18,24 @@ import java.util.ArrayList;
  * Created by alexei on 27.12.2017.
  */
 
-public class JobSectionPagerAdapter extends FragmentPagerAdapter {
+public class JobSectionPagerAdapter extends FragmentStatePagerAdapter {
 
     private Context mContext;
-    private JobsContainer mContainer;
+    private Customer mCustomer;
 
-    public JobSectionPagerAdapter(Context context, FragmentManager fm, JobsContainer container) {
+    public JobSectionPagerAdapter(Context context, FragmentManager fm, Customer customer) {
         super(fm);
         mContext = context;
-        mContainer = container;
+        mCustomer = customer;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return JobListFragment.newInstance(mContainer.getProjects());
-            case 1: return JobListFragment.newInstance(mContainer.getOrders());
-            case 2: return JobListFragment.newInstance(mContainer.getObjects());
-            default: return JobListFragment.newInstance(new ArrayList<Job>());
+            case 0: return JobListFragment.newInstance(mCustomer, ProjectType.Type.TYPE_PROJECT);
+            case 1: return JobListFragment.newInstance(mCustomer, ProjectType.Type.TYPE_ORDER);
+            case 2: return JobListFragment.newInstance(mCustomer, ProjectType.Type.TYPE_OBJECT);
+            default: return JobListFragment.newInstance(mCustomer, ProjectType.Type.TYPE_NONE);
         }
     }
 

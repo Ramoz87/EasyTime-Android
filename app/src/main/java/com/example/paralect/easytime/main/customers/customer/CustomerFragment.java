@@ -116,7 +116,7 @@ public class CustomerFragment extends BaseFragment implements IDataView<Customer
         // set jobs
         if (jobs != null) {
             final FragmentManager fm = getChildFragmentManager();
-            final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, jobs);
+            final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, getCustomer());
             jobsViewPager.setAdapter(adapter);
             tabs.setupWithViewPager(jobsViewPager);
         }

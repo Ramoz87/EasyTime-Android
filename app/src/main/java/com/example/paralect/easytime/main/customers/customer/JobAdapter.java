@@ -25,12 +25,17 @@ import butterknife.ButterKnife;
  * Created by alexei on 27.12.2017.
  */
 
-public class JobAdapter<E extends Job> extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
+public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
-    private List<E> jobs;
+    private List<Job> jobs;
 
-    public JobAdapter(List<E> jobs) {
+    public JobAdapter() {
+
+    }
+
+    public void setData(List<Job> jobs) {
         this.jobs = jobs;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -41,16 +46,16 @@ public class JobAdapter<E extends Job> extends RecyclerView.Adapter<JobAdapter.V
 
     @Override
     public void onBindViewHolder(JobAdapter.ViewHolder holder, int position) {
-        E item = getItem(position);
+        Job item = getItem(position);
         holder.bind(item);
     }
 
     @Override
     public int getItemCount() {
-        return jobs.size();
+        return jobs != null ? jobs.size() : 0;
     }
 
-    public E getItem(int position) {
+    public Job getItem(int position) {
         return jobs.get(position);
     }
 
