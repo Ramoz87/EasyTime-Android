@@ -197,7 +197,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                             text = maxValue;
                             inputEditText.setText(maxValue);
                             inputEditText.selectAll();
-                            ViewAnimationUtils.shakeAnimation(inputEditText);
+                            ViewAnimationUtils.shakeAnimation(inputLayout);
                         }
                     } else {
                         inputLayout.setErrorEnabled(false);
