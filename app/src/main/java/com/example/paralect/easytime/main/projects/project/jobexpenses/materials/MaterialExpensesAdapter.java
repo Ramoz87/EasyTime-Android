@@ -14,13 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.utils.ViewAnimationUtils;
-import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
 
 import java.util.ArrayList;
@@ -29,8 +27,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
 import butterknife.OnTouch;
+
+import static com.example.paralect.easytime.model.Constants.UNITY_PCS;
 
 /**
  * Created by alexei on 17.01.2018.
@@ -106,13 +105,17 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
         @BindView(R.id.material_expense_input_layout) TextInputLayout inputLayout;
         @BindView(R.id.material_expense_edit_text) TextInputEditText inputEditText;
 
+        MaterialExpensesAdapter mAdapter;
+        MaterialExpense mMaterialExpense;
+        Resources mRes;
+
         @OnCheckedChanged(R.id.checkBox)
         void onCheckedChanged(CheckBox checkBox, boolean isChecked) {
-            materialExpense.isAdded = isChecked;
-            OnCheckedCountChangeListener listener = adapter.onCheckedCountChangeListener;
+            mMaterialExpense.isAdded = isChecked;
+            OnCheckedCountChangeListener listener = mAdapter.onCheckedCountChangeListener;
             if (listener != null) {
                 int totalCount = 0;
-                for (MaterialExpense me : adapter.materialExpenses) {
+                for (MaterialExpense me : mAdapter.materialExpenses) {
                     if (me.isAdded) totalCount++;
                 }
                 listener.onCheckedCountChange(totalCount);
@@ -128,7 +131,7 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
         boolean onMaterialCountClick(View v, MotionEvent ev) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 Log.d(TAG, "on materialExpense count click");
-                KeypadEditorView editorView = adapter.keypadEditorView;
+                KeypadEditorView editorView = mAdapter.keypadEditorView;
                 if (editorView != null) {
                     editorView.setupEditText(inputEditText);
                     editorView.setOnCompletionListener(this);
@@ -138,34 +141,38 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
                 checkBox.setChecked(true);
                 return true;
             }
-            return false;
+            return true;
         }
-
-        MaterialExpensesAdapter adapter;
-        MaterialExpense materialExpense;
-        Resources res;
 
         public ViewHolder(View itemView, MaterialExpensesAdapter adapter) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            res = itemView.getResources();
-            this.adapter = adapter;
+            mRes = itemView.getResources();
+            this.mAdapter = adapter;
 
             inputEditText.setRawInputType(InputType.TYPE_NULL);
             inputEditText.setTextIsSelectable(true);
-//            inputEditText.requestFocus();
+
+            itemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return onMaterialCountClick(v, event);
+                }
+            });
         }
 
         void bind(MaterialExpense materialExpense) {
-            this.materialExpense = materialExpense;
-            Material material = materialExpense.material;
-            materialName.setText(material.getName());
-            materialNumber.setText(res.getString(R.string.material_number, material.getMaterialNr()));
+            mMaterialExpense = materialExpense;
+            Material material = mMaterialExpense.material;
 
             final int max = material.getStockQuantity();
             final String maxValue = String.valueOf(max);
-            inputLayout.setHint("pcs");
+
+            materialName.setText(material.getName());
+            materialNumber.setText(mRes.getString(R.string.material_number, material.getMaterialNr()));
+
+            inputLayout.setHint(UNITY_PCS);
             inputEditText.setText(maxValue);
 
             inputEditText.addTextChangedListener(new TextWatcher() {
@@ -182,10 +189,12 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
                 @Override
                 public void afterTextChanged(Editable s) {
                     String text = s.toString();
+
                     if (TextUtil.isNotEmpty(text)) {
                         int value = Integer.parseInt(text);
                         boolean showError = value > max;
                         if (showError) {
+                            text = maxValue;
                             inputEditText.setText(maxValue);
                             inputEditText.selectAll();
                             ViewAnimationUtils.shakeAnimation(inputEditText);
@@ -193,6 +202,8 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
                     } else {
                         inputLayout.setErrorEnabled(false);
                     }
+
+                    mMaterialExpense.count = valueFromString(text);
                 }
             });
 
@@ -218,7 +229,6 @@ public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpens
             Log.d(TAG, "on completion");
             inputEditText.clearFocus();
             keypadEditorView.collapse(true);
-            materialExpense.count = valueFromString(result);
         }
 
         private int valueFromString(String result) {

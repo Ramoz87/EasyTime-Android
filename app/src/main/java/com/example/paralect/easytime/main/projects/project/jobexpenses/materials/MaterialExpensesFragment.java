@@ -103,7 +103,7 @@ public class MaterialExpensesFragment extends BaseFragment implements IDataView<
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_material_expenses, parent, false);
     }
 

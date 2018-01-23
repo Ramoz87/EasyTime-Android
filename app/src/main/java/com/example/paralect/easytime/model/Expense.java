@@ -13,6 +13,10 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static com.example.paralect.easytime.model.Constants.UNITY_KM;
+import static com.example.paralect.easytime.model.Constants.UNITY_MIN;
+import static com.example.paralect.easytime.model.Constants.UNITY_PCS;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -175,21 +179,21 @@ public class Expense implements Parcelable {
 
             switch (type) {
                 case Type.TIME:
-                    text = CalendarUtils.timeToString(value) + " min";
+                    text = CalendarUtils.timeToString(value) + " " + UNITY_MIN;
                     break;
 
                 case Type.DRIVING:
-                    text += " km";
+                    text += " " + UNITY_KM;
                     break;
 
                 case Type.MATERIAL:
                 case Type.OTHER:
                 default:
-                    text += " pcs";
+                    text += " " + UNITY_PCS;
             }
 
         } else
-            text += " pcs";
+            text += " " + UNITY_PCS;
         return text;
     }
 
