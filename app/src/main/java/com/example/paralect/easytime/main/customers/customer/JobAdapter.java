@@ -13,6 +13,7 @@ import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
+import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.utils.TextUtil;
 
 import java.util.List;
@@ -87,6 +88,9 @@ public class JobAdapter<E extends Job> extends RecyclerView.Adapter<JobAdapter.V
             }
             if (!TextUtils.isEmpty(text)) jobTerm.setText(text);
             else jobTerm.setText(R.string.no_data);
+
+            Type status = job.getStatus();
+            jobStatus.setText(status.getName());
         }
     }
 }

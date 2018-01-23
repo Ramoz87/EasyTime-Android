@@ -47,8 +47,8 @@ public class Job implements Parcelable, ProjectType {
     private String typeId;
 
     private File image;
-
     private Customer customer;
+    private com.example.paralect.easytime.model.Type status;
 
     public Job() {
 
@@ -215,5 +215,13 @@ public class Job implements Parcelable, ProjectType {
     @Type
     public int getProjectType() {
         return Type.TYPE_NONE;
+    }
+
+    public com.example.paralect.easytime.model.Type getStatus() {
+        return status;
+    }
+
+    public void setStatus(com.example.paralect.easytime.model.Type status) {
+        this.status = status;
     }
 }

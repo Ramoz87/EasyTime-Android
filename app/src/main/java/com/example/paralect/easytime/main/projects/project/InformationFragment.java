@@ -3,25 +3,33 @@ package com.example.paralect.easytime.main.projects.project;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.customers.customer.CustomerFragment;
 import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.ProjectType;
+import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.views.InfoLayout;
 import com.example.paralect.easytime.views.gallery.JobFilesView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +39,7 @@ import butterknife.OnClick;
  * Created by alexei on 27.12.2017.
  */
 
-public class InformationFragment extends BaseFragment {
+public class InformationFragment extends BaseFragment implements IDataView<List<Type>>, AdapterView.OnItemSelectedListener {
     public static final String TAG = InformationFragment.class.getSimpleName();
 
     public static final String ARG_JOB = "arg_job";
@@ -45,6 +53,7 @@ public class InformationFragment extends BaseFragment {
     @BindView(R.id.jobTerm) TextView jobTerm;
     @BindView(R.id.client) TextView client;
     @BindView(R.id.jobDescription) TextView jobDescription;
+    @BindView(R.id.statusChooser) Spinner statusChooser;
 
     @OnClick(R.id.client)
     void jumpToClient(View view) {
@@ -53,6 +62,8 @@ public class InformationFragment extends BaseFragment {
         getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 
+    private StatusPresenter statusPresenter = new StatusPresenter();
+    private StatusAdapter statusAdapter = new StatusAdapter();
     private Job job;
 
     public static InformationFragment newInstance(@NonNull Job job) {
@@ -91,6 +102,11 @@ public class InformationFragment extends BaseFragment {
         initJob();
         jobName.setText(job.getName());
         // jobDescription.setText();
+
+        statusChooser.setAdapter(statusAdapter);
+        statusChooser.setOnItemSelectedListener(this);
+        statusPresenter.setDataView(this)
+                .requestData(null);
 
         @ProjectType.Type int type = job.getProjectType();
         if (type == ProjectType.Type.TYPE_NONE) jobType.setText(R.string.job);
@@ -146,4 +162,28 @@ public class InformationFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDataReceived(List<Type> types) {
+        Log.d(TAG, String.format("received %s statuses", types.size()));
+        statusAdapter.setData(types);
+        for (int i = 0; i < types.size(); i++) {
+            Type status = types.get(i);
+            if (status.getTypeId().equals(job.getStatusId())) {
+                statusChooser.setSelection(i);
+            }
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        Type status = statusAdapter.getItem(i);
+        Log.d(TAG, String.format("selected status '%s'", status));
+        job.setStatusId(status.getTypeId());
+        EasyTimeManager.getInstance().updateJob(job);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        Log.d(TAG, "nothing selected");
+    }
 }

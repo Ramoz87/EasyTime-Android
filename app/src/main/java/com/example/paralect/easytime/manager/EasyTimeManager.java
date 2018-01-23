@@ -16,12 +16,16 @@ import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
+import com.example.paralect.easytime.model.Type;
+import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
+
+import org.apache.commons.collections.ListUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -65,6 +69,55 @@ public final class EasyTimeManager {
         return helper;
     }
 
+    public void updateJob(Job job) {
+        try {
+            @ProjectType.Type int projectType = job.getProjectType();
+            if (projectType == ProjectType.Type.TYPE_OBJECT) {
+                helper.getObjectDao().update((Object) job);
+            } else if (projectType == ProjectType.Type.TYPE_PROJECT) {
+                helper.getProjectDao().update((Project) job);
+            } else if (projectType == ProjectType.Type.TYPE_ORDER) {
+                helper.getOrderDao().update((Order) job);
+            }
+        } catch (SQLException e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    public List<Type> getStatuses() {
+        return getTypes("STATUS");
+    }
+
+    public List<Type> getTypes(String type) {
+        try {
+            Dao<Type, String> dao = helper.getTypeDao();
+            if (!TextUtils.isEmpty(type)) {
+                return dao.query(dao.queryBuilder().where().like("type", type).prepare());
+            } else {
+                return dao.queryForAll();
+            }
+        } catch (SQLException e) {
+            Logger.e(TAG, e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Type> getTypes() {
+        return getTypes(null);
+    }
+
+    public Type getStatus(Job job) {
+        try {
+            Dao<Type, String> dao = helper.getTypeDao();
+            List<Type> results = dao.queryBuilder().where().idEq(job.getStatusId()).query();
+            if (!CollectionUtils.isEmpty(results)) return results.get(0);
+            else return null;
+        } catch (SQLException e) {
+            Logger.e(TAG, e.getMessage());
+            return null;
+        }
+    }
+
     // region Jobs
     public List<Job> getAllJobs() {
         List<Job> jobs = new ArrayList<>();
@@ -94,6 +147,13 @@ public final class EasyTimeManager {
                     JobWithAddress jobWithAddress = (JobWithAddress) job;
                     jobWithAddress.setAddress(addressDao.queryForId(jobWithAddress.getAddressId()));
                 }
+            }
+
+            Dao<Type, String> typeDao = helper.getTypeDao();
+            for (Job job : jobs) {
+                String statusId = job.getStatusId();
+                Type status = typeDao.queryForId(statusId);
+                job.setStatus(status);
             }
         } catch (SQLException e) {
             // throw new RuntimeException(e);
@@ -150,6 +210,12 @@ public final class EasyTimeManager {
             }
         }
 
+        Dao<Type, String> typeDao = helper.getTypeDao();
+        for (Job job : jobs) {
+            String statusId = job.getStatusId();
+            Type status = typeDao.queryForId(statusId);
+            job.setStatus(status);
+        }
         return jobs;
     }
 
@@ -185,6 +251,13 @@ public final class EasyTimeManager {
                     JobWithAddress jobWithAddress = (JobWithAddress) job;
                     jobWithAddress.setAddress(addressDao.queryForId(jobWithAddress.getAddressId()));
                 }
+            }
+
+            Dao<Type, String> typeDao = helper.getTypeDao();
+            for (Job job : jobs) {
+                String statusId = job.getStatusId();
+                Type status = typeDao.queryForId(statusId);
+                job.setStatus(status);
             }
         } catch (SQLException e) {
             // throw new RuntimeException(e);
