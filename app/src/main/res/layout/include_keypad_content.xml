@@ -20,8 +20,7 @@
         android:background="@color/keypad_border"
         app:rowCount="4"
         app:columnCount="4"
-        android:id="@+id/keypadContent"
-        android:paddingTop="@dimen/keypad_item_margin">
+        android:id="@+id/keypadContent">
 
         <include layout="@layout/include_keypad_number_item"
             android:id="@+id/id1"

@@ -22,11 +22,8 @@ public abstract class TouchHandler implements View.OnTouchListener {
     private boolean touchedAlready = false;
     private View touchedView = null;
     private Rect touchedRect = null;
-
-    private Drawable old;
     private int normalColor;
-
-    ValueAnimator colorAnimation;
+    private ValueAnimator colorAnimation;
 
     public TouchHandler() {
 
@@ -54,7 +51,7 @@ public abstract class TouchHandler implements View.OnTouchListener {
     }
 
     private void onTouchDown(final View view) {
-        old = view.getBackground();
+        Drawable old = view.getBackground();
         if (old == null || !(old instanceof ColorDrawable)) {
             normalColor = Color.TRANSPARENT;
         } else {
