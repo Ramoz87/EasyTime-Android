@@ -3,6 +3,15 @@ package com.example.paralect.easytime.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by alexei on 05.01.2018.
@@ -14,6 +23,9 @@ public class ETPreferenceManager {
     private SharedPreferences etPreferences;
 
     private static final String KEY_LAUNCH_COUNT = "launch_count";
+    private static final String KEY_LAST_DATE_YEAR = "last_date_year";
+    private static final String KEY_LAST_DATE_MONTH = "last_date_month";
+    private static final String KEY_LAST_DATE_DAY = "last_date_day";
 
     private static ETPreferenceManager instance = null;
 
@@ -43,5 +55,25 @@ public class ETPreferenceManager {
 
     public boolean isLaunchFirst() {
         return getLaunchCount() <= 1;
+    }
+
+    public void saveCurrentLaunchDate() {
+        Calendar calendar = Calendar.getInstance();
+        etPreferences.edit()
+                .putInt(KEY_LAST_DATE_YEAR, calendar.get(Calendar.YEAR))
+                .putInt(KEY_LAST_DATE_MONTH, calendar.get(Calendar.MONTH))
+                .putInt(KEY_LAST_DATE_DAY, calendar.get(Calendar.DAY_OF_MONTH))
+                .apply();
+    }
+
+    public boolean isCurrentLaunchFirstInDay() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int lastYear = etPreferences.getInt(KEY_LAST_DATE_YEAR, year);
+        int lastMonth = etPreferences.getInt(KEY_LAST_DATE_MONTH, month);
+        int lastDay = etPreferences.getInt(KEY_LAST_DATE_DAY, day);
+        return !(year == lastYear && month == lastMonth && day == lastDay);
     }
 }

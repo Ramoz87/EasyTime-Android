@@ -25,7 +25,9 @@ import com.j256.ormlite.dao.Dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class EasyTimeApplication extends Application {
         sContext = this;
 
         // TODO disable on release version!!!
-        Logger.setEnabled(true);
+        Logger.setEnabled(BuildConfig.DEBUG);
 
         ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
         preferenceManager.plusLaunch();
@@ -55,9 +57,11 @@ public class EasyTimeApplication extends Application {
         } else {
             List<Job> jobs = EasyTimeManager.getInstance().getAllJobs();
             for (Job job : jobs) {
-                Log.d(TAG, "date for job: " + job.getDate());
+                // Log.d(TAG, "date for job: " + job.getDate());
             }
         }
+
+        updateMyMaterials();
     }
 
     public static Context getContext() {
@@ -230,5 +234,17 @@ public class EasyTimeApplication extends Application {
                 job.setDate(dateString);
             }
         };
+    }
+
+    private void updateMyMaterials() {
+        ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
+        boolean firstLaunchInDay = preferenceManager.isCurrentLaunchFirstInDay();
+        if (firstLaunchInDay) {
+            Log.d(TAG, "First launch in a day, cleaning stock of materials");
+            EasyTimeManager.getInstance().deleteMyMaterials();
+        } else {
+            Log.d(TAG, "not a first launch in a day");
+        }
+        preferenceManager.saveCurrentLaunchDate();
     }
 }

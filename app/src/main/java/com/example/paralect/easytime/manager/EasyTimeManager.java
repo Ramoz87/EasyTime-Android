@@ -19,6 +19,7 @@ import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
@@ -262,6 +263,20 @@ public final class EasyTimeManager {
             e.printStackTrace();
         }
         return materials;
+    }
+
+    public void deleteMyMaterials() {
+        try {
+            Dao<Material, String> dao = helper.getMaterialDao();
+            UpdateBuilder<Material, String> ub = dao.updateBuilder();
+            ub.where().eq("isAdded", true);
+            ub.updateColumnValue("isAdded", false);
+            ub.updateColumnValue("stockQuantity", 0);
+            ub.update();
+            Log.d(TAG, "cleaned stock of my materials");
+        } catch (SQLException e) {
+            Logger.e(TAG, e.getMessage());
+        }
     }
 
     public List<Expense> getDefaultExpenses(Job job) {
