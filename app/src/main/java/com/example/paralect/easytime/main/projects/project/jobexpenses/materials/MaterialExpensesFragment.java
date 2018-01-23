@@ -3,6 +3,7 @@ package com.example.paralect.easytime.main.projects.project.jobexpenses.material
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,6 +47,7 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
     private static final String TAG = MaterialExpensesFragment.class.getSimpleName();
 
     public static final String ARG_JOB = "arg_job";
+    public static final String ARG_KEYBOARD_STATE = "keyboard_state";
 
     @BindView(R.id.addMaterials) Button addMaterials;
     @BindView(R.id.list) EmptyRecyclerView emptyRecyclerView;
@@ -103,10 +105,33 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
         RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height, 25);
         emptyRecyclerView.addItemDecoration(decor);
 
-        hideKeypad(false);
+        restoreState();
 
         presenter.setDataView(this)
-                .requestData(new String[] { job.getJobId() });
+                .requestData(new String[]{job.getJobId()});
+    }
+
+    @Override
+    public void onDestroyView() {
+        saveState();
+        super.onDestroyView();
+    }
+
+    private void saveState(){
+        Bundle bundle = getArguments();
+        if (bundle == null)
+            bundle = new Bundle();
+        bundle.putBoolean(ARG_KEYBOARD_STATE, keypadEditorView.isExpanded());
+        setArguments(bundle);
+    }
+
+    private void restoreState(){
+        Bundle bundle = getArguments();
+        boolean show = bundle != null && bundle.getBoolean(ARG_KEYBOARD_STATE);
+        if (show)
+            showKeypad(false);
+        else
+            hideKeypad(false);
     }
 
     @Override

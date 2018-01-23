@@ -134,7 +134,6 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                 KeypadEditorView editorView = mAdapter.keypadEditorView;
                 if (editorView != null) {
                     editorView.setupEditText(inputEditText);
-                    editorView.setOnCompletionListener(this);
                     inputEditText.requestFocus();
                     editorView.expand(true);
                 }
@@ -160,6 +159,12 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                     return onMaterialCountClick(v, event);
                 }
             });
+
+            KeypadEditorView editorView = mAdapter.keypadEditorView;
+            if (editorView != null) {
+                editorView.setupEditText(inputEditText);
+                editorView.setOnCompletionListener(this);
+            }
         }
 
         void bind(MaterialExpense materialExpense) {
