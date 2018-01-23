@@ -42,7 +42,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by alexei on 17.01.2018.
  */
 
-public class MaterialExpensesFragment extends BaseFragment implements IDataView<List<Material>>, MaterialExpensesAdapter.OnCheckedCountChangeListener {
+public class MaterialExpensesFragment extends BaseFragment implements IMaterialExpenses<List<Material>>, MaterialExpensesAdapter.OnCheckedCountChangeListener {
     private static final String TAG = MaterialExpensesFragment.class.getSimpleName();
 
     public static final String ARG_JOB = "arg_job";
@@ -50,33 +50,6 @@ public class MaterialExpensesFragment extends BaseFragment implements IDataView<
     @BindView(R.id.addMaterials) Button addMaterials;
     @BindView(R.id.list) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.keypad) KeypadEditorView keypadEditorView;
-
-    @OnClick(R.id.addMaterials)
-    void addMaterials(Button button) {
-        final Observer<List<MaterialExpense>> observer = new Observer<List<MaterialExpense>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(List<MaterialExpense> expenses) {
-                Log.d(TAG, "successfully");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, "error");
-            }
-
-            @Override
-            public void onComplete() {
-                getMainActivity().onBackPressed();
-            }
-        };
-        List<MaterialExpense> materialExpenses = adapter.getCheckedMaterials();
-        updateExpenses(materialExpenses, observer);
-    }
 
     private Job job;
     private MaterialExpensesAdapter adapter = new MaterialExpensesAdapter();
@@ -151,11 +124,6 @@ public class MaterialExpensesFragment extends BaseFragment implements IDataView<
         return true;
     }
 
-    @Override
-    public void onDataReceived(List<Material> materials) {
-        adapter.setData(materials);
-    }
-
     private void showKeypad(boolean animate) {
         keypadEditorView.expand(animate);
     }
@@ -164,31 +132,10 @@ public class MaterialExpensesFragment extends BaseFragment implements IDataView<
         keypadEditorView.collapse(animate);
     }
 
-    private void updateExpenses(final List<MaterialExpense> materialExpenses, Observer<List<MaterialExpense>> observer) {
-        Observable<List<MaterialExpense>> observable = Observable.create(new ObservableOnSubscribe<List<MaterialExpense>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<MaterialExpense>> emitter) throws Exception {
-                try {
-                    if (!emitter.isDisposed()) {
-                        EasyTimeManager manager = EasyTimeManager.getInstance();
-                        for (MaterialExpense expense : materialExpenses) {
-                            if (expense.isAdded) {
-                                manager.saveExpense(job.getJobId(), expense.material, expense.count);
-                            }
-                        }
-                        emitter.onNext(materialExpenses);
-                        emitter.onComplete();
-                    }
-
-                } catch (Throwable e) {
-                    emitter.onError(e);
-                }
-            }
-        });
-
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+    @OnClick(R.id.addMaterials)
+    void addMaterials() {
+        List<MaterialExpense> materialExpenses = adapter.getCheckedMaterials();
+        presenter.updateExpenses(job, materialExpenses, this);
     }
 
     @Override
@@ -196,4 +143,16 @@ public class MaterialExpensesFragment extends BaseFragment implements IDataView<
         String message = getResources().getString(R.string.add_materials, totalCount);
         addMaterials.setText(message);
     }
+
+    // region IMaterialExpenses
+    @Override
+    public void onDataReceived(List<Material> materials) {
+        adapter.setData(materials);
+    }
+
+    @Override
+    public void onFinishing() {
+        getMainActivity().onBackPressed();
+    }
+    // endregion
 }

@@ -35,7 +35,7 @@ import static com.example.paralect.easytime.model.Constants.UNITY_PCS;
  * Created by alexei on 17.01.2018.
  */
 
-public class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapter.ViewHolder> {
+class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapter.ViewHolder> {
     private static final String TAG = MaterialExpensesAdapter.class.getSimpleName();
 
     private List<Material> materials;
