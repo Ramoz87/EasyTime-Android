@@ -1,9 +1,7 @@
 package com.example.paralect.easytime.main.materials;
 
-import com.example.paralect.easytime.main.projects.ProjectsPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Material;
 
 import java.util.List;
