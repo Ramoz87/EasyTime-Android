@@ -2,15 +2,9 @@ package com.example.paralect.easytime.views.gallery;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -18,13 +12,8 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.camera.CameraActivity;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
-import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.IntentUtils;
-import com.rd.PageIndicatorView;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,8 +79,8 @@ public class ExpenseFilesView extends FrameLayout implements IFilesView<File, Ex
 
             Picasso.with(getContext())
                     .load(file.getFullFileUrl())
-                    .placeholder(R.drawable.materials_placeholder)
-                    .error(R.drawable.materials_placeholder)
+                    .placeholder(R.drawable.data_placeholder)
+                    .error(R.drawable.data_placeholder)
                     .fit()
                     .centerInside()
                     .into(imageView);

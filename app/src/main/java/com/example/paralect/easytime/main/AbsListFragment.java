@@ -51,6 +51,7 @@ public abstract class AbsListFragment extends BaseFragment {
         decorateList(list);
         RecyclerView.Adapter adapter = buildAdapter();
         list.setAdapter(adapter);
+        list.setEmptyView(emptyViewContainer);
     }
 
     public abstract RecyclerView.Adapter buildAdapter();
