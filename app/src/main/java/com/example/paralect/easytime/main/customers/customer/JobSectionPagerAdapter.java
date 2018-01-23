@@ -3,16 +3,11 @@ package com.example.paralect.easytime.main.customers.customer;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.JobsContainer;
-import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.ProjectType;
-
-import java.util.ArrayList;
 
 /**
  * Created by alexei on 27.12.2017.

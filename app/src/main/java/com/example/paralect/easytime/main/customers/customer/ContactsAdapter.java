@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.customers.customer;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
