@@ -17,8 +17,10 @@
         android:layout_height="wrap_content" />
 
     <android.support.v7.widget.AppCompatTextView
+        android:maxLines="1"
+        android:ellipsize="end"
         android:layout_marginTop="5dp"
-        android:textSize="14sp"
+        android:textSize="13sp"
         android:text="@string/placeholder_no_jobs"
         android:textColor="@color/dark_blue"
         android:id="@+id/jobs"

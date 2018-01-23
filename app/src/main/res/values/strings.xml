@@ -153,4 +153,7 @@
     <string name="delete_file_title">Delete file?</string>
     <string name="delete_file_message">The file will be deleted immediately</string>
 
+    <!--customers-->
+    <string name="customer_info">%d object(s)/ %d order(s)/ %d project(s)</string>
+
 </resources>

@@ -109,4 +109,10 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
     public void onDataReceived(List<Job> data) {
         adapter.setData(data);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        title.setOnClickListener(null); //remove listener after this fragment has paused
+    }
 }

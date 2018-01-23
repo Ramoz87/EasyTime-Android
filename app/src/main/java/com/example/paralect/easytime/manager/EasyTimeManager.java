@@ -15,6 +15,7 @@ import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
+import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -111,6 +112,20 @@ public final class EasyTimeManager {
 
     public List<Project> getProjects(Customer customer) throws SQLException {
         return getJobs(helper.getProjectDao(), customer, null, null);
+    }
+
+    public long getJobCount(Customer customer, @ProjectType.Type int projectType) {
+        try {
+            Dao dao;
+            if (projectType == ProjectType.Type.TYPE_OBJECT) dao = helper.getObjectDao();
+            else if (projectType == ProjectType.Type.TYPE_PROJECT) dao = helper.getProjectDao();
+            else if (projectType == ProjectType.Type.TYPE_ORDER) dao = helper.getOrderDao();
+            else return 0L;
+            return dao.queryBuilder().where().eq("customerId", customer.getCustomerId()).countOf();
+        } catch (SQLException e) {
+            Logger.e(TAG, e.getMessage());
+            return 0L;
+        }
     }
 
     public <T extends Job> List<T> getJobs(Dao<T, String> dao, Customer customer, String query, String date) throws SQLException {
