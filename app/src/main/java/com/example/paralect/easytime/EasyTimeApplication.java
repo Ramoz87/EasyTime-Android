@@ -203,8 +203,8 @@ public class EasyTimeApplication extends Application {
                 Project project = new Project();
                 fillJob(project, fields);
 
-                project.setDateStart(fields[10]);
-                project.setDateEnd(fields[11]);
+                project.setDateStart(fields[11]);
+                project.setDateEnd(fields[12]);
 
                 String objectIds = fields[13];
                 objectIds = objectIds.replace("\"", "");

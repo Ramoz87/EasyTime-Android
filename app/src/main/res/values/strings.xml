@@ -3,6 +3,8 @@
 
     <string name="empty_fragment">Empty fragment</string>
 
+    <string name="no_data">No data</string>
+
     <!--login activity-->
     <string name="login_title">Easy time</string>
     <string name="login_name_hint">Name</string>
@@ -155,5 +157,7 @@
 
     <!--customers-->
     <string name="customer_info">%d object(s)/ %d order(s)/ %d project(s)</string>
+    <string name="project_date_start_date_end">%s - %s</string>
+    <string name="order_delivery_time_and_address">%s, %s</string>
 
 </resources>

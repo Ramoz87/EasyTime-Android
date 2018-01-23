@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.main.customers.customer;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,11 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.Object;
+import com.example.paralect.easytime.model.Order;
+import com.example.paralect.easytime.model.Project;
+import com.example.paralect.easytime.model.ProjectType;
+import com.example.paralect.easytime.utils.TextUtil;
 
 import java.util.List;
 
@@ -62,6 +68,25 @@ public class JobAdapter<E extends Job> extends RecyclerView.Adapter<JobAdapter.V
         void bind(Job job) {
             jobName.setText(job.getName());
             jobNumber.setText(itemView.getContext().getString(R.string.job_number, job.getNumber()));
+            String text = null;
+            if (job.getProjectType() == ProjectType.Type.TYPE_ORDER) {
+                Order order = (Order) job;
+                text = order.getDeliveryTime();
+            } else if (job.getProjectType() == ProjectType.Type.TYPE_OBJECT) {
+                Object object = (Object) job;
+                text = object.getDate();
+            } else if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT) {
+                Project project = (Project) job;
+                String dateStart = project.getDateStart();
+                String dateEnd = project.getDateEnd();
+                if (!TextUtils.isEmpty(dateStart) || !TextUtils.isEmpty(dateEnd)) {
+                    text = itemView
+                            .getResources()
+                            .getString(R.string.project_date_start_date_end, dateStart, dateEnd);
+                }
+            }
+            if (!TextUtils.isEmpty(text)) jobTerm.setText(text);
+            else jobTerm.setText(R.string.no_data);
         }
     }
 }
