@@ -6,10 +6,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 
+import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AbsListFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Customer;
@@ -69,6 +72,9 @@ public class JobListFragment extends AbsListFragment implements IDataView<List<J
         presenter.setDataView(this)
                 .requestData(parameter);
         Log.d(TAG, "requesting for project type = " + type);
+        FrameLayout container = getEmptyViewContainer();
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        inflater.inflate(R.layout.include_no_data_placeholder, container, true);
     }
 
     @Override
