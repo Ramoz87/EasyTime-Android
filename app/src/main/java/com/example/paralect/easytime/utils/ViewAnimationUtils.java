@@ -26,8 +26,7 @@ public final class ViewAnimationUtils {
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
         view.getLayoutParams().height = 1;
         view.setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 view.getLayoutParams().height = interpolatedTime == 1
@@ -43,7 +42,7 @@ public final class ViewAnimationUtils {
         };
 
         // 1dp / ms
-        long duration = (int)(targetHeight / view.getContext().getResources().getDisplayMetrics().density);
+        long duration = (int) (targetHeight / view.getContext().getResources().getDisplayMetrics().density);
         duration = 200;
         a.setDuration(duration);
         view.startAnimation(a);
@@ -52,11 +51,10 @@ public final class ViewAnimationUtils {
     public static void collapse(final View view) {
         final int initialHeight = view.getMeasuredHeight();
 
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
+                if (interpolatedTime == 1) {
                     view.setVisibility(View.GONE);
                 } else {
                     view.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
@@ -71,14 +69,14 @@ public final class ViewAnimationUtils {
         };
 
         // 1dp / ms
-        long duration = (int)(initialHeight / view.getContext().getResources().getDisplayMetrics().density);
+        long duration = (int) (initialHeight / view.getContext().getResources().getDisplayMetrics().density);
         duration = 200;
         a.setDuration(duration);
         view.startAnimation(a);
     }
 
     public static void layoutWithAnimation(final View view, boolean collapse) {
-        if(!collapse) {
+        if (!collapse) {
             ValueAnimator va = ValueAnimator.ofInt(100, 200);
             va.setDuration(400);
             va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -144,6 +142,10 @@ public final class ViewAnimationUtils {
             }
         });
         animator.start();
+    }
+
+    public static void shakeAnimation(View v) {
+        shakeAnimation(v, 1000);
     }
 
     public static void shakeAnimation(View v, long duration) {

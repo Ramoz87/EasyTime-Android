@@ -12,4 +12,8 @@ public final class Constants {
     public static final int REQUEST_CODE_CONGRATULATIONS = 3;
     public static final int REQUEST_CODE_CAMERA = 4;
 
+    public static final String UNITY_PCS = "pcs";
+    public static final String UNITY_KM = "km";
+    public static final String UNITY_MIN = "min";
+
 }

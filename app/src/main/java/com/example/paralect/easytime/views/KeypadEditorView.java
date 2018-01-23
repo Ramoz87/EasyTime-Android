@@ -115,7 +115,11 @@ public class KeypadEditorView extends KeypadView {
                         + String.valueOf(number)
                         + text.substring(pos2, length < 0 ? 0 :length);
                 editText.setText(result);
-                editText.setSelection(pos1 + 1);
+                try {
+                    editText.setSelection(pos1 + 1);
+                } catch (Throwable e){
+                    editText.setSelection(pos1);
+                }
             }
         }
     }
