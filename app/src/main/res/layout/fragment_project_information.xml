@@ -99,6 +99,8 @@
                     android:layout_height="wrap_content" />
 
                 <android.support.v7.widget.AppCompatSpinner
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/statusChooser"
                     android:textSize="@dimen/project_information_text_normal"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"

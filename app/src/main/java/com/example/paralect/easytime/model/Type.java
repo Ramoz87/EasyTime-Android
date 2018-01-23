@@ -3,6 +3,8 @@ package com.example.paralect.easytime.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.lang.*;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -50,5 +52,12 @@ public class Type {
     @Override
     public String toString() {
         return type + " " + name;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object object) {
+        if (object == null || !(object instanceof Type)) return false;
+
+        return typeId.equals(((Type) object).getTypeId());
     }
 }

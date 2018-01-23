@@ -146,8 +146,9 @@ public class EasyTimeApplication extends Application {
             Type createType(String[] fields) {
                 Type type = new Type();
                 type.setTypeId(fields[0]);
-                type.setName(fields[1]);
-                type.setType(fields[2]);
+                type.setType(fields[1]);
+                type.setName(fields[2]);
+                Log.d(TAG, "type: " + type);
                 return type;
             }
 

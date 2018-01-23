@@ -160,4 +160,8 @@
     <string name="project_date_start_date_end">%s - %s</string>
     <string name="order_delivery_time_and_address">%s, %s</string>
 
+    <!--status-->
+    <string name="active">Active</string>
+    <string name="not_active">Not active</string>
+
 </resources>

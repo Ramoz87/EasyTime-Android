@@ -153,6 +153,8 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
             jobCustomer.setText(job.getCustomer().getCompanyName());
             String number = jobNumber.getResources().getString(R.string.job_number, job.getNumber());
             jobNumber.setText(number);
+
+            jobStatus.setText(job.getStatus().getName());
         }
     }
 
