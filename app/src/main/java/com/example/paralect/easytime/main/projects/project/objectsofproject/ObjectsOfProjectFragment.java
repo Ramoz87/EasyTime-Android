@@ -1,19 +1,27 @@
 package com.example.paralect.easytime.main.projects.project.objectsofproject;
 
+import android.content.ClipData;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.time.TimeExpensesFragment;
+import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.utils.TextUtil;
@@ -75,7 +83,23 @@ public class ObjectsOfProjectFragment extends AbsStickyFragment implements IData
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_discount, menu);
 
+        Button button = new Button(getContext());
+        button.setText(R.string.expenses_skip);
+        button.setTextColor(Color.WHITE);
+        button.setAllCaps(false);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.selector_ripple_white);
+        button.setBackground(drawable);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pushFragment(project);
+            }
+        });
+
+        MenuItem item = menu.findItem(R.id.item_discount);
+        item.setActionView(button);
     }
 
     @Override
@@ -101,16 +125,20 @@ public class ObjectsOfProjectFragment extends AbsStickyFragment implements IData
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Object object = adapter.getItem(i);
+        pushFragment(object);
+    }
+
+    private void pushFragment(Job job){
         String fragmentName = getFragmentName();
 
         if (TextUtil.isNotEmpty(fragmentName)) {
             Fragment fragment = null;
 
             if (fragmentName.equalsIgnoreCase(TimeExpensesFragment.TAG))
-                fragment = TimeExpensesFragment.newInstance(object);
+                fragment = TimeExpensesFragment.newInstance(job);
 
             else if (fragmentName.equalsIgnoreCase(ExpensesFragment.TAG))
-                fragment = ExpensesFragment.newInstance(object);
+                fragment = ExpensesFragment.newInstance(job);
 
             if (fragment != null)
                 getMainActivity().getFragmentNavigator().pushFragment(fragment);
