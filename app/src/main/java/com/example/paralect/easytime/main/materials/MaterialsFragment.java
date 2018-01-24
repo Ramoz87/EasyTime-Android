@@ -3,6 +3,7 @@ package com.example.paralect.easytime.main.materials;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -27,6 +28,7 @@ import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.views.KeypadEditorView;
+import com.example.paralect.easytime.views.KeypadView;
 import com.github.clans.fab.FloatingActionButton;
 
 import java.util.List;
@@ -40,7 +42,8 @@ import butterknife.OnClick;
  */
 
 public class MaterialsFragment extends BaseFragment
-        implements IDataView<List<Material>>,MaterialAdapter.MaterialEditingListener, KeypadEditorView.OnCompletionListener {
+        implements IDataView<List<Material>>,MaterialAdapter.MaterialEditingListener {
+
     private static final String TAG = MaterialsFragment.class.getSimpleName();
 
     private MaterialsPresenter presenter = new MaterialsPresenter();
@@ -94,7 +97,6 @@ public class MaterialsFragment extends BaseFragment
         list.addItemDecoration(decor);
 
         keypad.collapse(false);
-        keypad.setOnCompletionListener(this);
     }
 
     private void initActionBar(ActionBar actionBar) {
@@ -146,11 +148,60 @@ public class MaterialsFragment extends BaseFragment
         if (!keypad.isExpanded()){
             keypad.expand();
         }
-        keypad.setupEditText(editText);
+        keypad.setOnKeypadItemClickListener(new KeypadHandler(editText));
     }
 
-    @Override
-    public void onCompletion(KeypadEditorView editorView, String result) {
-       keypad.toggle();
+    /**
+     * Added this copy of class to avoid text selection function in the {@link KeypadEditorView.KeypadHandler#onDeleteClick}
+     */
+    private class KeypadHandler implements KeypadView.OnKeypadItemClickListener {
+
+        private EditText editText;
+
+        private KeypadHandler(@NonNull EditText editText) {
+            this.editText = editText;
+        }
+
+        @Override
+        public void onNextClick() {
+            keypad.toggle();
+        }
+
+        @Override
+        public void onDeleteClick() {
+            if (editText != null) {
+                String text = editText.getText().toString();
+                int pos1 = editText.getSelectionStart();
+                int pos2 = editText.getSelectionEnd();
+
+                if (pos1 == 0 && pos2 == 0) { // cursor is at th beginning, nothing to delete
+                    return;
+                }
+
+                if (pos2 == pos1) {
+                    pos1--;
+                }
+
+                int length = text.length();
+                String result = text.substring(0, pos1)
+                        + text.substring(pos2, length < 0 ? 0 :length);
+                editText.setText(result);
+            }
+        }
+
+        @Override
+        public void onNumberClick(int number) {
+            if (editText != null) {
+                String text = editText.getText().toString();
+                int pos1 = editText.getSelectionStart();
+                int pos2 = editText.getSelectionEnd();
+                int length = text.length();
+
+                String result = text.substring(0, pos1)
+                        + String.valueOf(number)
+                        + text.substring(pos2, length < 0 ? 0 :length);
+                editText.setText(result);
+            }
+        }
     }
 }

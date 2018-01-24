@@ -29,6 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 import butterknife.OnTouch;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -113,12 +114,18 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             public void afterTextChanged(Editable s) {
                 String text = s.toString();
                 if (TextUtil.isEmpty(text) || text.equalsIgnoreCase("0")) {
-                    count.setText("1");
+                    text = "1";
+                    count.setText(text);
+
                 } else {
                     int value = Integer.parseInt(text);
                     material.setStockQuantity(value);
                     asyncUpdate(material, newUpdateObserver());
+
                 }
+
+                int length = text.length();
+                count.setSelection(length);
             }
         };
 
@@ -184,6 +191,11 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             }
         };
 
+//        @OnFocusChange(R.id.materialCount)
+//        public void onFocusChanged(View v, boolean hasFocus){
+//
+//        }
+
         @OnTouch(R.id.materialCount)
         boolean onCountTouch(View v, MotionEvent ev) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
@@ -209,7 +221,6 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             view.startAnimation(incDec);
             int result = changeCount(diff);
             count.setText(String.valueOf(result));
-            count.setSelection(count.length());
         }
 
         public ViewHolder(View itemView, MaterialAdapter adapter, MaterialEditingListener materialEditingListener) {
