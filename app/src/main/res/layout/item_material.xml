@@ -1,80 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="13dp"
-    android:paddingTop="13dp"
-    android:paddingLeft="@dimen/list_item_horizontal_padding"
-    android:paddingRight="@dimen/list_item_horizontal_padding">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="13dp"
+                android:paddingLeft="@dimen/list_item_horizontal_padding"
+                android:paddingRight="@dimen/list_item_horizontal_padding"
+                android:paddingTop="13dp">
 
     <LinearLayout
         android:id="@+id/editor_layout"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
-            android:tint="#3E8ED7"
-            android:padding="10dp"
-            android:src="@drawable/ic_minus_material"
             android:id="@+id/minus"
             android:layout_width="45dp"
-            android:layout_height="45dp" />
+            android:layout_height="45dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_minus_material"
+            android:tint="#3E8ED7"/>
 
-        <android.support.v7.widget.AppCompatTextView
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/dark_gray"
-            android:textSize="19sp"
-            android:gravity="center"
-            android:layout_margin="5dp"
-            android:text="@string/placeholder_material_count"
-            android:width="48dp"
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/materialCount"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:width="50dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:text="@string/placeholder_material_count"
+            android:textColor="@color/dark_gray"
+            android:textSize="19sp"/>
 
         <ImageView
-            android:tint="#3E8ED7"
-            android:padding="10dp"
-            android:src="@drawable/ic_plus_material"
             android:id="@+id/plus"
             android:layout_width="45dp"
-            android:layout_height="45dp" />
+            android:layout_height="45dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_plus_material"
+            android:tint="#3E8ED7"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginRight="10dp"
-        android:gravity="left"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@id/editor_layout"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/editor_layout"
+        android:gravity="left"
+        android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatTextView
-            android:textSize="17sp"
-            android:text="@string/placeholder_material_name"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/black"
             android:id="@+id/materialName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/placeholder_material_name"
+            android:textColor="@color/black"
+            android:textSize="17sp"/>
 
         <android.support.v7.widget.AppCompatTextView
-            android:layout_marginTop="5dp"
-            android:text="@string/placeholder_material_number"
             android:id="@+id/materialNumber"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/placeholder_material_number"/>
     </LinearLayout>
 
 </RelativeLayout>
