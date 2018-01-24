@@ -3,30 +3,24 @@ package com.example.paralect.easytime.main.materials.chooser;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
-import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Material;
-import com.example.paralect.easytime.utils.CalendarUtils;
+import com.example.paralect.easytime.model.MaterialComparator;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -39,14 +33,13 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by alexei on 04.01.2018.
  */
 
-public class MaterialChooserFragment extends BaseFragment implements IDataView<SortedMap<Character,List<Material>>>, MaterialAlphabetAdapter.OnCheckedCountChangeListener {
+public class MaterialChooserFragment extends BaseFragment implements IDataView<SortedMap<Character,List<Material>>>, MaterialAlphabetAdapter.OnCheckedChangeListener {
 
     @BindView(R.id.sticky_list_headers_list_view)
     StickyListHeadersListView listView;
@@ -56,12 +49,12 @@ public class MaterialChooserFragment extends BaseFragment implements IDataView<S
 
     @OnClick(R.id.addMaterials)
     void addMaterials(Button button) {
-        List<Material> materials = adapter.getCheckedMaterials();
-        saveMyMaterials(materials);
+        updateMyMaterials(materialsToUpdate);
     }
 
     private MaterialChooserPresenter presenter = new MaterialChooserPresenter();
     private MaterialAlphabetAdapter adapter = new MaterialAlphabetAdapter();
+    private List<Material> materialsToUpdate = new ArrayList<>();
 
     public static MaterialChooserFragment newInstance() {
         return new MaterialChooserFragment();
@@ -87,11 +80,10 @@ public class MaterialChooserFragment extends BaseFragment implements IDataView<S
 
     private void init() {
         MaterialAlphabetAdapter adapter = this.adapter;
-        adapter.setOnCheckedCountChangeListener(this);
+        adapter.setOnCheckedChangeListener(this);
         listView.setAdapter(adapter);
         presenter.setDataView(this)
                 .requestData(null);
-        onCheckedCountChange(0);
     }
 
     @Override
@@ -113,20 +105,22 @@ public class MaterialChooserFragment extends BaseFragment implements IDataView<S
     }
 
     @Override
-    public void onDataReceived(SortedMap<Character, List<Material>> map) {
-       adapter.setData(map);
+    public void onDataReceived(SortedMap<Character, List<Material>> materials) {
+        adapter.setData(materials);
     }
 
-    private void saveMyMaterials(final List<Material> materials) {
+    private void updateMyMaterials(final List<Material> materials) {
         Observable<List<Material>> observable = Observable.create(new ObservableOnSubscribe<List<Material>>() {
             @Override
             public void subscribe(ObservableEmitter<List<Material>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
                         for (Material material : materials) {
-                            material.setAdded(true);
-                            int count = material.getStockQuantity();
-                            material.setStockQuantity(count + 1);
+                            if (material.isAdded()) {
+                                material.setStockQuantity(1);
+                            } else {
+                                material.setStockQuantity(0);
+                            }
                             EasyTimeManager.getInstance().updateMaterial(material);
                         }
                         emitter.onNext(materials);
@@ -160,8 +154,12 @@ public class MaterialChooserFragment extends BaseFragment implements IDataView<S
     }
 
     @Override
-    public void onCheckedCountChange(int totalCount) {
-        String text = getResources().getString(R.string.add_materials, totalCount);
-        addMaterials.setText(text);
+    public void onCheckedChange(Material material, boolean isChecked) {
+        if (materialsToUpdate.contains(material)) {
+            materialsToUpdate.remove(material);
+        } else {
+            material.setAdded(isChecked);
+            materialsToUpdate.add(material);
+        }
     }
 }

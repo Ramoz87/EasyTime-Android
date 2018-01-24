@@ -67,6 +67,7 @@
     <string name="nav_trash">Delete</string>
     <string name="material_number">#%d</string>
     <string name="materials_count">count</string>
+    <string name="perform">Perform</string>
 
     <!--job info-->
     <string name="projects">Projects</string>

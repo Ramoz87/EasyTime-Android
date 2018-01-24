@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.materials.chooser;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,9 @@ import com.example.paralect.easytime.model.Material;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 
 /**
  * Created by alexei on 04.01.2018.
@@ -26,12 +23,7 @@ import butterknife.OnCheckedChanged;
 
 public class MaterialAlphabetAdapter extends AlphabetStickyAdapter<Material> {
 
-    private List<Material> checkedMaterials = new ArrayList<>();
-    private OnCheckedCountChangeListener onCheckedCountChangeListener;
-
-    public List<Material> getCheckedMaterials() {
-        return checkedMaterials;
-    }
+    private OnCheckedChangeListener onCheckedChangeListener;
 
     @Override
     public long getItemId(int i) {
@@ -53,12 +45,12 @@ public class MaterialAlphabetAdapter extends AlphabetStickyAdapter<Material> {
         return view;
     }
 
-    public void setOnCheckedCountChangeListener(OnCheckedCountChangeListener onCheckedCountChangeListener) {
-        this.onCheckedCountChangeListener = onCheckedCountChangeListener;
+    public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
+        this.onCheckedChangeListener = onCheckedChangeListener;
     }
 
-    public interface OnCheckedCountChangeListener {
-        void onCheckedCountChange(int totalCount);
+    public interface OnCheckedChangeListener {
+        void onCheckedChange(Material material, boolean isChecked);
     }
 
     class ViewHolder implements CompoundButton.OnCheckedChangeListener {
@@ -81,10 +73,8 @@ public class MaterialAlphabetAdapter extends AlphabetStickyAdapter<Material> {
 
         void bind(Material material) {
             this.material = material;
-            List<Material> checkedMaterials = adapter.getCheckedMaterials();
-            boolean isChecked = checkedMaterials.contains(material);
             checkBox.setOnCheckedChangeListener(null); // dirty
-            checkBox.setChecked(isChecked);
+            checkBox.setChecked(material.isAdded());
             checkBox.setOnCheckedChangeListener(this);
 
             materialName.setText(material.getName());
@@ -94,15 +84,9 @@ public class MaterialAlphabetAdapter extends AlphabetStickyAdapter<Material> {
 
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-            List<Material> checkedMaterials = adapter.checkedMaterials;
-            if (isChecked) {
-                checkedMaterials.add(material);
-            } else {
-                checkedMaterials.remove(material);
-            }
-            OnCheckedCountChangeListener listener = adapter.onCheckedCountChangeListener;
+            OnCheckedChangeListener listener = adapter.onCheckedChangeListener;
             if (listener != null) {
-                listener.onCheckedCountChange(checkedMaterials.size());
+                listener.onCheckedChange(material, isChecked);
             }
         }
     }

@@ -18,7 +18,7 @@
             android:textSize="16sp"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:text="@string/add_materials"
+            android:text="@string/perform"
             android:id="@+id/addMaterials"
             android:background="@color/blue"
             app:background="@color/blue"
