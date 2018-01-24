@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.main.materials;
 
+import android.animation.AnimatorInflater;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -21,6 +22,7 @@ import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.utils.ViewAnimationUtils;
+import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
 
 import java.util.ArrayList;
@@ -275,13 +277,17 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
 
         void transform(boolean primaryState) {
             if (primaryState) {
-                minus.setVisibility(View.VISIBLE);
-                plus.setImageResource(R.drawable.ic_plus_material);
+                // minus.setVisibility(View.VISIBLE);
+                AnimUtils.showWithAnimation(minus, 100, 100);
+                AnimUtils.performReincarnation(plus, R.drawable.ic_plus_material, 100, 0);
+                // plus.setImageResource(R.drawable.ic_plus_material);
                 plus.setOnClickListener(plusHandler);
 
             } else {
-                minus.setVisibility(View.GONE);
-                plus.setImageResource(R.drawable.ic_trash);
+                // minus.setVisibility(View.GONE);
+                AnimUtils.hideWithAnimation(minus, 100, 0);
+                // plus.setImageResource(R.drawable.ic_trash);
+                AnimUtils.performReincarnation(plus, R.drawable.ic_trash, 100, 0);
                 plus.setOnClickListener(remover);
             }
         }
