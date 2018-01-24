@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/mainBackground"
+    android:orientation="vertical"
+    android:id="@+id/bottom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/addBottom"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_margin="@dimen/list_item_horizontal_padding"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:text="@string/add_materials"
+            android:id="@+id/addMaterials"
+            android:background="@color/blue"
+            app:background="@color/blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        android:layout_above="@id/addBottom"
+        android:layout_alignParentTop="true"
+        android:id="@+id/sticky_list_headers_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

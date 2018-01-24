@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:padding="15dp"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:textSize="16sp"
-        android:textColor="@color/list_item_primary_text"
-        android:id="@+id/materialName"
-        android:text="@string/placeholder_material_name"
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:textSize="14sp"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/list_item_secondary_text"
-        android:id="@+id/materialNumber"
-        android:text="@string/placeholder_material_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:textSize="16sp"
+            android:textColor="@color/list_item_primary_text"
+            android:id="@+id/materialName"
+            android:text="@string/placeholder_material_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/list_item_secondary_text"
+            android:id="@+id/materialNumber"
+            android:text="@string/placeholder_material_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>

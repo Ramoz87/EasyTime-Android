@@ -7,6 +7,8 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.lang.*;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -171,5 +173,12 @@ public class Material implements Parcelable {
 
     public void setStockQuantity(int count) {
         this.stockQuantity = count;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object object) {
+        if (object == null || !(object instanceof Material)) return false;
+
+        return materialId.equals(((Material) object).getMaterialId());
     }
 }
