@@ -151,6 +151,6 @@ public class MaterialsFragment extends BaseFragment
 
     @Override
     public void onCompletion(KeypadEditorView editorView, String result) {
-        
+       keypad.toggle();
     }
 }
