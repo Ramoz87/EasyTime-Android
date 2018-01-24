@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.utils.ViewAnimationUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
@@ -97,18 +98,40 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         private Material material;
         private MaterialAdapter adapter;
         private MaterialEditingListener mMaterialEditingListener;
+        private final TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString();
+                if (TextUtil.isEmpty(text) || text.equalsIgnoreCase("0")) {
+                    count.setText("1");
+                } else {
+                    int value = Integer.parseInt(text);
+                    material.setStockQuantity(value);
+                    asyncUpdate(material, newUpdateObserver());
+                }
+            }
+        };
 
         private DisposableObserver<Material> newUpdateObserver() {
             return new DisposableObserver<Material>() {
                 @Override
                 public void onNext(Material material) {
-                    count.setText(String.valueOf(material.getStockQuantity()));
-                    count.setSelection(count.length());
+
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    e.printStackTrace();
+                    Logger.e(e);
                 }
 
                 @Override
@@ -174,18 +197,19 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
 
         @OnClick(R.id.plus)
         void plus(View view) {
-            view.startAnimation(incDec);
-            int result = changeCount(1);
-            material.setStockQuantity(result);
-            asyncUpdate(material, newUpdateObserver());
+            changeValue(view, 1);
         }
 
         @OnClick(R.id.minus)
         void minus(View view) {
+            changeValue(view, -1);
+        }
+
+        private void changeValue(View view, int diff) {
             view.startAnimation(incDec);
-            int result = changeCount(-1);
-            material.setStockQuantity(result);
-            asyncUpdate(material, newUpdateObserver());
+            int result = changeCount(diff);
+            count.setText(String.valueOf(result));
+            count.setSelection(count.length());
         }
 
         public ViewHolder(View itemView, MaterialAdapter adapter, MaterialEditingListener materialEditingListener) {
@@ -205,30 +229,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             number.setText(res.getString(R.string.material_number, material.getMaterialNr()));
             count.setText(String.valueOf(material.getStockQuantity()));
 
-            count.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    String text = s.toString();
-                    if (TextUtil.isNotEmpty(text)) {
-                        int value = Integer.parseInt(text);
-                        int result = changeCount(value);
-                        material.setStockQuantity(result);
-                        asyncUpdate(material, newUpdateObserver());
-                    } else {
-                        count.setText("1");
-                    }
-                }
-            });
+            count.addTextChangedListener(textWatcher);
         }
 
         private int changeCount(int diff) {
@@ -279,7 +280,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         mMaterialEditingListener = materialEditingListener;
     }
 
-    public interface MaterialEditingListener{
+    public interface MaterialEditingListener {
         void onItemEditingStarted(EditText editText);
     }
 }
