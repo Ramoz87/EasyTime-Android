@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
@@ -25,6 +26,7 @@ import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.views.KeypadEditorView;
 import com.github.clans.fab.FloatingActionButton;
 
 import java.util.List;
@@ -38,21 +40,17 @@ import butterknife.OnClick;
  */
 
 public class MaterialsFragment extends BaseFragment
-        implements IDataView<List<Material>> {
+        implements IDataView<List<Material>>,MaterialAdapter.MaterialEditingListener, KeypadEditorView.OnCompletionListener {
     private static final String TAG = MaterialsFragment.class.getSimpleName();
 
     private MaterialsPresenter presenter = new MaterialsPresenter();
     private MaterialAdapter adapter = new MaterialAdapter();
     private boolean primaryState = true;
 
-    @BindView(R.id.list)
-    EmptyRecyclerView list;
-
-    @BindView(R.id.placeholder)
-    View placeholder;
-
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
+    @BindView(R.id.list) EmptyRecyclerView list;
+    @BindView(R.id.placeholder) View placeholder;
+    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.keypad) KeypadEditorView keypad;
 
     @OnClick(R.id.fab)
     void onFabClick(FloatingActionButton fab) {
@@ -86,6 +84,7 @@ public class MaterialsFragment extends BaseFragment
     }
 
     private void init() {
+        adapter.setMaterialEditingListener(this);
         list.setEmptyView(placeholder);
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -93,6 +92,9 @@ public class MaterialsFragment extends BaseFragment
         int height = getResources().getInteger(R.integer.list_divider_height);
         RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height);
         list.addItemDecoration(decor);
+
+        keypad.collapse(false);
+        keypad.setOnCompletionListener(this);
     }
 
     private void initActionBar(ActionBar actionBar) {
@@ -137,5 +139,18 @@ public class MaterialsFragment extends BaseFragment
     private void updateMyMaterials() {
         presenter.setDataView(this)
                 .requestData(null);
+    }
+
+    @Override
+    public void onItemEditingStarted(EditText editText) {
+        if (!keypad.isExpanded()){
+            keypad.expand();
+        }
+        keypad.setupEditText(editText);
+    }
+
+    @Override
+    public void onCompletion(KeypadEditorView editorView, String result) {
+        
     }
 }

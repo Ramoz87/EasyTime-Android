@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/mainBackground"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:id="@+id/bottom"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/bottom"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/mainBackground"
+             android:gravity="center"
+             android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/placeholder"
@@ -14,53 +14,61 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatImageView
-                android:adjustViewBounds="true"
-                android:src="@drawable/data_placeholder"
                 android:layout_width="180dp"
-                android:layout_height="120dp" />
+                android:layout_height="120dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/data_placeholder"/>
 
             <android.support.v7.widget.AppCompatTextView
-                android:textColor="@color/dark_gray"
-                android:text="@string/add_your_materials"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/add_your_materials"
+                android:textColor="@color/dark_gray"/>
 
         </LinearLayout>
 
         <android.support.v7.widget.AppCompatImageView
-            android:adjustViewBounds="true"
-            android:layout_gravity="bottom|end"
-            android:src="@drawable/arrow_add_material"
-            android:layout_marginRight="@dimen/arrow_add_right_margin"
-            android:layout_marginBottom="@dimen/arrow_add_bottom_margin"
             android:layout_width="34dp"
-            android:layout_height="48dp" />
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="@dimen/arrow_add_bottom_margin"
+            android:layout_marginRight="@dimen/arrow_add_right_margin"
+            android:adjustViewBounds="true"
+            android:src="@drawable/arrow_add_material"/>
 
     </FrameLayout>
 
     <com.example.paralect.easytime.views.EmptyRecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
     <com.github.clans.fab.FloatingActionButton
-        app:fab_colorPressed="@color/dark_blue"
-        app:fab_colorRipple="@color/blue"
-        app:fab_colorNormal="@color/blue"
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="@dimen/fab_bottom_margin"
         android:layout_marginRight="@dimen/fab_right_margin"
-        app:backgroundTint="@color/white"
-        android:tint="@color/white"
         android:src="@drawable/ic_plus"
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:tint="@color/white"
+        app:backgroundTint="@color/white"
+        app:fab_colorNormal="@color/blue"
+        app:fab_colorPressed="@color/dark_blue"
+        app:fab_colorRipple="@color/blue"/>
+
+    <com.example.paralect.easytime.views.KeypadEditorView
+        android:id="@+id/keypad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:elevation="5dp"/>
+
 </FrameLayout>
