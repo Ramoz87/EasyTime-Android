@@ -2,32 +2,63 @@ package com.example.paralect.easytime.main.materials.chooser;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.AbsStickyFragment;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.CalendarUtils;
 
 import java.util.List;
 import java.util.SortedMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by alexei on 04.01.2018.
  */
 
-public class MaterialChooserFragment extends AbsStickyFragment implements IDataView<SortedMap<Character,List<Material>>> {
+public class MaterialChooserFragment extends BaseFragment implements IDataView<SortedMap<Character,List<Material>>>, MaterialAlphabetAdapter.OnCheckedCountChangeListener {
+
+    @BindView(R.id.sticky_list_headers_list_view)
+    StickyListHeadersListView listView;
+
+    @BindView(R.id.addMaterials)
+    Button addMaterials;
+
+    @OnClick(R.id.addMaterials)
+    void addMaterials(Button button) {
+        List<Material> materials = adapter.getCheckedMaterials();
+        saveMyMaterials(materials);
+    }
 
     private MaterialChooserPresenter presenter = new MaterialChooserPresenter();
     private MaterialAlphabetAdapter adapter = new MaterialAlphabetAdapter();
@@ -42,15 +73,25 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        presenter.setDataView(this)
-                .requestData(null);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_material_chooser, parent, false);
     }
 
+    @CallSuper
     @Override
-    public StickyListHeadersAdapter buildAdapter() {
-        return adapter;
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        init();
+    }
+
+    private void init() {
+        MaterialAlphabetAdapter adapter = this.adapter;
+        adapter.setOnCheckedCountChangeListener(this);
+        listView.setAdapter(adapter);
+        presenter.setDataView(this)
+                .requestData(null);
+        onCheckedCountChange(0);
     }
 
     @Override
@@ -76,9 +117,51 @@ public class MaterialChooserFragment extends AbsStickyFragment implements IDataV
        adapter.setData(map);
     }
 
+    private void saveMyMaterials(final List<Material> materials) {
+        Observable<List<Material>> observable = Observable.create(new ObservableOnSubscribe<List<Material>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<Material>> emitter) throws Exception {
+                try {
+                    if (!emitter.isDisposed()) {
+                        for (Material material : materials) {
+                            material.setAdded(true);
+                            int count = material.getStockQuantity();
+                            material.setStockQuantity(count + 1);
+                            EasyTimeManager.getInstance().updateMaterial(material);
+                        }
+                        emitter.onNext(materials);
+                        emitter.onComplete();
+                    }
+
+                } catch (Throwable e) {
+                    emitter.onError(e);
+                }
+            }
+        });
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableObserver<List<Material>>() {
+                    @Override
+                    public void onNext(List<Material> materials1) {
+                        MaterialChooserFragment.this.getMainActivity().jumpToRoot();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Fragment fragment = MaterialEditorFragment.newInstance(adapter.getItem(i));
-        getMainActivity().getFragmentNavigator().pushFragment(fragment);
+    public void onCheckedCountChange(int totalCount) {
+        String text = getResources().getString(R.string.add_materials, totalCount);
+        addMaterials.setText(text);
     }
 }
