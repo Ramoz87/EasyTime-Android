@@ -46,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content" />
 
-        <FrameLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:id="@+id/keypadNext"
             app:layout_gravity="fill"
             app:layout_rowSpan="2"
@@ -57,15 +58,22 @@
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_gravity="center"
-                android:drawableBottom="@drawable/ic_next"
-                android:drawablePadding="1dp"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:text="@string/next"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>
 
-        </FrameLayout>
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="14dp" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:src="@drawable/ic_next"
+                android:layout_width="37dp"
+                android:layout_height="37dp" />
+
+        </LinearLayout>
 
         <include layout="@layout/include_keypad_number_item"
             android:id="@+id/id4"
@@ -137,8 +145,8 @@
                 android:tint="@color/delete"
                 android:textSize="18sp"
                 android:text="@string/next"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                android:layout_height="37dp"
+                android:layout_width="37dp" />
 
         </FrameLayout>
 
