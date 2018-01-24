@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/bottom"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@color/mainBackground"
-             android:gravity="center"
-             android:orientation="vertical">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/bottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/mainBackground"
+                android:gravity="center"
+                android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/placeholder"
@@ -47,17 +47,20 @@
 
     <com.example.paralect.easytime.views.EmptyRecyclerView
         android:id="@+id/list"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/keypad"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/keypad"
+        android:layout_alignParentTop="true"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="80dp"/>
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/fab_bottom_margin"
         android:layout_marginRight="@dimen/fab_right_margin"
         android:src="@drawable/ic_plus"

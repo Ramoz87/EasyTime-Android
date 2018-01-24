@@ -2,6 +2,8 @@ package com.example.paralect.easytime.main.materials;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.utils.TextUtil;
+import com.example.paralect.easytime.utils.ViewAnimationUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
 
 import java.util.ArrayList;
@@ -194,12 +198,37 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             mMaterialEditingListener = materialEditingListener;
         }
 
-        void bind(Material material) {
+        void bind(final Material material) {
             this.material = material;
             name.setText(material.getName());
             Resources res = itemView.getResources();
             number.setText(res.getString(R.string.material_number, material.getMaterialNr()));
             count.setText(String.valueOf(material.getStockQuantity()));
+
+            count.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String text = s.toString();
+                    if (TextUtil.isNotEmpty(text)) {
+                        int value = Integer.parseInt(text);
+                        int result = changeCount(value);
+                        material.setStockQuantity(result);
+                        asyncUpdate(material, newUpdateObserver());
+                    } else {
+                        count.setText("1");
+                    }
+                }
+            });
         }
 
         private int changeCount(int diff) {
