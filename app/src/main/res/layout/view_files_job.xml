@@ -65,16 +65,17 @@
         android:background="@drawable/dashed_border">
 
         <Button
+            android:padding="15dp"
             android:id="@+id/gallery_start_capture_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:textColor="@color/gray_blue"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@drawable/selector_ripple"
             android:drawableTop="@drawable/ic_add_a_photo_gray"
+            android:drawablePadding="0dp"
             android:text="@string/project_detail_add_photo"/>
 
     </FrameLayout>
-
 
 </FrameLayout>
