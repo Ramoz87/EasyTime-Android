@@ -29,6 +29,7 @@ import org.apache.commons.collections.ListUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.paralect.easytime.model.Constants.DRIVING;
@@ -412,25 +413,35 @@ public final class EasyTimeManager {
     }
 
     public List<Expense> getAllExpenses(String jobId) {
-        List<Expense> expenses = new ArrayList<>();
+        List<Expense> allExpenses = new ArrayList<>();
         try {
+            List<String> ids = new ArrayList<>();
+            ids.add(jobId);
+            Dao<Project, String> projectDao = helper.getProjectDao();
+            Project project = projectDao.queryForId(jobId);
+            if (project != null) {
+                Log.d(TAG, "its a project, query should be also performed for all objects");
+                ids.addAll(Arrays.asList(project.getObjectIds()));
+            }
             Dao<Expense, Long> expenseDao = helper.getExpenseDao();
             Dao<Material, String> materialDao = helper.getMaterialDao();
-            List<Expense> foundExpense = expenseDao.queryForEq("jobId", jobId);
-            Log.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
-            for (Expense exp : foundExpense) {
-                if (exp.isMaterialExpense()) {
-                    String materialId = exp.getMaterialId();
-                    Log.d(TAG, String.format("material id for curr expense = %s", materialId));
-                    Material material = materialDao.queryForId(materialId);
-                    exp.setMaterial(material);
+            for (String id : ids) {
+                List<Expense> foundExpense = expenseDao.queryForEq("jobId", id);
+                Log.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
+                for (Expense exp : foundExpense) {
+                    if (exp.isMaterialExpense()) {
+                        String materialId = exp.getMaterialId();
+                        Log.d(TAG, String.format("material id for curr expense = %s", materialId));
+                        Material material = materialDao.queryForId(materialId);
+                        exp.setMaterial(material);
+                    }
                 }
-                expenses.add(exp);
+                allExpenses.addAll(foundExpense);
             }
         } catch (SQLException e) {
             Logger.e(e.getMessage());
         }
-        return expenses;
+        return allExpenses;
     }
 
     public Expense saveExpense(Expense expense) throws SQLException {
