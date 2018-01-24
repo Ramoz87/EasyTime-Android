@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
@@ -29,7 +28,7 @@ public class ObjectsOfProjectAdapter extends AlphabetStickyAdapter<Object> {
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-            view = inflater.inflate(R.layout.item_object, viewGroup, false);
+            view = inflater.inflate(R.layout.item_project, viewGroup, false);
             ViewHolder vh = new ViewHolder(view);
             view.setTag(vh);
         }

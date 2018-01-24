@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.projects;
 
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.utils.CollectionUtils;
@@ -23,7 +22,6 @@ import butterknife.ButterKnife;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 import static com.example.paralect.easytime.model.ProjectType.Type.TYPE_OBJECT;
-import static com.example.paralect.easytime.model.ProjectType.Type.TYPE_ORDER;
 import static com.example.paralect.easytime.model.ProjectType.Type.TYPE_PROJECT;
 
 /**
@@ -82,35 +80,15 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
     public View getView(int i, View view, ViewGroup viewGroup) {
         int type = getItemViewType(i);
         if (view == null) { // creating if view is null
-            if (type == TYPE_PROJECT) {
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                view = inflater.inflate(R.layout.item_project, viewGroup, false);
-                JobViewHolder vh = new JobViewHolder(view);
-                view.setTag(vh);
-            } else if (type == TYPE_ORDER) {
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                view = inflater.inflate(R.layout.item_order, viewGroup, false);
-                OrderViewHolder vh = new OrderViewHolder(view);
-                view.setTag(vh);
-            } else if (type == TYPE_OBJECT) {
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                view = inflater.inflate(R.layout.item_object, viewGroup, false);
-                ObjectViewHolder vh = new ObjectViewHolder(view);
-                view.setTag(vh);
-            } else view = new View(viewGroup.getContext());
+            LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+            view = inflater.inflate(R.layout.item_project, viewGroup, false);
+            JobViewHolder vh = new JobViewHolder(view);
+            view.setTag(vh);
         }
 
         // binding
-        if (type == TYPE_PROJECT) {
-            JobViewHolder vh = (JobViewHolder) view.getTag();
-            vh.bind(getItem(i));
-        } else if (type == TYPE_ORDER) {
-            OrderViewHolder vh = (OrderViewHolder) view.getTag();
-            vh.bind(getItem(i));
-        } else if (type == TYPE_OBJECT) {
-            ObjectViewHolder vh = (ObjectViewHolder) view.getTag();
-            vh.bind(getItem(i));
-        }
+        JobViewHolder vh = (JobViewHolder) view.getTag();
+        vh.bind(getItem(i));
 
         return view;
     }
@@ -140,7 +118,6 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         @BindView(R.id.jobStatus) TextView jobStatus;
         @BindView(R.id.jobCustomer) TextView jobCustomer;
         @BindView(R.id.jobNumber) TextView jobNumber;
-        @Nullable
         @BindView(R.id.job_address_and_date) TextView addressAndDate;
 
         JobViewHolder(View itemView) {
@@ -153,42 +130,15 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
             jobCustomer.setText(job.getCustomer().getCompanyName());
             String number = jobNumber.getResources().getString(R.string.job_number, job.getNumber());
             jobNumber.setText(number);
-
             jobStatus.setText(job.getStatus().getName());
-        }
-    }
-
-    static class OrderViewHolder extends JobViewHolder {
-
-        OrderViewHolder(View itemView) {
-            super(itemView);
-        }
-
-        void bind(Order order) {
-            super.bind(order);
-            // bind address and date
-            if (addressAndDate != null) {
-                String addressAndDateString = order.getAddress().getStreet() + ", " + order.getDeliveryTime();
-                addressAndDate.setText(addressAndDateString);
-            }
-        }
-    }
-
-    static class ObjectViewHolder extends OrderViewHolder {
-
-        ObjectViewHolder(View itemView) {
-            super(itemView);
-        }
-
-        void bind(Object object) {
-            super.bind(object);
-            // address and date
-            if (addressAndDate != null) {
-                String addressAndDateString = object.getAddress()
-                        .getStreet()
-                        + ", "
-                        + object.getDateStart();
-                addressAndDate.setText(addressAndDateString);
+            if (job.getProjectType() == ProjectType.Type.TYPE_ORDER) {
+                addressAndDate.setVisibility(View.VISIBLE);
+                Order order = (Order) job;
+                Address address = order.getAddress();
+                String text = address.toString() + ", " + order.getDeliveryTime();
+                addressAndDate.setText(text);
+            } else {
+                addressAndDate.setVisibility(View.GONE);
             }
         }
     }

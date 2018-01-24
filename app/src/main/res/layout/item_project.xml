@@ -12,9 +12,16 @@
 
     <include layout="@layout/include_job_name_and_status" />
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="3dp" />
+    <android.support.v7.widget.AppCompatTextView
+        android:visibility="gone"
+        android:textSize="12sp"
+        android:drawableLeft="@drawable/ic_address"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:text="@string/placeholder_address_date"
+        android:id="@+id/job_address_and_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <include layout="@layout/include_job_number_and_customer" />
 </LinearLayout>
