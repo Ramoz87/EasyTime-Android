@@ -69,6 +69,12 @@ public class MaterialAlphabetAdapter extends AlphabetStickyAdapter<Material> {
         ViewHolder(View itemView, MaterialAlphabetAdapter adapter) {
             ButterKnife.bind(this, itemView);
             this.adapter = adapter;
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkBox.setChecked(!checkBox.isChecked());
+                }
+            });
         }
 
         void bind(Material material) {
