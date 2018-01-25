@@ -63,8 +63,8 @@ public final class AnimUtils {
 
     public static void performReincarnation(@NonNull final ImageView imageView, final Drawable afterReincarnation, int durToHide, int durToShow, int delay) {
         Context context = imageView.getContext();
-        final Animation inc = AnimationUtils.loadAnimation(context, R.anim.full_inc);
-        final Animation dec = AnimationUtils.loadAnimation(context, R.anim.full_dec);
+        final Animation inc = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+        final Animation dec = AnimationUtils.loadAnimation(context, R.anim.fade_out);
         dec.setDuration(durToHide);
         inc.setDuration(durToShow);
         dec.setAnimationListener(new Animation.AnimationListener() {
@@ -96,7 +96,7 @@ public final class AnimUtils {
 
     public static void hideWithAnimation(@NonNull View view, int duration, int delay) {
         Context context = view.getContext();
-        final Animation dec = AnimationUtils.loadAnimation(context, R.anim.full_dec);
+        final Animation dec = AnimationUtils.loadAnimation(context, R.anim.fade_out);
         dec.setAnimationListener(newDisappearingAnimListener(view));
         dec.setDuration(duration);
         dec.setStartOffset(delay);
@@ -105,7 +105,7 @@ public final class AnimUtils {
 
     public static void showWithAnimation(@NonNull View view, int duration, int delay) {
         Context context = view.getContext();
-        final Animation inc = AnimationUtils.loadAnimation(context, R.anim.full_inc);
+        final Animation inc = AnimationUtils.loadAnimation(context, R.anim.fade_in);
         inc.setAnimationListener(newAppearingAnimListener(view));
         inc.setDuration(duration);
         inc.setStartOffset(delay);
