@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     private FragNavController mNavController;
 
     final FragNavTransactionOptions options = FragNavTransactionOptions.newBuilder()
-            .customAnimations(R.anim.fade_in, R.anim.fade_out)
+            .customAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
             .allowStateLoss(false)
             .build();
 
