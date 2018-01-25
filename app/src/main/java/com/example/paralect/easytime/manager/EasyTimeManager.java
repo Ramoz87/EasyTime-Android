@@ -298,15 +298,11 @@ public final class EasyTimeManager {
     }
     // endregion
 
-    public List<Material> getMaterials() {
-        List<Material> materials = new ArrayList<>();
-        try {
-            Dao<Material, String> dao = helper.getMaterialDao();
-            materials.addAll(dao.queryForAll());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return materials;
+    public List<Material> getMaterials(String query) throws SQLException {
+        Dao<Material, String> dao = helper.getMaterialDao();
+        QueryBuilder<Material, String> qb = dao.queryBuilder();
+        qb.where().like("name", "%" + query + "%");
+        return qb.query();
     }
 
     public List<Customer> getCustomers(String query) {

@@ -5,6 +5,7 @@ import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.MaterialComparator;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.Sorter;
 
 import java.util.Comparator;
@@ -39,7 +40,8 @@ public class MaterialChooserPresenter extends SearchViewPresenter<SortedMap<Char
             public void subscribe(ObservableEmitter<SortedMap<Character, List<Material>>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        List<Material> materials = EasyTimeManager.getInstance().getMaterials();
+                        String query = parameters[0];
+                        List<Material> materials = EasyTimeManager.getInstance().getMaterials(query);
                         SortedMap<Character, List<Material>> map = sorter.getSortedItems(materials, comparator);
                         emitter.onNext(map);
                         emitter.onComplete();
@@ -62,7 +64,7 @@ public class MaterialChooserPresenter extends SearchViewPresenter<SortedMap<Char
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        Logger.e(e);
                     }
 
                     @Override
