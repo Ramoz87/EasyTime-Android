@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mNavController.popFragment();
+                mNavController.popFragment(options);
                 return true;
         }
         return false;
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     @Override
     public void onBackPressed() {
-        if (!mNavController.popFragment())
+        if (!mNavController.popFragment(options))
             super.onBackPressed();
     }
 
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
         if (requestCode == REQUEST_CODE_CONGRATULATIONS) {
             Log.d(TAG, "returned from Congratulations screen");
-            mNavController.clearStack();
+            mNavController.clearStack(options);
         }
     }
 
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         bottomBar.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
-                mNavController.clearStack();
+                mNavController.clearStack(options);
             }
         });
     }
@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     }
 
     public void jumpToRoot() {
-        mNavController.clearStack();
+        mNavController.clearStack(options);
     }
     // endregion
     // endregion
