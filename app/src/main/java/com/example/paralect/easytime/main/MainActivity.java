@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         super.onActivityResult(requestCode, resultCode, data);
 
         // Send event to subscribers
+        Log.d(TAG, String.format("on activity result: request code = %s, result code = %s, data = %s", requestCode, resultCode, data));
         ResultEvent event = new ResultEvent(requestCode, resultCode, data);
         RxBus.getInstance().send(event);
 

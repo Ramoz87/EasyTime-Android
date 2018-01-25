@@ -39,6 +39,7 @@ abstract class FilesPresenter<DATA, E> extends RxBus.Observer<ResultEvent> imple
 
     @Override
     public void onNext(ResultEvent event) {
+        if (event.getResultCode() == Activity.RESULT_CANCELED) return;
         if (mView != null) {
             Activity activity = IntentUtils.getActivity(mView.getViewContext());
             if (!IntentUtils.isFinishing(activity) && event.getRequestCode() == REQUEST_CODE_CAMERA) {
