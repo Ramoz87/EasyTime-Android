@@ -197,7 +197,6 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         boolean onCountTouch(View v, MotionEvent ev) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 v.requestFocus();
-                count.setSelection(0, count.getText().toString().length());
                 if (mMaterialEditingListener != null)
                     mMaterialEditingListener.onItemEditingStarted(count);
                 return true;
@@ -272,18 +271,19 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         }
 
         void transform(boolean primaryState) {
+            final int halfDur = 100;
             if (primaryState) {
                 // minus.setVisibility(View.VISIBLE);
-                AnimUtils.showWithAnimation(minus, 100, 100);
-                AnimUtils.performReincarnation(plus, R.drawable.ic_plus_material, 100, 0);
+                AnimUtils.showWithAnimation(minus, halfDur, halfDur);
+                AnimUtils.performReincarnation(plus, R.drawable.ic_plus_material, halfDur, halfDur, 0);
                 // plus.setImageResource(R.drawable.ic_plus_material);
                 plus.setOnClickListener(plusHandler);
 
             } else {
                 // minus.setVisibility(View.GONE);
-                AnimUtils.hideWithAnimation(minus, 100, 0);
+                AnimUtils.hideWithAnimation(minus, halfDur, 0);
                 // plus.setImageResource(R.drawable.ic_trash);
-                AnimUtils.performReincarnation(plus, R.drawable.ic_trash, 100, 0);
+                AnimUtils.performReincarnation(plus, R.drawable.ic_trash, halfDur, halfDur, 0);
                 plus.setOnClickListener(remover);
             }
         }
