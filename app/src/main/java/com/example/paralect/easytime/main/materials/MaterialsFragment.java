@@ -48,7 +48,7 @@ public class MaterialsFragment extends BaseFragment
 
     private MaterialsPresenter presenter = new MaterialsPresenter();
     private MaterialAdapter adapter = new MaterialAdapter();
-    private boolean primaryState = true;
+    private boolean primaryState;
 
     @BindView(R.id.list) EmptyRecyclerView list;
     @BindView(R.id.placeholder) View placeholder;
@@ -87,6 +87,7 @@ public class MaterialsFragment extends BaseFragment
     }
 
     private void init() {
+        primaryState = true;
         adapter.setMaterialEditingListener(this);
         list.setEmptyView(placeholder);
         list.setAdapter(adapter);
