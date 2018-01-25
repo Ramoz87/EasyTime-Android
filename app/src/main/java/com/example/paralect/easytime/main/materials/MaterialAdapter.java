@@ -193,15 +193,11 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             }
         };
 
-//        @OnFocusChange(R.id.materialCount)
-//        public void onFocusChanged(View v, boolean hasFocus){
-//
-//        }
-
         @OnTouch(R.id.materialCount)
         boolean onCountTouch(View v, MotionEvent ev) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 v.requestFocus();
+                count.setSelection(0, count.getText().toString().length());
                 if (mMaterialEditingListener != null)
                     mMaterialEditingListener.onItemEditingStarted(count);
                 return true;
