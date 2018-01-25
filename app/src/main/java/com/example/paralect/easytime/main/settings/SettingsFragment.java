@@ -23,15 +23,6 @@ import butterknife.OnClick;
 public class SettingsFragment extends BaseFragment {
     private static final String TAG = SettingsFragment.class.getSimpleName();
 
-//    @BindView(R.id.helpLayout)
-//    View helpLayout;
-//
-//    @BindView(R.id.sendFeedbackLayout)
-//    View sendFeedbackLayout;
-//
-//    @BindView(R.id.logoutLayout)
-//    View logoutLayout;
-
     @OnClick(R.id.helpLayout)
     void help() {
 
