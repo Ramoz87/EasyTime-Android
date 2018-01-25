@@ -49,6 +49,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
     private List<Material> materials;
     private List<ViewHolder> viewHolders = new ArrayList<>();
     private MaterialEditingListener mMaterialEditingListener;
+    private boolean primaryState = true;
 
     public MaterialAdapter() {
 
@@ -59,9 +60,11 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public void transform(boolean primaryStage) {
+    public void transform(boolean primaryState) {
+        if (this.primaryState == primaryState) return;
+        this.primaryState = primaryState;
         for (ViewHolder holder : viewHolders) {
-            holder.transform(primaryStage);
+            holder.transform(primaryState);
         }
     }
 
@@ -231,6 +234,10 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         }
 
         void bind(final Material material) {
+            boolean primaryState = adapter.primaryState;
+            minus.setVisibility(primaryState ? View.VISIBLE : View.GONE);
+            plus.setImageResource(primaryState ? R.drawable.ic_plus_material : R.drawable.ic_trash);
+
             this.material = material;
             name.setText(material.getName());
             Resources res = itemView.getResources();
