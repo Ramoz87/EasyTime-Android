@@ -197,6 +197,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         boolean onCountTouch(View v, MotionEvent ev) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 v.requestFocus();
+                count.setSelection(0, count.getText().toString().length());
                 if (mMaterialEditingListener != null)
                     mMaterialEditingListener.onItemEditingStarted(count);
                 return true;
