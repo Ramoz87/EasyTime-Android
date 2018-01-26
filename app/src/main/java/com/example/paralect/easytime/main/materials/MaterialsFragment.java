@@ -204,4 +204,14 @@ public class MaterialsFragment extends BaseFragment
             }
         }
     }
+
+    @Override
+    public boolean onBackPressed() {
+        if (keypad.isExpanded()) {
+            keypad.collapse();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

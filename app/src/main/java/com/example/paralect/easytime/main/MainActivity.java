@@ -90,6 +90,13 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     @Override
     public void onBackPressed() {
+        Fragment current = mNavController.getCurrentFrag();
+        boolean result = false;
+        if (current != null) {
+            result = ((BaseFragment) current).onBackPressed();
+        }
+        if (result) return;
+
         if (keypadEditorView.isExpanded()) { // first we need to close out keyboard
             keypadEditorView.collapse();
             return;

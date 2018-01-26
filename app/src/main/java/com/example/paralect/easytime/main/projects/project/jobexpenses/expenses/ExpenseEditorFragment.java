@@ -91,6 +91,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
             keypadEditorView.setOnCompletionListener(this);
             keypadEditorView.setupEditText(expenseCount);
+            keypadEditorView.expand();
         }
     }
 

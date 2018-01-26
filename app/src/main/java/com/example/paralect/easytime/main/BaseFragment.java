@@ -65,4 +65,11 @@ public abstract class BaseFragment extends Fragment {
         getKeypadEditor().collapse();
     }
 
+    /**
+     * @return false if fragment does not want to handle back press, true - if it does
+     */
+    public boolean onBackPressed() {
+        return false;
+    }
+
 }
