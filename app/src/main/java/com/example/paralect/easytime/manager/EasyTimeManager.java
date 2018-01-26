@@ -33,6 +33,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.example.paralect.easytime.model.Constants.DRIVING;
+import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
+import static com.example.paralect.easytime.model.Type.TypeName.WORK_TYPE;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -85,8 +87,12 @@ public final class EasyTimeManager {
         }
     }
 
+    public List<Type> getWorkTypes() {
+        return getTypes(WORK_TYPE);
+    }
+
     public List<Type> getStatuses() {
-        return getTypes("STATUS");
+        return getTypes(STATUS);
     }
 
     public List<Type> getTypes(String type) {
