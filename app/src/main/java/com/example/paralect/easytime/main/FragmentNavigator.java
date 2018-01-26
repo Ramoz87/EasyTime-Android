@@ -8,4 +8,9 @@ import android.support.v4.app.Fragment;
 
 public interface FragmentNavigator {
     void pushFragment(Fragment newFragment);
+
+    void popFragments(int depth);
+
+    void popToFragment(int depth);
+
 }

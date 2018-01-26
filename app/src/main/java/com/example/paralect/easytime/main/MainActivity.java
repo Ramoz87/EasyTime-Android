@@ -19,6 +19,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.customers.CustomersFragment;
 import com.example.paralect.easytime.main.materials.MaterialsFragment;
 import com.example.paralect.easytime.main.projects.ProjectsFragment;
+import com.example.paralect.easytime.main.projects.project.jobexpenses.time.TimeExpensesFragment;
 import com.example.paralect.easytime.main.settings.SettingsFragment;
 import com.example.paralect.easytime.model.event.ResultEvent;
 import com.example.paralect.easytime.utils.RxBus;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     final FragNavTransactionOptions options = FragNavTransactionOptions.newBuilder()
             .customAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-            .allowStateLoss(false)
+            .allowStateLoss(true)
             .build();
 
     @BindView(R.id.navigationView) BottomNavigationView bottomBar;
@@ -251,6 +252,18 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     @Override
     public void pushFragment(Fragment fragment) {
         mNavController.pushFragment(fragment, options);
+    }
+
+    @Override
+    public void popFragments(int depth) {
+        mNavController.popFragments(depth, options);
+    }
+
+    @Override
+    public void popToFragment(int depth) {
+        int stack = mNavController.getSize();
+        int size = stack - depth;
+        popFragments(size);
     }
 
     public FragmentNavigator getFragmentNavigator() {
