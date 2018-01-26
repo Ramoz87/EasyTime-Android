@@ -75,11 +75,11 @@ public class Expense implements Parcelable {
         return expense;
     }
 
-    public static Expense createTimeExpense(Job job, int hours, int minutes) {
+    public static Expense createTimeExpense(Job job, com.example.paralect.easytime.model.Type type, int hours, int minutes) {
         long total = hours * 60 + minutes;
         Expense expense = new Expense();
         expense.setType(Expense.Type.TIME);
-        expense.setName(job.getName());
+        expense.setName(type.getName());
         expense.setJobId(job.getJobId());
         expense.setValue(total);
         return expense;

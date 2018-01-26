@@ -15,6 +15,7 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.StrangeNumberInputView;
@@ -29,7 +30,6 @@ import butterknife.ButterKnife;
 public class TimeExpensesFragment extends BaseFragment implements StrangeNumberInputView.OnChangeListener {
 
     public static final String TAG = TimeExpensesFragment.class.getSimpleName();
-    public static final String ARG_JOB = "arg_job";
 
     private final int MAX_HOURS = 23;
     private final int MAX_MINS = 59;
@@ -39,10 +39,12 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
     @BindView(R.id.time_exp_minutes_view) StrangeNumberInputView minutesView;
 
     private Job job;
+    private Type type;
 
-    public static TimeExpensesFragment newInstance(@NonNull Job parcelable) {
+    public static TimeExpensesFragment newInstance(@NonNull Job parcelable, Type type) {
         Bundle args = new Bundle();
-        args.putParcelable(ARG_JOB, parcelable);
+        args.putParcelable(Job.TAG, parcelable);
+        args.putParcelable(Type.TAG, type);
         TimeExpensesFragment fragment = new TimeExpensesFragment();
         fragment.setArguments(args);
         return fragment;
@@ -51,7 +53,8 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        job = getJobArg();
+        job = Job.getJob(getArguments());
+        type = Type.getType(getArguments());
     }
 
     @Nullable
@@ -92,13 +95,6 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
         return true;
     }
 
-    private Job getJobArg() {
-        Bundle args = getArguments();
-        if (args != null && args.containsKey(ARG_JOB))
-            return args.getParcelable(ARG_JOB);
-        else return null;
-    }
-
     @Override
     public void onSelected(StrangeNumberInputView view, boolean isSelected) {
 
@@ -122,7 +118,7 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
         try {
             int hours = hoursView.getIntValue();
             int minutes = minutesView.getIntValue();
-            Expense expense = Expense.createTimeExpense(job, hours, minutes);
+            Expense expense = Expense.createTimeExpense(job, type, hours, minutes);
             expense = EasyTimeManager.getInstance().saveExpense(expense);
             Logger.d(TAG, "Expense created");
         } catch (Throwable e) {

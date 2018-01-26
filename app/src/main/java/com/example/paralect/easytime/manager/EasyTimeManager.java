@@ -87,15 +87,11 @@ public final class EasyTimeManager {
         }
     }
 
-    public List<Type> getWorkTypes() {
-        return getTypes(WORK_TYPE);
-    }
-
     public List<Type> getStatuses() {
         return getTypes(STATUS);
     }
 
-    public List<Type> getTypes(String type) {
+    public List<Type> getTypes(@Type.TypeName String type) {
         try {
             Dao<Type, String> dao = helper.getTypeDao();
             if (!TextUtils.isEmpty(type)) {

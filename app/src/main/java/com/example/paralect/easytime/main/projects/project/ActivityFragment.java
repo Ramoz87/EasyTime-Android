@@ -27,7 +27,7 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
-import com.example.paralect.easytime.main.projects.project.jobexpenses.time.TimeExpensesFragment;
+import com.example.paralect.easytime.main.projects.project.jobexpenses.time.WorkTypeFragment;
 import com.example.paralect.easytime.main.projects.project.objectsofproject.ObjectsOfProjectFragment;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
@@ -70,9 +70,9 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         Job job = getJobArg();
         Fragment fragment;
         if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT)
-            fragment = ObjectsOfProjectFragment.newInstance((Project) job, TimeExpensesFragment.TAG);
+            fragment = ObjectsOfProjectFragment.newInstance((Project) job, WorkTypeFragment.TAG);
         else
-            fragment = TimeExpensesFragment.newInstance(job);
+            fragment = WorkTypeFragment.newInstance(job);
 
         getMainActivity().pushFragment(fragment);
     }

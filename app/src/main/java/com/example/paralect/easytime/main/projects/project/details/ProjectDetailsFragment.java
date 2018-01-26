@@ -69,8 +69,8 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
         // getMainActivity().jumpToRoot();
     }
 
-//    private ProjectExpensesAdapter adapter = new ProjectExpensesAdapter();
-private ActivityAdapter adapter = new ActivityAdapter();
+    //    private ProjectExpensesAdapter adapter = new ProjectExpensesAdapter();
+    private ActivityAdapter adapter = new ActivityAdapter();
     private ProjectExpensesPresenter presenter = new ProjectExpensesPresenter();
 
     private Animation fadeIn;
@@ -158,7 +158,7 @@ private ActivityAdapter adapter = new ActivityAdapter();
         emptyRecyclerView.addItemDecoration(decor);
 
         presenter.setDataView(this)
-                .requestData(new String[] { job.getJobId() });
+                .requestData(new String[]{job.getJobId()});
     }
 
     private void initOverlay() {

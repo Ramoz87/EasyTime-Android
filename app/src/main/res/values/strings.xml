@@ -143,6 +143,8 @@
     <string name="time_exp_hours">Hours</string>
     <string name="time_exp_minutes">Minutes</string>
 
+    <string name="time_exp_choose_work">Choose your work</string>
+
     <!--congratulations-->
     <string name="congratulations">Congratulations!</string>
     <string name="ur_invoice_has_been_sent">Your invoice has been sent</string>
