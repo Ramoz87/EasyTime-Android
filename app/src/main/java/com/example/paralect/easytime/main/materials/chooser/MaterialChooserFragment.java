@@ -3,6 +3,7 @@ package com.example.paralect.easytime.main.materials.chooser;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
@@ -66,7 +67,7 @@ public class MaterialChooserFragment extends BaseFragment implements IDataView<S
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_material_chooser, parent, false);
     }
 

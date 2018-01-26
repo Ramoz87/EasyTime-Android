@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.projects.project.objectsofproject;
 
-import android.content.ClipData;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,13 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
-import com.example.paralect.easytime.main.projects.project.jobexpenses.time.TimeExpensesFragment;
+import com.example.paralect.easytime.main.projects.project.jobexpenses.time.WorkTypeFragment;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Project;
@@ -134,8 +132,8 @@ public class ObjectsOfProjectFragment extends AbsStickyFragment implements IData
         if (TextUtil.isNotEmpty(fragmentName)) {
             Fragment fragment = null;
 
-            if (fragmentName.equalsIgnoreCase(TimeExpensesFragment.TAG))
-                fragment = TimeExpensesFragment.newInstance(job);
+            if (fragmentName.equalsIgnoreCase(WorkTypeFragment.TAG))
+                fragment = WorkTypeFragment.newInstance(job);
 
             else if (fragmentName.equalsIgnoreCase(ExpensesFragment.TAG))
                 fragment = ExpensesFragment.newInstance(job);
