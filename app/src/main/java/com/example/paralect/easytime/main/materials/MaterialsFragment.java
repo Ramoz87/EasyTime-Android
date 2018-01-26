@@ -23,11 +23,14 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.materials.chooser.MaterialChooserFragment;
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.KeypadView;
 import com.github.clans.fab.FloatingActionButton;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.List;
 

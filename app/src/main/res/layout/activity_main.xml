@@ -23,55 +23,55 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@id/navigationView"/>
-
-            <View
-                android:id="@+id/top_shadow_view"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_alignParentTop="@id/container"
-                android:background="@drawable/shadow_from_top"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_above="@id/navigationView"
-                android:background="@drawable/shadow_from_bottom"/>
+        <FrameLayout
+            android:layout_alignParentBottom="true"
+            android:id="@+id/bottom_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <android.support.design.widget.BottomNavigationView
                 android:id="@+id/navigationView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom"
                 app:itemIconTint="@drawable/bottom_navigation_color_selector"
                 app:itemTextColor="@drawable/bottom_navigation_color_selector"
                 app:menu="@menu/menu_navigation"/>
 
-        </RelativeLayout>
+            <com.example.paralect.easytime.views.KeypadEditorView
+                android:elevation="5dp"
+                app:el_expanded="false"
+                android:layout_gravity="bottom"
+                android:id="@+id/keypadEditorView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
 
-        <com.example.paralect.easytime.views.KeypadEditorView
-            android:elevation="5dp"
-            app:el_expanded="false"
-            android:layout_gravity="bottom"
-            android:id="@+id/keypadEditorView"
+        <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_layout"/>
 
-    </FrameLayout>
+        <View
+            android:id="@+id/top_shadow_view"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentTop="@id/container"
+            android:background="@drawable/shadow_from_top"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_above="@id/bottom_layout"
+            android:background="@drawable/shadow_from_bottom"/>
+
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
