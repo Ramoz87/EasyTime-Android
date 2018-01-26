@@ -67,9 +67,7 @@
             android:id="@+id/activityList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:fillViewport="true"
-            android:paddingBottom="80dp"/>
+            style="@style/RecyclerViewPadding"/>
 
     </LinearLayout>
 

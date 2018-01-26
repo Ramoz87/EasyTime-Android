@@ -70,6 +70,7 @@ public class Expense implements Parcelable {
             expense.setType(ex.getType());
             expense.setWorkTypeId(ex.getWorkTypeId());
             expense.setMaterialId(ex.getMaterialId());
+            expense.setMaterial(ex.getMaterial());
         }
         return expense;
     }

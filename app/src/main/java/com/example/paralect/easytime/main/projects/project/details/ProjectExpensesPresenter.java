@@ -41,55 +41,7 @@ public class ProjectExpensesPresenter extends SearchViewPresenter<List<Expense>>
 
                         List<Expense> list = getMergedExpenseResult(consumables, Expense.Type.TIME);
 
-                        // Time
-                        List<Expense> filteredByTime = Observable.fromIterable(consumables)
-                                .filter(new Predicate<Expense>() {
-                                    @Override
-                                    public boolean test(Expense expense) throws Exception {
-                                        String type = expense.getType();
-                                        return TextUtil.isNotEmpty(type) && type.equalsIgnoreCase(Expense.Type.TIME);
-                                    }
-                                })
-                                .toList()
-                                .blockingGet();
-
-                        // Material
-                        List<Expense> filteredByMaterial = Observable.fromIterable(consumables)
-                                .filter(new Predicate<Expense>() {
-                                    @Override
-                                    public boolean test(Expense expense) throws Exception {
-                                        String type = expense.getType();
-                                        return TextUtil.isNotEmpty(type) && type.equalsIgnoreCase(Expense.Type.MATERIAL);
-                                    }
-                                })
-                                .toList()
-                                .blockingGet();
-
-                        // Driving
-                        List<Expense> filteredByDriving = Observable.fromIterable(consumables)
-                                .filter(new Predicate<Expense>() {
-                                    @Override
-                                    public boolean test(Expense expense) throws Exception {
-                                        String type = expense.getType();
-                                        return TextUtil.isNotEmpty(type) && type.equalsIgnoreCase(Expense.Type.DRIVING);
-                                    }
-                                })
-                                .toList()
-                                .blockingGet();
-
-                        // Other
-                        List<Expense> filteredByOther = Observable.fromIterable(consumables)
-                                .filter(new Predicate<Expense>() {
-                                    @Override
-                                    public boolean test(Expense expense) throws Exception {
-                                        String type = expense.getType();
-                                        return TextUtil.isNotEmpty(type) && type.equalsIgnoreCase(Expense.Type.OTHER);
-                                    }
-                                })
-                                .toList()
-                                .blockingGet();
-
-                        emitter.onNext(consumables);
+                        emitter.onNext(list);
                         emitter.onComplete();
                     }
 
@@ -121,16 +73,16 @@ public class ProjectExpensesPresenter extends SearchViewPresenter<List<Expense>>
         return this;
     }
 
-    private List<Expense> getMergedExpenseResult(List<Expense> expenses, final @Expense.Type String queryType) {
+    private List<Expense> getMergedExpenseResult(List<Expense> expenses, final @Expense.Type String expenseType) {
         List<Expense> filtered =
                 Observable.fromIterable(expenses)
-                        .filter(new Predicate<Expense>() {
-                            @Override
-                            public boolean test(Expense expense) throws Exception {
-                                String type = expense.getType();
-                                return TextUtil.isNotEmpty(type) && type.equalsIgnoreCase(queryType);
-                            }
-                        })
+//                        .filter(new Predicate<Expense>() {
+//                            @Override
+//                            public boolean test(Expense expense) throws Exception {
+//                                String type = expense.getType();
+//                                return TextUtil.isNotEmpty(type) && type.equalsIgnoreCase(expenseType);
+//                            }
+//                        })
                         .toMultimap(new Function<Expense, String>() {
                             @Override
                             public String apply(Expense expense) throws Exception {
