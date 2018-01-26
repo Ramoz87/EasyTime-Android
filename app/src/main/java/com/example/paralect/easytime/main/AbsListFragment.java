@@ -1,9 +1,11 @@
 package com.example.paralect.easytime.main;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +15,6 @@ import android.widget.FrameLayout;
 
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,10 +61,10 @@ public abstract class AbsListFragment extends BaseFragment {
         RecyclerView.LayoutManager lm = new LinearLayoutManager(list.getContext());
         list.setLayoutManager(lm);
 
-        int color = ContextCompat.getColor(getContext(), R.color.list_divider_color);
-        int height = getResources().getInteger(R.integer.list_divider_height);
-        RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height);
-        list.addItemDecoration(decor);
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.rect_divider);
+        decoration.setDrawable(drawable);
+        list.addItemDecoration(decoration);
     }
 
     protected FrameLayout getEmptyViewContainer() {

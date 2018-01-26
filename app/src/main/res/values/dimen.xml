@@ -9,7 +9,7 @@
     <dimen name="job_number_txt_size">16sp</dimen>
     <dimen name="job_address_txt_size">16sp</dimen>
 
-    <integer name="list_divider_height">3</integer>
+    <integer name="list_divider_height">1</integer>
 
     <dimen name="contact_icon_size">34dp</dimen>
 

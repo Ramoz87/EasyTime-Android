@@ -1,16 +1,16 @@
 package com.example.paralect.easytime.main.materials;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,9 +22,7 @@ import android.widget.EditText;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.materials.chooser.MaterialChooserFragment;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Material;
-import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.views.KeypadEditorView;
@@ -87,15 +85,17 @@ public class MaterialsFragment extends BaseFragment
     }
 
     private void init() {
+        Context context = getContext();
         primaryState = true;
         adapter.setMaterialEditingListener(this);
         list.setEmptyView(placeholder);
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
-        int color = ContextCompat.getColor(getContext(), R.color.list_divider_color);
-        int height = getResources().getInteger(R.integer.list_divider_height);
-        RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height);
-        list.addItemDecoration(decor);
+
+        DividerItemDecoration decoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.rect_divider);
+        decoration.setDrawable(drawable);
+        list.addItemDecoration(decoration);
 
         keypad.collapse(false);
     }

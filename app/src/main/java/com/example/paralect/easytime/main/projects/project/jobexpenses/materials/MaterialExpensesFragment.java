@@ -1,14 +1,14 @@
 package com.example.paralect.easytime.main.projects.project.jobexpenses.materials;
 
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,11 +18,8 @@ import android.widget.Button;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
-import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Material;
-import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.views.KeypadEditorView;
 
@@ -31,13 +28,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by alexei on 17.01.2018.
@@ -100,10 +90,10 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
         emptyRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         emptyRecyclerView.setLayoutManager(lm);
-        int color = ContextCompat.getColor(getContext(), R.color.list_divider_color);
-        int height = getResources().getInteger(R.integer.list_divider_height);
-        RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height, 25);
-        emptyRecyclerView.addItemDecoration(decor);
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.rect_divider);
+        decoration.setDrawable(drawable);
+        emptyRecyclerView.addItemDecoration(decoration);
 
         restoreState();
 

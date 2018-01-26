@@ -3,10 +3,12 @@ package com.example.paralect.easytime.main.projects.project;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,7 +36,6 @@ import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.utils.CalendarUtils;
-import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.github.clans.fab.FloatingActionButton;
@@ -191,10 +192,10 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         emptyRecyclerView.setLayoutManager(lm);
 
-        int color = ContextCompat.getColor(getContext(), R.color.list_divider_color);
-        int height = getResources().getInteger(R.integer.list_divider_height);
-        RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height, 25);
-        emptyRecyclerView.addItemDecoration(decor);
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.rect_divider);
+        decoration.setDrawable(drawable);
+        emptyRecyclerView.addItemDecoration(decoration);
     }
 
     private void populate() {
