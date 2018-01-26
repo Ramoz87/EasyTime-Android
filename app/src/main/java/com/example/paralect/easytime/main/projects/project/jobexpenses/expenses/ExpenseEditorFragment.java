@@ -35,7 +35,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
     public static final String ARG_EXPENSE = "arg_expense";
 
-    @BindView(R.id.keypad) KeypadEditorView keypadEditorView;
+    private KeypadEditorView keypadEditorView;
     @BindView(R.id.expenseName) TextView expenseName;
     @BindView(R.id.expenseCount) EditText expenseCount;
     @BindView(R.id.expense_file_view) ExpenseFilesView expenseFilesView;
@@ -70,10 +70,11 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     }
 
     private void init() {
+        keypadEditorView = getKeypadEditor();
         mExpense = getExpenseArg();
 
         if (mExpense == null) {
-            getMainActivity().onBackPressed();
+            backForOneStep();
 
         } else {
             long value = mExpense.getValue();
@@ -123,7 +124,8 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
         } catch (Throwable e) {
             Logger.e(e);
         }
-        getMainActivity().onBackPressed();
+        keypadEditorView.collapse();
+        backForOneStep();
     }
 
     @Override

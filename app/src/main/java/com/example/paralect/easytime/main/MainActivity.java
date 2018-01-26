@@ -23,6 +23,7 @@ import com.example.paralect.easytime.main.settings.SettingsFragment;
 import com.example.paralect.easytime.model.event.ResultEvent;
 import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.ViewUtils;
+import com.example.paralect.easytime.views.KeypadEditorView;
 import com.ncapdevi.fragnav.FragNavController;
 import com.ncapdevi.fragnav.FragNavSwitchController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
     @BindView(R.id.top_shadow_view) View mainTopShadowView;
+    @BindView(R.id.keypadEditorView) KeypadEditorView keypadEditorView;
 
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
@@ -88,8 +90,18 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     @Override
     public void onBackPressed() {
-        if (!mNavController.popFragment(options))
+        if (keypadEditorView.isExpanded()) { // first we need to close out keyboard
+            keypadEditorView.collapse();
+            return;
+        }
+
+        if (!backForOneStep()) {
             super.onBackPressed();
+        }
+    }
+
+    public boolean backForOneStep() {
+        return mNavController.popFragment(options);
     }
 
     @Override
@@ -243,5 +255,9 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     }
     // endregion
     // endregion
+
+    public KeypadEditorView getKeypadEditor() {
+        return keypadEditorView;
+    }
 
 }

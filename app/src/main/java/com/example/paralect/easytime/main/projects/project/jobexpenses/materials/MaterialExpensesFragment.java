@@ -41,7 +41,7 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
 
     @BindView(R.id.addMaterials) Button addMaterials;
     @BindView(R.id.list) EmptyRecyclerView emptyRecyclerView;
-    @BindView(R.id.keypad) KeypadEditorView keypadEditorView;
+    private KeypadEditorView keypadEditorView;
 
     private Job job;
     private MaterialExpensesAdapter adapter = new MaterialExpensesAdapter();
@@ -80,6 +80,8 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
     }
 
     private void init() {
+        keypadEditorView = getKeypadEditor();
+
         initJob();
         Resources res = getResources();
         addMaterials.setText(res.getString(R.string.add_materials, 0));
@@ -167,7 +169,7 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
 
     @Override
     public void onFinishing() {
-        getMainActivity().onBackPressed();
+        backForOneStep();
     }
     // endregion
 }

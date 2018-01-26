@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,7 +35,7 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
     private final int MAX_HOURS = 23;
     private final int MAX_MINS = 59;
 
-    @BindView(R.id.keypad) KeypadEditorView keypadEditorView;
+    private KeypadEditorView keypadEditorView;
     @BindView(R.id.time_exp_hours_view) StrangeNumberInputView hoursView;
     @BindView(R.id.time_exp_minutes_view) StrangeNumberInputView minutesView;
 
@@ -64,6 +65,8 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        keypadEditorView = getKeypadEditor();
+        keypadEditorView.expand();
 
         hoursView.setMainText("00");
         hoursView.setDetailsText(R.string.time_exp_hours);
@@ -119,6 +122,7 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
 
     @Override
     public void onCompleted() {
+        Log.d(TAG, "on cpmpleted");
         try {
             int hours = hoursView.getIntValue();
             int minutes = minutesView.getIntValue();
@@ -128,7 +132,6 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
         } catch (Throwable e) {
             Logger.e(e);
         }
-        getMainActivity().onBackPressed();
+        backForOneStep();
     }
-
 }

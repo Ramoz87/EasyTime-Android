@@ -70,11 +70,4 @@
         app:fab_colorPressed="@color/dark_blue"
         app:fab_colorRipple="@color/blue"/>
 
-    <com.example.paralect.easytime.views.KeypadEditorView
-        android:id="@+id/keypad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:elevation="5dp"/>
-
 </RelativeLayout>

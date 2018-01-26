@@ -32,10 +32,4 @@
 
     </LinearLayout>
 
-    <com.example.paralect.easytime.views.KeypadEditorView
-        android:id="@+id/keypad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"/>
-
 </FrameLayout>

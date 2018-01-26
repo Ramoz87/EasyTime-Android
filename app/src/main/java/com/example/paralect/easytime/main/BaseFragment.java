@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
+import com.example.paralect.easytime.views.KeypadEditorView;
+
 /**
  * Created by alexei on 05.01.2018.
  */
@@ -21,6 +23,10 @@ public abstract class BaseFragment extends Fragment {
 
     public MainActivity getMainActivity() {
         return (MainActivity) getActivity();
+    }
+
+    public void backForOneStep() {
+        getMainActivity().backForOneStep();
     }
 
     @Override
@@ -48,5 +54,15 @@ public abstract class BaseFragment extends Fragment {
     public abstract void onCreateActionBar(ActionBar actionBar);
 
     public abstract boolean needsOptionsMenu();
+
+    public KeypadEditorView getKeypadEditor() {
+        return getMainActivity().getKeypadEditor();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getKeypadEditor().collapse();
+    }
 
 }

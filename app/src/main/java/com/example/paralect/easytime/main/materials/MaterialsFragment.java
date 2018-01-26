@@ -51,7 +51,7 @@ public class MaterialsFragment extends BaseFragment
     @BindView(R.id.list) EmptyRecyclerView list;
     @BindView(R.id.placeholder) View placeholder;
     @BindView(R.id.fab) FloatingActionButton fab;
-    @BindView(R.id.keypad) KeypadEditorView keypad;
+    private KeypadEditorView keypad;
 
     @OnClick(R.id.fab)
     void onFabClick(FloatingActionButton fab) {
@@ -86,6 +86,7 @@ public class MaterialsFragment extends BaseFragment
 
     private void init() {
         Context context = getContext();
+        keypad = getKeypadEditor();
         primaryState = true;
         adapter.setMaterialEditingListener(this);
         list.setEmptyView(placeholder);
@@ -96,8 +97,6 @@ public class MaterialsFragment extends BaseFragment
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.rect_divider);
         decoration.setDrawable(drawable);
         list.addItemDecoration(decoration);
-
-        keypad.collapse(false);
     }
 
     private void initActionBar(ActionBar actionBar) {

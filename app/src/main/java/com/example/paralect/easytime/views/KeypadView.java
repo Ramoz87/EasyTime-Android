@@ -105,7 +105,6 @@ public class KeypadView extends ExpandableLayout {
             ButterKnife.bind(this);
         }
         initNumberItems();
-        setExpanded(true, false);
     }
 
     private void initNumberItems() {
