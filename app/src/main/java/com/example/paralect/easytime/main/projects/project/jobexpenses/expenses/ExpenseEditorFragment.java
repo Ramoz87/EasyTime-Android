@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,7 +32,7 @@ import butterknife.ButterKnife;
  * Created by alexei on 15.01.2018.
  */
 
-public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener {
+public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener, ViewTreeObserver.OnGlobalLayoutListener {
     private static final String TAG = ExpenseEditorFragment.class.getSimpleName();
 
     public static final String ARG_EXPENSE = "arg_expense";
@@ -71,6 +73,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
     private void init() {
         keypadEditorView = getKeypadEditor();
+        keypadEditorView.getViewTreeObserver().addOnGlobalLayoutListener(this);
         mExpense = getExpenseArg();
 
         if (mExpense == null) {
@@ -133,5 +136,24 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     public void onDestroy() {
         super.onDestroy();
         expenseFilesView.checkFile();
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        View view = keypadEditorView;
+        Log.d(TAG, "Current height = " + view.getHeight());
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        keypadEditorView.collapse();
+        getMainActivity().backForOneStep();
+        return true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        keypadEditorView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
     }
 }
