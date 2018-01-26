@@ -193,7 +193,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         emptyRecyclerView.setLayoutManager(lm);
 
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.rect_divider);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
         decoration.setDrawable(drawable);
         emptyRecyclerView.addItemDecoration(decoration);
     }

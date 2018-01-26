@@ -3,10 +3,12 @@ package com.example.paralect.easytime.main.projects.project.details;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,7 +32,6 @@ import com.example.paralect.easytime.main.projects.project.SignatureDialogFragme
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.views.SignatureView;
@@ -151,11 +152,11 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
         emptyRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         emptyRecyclerView.setLayoutManager(lm);
-
-        int color = ContextCompat.getColor(getContext(), R.color.list_divider_color);
-        int height = getResources().getInteger(R.integer.list_divider_height);
-        RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height, 25);
-        emptyRecyclerView.addItemDecoration(decor);
+        
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
+        decoration.setDrawable(drawable);
+        emptyRecyclerView.addItemDecoration(decoration);
 
         presenter.setDataView(this)
                 .requestData(new String[]{job.getJobId()});

@@ -93,7 +93,7 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         emptyRecyclerView.setLayoutManager(lm);
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.rect_divider);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
         decoration.setDrawable(drawable);
         emptyRecyclerView.addItemDecoration(decoration);
 

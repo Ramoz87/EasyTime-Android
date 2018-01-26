@@ -1,10 +1,12 @@
 package com.example.paralect.easytime.main.projects.project.jobexpenses.time;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +20,6 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Type;
-import com.example.paralect.easytime.utils.VerticalDividerItemDecoration;
 import com.example.paralect.easytime.views.adapter.RecyclerViewAdapter;
 
 import java.util.List;
@@ -65,13 +66,13 @@ public class WorkTypeFragment extends BaseFragment implements IDataView<List<Typ
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        int color = ContextCompat.getColor(getContext(), R.color.list_divider_color);
-        int height = getResources().getInteger(R.integer.list_divider_height);
-        RecyclerView.ItemDecoration decor = new VerticalDividerItemDecoration(color, height, 25);
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
+        decoration.setDrawable(drawable);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(decor);
+        recyclerView.addItemDecoration(decoration);
         adapter.setOnItemClickListener(new RecyclerViewAdapter.SimpleOnItemClickListener(){
             @Override
             public void onItemClick(View view, int position) {
