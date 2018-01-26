@@ -1,19 +1,19 @@
 package com.example.paralect.easytime.model;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-
-import java.util.List;
 
 /**
  * Created by alexei on 26.12.2017.
  */
 
 public class Job implements Parcelable, ProjectType {
+
+    public static final String TAG = Job.class.getSimpleName();
+
     @DatabaseField(columnName = "currency")
     private String currency;
 
@@ -223,5 +223,11 @@ public class Job implements Parcelable, ProjectType {
 
     public void setStatus(com.example.paralect.easytime.model.Type status) {
         this.status = status;
+    }
+
+    public static Job getJob(Bundle bundle) {
+        if (bundle != null && bundle.containsKey(TAG))
+            return bundle.getParcelable(TAG);
+        else return null;
     }
 }

@@ -3,9 +3,12 @@ package com.example.paralect.easytime.main.projects.project.details;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,6 +27,7 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.CongratulationsActivity;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.MainActivity;
+import com.example.paralect.easytime.main.projects.project.ActivityAdapter;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Expense;
@@ -66,7 +70,8 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
         // getMainActivity().jumpToRoot();
     }
 
-    private ProjectExpensesAdapter adapter = new ProjectExpensesAdapter();
+    //    private ProjectExpensesAdapter adapter = new ProjectExpensesAdapter();
+    private ActivityAdapter adapter = new ActivityAdapter();
     private ProjectExpensesPresenter presenter = new ProjectExpensesPresenter();
 
     private Animation fadeIn;
@@ -129,7 +134,7 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        emptyRecyclerView.setEmptyView(emptyListPlaceholder);
+
         initJob();
         initFam();
         initOverlay();
@@ -143,12 +148,18 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
         Customer customer = job.getCustomer();
         detailTitle.setText(customer.getCompanyName());
 
+        emptyRecyclerView.setEmptyView(emptyListPlaceholder);
         emptyRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         emptyRecyclerView.setLayoutManager(lm);
+        
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
+        decoration.setDrawable(drawable);
+        emptyRecyclerView.addItemDecoration(decoration);
 
         presenter.setDataView(this)
-                .requestData(new String[] { job.getJobId() });
+                .requestData(new String[]{job.getJobId()});
     }
 
     private void initOverlay() {

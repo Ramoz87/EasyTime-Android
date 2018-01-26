@@ -62,7 +62,7 @@ public abstract class AbsListFragment extends BaseFragment {
         list.setLayoutManager(lm);
 
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.rect_divider);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
         decoration.setDrawable(drawable);
         list.addItemDecoration(decoration);
     }

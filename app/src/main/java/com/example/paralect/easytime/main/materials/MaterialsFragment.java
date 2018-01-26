@@ -73,7 +73,7 @@ public class MaterialsFragment extends BaseFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_materials, parent, false);
     }
 
@@ -97,7 +97,7 @@ public class MaterialsFragment extends BaseFragment
         list.setLayoutManager(new LinearLayoutManager(getContext()));
 
         DividerItemDecoration decoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.rect_divider);
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.divider);
         decoration.setDrawable(drawable);
         list.addItemDecoration(decoration);
     }

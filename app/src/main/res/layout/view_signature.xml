@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
 
@@ -27,7 +27,6 @@
         android:id="@+id/signature_canvas_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/signature_sign_button"
         android:layout_below="@+id/signature_switcher"/>
 
     <View
@@ -38,13 +37,23 @@
         android:background="@drawable/shadow_from_top"/>
 
     <Button
+        android:id="@+id/signature_clear_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signature_shadow_view"
+        android:layout_alignParentRight="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/signature_clear"
+        android:textColor="@color/colorPrimary"/>
+
+    <Button
         android:id="@+id/signature_cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/signature_sign_button"
         android:layout_toStartOf="@+id/signature_sign_button"
-        android:background="@drawable/selector_ripple"
+        android:background="?android:attr/selectableItemBackground"
         android:text="@android:string/cancel"
         android:textColor="@color/dark_gray"/>
 
@@ -54,8 +63,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/selector_ripple"
+        android:background="?android:attr/selectableItemBackground"
         android:text="@string/signature_sign"
         android:textColor="@color/colorPrimary"/>
 
-</merge>
+</RelativeLayout>

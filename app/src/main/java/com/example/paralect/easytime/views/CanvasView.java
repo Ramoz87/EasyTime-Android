@@ -589,6 +589,17 @@ public class CanvasView extends View {
         this.invalidate();
     }
 
+    public boolean clearAll() {
+        if (canUndo()) {
+            this.historyPointer = 0;
+            this.invalidate();
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * This method is getter for canvas background color
      * 

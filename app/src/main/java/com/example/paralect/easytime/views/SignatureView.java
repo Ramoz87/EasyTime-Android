@@ -69,6 +69,11 @@ public class SignatureView extends RelativeLayout {
         }
     }
 
+    @OnClick(R.id.signature_clear_button)
+    public void onClearClick() {
+        canvasView.clearAll();
+    }
+
     public void setSignatureListener(SignatureListener signatureListener) {
         this.signatureListener = signatureListener;
     }

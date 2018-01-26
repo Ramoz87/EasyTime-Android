@@ -108,6 +108,7 @@
     <string name="signature_title">Signature</string>
     <string name="signature_switcher">Sign yourself</string>
     <string name="signature_sign">Sign</string>
+    <string name="signature_clear">Clear</string>
 
     <!--settings-->
     <string name="help">Help</string>
@@ -142,6 +143,8 @@
     <string name="time_exp_title">New time</string>
     <string name="time_exp_hours">Hours</string>
     <string name="time_exp_minutes">Minutes</string>
+
+    <string name="time_exp_choose_work">Choose your work</string>
 
     <!--congratulations-->
     <string name="congratulations">Congratulations!</string>

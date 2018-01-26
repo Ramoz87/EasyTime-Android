@@ -14,6 +14,7 @@
         android:background="@drawable/rect_price_per_unit_background"
         android:layout_centerInParent="true"
         android:id="@+id/pricePerUnit"
+        android:visibility="gone"
         android:text="@string/placeholder_price_per_unit"
         android:textSize="18sp"
         android:textColor="@color/white"

@@ -1,100 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/mainBackground"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/mainBackground"
+             android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/emptyListPlaceholder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_centerInParent="true"
             android:id="@+id/placeholder"
-            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatImageView
-                android:adjustViewBounds="true"
-                android:src="@drawable/data_placeholder"
                 android:layout_width="180dp"
-                android:layout_height="120dp" />
+                android:layout_height="120dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/data_placeholder"/>
 
             <android.support.v7.widget.AppCompatTextView
-                android:textColor="@color/dark_gray"
-                android:text="@string/project_detail_completion"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/project_detail_completion"
+                android:textColor="@color/dark_gray"/>
 
         </LinearLayout>
 
         <android.support.v7.widget.AppCompatImageView
-            android:adjustViewBounds="true"
+            android:layout_width="34dp"
+            android:layout_height="48dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/arrow_add_material"
-            android:layout_marginRight="@dimen/arrow_add_right_margin"
             android:layout_marginBottom="@dimen/arrow_add_bottom_margin"
-            android:layout_width="34dp"
-            android:layout_height="48dp" />
+            android:layout_marginRight="@dimen/arrow_add_right_margin"
+            android:adjustViewBounds="true"
+            android:src="@drawable/arrow_add_material"/>
     </RelativeLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/detail_title"
-            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F2F4F7"
             android:drawablePadding="10dp"
             android:gravity="right"
-            android:text="@string/placeholder_company"
-            android:background="#F2F4F7"
             android:padding="15dp"
+            android:text="@string/placeholder_company"
             android:textColor="@color/project_expense_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold"/>
 
         <com.example.paralect.easytime.views.EmptyRecyclerView
             android:id="@+id/activityList"
+            style="@style/RecyclerViewPadding"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
+        
     </LinearLayout>
 
     <View
-        android:background="@color/materials_overlay_background"
         android:id="@+id/overlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/materials_overlay_background"/>
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fam"
         style="@style/FloatingActionButtonNormalStyle">
 
         <com.github.clans.fab.FloatingActionButton
-            app:fab_label="@string/project_detail_send"
             android:id="@+id/action_send"
+            style="@style/FloatingActionButtonMiniStyle"
             android:src="@drawable/ic_send"
-            style="@style/FloatingActionButtonMiniStyle" />
+            app:fab_label="@string/project_detail_send"/>
 
         <com.github.clans.fab.FloatingActionButton
-            app:fab_label="@string/project_detail_save"
             android:id="@+id/action_save"
+            style="@style/FloatingActionButtonMiniStyle"
             android:src="@drawable/ic_save"
-            style="@style/FloatingActionButtonMiniStyle" />
+            app:fab_label="@string/project_detail_save"/>
 
         <com.github.clans.fab.FloatingActionButton
-            app:fab_label="@string/project_detail_sign"
             android:id="@+id/action_sign"
+            style="@style/FloatingActionButtonMiniStyle"
             android:src="@drawable/ic_edit"
-            style="@style/FloatingActionButtonMiniStyle" />
+            app:fab_label="@string/project_detail_sign"/>
 
     </com.github.clans.fab.FloatingActionMenu>
 

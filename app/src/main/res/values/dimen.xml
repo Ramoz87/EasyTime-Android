@@ -21,8 +21,8 @@
     <integer name="project_info_layout_expand_duration">300</integer>
 
     <!--fams and fabs-->
-    <dimen name="fab_bottom_margin">24dp</dimen>
-    <dimen name="fab_right_margin">24dp</dimen>
+    <dimen name="fab_bottom_margin">20dp</dimen>
+    <dimen name="fab_right_margin">20dp</dimen>
 
     <!--arrow "add"-->
     <dimen name="arrow_add_bottom_margin">100dp</dimen>
