@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.views;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -139,5 +140,21 @@ public class KeypadView extends ExpandableLayout {
 
     public View getShadowView() {
         return shadow;
+    }
+
+    @Override
+    public void setExpanded(boolean expand, boolean animate) {
+        if (expand == isExpanded()) return;
+
+        if (animate) {
+            Log.d(TAG, String.format("animate fading %s", expand ? "in" : "out"));
+            int duration = getDuration();
+            float start = expand ? 0 : 1;
+            float end = start == 0 ? 1 : 0;
+            ObjectAnimator alphaAnimation = ObjectAnimator.ofFloat(this, View.ALPHA, start, end);
+            alphaAnimation.setDuration(duration);
+            alphaAnimation.start();
+        }
+        super.setExpanded(expand, animate);
     }
 }
