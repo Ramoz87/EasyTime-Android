@@ -52,7 +52,7 @@ class ExpensesPresenter extends SearchViewPresenter<ExpensesPresenter.ExpensesCo
 
                         final ExpensesContainer container = new ExpensesContainer();
                         container.defaultExpenses = defaultExpenses;
-                        container.otherExpenses = EasyTimeManager.getInstance().getExpenses(mJobId, searchQuery);
+                        container.otherExpenses = EasyTimeManager.getInstance().getOtherExpenses(mJobId, searchQuery);
 
                         emitter.onNext(container);
                         emitter.onComplete();

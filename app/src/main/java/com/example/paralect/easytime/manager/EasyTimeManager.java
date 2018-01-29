@@ -396,7 +396,7 @@ public final class EasyTimeManager {
         return expenses;
     }
 
-    private List<Expense> getExpenses(String jobId, boolean isMaterial, String searchQuery) {
+    private List<Expense> getExpenses(String jobId, boolean isMaterial, String searchQuery, @Expense.Type String searchType) {
         List<Expense> expenses = new ArrayList<>();
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
@@ -410,7 +410,11 @@ public final class EasyTimeManager {
             }
 
             if (TextUtil.isNotEmpty(searchQuery))
-                where.and().like("name", "%" + searchQuery + "%").prepare();
+                where.and().like("name", "%" + searchQuery + "%");
+
+
+            if (TextUtil.isNotEmpty(searchType))
+                where.and().eq("type", searchType);
 
             List<Expense> foundExpenses = qb.query();
 
@@ -427,12 +431,12 @@ public final class EasyTimeManager {
         return expenses;
     }
 
-    public List<Expense> getExpenses(String jobId, String searchQuery) {
-        return getExpenses(jobId, false, searchQuery);
+    public List<Expense> getOtherExpenses(String jobId, String searchQuery) {
+        return getExpenses(jobId, false, searchQuery, Expense.Type.OTHER);
     }
 
     public List<Expense> getMaterialExpenses(String jobId) {
-        return getExpenses(jobId, true, null);
+        return getExpenses(jobId, true, null, Expense.Type.MATERIAL);
     }
 
     public List<Expense> getAllExpenses(String jobId) {
