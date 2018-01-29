@@ -2,8 +2,10 @@ package com.example.paralect.easytime.main.settings;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,7 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.paralect.easytime.login.LoginActivity;
+import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.manager.ETAccountManager;
+import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.ViewUtils;
 import com.example.paralect.easytime.R;
@@ -40,7 +44,16 @@ public class SettingsFragment extends BaseFragment {
 
     @OnClick(R.id.sendFeedbackLayout)
     void sendFeedback() {
-
+        Log.d(TAG, "preparing Email Intent");
+        MainActivity mainActivity = getMainActivity();
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        String[] emails = new String[] { "ramoz87@gmail.com" };
+        intent.putExtra(Intent.EXTRA_EMAIL, emails);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "EasyTime feedback");
+        if (intent.resolveActivity(mainActivity.getPackageManager()) != null) {
+            startActivityForResult(intent, Constants.REQUEST_CODE_SEND_FEEDBACK);
+        }
     }
 
     @OnClick(R.id.logoutLayout)
