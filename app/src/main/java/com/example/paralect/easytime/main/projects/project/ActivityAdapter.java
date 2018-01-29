@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
+import com.example.paralect.easytime.utils.anim.AnimUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     private List<Expense> expenses;
     private List<ViewHolder> viewHolders = new ArrayList<>();
+    private boolean editorModeEnabled = false;
 
     public void setData(List<Expense> expenses) {
         this.expenses = expenses;
@@ -49,10 +51,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     }
 
     public void toggle() {
+        this.editorModeEnabled = !editorModeEnabled;
         for (ViewHolder vh : viewHolders) {
-            View delete = vh.delete;
-            int visibility = delete.getVisibility();
-            delete.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+            vh.setEditorIconVisibility(editorModeEnabled);
         }
     }
 
@@ -67,7 +68,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Expense item = getItem(position);
-        holder.bind(item);
+        holder.bind(item, editorModeEnabled);
     }
 
     @Override
@@ -100,10 +101,15 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             this.adapter = adapter;
         }
 
-        void bind(Expense expense) {
+        void bind(Expense expense, boolean editorModeEnabled) {
             this.expense = expense;
             expenseName.setText(expense.getName());
             expenseValue.setText(expense.getTypedValue());
+            setEditorIconVisibility(editorModeEnabled);
+        }
+
+        void setEditorIconVisibility(boolean isVisible) {
+            delete.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         }
 
         private void asyncDelete(final Expense expense) {
