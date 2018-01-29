@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -57,6 +58,8 @@ public class MaterialsFragment extends BaseFragment
     @BindView(R.id.fab) FloatingActionButton fab;
     private KeypadEditorView keypad;
 
+    private MenuItem deleteMaterials;
+
     @OnClick(R.id.fab)
     void onFabClick(FloatingActionButton fab) {
         Log.d(TAG, "on fab click");
@@ -93,6 +96,27 @@ public class MaterialsFragment extends BaseFragment
         keypad = getKeypadEditor();
         primaryState = true;
         adapter.setMaterialEditingListener(this);
+        final RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
+            private void update() {
+                if (deleteMaterials != null) {
+                    Log.d(TAG, "updating menu item visibility");
+                    deleteMaterials.setVisible(adapter.getItemCount() != 0);
+                }
+            }
+
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                update();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                update();
+            }
+        };
+        adapter.registerAdapterDataObserver(observer);
         list.setEmptyView(placeholder);
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -112,6 +136,7 @@ public class MaterialsFragment extends BaseFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_materials, menu);
+        deleteMaterials = menu.findItem(R.id.delete_materials);
     }
 
     @Override
