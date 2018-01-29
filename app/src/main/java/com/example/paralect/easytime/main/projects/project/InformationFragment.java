@@ -42,8 +42,6 @@ import butterknife.OnClick;
 public class InformationFragment extends BaseFragment implements IDataView<List<Type>>, AdapterView.OnItemSelectedListener {
     public static final String TAG = InformationFragment.class.getSimpleName();
 
-    public static final String ARG_JOB = "arg_job";
-
     @BindView(R.id.scrollView) ScrollView scrollView;
     @BindView(R.id.info_gallery_view) JobFilesView galleryFilesView;
     @BindView(R.id.instructions) InfoLayout instructions;
@@ -68,22 +66,15 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
 
     public static InformationFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
-        args.putParcelable(ARG_JOB, job);
+        args.putParcelable(Job.TAG, job);
         InformationFragment fragment = new InformationFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    private Job getJobArg() {
-        Bundle args = getArguments();
-        if (args != null && args.containsKey(ARG_JOB))
-            return args.getParcelable(ARG_JOB);
-        else return null;
-    }
-
     private void initJob() {
         if (job == null)
-            job = getJobArg();
+            job = Job.fromBundle(getArguments());
     }
 
     @Override
@@ -131,7 +122,6 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
             instructions.setVisibility(View.GONE);
         }
 
-        Job job = getJobArg();
         galleryFilesView.setupWithEntity(job);
     }
 
@@ -155,7 +145,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
         switch (item.getItemId()) {
             case R.id.item_new: {
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectDetailsFragment.newInstance(getJobArg()));
+                        .pushFragment(ProjectDetailsFragment.newInstance(job));
                 return true;
             }
         }

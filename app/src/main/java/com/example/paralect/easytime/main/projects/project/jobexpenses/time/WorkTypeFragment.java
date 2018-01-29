@@ -53,7 +53,7 @@ public class WorkTypeFragment extends BaseFragment implements IDataView<List<Typ
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        job = Job.getJob(getArguments());
+        job = Job.fromBundle(getArguments());
     }
 
     @Nullable

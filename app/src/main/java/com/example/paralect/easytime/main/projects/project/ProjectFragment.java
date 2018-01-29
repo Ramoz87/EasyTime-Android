@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -28,8 +27,6 @@ import butterknife.ButterKnife;
 
 public class ProjectFragment extends BaseFragment {
 
-    public static final String ARG_JOB = "arg_job";
-
     @BindView(R.id.tabs) TabLayout tabs;
     @BindView(R.id.view_pager) ViewPager viewPager;
 
@@ -48,7 +45,7 @@ public class ProjectFragment extends BaseFragment {
 
     public static ProjectFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
-        args.putParcelable(ARG_JOB, job);
+        args.putParcelable(Job.TAG, job);
         ProjectFragment fragment = new ProjectFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,7 +54,7 @@ public class ProjectFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        job = getJobArg();
+        job = Job.fromBundle(getArguments());
     }
 
     @Override
@@ -69,7 +66,6 @@ public class ProjectFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        job = getJobArg();
         init();
     }
 
@@ -79,19 +75,11 @@ public class ProjectFragment extends BaseFragment {
     }
 
     private void init() {
-        Job job = getJobArg();
         adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager(), job);
         viewPager.setAdapter(adapter);
         viewPager.removeOnPageChangeListener(pageChangeListener);
         viewPager.addOnPageChangeListener(pageChangeListener);
         tabs.setupWithViewPager(viewPager);
-    }
-
-    private Job getJobArg() {
-        Bundle args = getArguments();
-        if (args.containsKey(ARG_JOB))
-            return args.getParcelable(ARG_JOB);
-        else return null;
     }
 
     @Override

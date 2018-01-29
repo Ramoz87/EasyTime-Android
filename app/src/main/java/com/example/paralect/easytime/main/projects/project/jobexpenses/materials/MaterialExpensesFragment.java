@@ -36,7 +36,6 @@ import butterknife.OnClick;
 public class MaterialExpensesFragment extends BaseFragment implements IMaterialExpenses<List<Material>>, MaterialExpensesAdapter.OnCheckedCountChangeListener {
     private static final String TAG = MaterialExpensesFragment.class.getSimpleName();
 
-    public static final String ARG_JOB = "arg_job";
     public static final String ARG_KEYBOARD_STATE = "keyboard_state";
 
     @BindView(R.id.addMaterials) Button addMaterials;
@@ -49,22 +48,15 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
 
     public static MaterialExpensesFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
-        args.putParcelable(ARG_JOB, job);
+        args.putParcelable(Job.TAG, job);
         MaterialExpensesFragment fragment = new MaterialExpensesFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    private Job getJobArg() {
-        Bundle args = getArguments();
-        if (args != null && args.containsKey(ARG_JOB))
-            return args.getParcelable(ARG_JOB);
-        else return null;
-    }
-
     private void initJob() {
         if (job == null)
-            job = getJobArg();
+            job = Job.fromBundle(getArguments());
     }
 
     @Override
