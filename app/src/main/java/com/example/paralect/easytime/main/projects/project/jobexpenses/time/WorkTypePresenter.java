@@ -32,7 +32,7 @@ class WorkTypePresenter extends SearchViewPresenter<List<Type>> {
             public void subscribe(FlowableEmitter<List<Type>> emitter) throws Exception {
                 try {
                     if (!emitter.isCancelled()) {
-                        List<Type> types = EasyTimeManager.getInstance().getTypes(WORK_TYPE);
+                        List<Type> types = EasyTimeManager.getInstance().getTypes(WORK_TYPE, parameters[0]);
                         emitter.onNext(types);
                         emitter.onComplete();
                     }
