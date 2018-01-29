@@ -53,9 +53,7 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
 public class ProjectDetailsFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
 
     private static final String TAG = ProjectDetailsFragment.class.getSimpleName();
-
-    public static final String ARG_JOB = "arg_job";
-
+    
     @BindView(R.id.detail_title) TextView detailTitle;
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
@@ -81,22 +79,15 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
 
     public static ProjectDetailsFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
-        args.putParcelable(ARG_JOB, job);
+        args.putParcelable(Job.TAG, job);
         ProjectDetailsFragment fragment = new ProjectDetailsFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    private Job getJobArg() {
-        Bundle args = getArguments();
-        if (args != null && args.containsKey(ARG_JOB))
-            return args.getParcelable(ARG_JOB);
-        else return null;
-    }
-
     private void initJob() {
         if (job == null)
-            job = getJobArg();
+            job = Job.fromBundle(getArguments());
     }
 
     @Override

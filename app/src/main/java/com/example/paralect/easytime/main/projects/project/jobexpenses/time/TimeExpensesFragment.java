@@ -55,7 +55,7 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        job = Job.getJob(getArguments());
+        job = Job.fromBundle(getArguments());
         type = Type.getType(getArguments());
     }
 

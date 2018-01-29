@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,7 +53,7 @@ public class WorkTypeFragment extends BaseFragment implements IDataView<List<Typ
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        job = Job.getJob(getArguments());
+        job = Job.fromBundle(getArguments());
     }
 
     @Nullable
@@ -81,13 +82,14 @@ public class WorkTypeFragment extends BaseFragment implements IDataView<List<Typ
                 getMainActivity().pushFragment(fragment);
             }
         });
-
-        presenter.setDataView(this).requestData(null);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
+        inflater.inflate(R.menu.menu_search, menu);
+        presenter.setDataView(this)
+                .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
+                .requestData(new String[] {""});
     }
 
     @Override

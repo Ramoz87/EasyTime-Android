@@ -225,7 +225,7 @@ public class Job implements Parcelable, ProjectType {
         this.status = status;
     }
 
-    public static Job getJob(Bundle bundle) {
+    public static Job fromBundle(Bundle bundle) {
         if (bundle != null && bundle.containsKey(TAG))
             return bundle.getParcelable(TAG);
         else return null;

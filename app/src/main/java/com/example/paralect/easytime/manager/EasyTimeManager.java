@@ -88,15 +88,25 @@ public final class EasyTimeManager {
         }
     }
 
+    // region Type
     public List<Type> getStatuses() {
-        return getTypes(STATUS);
+        return getTypes(STATUS, "");
     }
 
-    public List<Type> getTypes(@Type.TypeName String type) {
+    public List<Type> getTypes() {
+        return getTypes(null, "");
+    }
+
+    public List<Type> getTypes(@Type.TypeName String type, String searchName) {
         try {
             Dao<Type, String> dao = helper.getTypeDao();
             if (!TextUtils.isEmpty(type)) {
-                return dao.query(dao.queryBuilder().where().like("type", type).prepare());
+                return dao.query(dao.queryBuilder()
+                        .where()
+                        .eq("type", type)
+                        .and()
+                        .like("name", "%" + searchName + "%")
+                        .prepare());
             } else {
                 return dao.queryForAll();
             }
@@ -105,10 +115,7 @@ public final class EasyTimeManager {
             return null;
         }
     }
-
-    public List<Type> getTypes() {
-        return getTypes(null);
-    }
+    // endregion
 
     public Type getStatus(Job job) {
         try {

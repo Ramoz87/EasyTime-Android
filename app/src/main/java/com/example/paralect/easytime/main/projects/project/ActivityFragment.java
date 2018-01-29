@@ -55,8 +55,6 @@ import butterknife.OnClick;
 public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
     private static final String TAG = ActivityFragment.class.getSimpleName();
 
-    public static final String ARG_JOB = "arg_job";
-
     @BindView(R.id.date) TextView date;
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
@@ -68,7 +66,6 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @OnClick(R.id.addTime)
     void addTime(FloatingActionButton fab) {
-        Job job = getJobArg();
         Fragment fragment;
         if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT)
             fragment = ObjectsOfProjectFragment.newInstance((Project) job, WorkTypeFragment.TAG);
@@ -80,13 +77,12 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @OnClick(R.id.addMaterials)
     void addMaterials(FloatingActionButton fab) {
-        Fragment fragment = MaterialExpensesFragment.newInstance(getJobArg());
+        Fragment fragment = MaterialExpensesFragment.newInstance(job);
         getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 
     @OnClick(R.id.addExpenses)
     void addExpenses(FloatingActionButton fab) {
-        Job job = getJobArg();
         Fragment fragment;
         if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT) {
             fragment = ObjectsOfProjectFragment.newInstance((Project) job, ExpensesFragment.TAG);
@@ -113,21 +109,15 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     public static ActivityFragment newInstance(Job job) {
         Bundle args = new Bundle(1);
-        args.putParcelable(ARG_JOB, job);
+        args.putParcelable(Job.TAG, job);
         ActivityFragment fragment = new ActivityFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    private Job getJobArg() {
-        Bundle args = getArguments();
-        if (args == null || !args.containsKey(ARG_JOB)) return null;
-        else return args.getParcelable(ARG_JOB);
-    }
-
     private void initJob() {
         if (job == null)
-            job = getJobArg();
+            job = Job.fromBundle(getArguments());
     }
 
     @Override
@@ -156,7 +146,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         switch (item.getItemId()) {
             case R.id.item_new:
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectDetailsFragment.newInstance(getJobArg()));
+                        .pushFragment(ProjectDetailsFragment.newInstance(job));
                 return true;
             case R.id.item_delete: {
                 Log.d(TAG, "toggled to delete items");

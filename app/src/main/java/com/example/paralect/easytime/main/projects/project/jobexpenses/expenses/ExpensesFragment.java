@@ -17,9 +17,7 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.utils.Logger;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -31,29 +29,21 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreatorDialog.Listener, IDataView<List<Expense>> {
 
     public static final String TAG = ExpensesFragment.class.getSimpleName();
-    public static final String ARG_JOB = "arg_job";
 
     private ExpensesPresenter presenter = new ExpensesPresenter();
     private ExpensesAdapter adapter;
 
     public static ExpensesFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
-        args.putParcelable(ARG_JOB, job);
+        args.putParcelable(Job.TAG, job);
         ExpensesFragment fragment = new ExpensesFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    private Job getJobArg() {
-        Bundle args = getArguments();
-        if (args == null || !args.containsKey(ARG_JOB))
-            return null;
-        else return args.getParcelable(ARG_JOB);
-    }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Job job = getJobArg();
+        Job job = Job.fromBundle(getArguments());
         String jobId = job.getJobId();
         adapter = new ExpensesAdapter(EasyTimeManager.getInstance().getDefaultExpenses(job));
         super.onViewCreated(view, savedInstanceState);
@@ -104,7 +94,7 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
         Expense expense = new Expense();
         expense.setName(expenseName);
         expense.setType(Expense.Type.OTHER);
-        Job job = getJobArg();
+        Job job = Job.fromBundle(getArguments());
         expense.setJobId(job.getJobId());
         ExpenseEditorFragment fragment = ExpenseEditorFragment.newInstance(expense);
         getMainActivity().getFragmentNavigator().pushFragment(fragment);
