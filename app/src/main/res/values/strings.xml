@@ -48,6 +48,7 @@
     <string name="placeholder_keypad_number">1</string>
     <string name="placeholder_material_count">22</string>
     <string name="placeholder_driving_unit">km</string>
+    <string name="placeholder_chf_unit">CHF</string>
     <string name="placeholder_company">Company</string>
     <string name="placeholder_company_name_for_expenses">LLC Mobexs</string>
     <string name="placeholder_project_expense">Repair</string>

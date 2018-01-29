@@ -43,6 +43,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
     private KeypadEditorView keypadEditorView;
     @BindView(R.id.expenseName) TextView expenseName;
+    @BindView(R.id.expense_unit_text_view) TextView unitTextView;
     @BindView(R.id.expenseCount) EditText expenseCount;
     @BindView(R.id.expense_file_view) ExpenseFilesView expenseFilesView;
 
@@ -83,17 +84,17 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
             backForOneStep();
 
         } else {
-            long value = mExpense.getValue();
+
+            if (mExpense.getType().equalsIgnoreCase(Expense.Type.DRIVING))
+                unitTextView.setText(R.string.placeholder_driving_unit);
+            else if (mExpense.getType().equalsIgnoreCase(Expense.Type.OTHER))
+                unitTextView.setText(R.string.placeholder_chf_unit);
+
             expenseName.setText(mExpense.getName());
 
             expenseCount.setRawInputType(InputType.TYPE_CLASS_TEXT);
             expenseCount.setTextIsSelectable(true);
             expenseCount.requestFocus();
-            if (value != 0) {
-                String text = String.valueOf(value);
-                expenseCount.setText(text);
-                expenseCount.setSelection(text.length());
-            }
 
             keypadEditorView.setOnCompletionListener(this);
             keypadEditorView.setupEditText(expenseCount);
