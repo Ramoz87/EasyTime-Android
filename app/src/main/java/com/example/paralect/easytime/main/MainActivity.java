@@ -30,6 +30,8 @@ import com.ncapdevi.fragnav.FragNavSwitchController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
 import com.ncapdevi.fragnav.tabhistory.FragNavTabHistoryController;
 
+import java.util.Stack;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -254,16 +256,27 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         mNavController.pushFragment(fragment, options);
     }
 
+    /**
+     * Pop back to fragment
+     * @param depth - number of fragments from the current to the established one
+     */
     @Override
     public void popFragments(int depth) {
         mNavController.popFragments(depth, options);
     }
 
+    /**
+     * Pop back to fragment
+     * @param depth - number of fragments from the first to the established one
+     */
     @Override
     public void popToFragment(int depth) {
-        int stack = mNavController.getSize();
-        int size = stack - depth;
-        popFragments(size);
+        Stack<Fragment> currentStack = mNavController.getCurrentStack();
+        if (currentStack != null) {
+            int stack = currentStack.size();
+            int size = stack - depth;
+            popFragments(size);
+        }
     }
 
     public FragmentNavigator getFragmentNavigator() {

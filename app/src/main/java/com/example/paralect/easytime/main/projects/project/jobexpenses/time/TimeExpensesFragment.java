@@ -129,7 +129,10 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
         } catch (Throwable e) {
             Logger.e(e);
         }
-        backForOneStep();
+
+        if (keypadEditorView.isExpanded())
+            keypadEditorView.collapse();
+        popToActivityFragment();
     }
 
     @Override
@@ -137,7 +140,11 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
         if (keypadEditorView.isExpanded())
             keypadEditorView.collapse();
         else
-            getMainActivity().popToFragment(Constants.FRAGMENT_ACTIVITY_DEPTH);
+            popToActivityFragment();
         return true;
+    }
+
+    private void popToActivityFragment(){
+        getMainActivity().getFragmentNavigator().popToFragment(Constants.FRAGMENT_ACTIVITY_DEPTH);
     }
 }
