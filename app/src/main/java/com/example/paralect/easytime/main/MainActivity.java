@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     @BindView(R.id.top_shadow_view) View mainTopShadowView;
     @BindView(R.id.keypadEditorView) KeypadEditorView keypadEditorView;
 
-    private boolean isKeyboardOverlappingEnabled = false;
-
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
     }
@@ -293,14 +291,5 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     public KeypadEditorView getKeypadEditor() {
         return keypadEditorView;
-    }
-
-    public void setKeyboardOverlappingEnabled(boolean enabled) {
-        if (this.isKeyboardOverlappingEnabled == enabled) return;
-
-        this.isKeyboardOverlappingEnabled = enabled;
-        if (!enabled) { // so we need the keyboard to push up all content
-
-        }
     }
 }
