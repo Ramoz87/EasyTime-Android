@@ -3,12 +3,10 @@ package com.example.paralect.easytime.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 
 import com.example.paralect.easytime.BuildConfig;
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.manager.ETPreferenceManager;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Address;

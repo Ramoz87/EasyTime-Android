@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.paralect.easytime.EasyTimeApplication;
+import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
@@ -20,6 +21,7 @@ import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.Logger;
+import com.example.paralect.easytime.utils.TextUtil;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -374,27 +376,42 @@ public final class EasyTimeManager {
         }
     }
 
-    public List<Expense> getDefaultExpenses(Job job) {
+    public List<Expense> getDefaultExpenses(String jobId) {
         List<Expense> expenses = new ArrayList<>();
+
+        // Driving
         Expense expense = new Expense();
         expense.setName(DRIVING);
         expense.setType(Expense.Type.DRIVING);
-        expense.setJobId(job.getJobId());
+        expense.setJobId(jobId);
         expenses.add(expense);
+
+        // Other expenses
+        expense = new Expense();
+        expense.setName(EasyTimeApplication.getContext().getString(R.string.other_expenses));
+        expense.setType(Expense.Type.OTHER);
+        expense.setJobId(jobId);
+        expenses.add(expense);
+
         return expenses;
     }
 
-    private List<Expense> getExpenses(String jobId, boolean isMaterial) {
+    private List<Expense> getExpenses(String jobId, boolean isMaterial, String searchQuery) {
         List<Expense> expenses = new ArrayList<>();
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
             Dao<Material, String> materialDao = helper.getMaterialDao();
             QueryBuilder<Expense, Long> qb = dao.queryBuilder();
+            Where where;
             if (isMaterial) {
-                qb.where().eq("jobId", jobId).and().isNotNull("materialId");
+                where = qb.where().eq("jobId", jobId).and().isNotNull("materialId");
             } else {
-                qb.where().eq("jobId", jobId).and().isNull("materialId");
+                where = qb.where().eq("jobId", jobId).and().isNull("materialId");
             }
+
+            if (TextUtil.isNotEmpty(searchQuery))
+                where.and().like("name", "%" + searchQuery + "%").prepare();
+
             List<Expense> foundExpenses = qb.query();
 
             if (isMaterial) {
@@ -410,12 +427,12 @@ public final class EasyTimeManager {
         return expenses;
     }
 
-    public List<Expense> getExpenses(String jobId) {
-        return getExpenses(jobId, false);
+    public List<Expense> getExpenses(String jobId, String searchQuery) {
+        return getExpenses(jobId, false, searchQuery);
     }
 
     public List<Expense> getMaterialExpenses(String jobId) {
-        return getExpenses(jobId, true);
+        return getExpenses(jobId, true, null);
     }
 
     public List<Expense> getAllExpenses(String jobId) {
