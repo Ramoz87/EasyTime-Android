@@ -144,10 +144,8 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
 
     @Override
     public boolean onBackPressed() {
-        if (keypadEditorView.isExpanded())
-            keypadEditorView.collapse();
-        else
-            popToActivityFragment();
+        keypadEditorView.collapse();
+        getMainActivity().backForOneStep();
         return true;
     }
 
