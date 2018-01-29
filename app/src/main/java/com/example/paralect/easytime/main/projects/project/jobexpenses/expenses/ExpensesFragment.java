@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +33,7 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
 
     private ExpensesPresenter presenter = new ExpensesPresenter();
     private ExpensesAdapter adapter;
+    private Job job;
 
     public static ExpensesFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
@@ -42,18 +44,24 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        job = Job.fromBundle(getArguments());
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Job job = Job.fromBundle(getArguments());
-        String jobId = job.getJobId();
         adapter = new ExpensesAdapter(EasyTimeManager.getInstance().getDefaultExpenses(job));
         super.onViewCreated(view, savedInstanceState);
-        presenter.setDataView(this)
-                .requestData(new String[] { jobId });
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
+        inflater.inflate(R.menu.menu_search, menu);
+        presenter.setJobId(job.getJobId())
+                .setDataView(this)
+                .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
+                .requestData(new String[] {""});
     }
 
     @Override
@@ -94,7 +102,6 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
         Expense expense = new Expense();
         expense.setName(expenseName);
         expense.setType(Expense.Type.OTHER);
-        Job job = Job.fromBundle(getArguments());
         expense.setJobId(job.getJobId());
         ExpenseEditorFragment fragment = ExpenseEditorFragment.newInstance(expense);
         getMainActivity().getFragmentNavigator().pushFragment(fragment);

@@ -20,15 +20,21 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ExpensesPresenter extends SearchViewPresenter<List<Expense>> {
 
+    private String mJobId;
+
+    public ExpensesPresenter setJobId(String jobId) {
+        mJobId = jobId;
+        return this;
+    }
+
     @Override
-    public IDataPresenter<List<Expense>, String[]> requestData(final String[] parameters) {
+    public ExpensesPresenter requestData(final String[] parameters) {
         Observable<List<Expense>> observable = Observable.create(new ObservableOnSubscribe<List<Expense>>() {
             @Override
             public void subscribe(ObservableEmitter<List<Expense>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        final String jobId = parameters[0];
-                        List<Expense> expenses = EasyTimeManager.getInstance().getExpenses(jobId);
+                        List<Expense> expenses = EasyTimeManager.getInstance().getExpenses(mJobId, parameters[0]);
                         emitter.onNext(expenses);
                         emitter.onComplete();
                     }
