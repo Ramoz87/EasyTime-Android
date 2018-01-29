@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.projects.project.jobexpenses.time;
 
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
+import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.utils.Logger;
@@ -22,18 +23,10 @@ import static com.example.paralect.easytime.model.Type.TypeName.WORK_TYPE;
  * Created by Oleg Tarashkevich on 26/01/2018.
  */
 
-class WorkTypePresenter implements IDataPresenter<List<Type>, Void> {
-
-    private IDataView<List<Type>> mIDataView;
+class WorkTypePresenter extends SearchViewPresenter<List<Type>> {
 
     @Override
-    public IDataPresenter<List<Type>, Void> setDataView(IDataView<List<Type>> view) {
-        mIDataView = view;
-        return this;
-    }
-
-    @Override
-    public IDataPresenter<List<Type>, Void> requestData(Void parameter) {
+    public WorkTypePresenter requestData(final String[] parameters) {
         Flowable<List<Type>> flowable = Flowable.create(new FlowableOnSubscribe<List<Type>>() {
             @Override
             public void subscribe(FlowableEmitter<List<Type>> emitter) throws Exception {
@@ -56,8 +49,8 @@ class WorkTypePresenter implements IDataPresenter<List<Type>, Void> {
                 .subscribe(new Consumer<List<Type>>() {
                     @Override
                     public void accept(List<Type> data) {
-                        if (mIDataView != null)
-                            mIDataView.onDataReceived(data);
+                        if (mView != null)
+                            mView.onDataReceived(data);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
