@@ -23,6 +23,7 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.materials.chooser.MaterialChooserFragment;
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.utils.MetricsUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
@@ -157,10 +158,12 @@ public class MaterialsFragment extends BaseFragment
     @Override
     public void onExpansionUpdate(float expansionFraction, int state) {
         Log.d(TAG, "expansion update: fraction = " + expansionFraction);
+        int minPaddingBottom = (int) MetricsUtils.convertDpToPixel(80);
         int paddingTop = list.getPaddingTop();
         int paddingLeft = list.getPaddingLeft();
         int paddingRight = list.getPaddingRight();
         int paddingBottom = (int) (keypad.getMeasuredHeight() * expansionFraction);
+        if (paddingBottom < minPaddingBottom) paddingBottom = minPaddingBottom; // min bottom padding
         list.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
     }
 
