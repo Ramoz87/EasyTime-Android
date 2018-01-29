@@ -119,20 +119,26 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
 
     @Override
     public void onCompleted() {
-        Log.d(TAG, "on cpmpleted");
-        try {
-            int hours = hoursView.getIntValue();
-            int minutes = minutesView.getIntValue();
-            Expense expense = Expense.createTimeExpense(job, type, hours, minutes);
-            expense = EasyTimeManager.getInstance().saveExpense(expense);
-            Logger.d(TAG, "Expense created");
-        } catch (Throwable e) {
-            Logger.e(e);
-        }
 
-        if (keypadEditorView.isExpanded())
-            keypadEditorView.collapse();
-        popToActivityFragment();
+        if (hoursView.isSelected())
+            minutesView.requestFocus();
+
+        else {
+            Log.d(TAG, "on completed");
+            try {
+                int hours = hoursView.getIntValue();
+                int minutes = minutesView.getIntValue();
+                Expense expense = Expense.createTimeExpense(job, type, hours, minutes);
+                expense = EasyTimeManager.getInstance().saveExpense(expense);
+                Logger.d(TAG, "Expense created");
+            } catch (Throwable e) {
+                Logger.e(e);
+            }
+
+            if (keypadEditorView.isExpanded())
+                keypadEditorView.collapse();
+            popToActivityFragment();
+        }
     }
 
     @Override
@@ -144,7 +150,7 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
         return true;
     }
 
-    private void popToActivityFragment(){
+    private void popToActivityFragment() {
         getMainActivity().getFragmentNavigator().popToFragment(Constants.FRAGMENT_ACTIVITY_DEPTH);
     }
 }
