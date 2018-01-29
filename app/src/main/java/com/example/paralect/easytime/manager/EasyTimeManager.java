@@ -402,7 +402,9 @@ public final class EasyTimeManager {
             Dao<Expense, Long> dao = helper.getExpenseDao();
             Dao<Material, String> materialDao = helper.getMaterialDao();
             QueryBuilder<Expense, Long> qb = dao.queryBuilder();
-            qb.distinct().selectColumns("name");
+
+//            // Doesn't work in case of case sensitive
+//            qb.distinct().selectColumns("name");
 
             Where where;
             if (isMaterial) {

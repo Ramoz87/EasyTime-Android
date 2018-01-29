@@ -11,6 +11,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -38,9 +39,17 @@ class ExpensesPresenter extends SearchViewPresenter<ExpensesPresenter.ExpensesCo
 
                         final String searchQuery = parameters[0];
 
-                        // Filter default expenses
                         List<Expense> defaultExpenses = EasyTimeManager.getInstance().getDefaultExpenses(mJobId);
+                        List<Expense> otherExpenses = EasyTimeManager.getInstance().getOtherExpenses(mJobId, searchQuery);
+
+                        // Filter default expenses
                         defaultExpenses = Flowable.fromIterable(defaultExpenses)
+                                .distinct(new Function<Expense, String>() {
+                                    @Override
+                                    public String apply(Expense expense) throws Exception {
+                                        return expense.getName().toLowerCase();
+                                    }
+                                })
                                 .filter(new Predicate<Expense>() {
                                     @Override
                                     public boolean test(Expense expense) throws Exception {
@@ -50,9 +59,20 @@ class ExpensesPresenter extends SearchViewPresenter<ExpensesPresenter.ExpensesCo
                                 .toList()
                                 .blockingGet();
 
+                        // Filter other expenses
+                        otherExpenses = Flowable.fromIterable(otherExpenses)
+                                .distinct(new Function<Expense, String>() {
+                                    @Override
+                                    public String apply(Expense expense) throws Exception {
+                                        return expense.getName().toLowerCase();
+                                    }
+                                })
+                                .toList()
+                                .blockingGet();
+
                         final ExpensesContainer container = new ExpensesContainer();
                         container.defaultExpenses = defaultExpenses;
-                        container.otherExpenses = EasyTimeManager.getInstance().getOtherExpenses(mJobId, searchQuery);
+                        container.otherExpenses = otherExpenses;
 
                         emitter.onNext(container);
                         emitter.onComplete();
