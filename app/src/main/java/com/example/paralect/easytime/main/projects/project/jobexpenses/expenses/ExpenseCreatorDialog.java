@@ -1,11 +1,14 @@
 package com.example.paralect.easytime.main.projects.project.jobexpenses.expenses;
 
 import android.app.Dialog;
+import android.app.Service;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -64,5 +67,8 @@ public class ExpenseCreatorDialog extends Dialog {
             }
         };
         create.setOnTouchListener(createAction);
+
+        expenseName.requestFocus();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); // simulate click on edit text
     }
 }
