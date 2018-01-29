@@ -396,12 +396,16 @@ public final class EasyTimeManager {
         return expenses;
     }
 
-    private List<Expense> getExpenses(String jobId, boolean isMaterial, String searchQuery) {
+    private List<Expense> getExpenses(String jobId, boolean isMaterial, String searchQuery, @Expense.Type String expenseType) {
         List<Expense> expenses = new ArrayList<>();
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
             Dao<Material, String> materialDao = helper.getMaterialDao();
             QueryBuilder<Expense, Long> qb = dao.queryBuilder();
+
+//            // Doesn't work in case of case sensitive
+//            qb.distinct().selectColumns("name");
+
             Where where;
             if (isMaterial) {
                 where = qb.where().eq("jobId", jobId).and().isNotNull("materialId");
@@ -409,8 +413,12 @@ public final class EasyTimeManager {
                 where = qb.where().eq("jobId", jobId).and().isNull("materialId");
             }
 
-            if (TextUtil.isNotEmpty(searchQuery))
-                where.and().like("name", "%" + searchQuery + "%").prepare();
+            if (TextUtil.isNotEmpty(searchQuery)) {
+                where.and().like("name", "%" + searchQuery + "%");
+        }
+
+            if (TextUtil.isNotEmpty(expenseType))
+                where.and().eq("type", expenseType);
 
             List<Expense> foundExpenses = qb.query();
 
@@ -427,12 +435,12 @@ public final class EasyTimeManager {
         return expenses;
     }
 
-    public List<Expense> getExpenses(String jobId, String searchQuery) {
-        return getExpenses(jobId, false, searchQuery);
+    public List<Expense> getOtherExpenses(String jobId, String searchQuery) {
+        return getExpenses(jobId, false, searchQuery, Expense.Type.OTHER);
     }
 
     public List<Expense> getMaterialExpenses(String jobId) {
-        return getExpenses(jobId, true, null);
+        return getExpenses(jobId, true, null, Expense.Type.MATERIAL);
     }
 
     public List<Expense> getAllExpenses(String jobId) {
