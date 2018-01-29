@@ -57,6 +57,7 @@
             app:layout_rowWeight="2">
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/next_button"
                 android:layout_gravity="center"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
