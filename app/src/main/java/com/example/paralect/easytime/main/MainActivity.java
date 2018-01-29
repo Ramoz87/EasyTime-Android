@@ -19,6 +19,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.customers.CustomersFragment;
 import com.example.paralect.easytime.main.materials.MaterialsFragment;
 import com.example.paralect.easytime.main.projects.ProjectsFragment;
+import com.example.paralect.easytime.main.projects.project.jobexpenses.time.TimeExpensesFragment;
 import com.example.paralect.easytime.main.settings.SettingsFragment;
 import com.example.paralect.easytime.model.event.ResultEvent;
 import com.example.paralect.easytime.utils.RxBus;
@@ -28,6 +29,8 @@ import com.ncapdevi.fragnav.FragNavController;
 import com.ncapdevi.fragnav.FragNavSwitchController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
 import com.ncapdevi.fragnav.tabhistory.FragNavTabHistoryController;
+
+import java.util.Stack;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     final FragNavTransactionOptions options = FragNavTransactionOptions.newBuilder()
             .customAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-            .allowStateLoss(false)
+            .allowStateLoss(true)
             .build();
 
     @BindView(R.id.navigationView) BottomNavigationView bottomBar;
@@ -251,6 +254,29 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     @Override
     public void pushFragment(Fragment fragment) {
         mNavController.pushFragment(fragment, options);
+    }
+
+    /**
+     * Pop back to fragment
+     * @param depth - number of fragments from the current to the established one
+     */
+    @Override
+    public void popFragments(int depth) {
+        mNavController.popFragments(depth, options);
+    }
+
+    /**
+     * Pop back to fragment
+     * @param depth - number of fragments from the first to the established one
+     */
+    @Override
+    public void popToFragment(int depth) {
+        Stack<Fragment> currentStack = mNavController.getCurrentStack();
+        if (currentStack != null) {
+            int stack = currentStack.size();
+            int size = stack - depth;
+            popFragments(size);
+        }
     }
 
     public FragmentNavigator getFragmentNavigator() {

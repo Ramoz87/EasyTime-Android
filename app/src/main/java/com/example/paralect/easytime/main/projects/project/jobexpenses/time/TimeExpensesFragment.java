@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Type;
@@ -128,13 +129,22 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
         } catch (Throwable e) {
             Logger.e(e);
         }
-        backForOneStep();
+
+        if (keypadEditorView.isExpanded())
+            keypadEditorView.collapse();
+        popToActivityFragment();
     }
 
     @Override
     public boolean onBackPressed() {
-        keypadEditorView.collapse();
-        getMainActivity().backForOneStep();
+        if (keypadEditorView.isExpanded())
+            keypadEditorView.collapse();
+        else
+            popToActivityFragment();
         return true;
+    }
+
+    private void popToActivityFragment(){
+        getMainActivity().getFragmentNavigator().popToFragment(Constants.FRAGMENT_ACTIVITY_DEPTH);
     }
 }
