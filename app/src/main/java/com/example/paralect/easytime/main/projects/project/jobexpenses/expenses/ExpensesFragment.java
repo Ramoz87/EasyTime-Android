@@ -27,12 +27,13 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by alexei on 15.01.2018.
  */
 
-public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreatorDialog.Listener, IDataView<List<Expense>> {
+public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreatorDialog.Listener,
+        IDataView<ExpensesPresenter.ExpensesContainer> {
 
     public static final String TAG = ExpensesFragment.class.getSimpleName();
 
     private ExpensesPresenter presenter = new ExpensesPresenter();
-    private ExpensesAdapter adapter;
+    private ExpensesAdapter adapter = new ExpensesAdapter();
     private Job job;
 
     public static ExpensesFragment newInstance(@NonNull Job job) {
@@ -47,12 +48,6 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         job = Job.fromBundle(getArguments());
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        adapter = new ExpensesAdapter(EasyTimeManager.getInstance().getDefaultExpenses(job));
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -108,8 +103,8 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
     }
 
     @Override
-    public void onDataReceived(List<Expense> expenses) {
+    public void onDataReceived(ExpensesPresenter.ExpensesContainer exp) {
         Log.d(TAG, "on data received");
-        adapter.setOtherExpenses(expenses);
+        adapter.setExpenses(exp.getDefaultExpenses(), exp.getOtherExpenses());
     }
 }

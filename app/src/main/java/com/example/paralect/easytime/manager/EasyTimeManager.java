@@ -375,12 +375,12 @@ public final class EasyTimeManager {
         }
     }
 
-    public List<Expense> getDefaultExpenses(Job job) {
+    public List<Expense> getDefaultExpenses(String jobId) {
         List<Expense> expenses = new ArrayList<>();
         Expense expense = new Expense();
         expense.setName(DRIVING);
         expense.setType(Expense.Type.DRIVING);
-        expense.setJobId(job.getJobId());
+        expense.setJobId(jobId);
         expenses.add(expense);
         return expenses;
     }

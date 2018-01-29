@@ -10,6 +10,8 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Expense;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,22 +24,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
-    private List<Expense> defaultExpenses;
-    private List<Expense> otherExpenses;
-
-    public ExpensesAdapter(List<Expense> defaultExpenses) {
-        this.defaultExpenses = defaultExpenses;
-    }
-
-    public void setOtherExpenses(List<Expense> otherExpenses) {
-        this.otherExpenses = otherExpenses;
-        notifyDataSetChanged();
-    }
-
-    public void setDefaultExpenses(List<Expense> defaultExpenses) {
-        this.defaultExpenses = defaultExpenses;
-        notifyDataSetChanged();
-    }
+    private List<Expense> defaultExpenses = Collections.emptyList();
+    private List<Expense> otherExpenses = Collections.emptyList();
 
     public void setExpenses(List<Expense> defaultExpenses, List<Expense> otherExpenses) {
         this.defaultExpenses = defaultExpenses;

@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.projects.project.jobexpenses.expenses;
 
-import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
@@ -18,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by alexei on 16.01.2018.
  */
 
-public class ExpensesPresenter extends SearchViewPresenter<List<Expense>> {
+class ExpensesPresenter extends SearchViewPresenter<ExpensesPresenter.ExpensesContainer> {
 
     private String mJobId;
 
@@ -29,13 +28,17 @@ public class ExpensesPresenter extends SearchViewPresenter<List<Expense>> {
 
     @Override
     public ExpensesPresenter requestData(final String[] parameters) {
-        Observable<List<Expense>> observable = Observable.create(new ObservableOnSubscribe<List<Expense>>() {
+        Observable<ExpensesPresenter.ExpensesContainer> observable = Observable.create(new ObservableOnSubscribe<ExpensesPresenter.ExpensesContainer>() {
             @Override
-            public void subscribe(ObservableEmitter<List<Expense>> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<ExpensesPresenter.ExpensesContainer> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        List<Expense> expenses = EasyTimeManager.getInstance().getExpenses(mJobId, parameters[0]);
-                        emitter.onNext(expenses);
+
+                        final ExpensesContainer container = new ExpensesContainer();
+                        container.defaultExpenses = EasyTimeManager.getInstance().getDefaultExpenses(mJobId);
+                        container.otherExpenses = EasyTimeManager.getInstance().getExpenses(mJobId, parameters[0]);
+
+                        emitter.onNext(container);
                         emitter.onComplete();
                     }
 
@@ -47,9 +50,9 @@ public class ExpensesPresenter extends SearchViewPresenter<List<Expense>> {
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<List<Expense>>() {
+                .subscribe(new DisposableObserver<ExpensesPresenter.ExpensesContainer>() {
                     @Override
-                    public void onNext(List<Expense> expenses) {
+                    public void onNext(ExpensesPresenter.ExpensesContainer expenses) {
                         if (mView != null)
                             mView.onDataReceived(expenses);
                     }
@@ -66,5 +69,19 @@ public class ExpensesPresenter extends SearchViewPresenter<List<Expense>> {
                     }
                 });
         return this;
+    }
+
+    public class ExpensesContainer{
+
+        private List<Expense> defaultExpenses;
+        private List<Expense> otherExpenses;
+
+        public List<Expense> getDefaultExpenses() {
+            return defaultExpenses;
+        }
+
+        public List<Expense> getOtherExpenses() {
+            return otherExpenses;
+        }
     }
 }
