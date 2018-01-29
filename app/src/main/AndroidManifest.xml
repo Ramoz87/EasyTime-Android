@@ -19,11 +19,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"/>
-
-                <action android:name="android.intent.action.MAIN"/>
-            </intent-filter>
         </activity>
 
         <activity
@@ -35,7 +30,13 @@
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".main.CongratulationsActivity"
