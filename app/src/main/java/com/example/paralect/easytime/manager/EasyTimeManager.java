@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.paralect.easytime.EasyTimeApplication;
+import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
@@ -377,11 +378,21 @@ public final class EasyTimeManager {
 
     public List<Expense> getDefaultExpenses(String jobId) {
         List<Expense> expenses = new ArrayList<>();
+
+        // Driving
         Expense expense = new Expense();
         expense.setName(DRIVING);
         expense.setType(Expense.Type.DRIVING);
         expense.setJobId(jobId);
         expenses.add(expense);
+
+        // Other expenses
+        expense = new Expense();
+        expense.setName(EasyTimeApplication.getContext().getString(R.string.other_expenses));
+        expense.setType(Expense.Type.OTHER);
+        expense.setJobId(jobId);
+        expenses.add(expense);
+
         return expenses;
     }
 

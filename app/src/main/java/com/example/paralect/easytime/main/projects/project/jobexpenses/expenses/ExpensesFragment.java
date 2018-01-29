@@ -77,7 +77,7 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Expense expense = adapter.getItem(i);
-        if (expense == null) {
+        if (expense.getName().equalsIgnoreCase(getString(R.string.other_expenses))) {
             // show dialog to create new expense
             showCreatorDialog();
         } else {

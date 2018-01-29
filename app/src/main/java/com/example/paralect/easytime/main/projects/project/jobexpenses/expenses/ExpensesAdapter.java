@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Expense;
+import com.example.paralect.easytime.utils.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,20 +24,28 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
-    private List<Expense> defaultExpenses = Collections.emptyList();
-    private List<Expense> otherExpenses = Collections.emptyList();
+    private List<Expense> mDefaultExpenses = Collections.emptyList();
+    private List<Expense> mOtherExpenses = Collections.emptyList();
 
     public void setExpenses(List<Expense> defaultExpenses, List<Expense> otherExpenses) {
-        this.defaultExpenses = defaultExpenses;
-        this.otherExpenses = otherExpenses;
+        if (CollectionUtils.isEmpty(defaultExpenses))
+            mDefaultExpenses.clear();
+        else
+            mDefaultExpenses = defaultExpenses;
+
+        if (CollectionUtils.isEmpty(otherExpenses))
+            mOtherExpenses.clear();
+        else
+            mOtherExpenses = otherExpenses;
+
         notifyDataSetChanged();
     }
 
     public void addExpense(Expense expense) {
-        if (otherExpenses == null) {
-            otherExpenses = new ArrayList<>();
+        if (mOtherExpenses == null) {
+            mOtherExpenses = new ArrayList<>();
         }
-        otherExpenses.add(expense);
+        mOtherExpenses.add(expense);
         notifyDataSetChanged();
     }
 
@@ -53,7 +61,7 @@ public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAda
     }
 
     private boolean isBasic(int position) {
-        return position <= defaultExpenses.size();
+        return position < mDefaultExpenses.size();
     }
 
     @Override
@@ -63,16 +71,14 @@ public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAda
 
     @Override
     public int getCount() {
-        return (defaultExpenses != null ? defaultExpenses.size() : 0) /*for defaultExpenses*/
-                + 1 /*expense creator*/
-                + (otherExpenses == null ? 0 : otherExpenses.size()) /*other expenses*/;
+        return mDefaultExpenses.size() /*for mDefaultExpenses*/
+                + mOtherExpenses.size() /*other expenses*/;
     }
 
     @Override
     public Expense getItem(int i) {
-        if (i < defaultExpenses.size()) return defaultExpenses.get(i);
-        else if (i == defaultExpenses.size()) return null;
-        else return otherExpenses.get(i - (defaultExpenses.size() + 1));
+        if (i < mDefaultExpenses.size()) return mDefaultExpenses.get(i);
+        else return mOtherExpenses.get(i - (mDefaultExpenses.size()));
     }
 
     @Override
@@ -107,12 +113,7 @@ public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAda
         }
 
         void bind(Expense expense) {
-            if (expense == null) {
-                // divider.setVisibility(View.GONE);
-                name.setText(R.string.other_expenses);
-            } else {
-                name.setText(expense.getName());
-            }
+            name.setText(expense.getName());
         }
     }
 }

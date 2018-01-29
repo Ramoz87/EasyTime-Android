@@ -6,10 +6,12 @@ import com.example.paralect.easytime.model.Expense;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -34,9 +36,23 @@ class ExpensesPresenter extends SearchViewPresenter<ExpensesPresenter.ExpensesCo
                 try {
                     if (!emitter.isDisposed()) {
 
+                        final String searchQuery = parameters[0];
+
+                        // Filter default expenses
+                        List<Expense> defaultExpenses = EasyTimeManager.getInstance().getDefaultExpenses(mJobId);
+                        defaultExpenses = Flowable.fromIterable(defaultExpenses)
+                                .filter(new Predicate<Expense>() {
+                                    @Override
+                                    public boolean test(Expense expense) throws Exception {
+                                        return expense.getName().toLowerCase().contains(searchQuery.toLowerCase());
+                                    }
+                                })
+                                .toList()
+                                .blockingGet();
+
                         final ExpensesContainer container = new ExpensesContainer();
-                        container.defaultExpenses = EasyTimeManager.getInstance().getDefaultExpenses(mJobId);
-                        container.otherExpenses = EasyTimeManager.getInstance().getExpenses(mJobId, parameters[0]);
+                        container.defaultExpenses = defaultExpenses;
+                        container.otherExpenses = EasyTimeManager.getInstance().getExpenses(mJobId, searchQuery);
 
                         emitter.onNext(container);
                         emitter.onComplete();
