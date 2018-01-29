@@ -16,4 +16,6 @@ public final class Constants {
     public static final String UNITY_KM = "km";
     public static final String UNITY_MIN = "min";
 
+    public static final int FRAGMENT_ACTIVITY_DEPTH = 2;
+
 }

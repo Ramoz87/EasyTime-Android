@@ -1,5 +1,7 @@
 package com.example.paralect.easytime.views;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Build;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TouchHandler;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -34,6 +37,7 @@ public class KeypadView extends ExpandableLayout {
     @BindView(R.id.keypadNext) View next;
     @BindView(R.id.keypadDelete) View delete;
     @BindView(R.id.shadow) View shadow;
+    @BindView(R.id.next_button) TextView nextButton;
 
     private OnTouchListener getNewNumberHandler() {
         return new TouchHandler() {
@@ -142,18 +146,33 @@ public class KeypadView extends ExpandableLayout {
     }
 
     @Override
-    public void setExpanded(boolean expand, boolean animate) {
+    public void setExpanded(final boolean expand, boolean animate) {
         if (expand == isExpanded()) return;
 
         if (animate) {
-            Log.d(TAG, String.format("animate fading %s", expand ? "in" : "out"));
+            Logger.d(TAG, String.format("animate fading %s", expand ? "in" : "out"));
             int duration = getDuration();
             float start = expand ? 0 : 1;
             float end = start == 0 ? 1 : 0;
             ObjectAnimator alphaAnimation = ObjectAnimator.ofFloat(this, View.ALPHA, start, end);
             alphaAnimation.setDuration(duration);
+            alphaAnimation.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (!expand)
+                        showNextButton();
+                }
+            });
             alphaAnimation.start();
         }
         super.setExpanded(expand, animate);
+    }
+
+    public void showNextButton(){
+        nextButton.setText(R.string.next);
+    }
+
+    public void showDoneButton(){
+        nextButton.setText(R.string.done);
     }
 }

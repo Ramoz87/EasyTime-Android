@@ -141,25 +141,26 @@ public class StrangeNumberInputView extends LinearLayout implements View.OnFocus
                         result = second + "" + number;
                     } else if (first != 0 && second == 0) {
                         result = first + "" + number;
-                    }
+                    } 
 
                     int resultNumber = Integer.parseInt(result);
                     if (resultNumber <= mMaxInputNumber)
                         mMainTextView.setText(result);
-                    else
+                    else {
+                        mMainTextView.setText(String.valueOf(mMaxInputNumber));
                         ViewAnimationUtils.shakeAnimation(StrangeNumberInputView.this, 1000);
-
+                    }
                 }
             }
 
         };
     }
 
-    public String getValue(){
+    public String getValue() {
         return mMainTextView.getText().toString();
     }
 
-    public int getIntValue(){
+    public int getIntValue() {
         return Integer.valueOf(getValue());
     }
 

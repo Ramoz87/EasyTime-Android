@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Type;
@@ -118,23 +119,39 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
 
     @Override
     public void onCompleted() {
-        Log.d(TAG, "on cpmpleted");
-        try {
-            int hours = hoursView.getIntValue();
-            int minutes = minutesView.getIntValue();
-            Expense expense = Expense.createTimeExpense(job, type, hours, minutes);
-            expense = EasyTimeManager.getInstance().saveExpense(expense);
-            Logger.d(TAG, "Expense created");
-        } catch (Throwable e) {
-            Logger.e(e);
+
+        if (hoursView.isSelected()) {
+            minutesView.requestFocus();
+            keypadEditorView.showDoneButton();
+
+        } else {
+            Log.d(TAG, "on completed");
+            try {
+                int hours = hoursView.getIntValue();
+                int minutes = minutesView.getIntValue();
+                Expense expense = Expense.createTimeExpense(job, type, hours, minutes);
+                expense = EasyTimeManager.getInstance().saveExpense(expense);
+                Logger.d(TAG, "Expense created");
+            } catch (Throwable e) {
+                Logger.e(e);
+            }
+
+            if (keypadEditorView.isExpanded())
+                keypadEditorView.collapse();
+            popToActivityFragment();
         }
-        backForOneStep();
     }
 
     @Override
     public boolean onBackPressed() {
-        keypadEditorView.collapse();
-        getMainActivity().backForOneStep();
+        if (keypadEditorView.isExpanded())
+            keypadEditorView.collapse();
+        else
+            popToActivityFragment();
         return true;
+    }
+
+    private void popToActivityFragment() {
+        getMainActivity().getFragmentNavigator().popToFragment(Constants.FRAGMENT_ACTIVITY_DEPTH);
     }
 }

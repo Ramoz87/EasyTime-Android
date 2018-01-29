@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.paralect.easytime.model.User;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +28,10 @@ public class ETPreferenceManager {
     private static final String KEY_LAST_DATE_YEAR = "last_date_year";
     private static final String KEY_LAST_DATE_MONTH = "last_date_month";
     private static final String KEY_LAST_DATE_DAY = "last_date_day";
+
+    /*user preferences*/
+    private static final String KEY_USER_NAME = "user_name";
+    private static final String KEY_USER_ID = "user_password";
 
     private static ETPreferenceManager instance = null;
 
@@ -75,5 +81,20 @@ public class ETPreferenceManager {
         int lastMonth = etPreferences.getInt(KEY_LAST_DATE_MONTH, month);
         int lastDay = etPreferences.getInt(KEY_LAST_DATE_DAY, day);
         return !(year == lastYear && month == lastMonth && day == lastDay);
+    }
+
+    public String getUserName() {
+        return etPreferences.getString(KEY_USER_NAME, null);
+    }
+
+    public String getUserId() {
+        return etPreferences.getString(KEY_USER_ID, null);
+    }
+
+    public void saveUser(User user) {
+        String userId = user != null ? user.getUserId() : null;
+        etPreferences.edit()
+                .putString(KEY_USER_ID, userId)
+                .apply();
     }
 }
