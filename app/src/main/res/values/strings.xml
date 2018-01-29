@@ -118,6 +118,7 @@
 
     <!--keypad-->
     <string name="next">Next</string>
+    <string name="done">Done</string>
 
     <!--expenses-->
     <string name="basic">Basic</string>

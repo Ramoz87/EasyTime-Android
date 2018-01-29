@@ -120,10 +120,11 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
     @Override
     public void onCompleted() {
 
-        if (hoursView.isSelected())
+        if (hoursView.isSelected()) {
             minutesView.requestFocus();
+            keypadEditorView.showDoneButton();
 
-        else {
+        } else {
             Log.d(TAG, "on completed");
             try {
                 int hours = hoursView.getIntValue();
