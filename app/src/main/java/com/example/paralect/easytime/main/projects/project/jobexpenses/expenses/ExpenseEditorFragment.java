@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
@@ -20,8 +21,11 @@ import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.Logger;
+import com.example.paralect.easytime.utils.MetricsUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.gallery.ExpenseFilesView;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.sql.SQLException;
 
@@ -32,7 +36,7 @@ import butterknife.ButterKnife;
  * Created by alexei on 15.01.2018.
  */
 
-public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener, ViewTreeObserver.OnGlobalLayoutListener {
+public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener, ExpandableLayout.OnExpansionUpdateListener {
     private static final String TAG = ExpenseEditorFragment.class.getSimpleName();
 
     public static final String ARG_EXPENSE = "arg_expense";
@@ -73,7 +77,6 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
     private void init() {
         keypadEditorView = getKeypadEditor();
-        keypadEditorView.getViewTreeObserver().addOnGlobalLayoutListener(this);
         mExpense = getExpenseArg();
 
         if (mExpense == null) {
@@ -139,12 +142,6 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     }
 
     @Override
-    public void onGlobalLayout() {
-        View view = keypadEditorView;
-        Log.d(TAG, "Current height = " + view.getHeight());
-    }
-
-    @Override
     public boolean onBackPressed() {
         keypadEditorView.collapse();
         getMainActivity().backForOneStep();
@@ -154,6 +151,26 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     @Override
     public void onPause() {
         super.onPause();
-        keypadEditorView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        keypadEditorView.setOnExpansionUpdateListener(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        keypadEditorView.setOnExpansionUpdateListener(this);
+    }
+
+    @Override
+    public void onExpansionUpdate(float expansionFraction, int state) {
+        Log.d(TAG, "expansion update: fraction = " + expansionFraction);
+        View root = getView();
+        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) root.getLayoutParams();
+        int navBarHeight = (int) MetricsUtils.convertDpToPixel(64);
+        int height = (int) (keypadEditorView.getMeasuredHeight() * expansionFraction) - navBarHeight /*for navigation bar at the bottom*/;
+        Log.d(TAG, "updated margin = " + height);
+        int leftMargin = mlp.leftMargin;
+        int topMargin = mlp.topMargin;
+        int rightMargin = mlp.rightMargin;
+        mlp.setMargins(leftMargin, topMargin, rightMargin, height);
     }
 }

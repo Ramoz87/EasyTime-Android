@@ -68,9 +68,8 @@ public class LaunchScreenActivity extends Activity {
                .subscribe(new Action() {
                    @Override
                    public void run() throws Exception {
-                       Intent intent = new Intent(LaunchScreenActivity.this, MainActivity.class);
+                       Intent intent = new Intent(LaunchScreenActivity.this, LoginActivity.class);
                        startActivity(intent);
-                       finish();
                    }
                }, new Consumer<Throwable>() {
                    @Override

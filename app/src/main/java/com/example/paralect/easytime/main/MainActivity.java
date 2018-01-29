@@ -292,5 +292,4 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     public KeypadEditorView getKeypadEditor() {
         return keypadEditorView;
     }
-
 }

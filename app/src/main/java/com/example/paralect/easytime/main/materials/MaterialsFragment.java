@@ -43,7 +43,7 @@ import butterknife.OnClick;
  */
 
 public class MaterialsFragment extends BaseFragment
-        implements IDataView<List<Material>>,MaterialAdapter.MaterialEditingListener {
+        implements IDataView<List<Material>>,MaterialAdapter.MaterialEditingListener, ExpandableLayout.OnExpansionUpdateListener {
 
     private static final String TAG = MaterialsFragment.class.getSimpleName();
 
@@ -154,6 +154,16 @@ public class MaterialsFragment extends BaseFragment
         keypad.setOnKeypadItemClickListener(new KeypadHandler(editText));
     }
 
+    @Override
+    public void onExpansionUpdate(float expansionFraction, int state) {
+        Log.d(TAG, "expansion update: fraction = " + expansionFraction);
+        int paddingTop = list.getPaddingTop();
+        int paddingLeft = list.getPaddingLeft();
+        int paddingRight = list.getPaddingRight();
+        int paddingBottom = (int) (keypad.getMeasuredHeight() * expansionFraction);
+        list.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+    }
+
     /**
      * Added this copy of class to avoid text selection function in the {@link KeypadEditorView.KeypadHandler#onDeleteClick}
      */
@@ -216,5 +226,19 @@ public class MaterialsFragment extends BaseFragment
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "on pause");
+        keypad.setOnExpansionUpdateListener(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "on resume");
+        keypad.setOnExpansionUpdateListener(this);
     }
 }
