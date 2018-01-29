@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="65dp"
               android:focusable="true"
               android:focusableInTouchMode="true"
-              android:gravity="center_vertical"
-              android:orientation="horizontal"
               android:paddingLeft="@dimen/list_item_horizontal_padding"
               android:paddingRight="@dimen/list_item_horizontal_padding">
 
+    <LinearLayout
+        android:id="@+id/rightPart"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/expenseValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_expense_time"
+            android:textColor="@color/black"/>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_trash"
+            android:textColor="@color/black"
+            app:tint="@color/gray_blue"/>
+
+    </LinearLayout>
+
     <android.support.v7.widget.AppCompatTextView
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/rightPart"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:id="@+id/expenseName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,26 +47,4 @@
         android:textColor="@color/black"
         android:textSize="17sp"/>
 
-    <android.support.v4.widget.Space
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/expenseValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/placeholder_expense_time"
-        android:textColor="@color/black"/>
-
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/ic_trash"
-        android:textColor="@color/black"
-        android:visibility="gone"
-        app:tint="@color/gray_blue"/>
-
-</LinearLayout>
+</RelativeLayout>
