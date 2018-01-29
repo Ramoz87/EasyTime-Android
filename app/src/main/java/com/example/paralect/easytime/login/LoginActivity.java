@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.MainActivity;
+import com.example.paralect.easytime.manager.ETAccountManager;
+import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +39,8 @@ public class LoginActivity extends Activity {
 
     @OnClick(R.id.sign_in)
     void signIn(View view) {
+        User user = EasyTimeManager.getInstance().getRandomUser();
+        ETAccountManager.getInstance().login(user);
         goToMainActivity();
     }
 
@@ -49,5 +54,9 @@ public class LoginActivity extends Activity {
     private void goToMainActivity() {
         Intent intent = MainActivity.newIntent(this);
         startActivity(intent);
+    }
+
+    private boolean validate(String username, String password) {
+        return true;
     }
 }

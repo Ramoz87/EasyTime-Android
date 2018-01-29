@@ -17,6 +17,7 @@ import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.model.Type;
+import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.CollectionUtils;
 import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.dao.Dao;
@@ -535,4 +536,23 @@ public final class EasyTimeManager {
     }
     // endregion
 
+    public User getUser(String userId) {
+        try {
+            Dao<User, String> dao = helper.getUserDao();
+            return dao.queryForId(userId);
+        } catch (SQLException e) {
+            Logger.e(e.getMessage());
+            return null;
+        }
+    }
+
+    public User getRandomUser() {
+        try {
+            Dao<User, String> dao = helper.getUserDao();
+            return dao.queryForId("0be618c9-e68b-435a-bdf4-d7f4ee6b6ba4");
+        } catch (SQLException e) {
+            Logger.e(e.getMessage());
+            return null;
+        }
+    }
 }
