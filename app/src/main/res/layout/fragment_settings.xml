@@ -30,7 +30,7 @@
 
             <android.support.v7.widget.AppCompatTextView
                 android:textColor="@color/list_item_primary_text"
-                android:id="@+id/user_name"
+                android:id="@+id/first_and_last_name"
                 android:text="@string/placeholder_user_name"
                 android:textSize="22sp"
                 android:layout_width="wrap_content"

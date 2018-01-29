@@ -56,4 +56,8 @@ public final class ETAccountManager {
     public boolean isLoggedIn() {
         return user != null;
     }
+
+    public User getUser() {
+        return user;
+    }
 }

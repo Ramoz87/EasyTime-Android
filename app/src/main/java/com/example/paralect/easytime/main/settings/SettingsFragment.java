@@ -1,5 +1,7 @@
 package com.example.paralect.easytime.main.settings;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
@@ -7,12 +9,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.paralect.easytime.login.LoginActivity;
+import com.example.paralect.easytime.manager.ETAccountManager;
+import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.ViewUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -22,6 +29,9 @@ import butterknife.OnClick;
 
 public class SettingsFragment extends BaseFragment {
     private static final String TAG = SettingsFragment.class.getSimpleName();
+
+    @BindView(R.id.first_and_last_name)
+    TextView firstAndLastName;
 
     @OnClick(R.id.helpLayout)
     void help() {
@@ -35,7 +45,12 @@ public class SettingsFragment extends BaseFragment {
 
     @OnClick(R.id.logoutLayout)
     void logout() {
-        Toast.makeText(getContext(), "Logged out", Toast.LENGTH_SHORT).show();
+        ETAccountManager.getInstance().logout();
+        Context context = getContext();
+        Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
     }
 
     public static SettingsFragment newInstance() {
@@ -52,6 +67,13 @@ public class SettingsFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        init();
+    }
+
+    private void init() {
+        User user = getUser();
+        String text = user.getFirstName() + " " + user.getLastName();
+        firstAndLastName.setText(text);
     }
 
     @Override
@@ -67,5 +89,10 @@ public class SettingsFragment extends BaseFragment {
     @Override
     public boolean needsOptionsMenu() {
         return true;
+    }
+
+    private User getUser() {
+        ETAccountManager accountManager = ETAccountManager.getInstance();
+        return accountManager.getUser();
     }
 }
