@@ -30,6 +30,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.design.widget.BottomNavigationView
+            app:elevation="0dp"
             android:layout_alignParentBottom="true"
             android:id="@+id/navigationView"
             android:layout_width="match_parent"
