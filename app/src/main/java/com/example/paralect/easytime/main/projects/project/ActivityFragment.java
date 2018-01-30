@@ -179,8 +179,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     private void initList() {
         emptyRecyclerView.setEmptyView(emptyListPlaceholder);
         emptyRecyclerView.setAdapter(adapter);
-        RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
-        emptyRecyclerView.setLayoutManager(lm);
+        emptyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
@@ -233,8 +232,6 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     private void initFam() {
         Log.d(TAG, "initializing fam");
-        Context context = getContext();
-        Resources res = getResources();
         fam.setOnMenuToggleListener(this);
     }
 

@@ -33,6 +33,7 @@ import org.apache.commons.collections.ListUtils;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.paralect.easytime.model.Constants.DRIVING;
@@ -535,12 +536,7 @@ public final class EasyTimeManager {
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
             Dao<Material, String> materialDao = helper.getMaterialDao();
-            Expense expense = new Expense();
-            expense.setJobId(jobId);
-            expense.setName(material.getName());
-            expense.setMaterialId(material.getMaterialId());
-            expense.setType(Expense.Type.MATERIAL);
-            expense.setValue(countOfMaterials);
+            Expense expense = Expense.createMaterialExpense(jobId, material, countOfMaterials);
             material.setStockQuantity(material.getStockQuantity() - countOfMaterials);
             // TODO Should we count the price right here ???
             dao.createOrUpdate(expense);

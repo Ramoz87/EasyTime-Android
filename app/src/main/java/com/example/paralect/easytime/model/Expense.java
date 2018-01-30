@@ -12,6 +12,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Date;
 
 import static com.example.paralect.easytime.model.Constants.UNITY_KM;
 import static com.example.paralect.easytime.model.Constants.UNITY_MIN;
@@ -61,6 +62,10 @@ public class Expense implements Parcelable {
     @DatabaseField(columnName = "jobId")
     private String jobId;
 
+    @DatabaseField(columnName = "creationDate")
+    private String creationDate;
+
+    // region Create new expense
     public static Expense reCreate(Expense ex) {
         Expense expense = new Expense();
         if (ex != null) {
@@ -71,6 +76,7 @@ public class Expense implements Parcelable {
             expense.setWorkTypeId(ex.getWorkTypeId());
             expense.setMaterialId(ex.getMaterialId());
             expense.setMaterial(ex.getMaterial());
+            expense.setCreationDate(new Date());
         }
         return expense;
     }
@@ -81,9 +87,22 @@ public class Expense implements Parcelable {
         expense.setType(Expense.Type.TIME);
         expense.setName(type.getName());
         expense.setJobId(job.getJobId());
+        expense.setCreationDate(new Date());
         expense.setValue(total);
         return expense;
     }
+
+    public static Expense createMaterialExpense(String jobId, Material material, int countOfMaterials){
+        Expense expense = new Expense();
+        expense.setJobId(jobId);
+        expense.setName(material.getName());
+        expense.setMaterialId(material.getMaterialId());
+        expense.setType(Expense.Type.MATERIAL);
+        expense.setCreationDate(new Date());
+        expense.setValue(countOfMaterials);
+        return expense;
+    }
+    // endregion
 
     public Expense() {
 
@@ -229,5 +248,18 @@ public class Expense implements Parcelable {
 
     public void setJobId(String jobId) {
         this.jobId = jobId;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setCreationDate(Date date) {
+        String creationDate = CalendarUtils.stringFromDate(date, CalendarUtils.DEFAULT_DATE_FORMAT);
+        setCreationDate(creationDate);
     }
 }
