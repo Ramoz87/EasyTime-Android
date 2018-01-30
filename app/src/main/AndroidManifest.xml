@@ -14,6 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="eb27576f0664964f0b5241993c343d4b0993f24c" />
+
         <activity
             android:name=".login.LaunchScreenActivity"
             android:noHistory="true"
