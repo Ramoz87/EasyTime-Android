@@ -57,13 +57,21 @@ public class ContactView extends LinearLayout {
     public void setCustomer(Contact contact, Address address) {
         mContact = contact;
         mAddress = address;
-        if (mContact != null && mAddress != null) {
-            nameTextView.setText(mContact.getFullName());
+        ViewUtils.setVisibility(callButton, TextUtil.isNotEmpty(contact.getPhone()));
+        ViewUtils.setVisibility(emailButton, TextUtil.isNotEmpty(contact.getEmail()));
+        if (mAddress != null) {
             addressTextView.setText(mAddress.getFullAddress());
-
-            ViewUtils.setVisibility(callButton, TextUtil.isNotEmpty(contact.getPhone()));
-            ViewUtils.setVisibility(emailButton, TextUtil.isNotEmpty(contact.getEmail()));
             ViewUtils.setVisibility(mapButton, mAddress.hasAnyAddress());
+        } else {
+            ViewUtils.setVisibility(addressTextView, false);
+            ViewUtils.setVisibility(mapButton, false);
+        }
+
+
+        if (mContact != null) {
+            nameTextView.setText(mContact.getFullName());
+        } else {
+            nameTextView.setText(null);
         }
     }
 
