@@ -36,7 +36,7 @@ public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
                 try {
                     if (!emitter.isDisposed()) {
                         final String date = parameters[1];
-                        List<Expense> expenses = EasyTimeManager.getInstance().getAllExpenses(mJob.getJobId(), date);
+                        List<Expense> expenses = getExpenses(mJob.getJobId(), date);
                         emitter.onNext(expenses);
                         emitter.onComplete();
                     }
@@ -69,9 +69,13 @@ public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
         return this;
     }
 
-    SearchViewPresenter<List<Expense>> setJob(Job job) {
+    public SearchViewPresenter<List<Expense>> setJob(Job job) {
         mJob = job;
         return this;
+    }
+
+    protected List<Expense> getExpenses(String jobId, String date){
+        return EasyTimeManager.getInstance().getAllExpenses(jobId, date);
     }
 
     @Override
