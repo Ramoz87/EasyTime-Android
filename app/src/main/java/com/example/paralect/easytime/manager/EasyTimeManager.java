@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Address;
+import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
 import com.example.paralect.easytime.model.Expense;
@@ -118,6 +119,16 @@ public final class EasyTimeManager {
         }
     }
     // endregion
+
+    public List<Contact> getContacts(Customer customer) {
+        try {
+            Dao<Contact, Long> dao = helper.getContactDao();
+            return dao.queryForEq("customerId", customer.getCustomerId());
+        } catch (SQLException e) {
+            Logger.e(TAG, e.getMessage());
+            return new ArrayList<>();
+        }
+    }
 
     public Type getStatus(Job job) {
         try {

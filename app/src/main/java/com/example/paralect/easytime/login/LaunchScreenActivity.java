@@ -200,6 +200,7 @@ public class LaunchScreenActivity extends Activity {
                 customer.setLastName(fields[38]);
 
                 Contact contact = new Contact();
+                contact.setCustomerId(customer.getCustomerId());
                 contact.setFirstName(customer.getFirstName());
                 contact.setLastName(customer.getLastName());
                 contact.setEmail(fields[23]);

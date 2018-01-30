@@ -40,9 +40,11 @@ final class CustomerPresenter implements IDataPresenter<Pair<Customer, List<Inte
             public void subscribe(FlowableEmitter<Pair<Customer, List<Integer>>> emitter) throws Exception {
                 try {
                     if (!emitter.isCancelled()) {
+                        EasyTimeManager manager = EasyTimeManager.getInstance();
+                        List<Contact> contacts = manager.getContacts(customer);
                         customer.setAddress(Address.mock());
-                        customer.setContacts(Contact.getMockContacts(4));
-                        List<Integer> types = EasyTimeManager.getInstance().getJobTypes(customer);
+                        customer.setContacts(contacts);
+                        List<Integer> types = manager.getJobTypes(customer);
                         emitter.onNext(new Pair<>(customer, types));
                         emitter.onComplete();
                     }

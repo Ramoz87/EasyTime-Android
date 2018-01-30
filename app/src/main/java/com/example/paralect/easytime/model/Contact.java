@@ -2,6 +2,7 @@ package com.example.paralect.easytime.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -34,6 +35,9 @@ public class Contact implements Parcelable {
     @DatabaseField(columnName = "phone")
     private String phone;
 
+    @DatabaseField(columnName = "customerId")
+    private String customerId;
+
     public Contact() {
 
     }
@@ -45,6 +49,7 @@ public class Contact implements Parcelable {
         firstName = in.readString();
         lastName = in.readString();
         phone = in.readString();
+        customerId = in.readString();
     }
 
     @Override
@@ -55,6 +60,7 @@ public class Contact implements Parcelable {
         dest.writeString(firstName);
         dest.writeString(lastName);
         dest.writeString(phone);
+        dest.writeString(customerId);
     }
 
     @Override
@@ -142,5 +148,9 @@ public class Contact implements Parcelable {
     @Override
     public String toString() {
         return firstName + " " + lastName;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }
