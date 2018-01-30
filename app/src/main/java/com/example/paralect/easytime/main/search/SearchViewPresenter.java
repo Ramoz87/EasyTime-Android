@@ -37,8 +37,8 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
     private String query;
     private String date;
 
-    private TextView mTextView;
-    private Calendar mCalendar = Calendar.getInstance();
+    protected TextView mTextView;
+    protected Calendar mCalendar = Calendar.getInstance();
 
     private void setupPublisher() {
         if (mPublisher == null) {
@@ -120,7 +120,7 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
         }
     }
 
-    private void setTitle(){
+    protected void setTitle(){
         SpannableString spannableDateString = CalendarUtils.getSpannableDateString(EasyTimeApplication.getContext(), mCalendar);
         mTextView.setText(spannableDateString);
     }

@@ -1,9 +1,15 @@
 package com.example.paralect.easytime.main.projects.project;
 
+import android.text.SpannableString;
+
+import com.example.paralect.easytime.EasyTimeApplication;
+import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
+import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.CalendarUtils;
 
 import java.util.List;
 
@@ -20,6 +26,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
 
+    private Job mJob;
+
     @Override
     public IDataPresenter<List<Expense>, String[]> requestData(final String[] parameters) {
         Observable<List<Expense>> observable = Observable.create(new ObservableOnSubscribe<List<Expense>>() {
@@ -27,8 +35,8 @@ public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
             public void subscribe(ObservableEmitter<List<Expense>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        final String jobId = parameters[0];
-                        List<Expense> expenses = EasyTimeManager.getInstance().getAllExpenses(jobId);
+                        final String date = parameters[1];
+                        List<Expense> expenses = EasyTimeManager.getInstance().getAllExpenses(mJob.getJobId(), date);
                         emitter.onNext(expenses);
                         emitter.onComplete();
                     }
@@ -60,4 +68,16 @@ public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
                 });
         return this;
     }
+
+    SearchViewPresenter<List<Expense>> setJob(Job job) {
+        mJob = job;
+        return this;
+    }
+
+    @Override
+    protected void setTitle() {
+        SpannableString spannableDateString = CalendarUtils.getSpannableDateString(EasyTimeApplication.getContext(), mCalendar, R.color.blue);
+        mTextView.setText(spannableDateString);
+    }
+
 }

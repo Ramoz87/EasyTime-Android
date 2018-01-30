@@ -433,7 +433,7 @@ public final class EasyTimeManager {
 
             if (TextUtil.isNotEmpty(searchQuery)) {
                 where.and().like("name", "%" + searchQuery + "%");
-        }
+            }
 
             if (TextUtil.isNotEmpty(expenseType))
                 where.and().eq("type", expenseType);
@@ -462,6 +462,10 @@ public final class EasyTimeManager {
     }
 
     public List<Expense> getAllExpenses(String jobId) {
+        return getAllExpenses(jobId, null);
+    }
+
+    public List<Expense> getAllExpenses(String jobId, String date) {
         List<Expense> allExpenses = new ArrayList<>();
         try {
             List<String> ids = new ArrayList<>();
@@ -474,9 +478,17 @@ public final class EasyTimeManager {
             }
             Dao<Expense, Long> expenseDao = helper.getExpenseDao();
             Dao<Material, String> materialDao = helper.getMaterialDao();
+
+            boolean hasDate = TextUtil.isNotEmpty(date);
+
             for (String id : ids) {
-                List<Expense> foundExpense = expenseDao.queryForEq("jobId", id);
+                QueryBuilder<Expense, Long> qb = expenseDao.queryBuilder();
+                Where where = qb.where().eq("jobId", id);
+                if (hasDate)
+                    where.and().eq("creationDate", date);
+                List<Expense> foundExpense = qb.query();
                 Log.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
+
                 for (Expense exp : foundExpense) {
                     if (exp.isMaterialExpense()) {
                         String materialId = exp.getMaterialId();
@@ -485,6 +497,7 @@ public final class EasyTimeManager {
                         exp.setMaterial(material);
                     }
                 }
+
                 allExpenses.addAll(foundExpense);
             }
         } catch (SQLException e) {

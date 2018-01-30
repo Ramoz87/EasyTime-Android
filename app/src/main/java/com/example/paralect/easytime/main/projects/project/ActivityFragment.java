@@ -99,13 +99,13 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     private Animation fadeIn;
     private Animation fadeOut;
 
-    @OnClick(R.id.date)
-    void onChooseDate(View view) {
-        Calendar c = Calendar.getInstance();
-        DatePickerDialog datePickerDialog =
-                new DatePickerDialog(getContext(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
-    }
+//    @OnClick(R.id.date)
+//    void onChooseDate(View view) {
+//        Calendar c = Calendar.getInstance();
+//        DatePickerDialog datePickerDialog =
+//                new DatePickerDialog(getContext(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+//        datePickerDialog.show();
+//    }
 
     public static ActivityFragment newInstance(Job job) {
         Bundle args = new Bundle(1);
@@ -188,8 +188,10 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     }
 
     private void populate() {
-        presenter.setDataView(this)
-                .requestData(new String[]{job.getJobId()});
+        presenter.setJob(job)
+                .setDataView(this)
+                .setupDateSearch(date)
+                .requestData(new String[]{"", presenter.getDate()});
     }
 
     @Override
