@@ -132,7 +132,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
             Logger.e(e);
         }
         keypadEditorView.collapse();
-        backForOneStep();
+        getMainActivity().getFragmentNavigator().popToFragment(2);
     }
 
     @Override
