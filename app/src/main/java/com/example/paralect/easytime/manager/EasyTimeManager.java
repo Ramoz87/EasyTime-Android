@@ -114,8 +114,8 @@ public final class EasyTimeManager {
             } else {
                 return dao.queryForAll();
             }
-        } catch (SQLException e) {
-            Logger.e(TAG, e.getMessage());
+        } catch (SQLException exc) {
+            Logger.e(exc);
             return null;
         }
     }
@@ -125,8 +125,8 @@ public final class EasyTimeManager {
         try {
             Dao<Contact, Long> dao = helper.getContactDao();
             return dao.queryForEq("customerId", customer.getCustomerId());
-        } catch (SQLException e) {
-            Logger.e(TAG, e.getMessage());
+        } catch (SQLException exc) {
+            Logger.e(exc);
             return new ArrayList<>();
         }
     }
@@ -137,8 +137,8 @@ public final class EasyTimeManager {
             List<Address> found = dao.queryForEq("customerId", customer.getCustomerId());
             if (!CollectionUtils.isEmpty(found)) return found.get(0);
             else return null;
-        } catch (SQLException e) {
-            Logger.e(TAG, e.getMessage());
+        } catch (SQLException exc) {
+            Logger.e(exc);
             return null;
         }
     }
@@ -149,8 +149,8 @@ public final class EasyTimeManager {
             List<Type> results = dao.queryBuilder().where().idEq(job.getStatusId()).query();
             if (!CollectionUtils.isEmpty(results)) return results.get(0);
             else return null;
-        } catch (SQLException e) {
-            Logger.e(TAG, e.getMessage());
+        } catch (SQLException exc) {
+            Logger.e(exc);
             return null;
         }
     }
@@ -192,9 +192,8 @@ public final class EasyTimeManager {
                 Type status = typeDao.queryForId(statusId);
                 job.setStatus(status);
             }
-        } catch (SQLException e) {
-            // throw new RuntimeException(e);
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            Logger.e(exc);
         }
         return jobs;
     }
@@ -222,8 +221,8 @@ public final class EasyTimeManager {
             if (helper.getProjectDao().queryBuilder().where().eq("customerId", id).countOf() != 0)
                 types.add(ProjectType.Type.TYPE_PROJECT);
             return types;
-        } catch (SQLException e) {
-            Logger.e(e.getMessage());
+        } catch (SQLException exc) {
+            Logger.e(exc);
             return types;
         }
     }
@@ -236,8 +235,8 @@ public final class EasyTimeManager {
             else if (projectType == ProjectType.Type.TYPE_ORDER) dao = helper.getOrderDao();
             else return 0L;
             return dao.queryBuilder().where().eq("customerId", customer.getCustomerId()).countOf();
-        } catch (SQLException e) {
-            Logger.e(TAG, e.getMessage());
+        } catch (SQLException exc) {
+            Logger.e(exc);
             return 0L;
         }
     }
@@ -313,9 +312,8 @@ public final class EasyTimeManager {
                 Type status = typeDao.queryForId(statusId);
                 job.setStatus(status);
             }
-        } catch (SQLException e) {
-            // throw new RuntimeException(e);
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            Logger.e(exc);
         }
         return jobs;
     }
@@ -370,9 +368,8 @@ public final class EasyTimeManager {
                 qb.where().like("companyName", "%" + query + "%");
                 customers = qb.query();
             }
-        } catch (SQLException e) {
-            // throw new RuntimeException(e);
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            Logger.e(exc);
         }
         return customers;
     }
@@ -381,9 +378,8 @@ public final class EasyTimeManager {
         try {
             Dao<Material, String> dao = helper.getMaterialDao();
             dao.update(material);
-        } catch (SQLException e) {
-            // throw new RuntimeException(e);
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            Logger.e(exc);
         }
     }
 
@@ -396,9 +392,8 @@ public final class EasyTimeManager {
             qb.where().like("isAdded", true);
             List<Material> myMaterials = qb.query();
             materials.addAll(myMaterials);
-        } catch (SQLException e) {
-            // throw new RuntimeException(e);
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            Logger.e(exc);
         }
         return materials;
     }
@@ -412,8 +407,8 @@ public final class EasyTimeManager {
             ub.updateColumnValue("stockQuantity", 0);
             ub.update();
             Log.d(TAG, "cleaned stock of my materials");
-        } catch (SQLException e) {
-            Logger.e(TAG, e.getMessage());
+        } catch (SQLException exc) {
+            Logger.e(exc);
         }
     }
 
@@ -470,8 +465,8 @@ public final class EasyTimeManager {
                 }
             }
             expenses.addAll(foundExpenses);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            Logger.e(exc);
         }
         return expenses;
     }
@@ -523,8 +518,8 @@ public final class EasyTimeManager {
 
                 allExpenses.addAll(foundExpense);
             }
-        } catch (SQLException e) {
-            Logger.e(e.getMessage());
+        } catch (SQLException exc) {
+            Logger.e(exc);
         }
         return allExpenses;
     }
@@ -552,8 +547,8 @@ public final class EasyTimeManager {
                     objects.add(o);
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            Logger.e(exc);
         }
         return objects;
     }
@@ -563,7 +558,7 @@ public final class EasyTimeManager {
             Dao<Expense, Long> expenseDao = helper.getExpenseDao();
             expenseDao.delete(expense);
         } catch (SQLException exc) {
-            Logger.d(exc.getMessage());
+            Logger.e(exc);
             exc.printStackTrace();
         }
     }
@@ -577,8 +572,8 @@ public final class EasyTimeManager {
             // TODO Should we count the price right here ???
             dao.createOrUpdate(expense);
             materialDao.update(material);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            Logger.e(exc);
         }
     }
 
@@ -621,8 +616,8 @@ public final class EasyTimeManager {
         try {
             Dao<User, String> dao = helper.getUserDao();
             return dao.queryForId(userId);
-        } catch (SQLException e) {
-            Logger.e(e.getMessage());
+        } catch (SQLException exc) {
+            Logger.e(exc);
             return null;
         }
     }
@@ -631,8 +626,8 @@ public final class EasyTimeManager {
         try {
             Dao<User, String> dao = helper.getUserDao();
             return dao.queryForId("0be618c9-e68b-435a-bdf4-d7f4ee6b6ba4");
-        } catch (SQLException e) {
-            Logger.e(e.getMessage());
+        } catch (SQLException exc) {
+            Logger.e(exc);
             return null;
         }
     }

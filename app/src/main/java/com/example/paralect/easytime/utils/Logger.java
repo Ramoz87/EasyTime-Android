@@ -2,6 +2,8 @@ package com.example.paralect.easytime.utils;
 
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 /**
  * Created by Oleg Tarashkevich on 17.01.16.
  */
@@ -103,14 +105,12 @@ public class Logger {
         logCrashlytics(e);
     }
 
-    // TODO add crashlytics
     private static void logCrashlytics(String message) {
-//        Crashlytics.log(message);
+        Crashlytics.log(message);
     }
 
-    // TODO add crashlytics
     private static void logCrashlytics(Throwable e) {
-//        Crashlytics.logException(e);
+        Crashlytics.logException(e);
     }
 
 }
