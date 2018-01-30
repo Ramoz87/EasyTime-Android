@@ -16,7 +16,7 @@ import java.util.List;
 @DatabaseTable(tableName = "contacts")
 public class Contact implements Parcelable {
 
-    @DatabaseField(columnName = "contactId")
+    @DatabaseField(columnName = "contactId", generatedId = true)
     private long contactId;
 
     @DatabaseField(columnName = "email")
@@ -82,20 +82,40 @@ public class Contact implements Parcelable {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getFax() {
         return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
     }
 
     public String getPhone() {
         return phone;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getFullName(){
@@ -117,5 +137,10 @@ public class Contact implements Parcelable {
         }
 
         return contacts;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
     }
 }

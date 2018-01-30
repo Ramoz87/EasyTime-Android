@@ -32,6 +32,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Project, String> projectDao = null;
     private Dao<File, String> fileDao = null;
     private Dao<Expense, Long> expenseDao = null;
+    private Dao<Contact, Long> contactDao = null;
 
     public DatabaseHelper(@NonNull Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,6 +51,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Project.class);
             TableUtils.createTableIfNotExists(connectionSource, File.class);
             TableUtils.createTableIfNotExists(connectionSource, Expense.class);
+            TableUtils.createTableIfNotExists(connectionSource, Contact.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -68,6 +70,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Project.class, true);
             TableUtils.dropTable(connectionSource, File.class, true);
             TableUtils.dropTable(connectionSource, Expense.class, true);
+            TableUtils.dropTable(connectionSource, Contact.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -114,6 +117,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         projectDao = null;
         fileDao = null;
         expenseDao = null;
+        contactDao = null;
 
         super.close();
     }
@@ -158,5 +162,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             fileDao = getDao(File.class);
         }
         return fileDao;
+    }
+
+    public Dao<Contact, Long> getContactDao() throws SQLException {
+        if (contactDao == null) {
+            contactDao = getDao(Contact.class);
+        }
+        return contactDao;
     }
 }

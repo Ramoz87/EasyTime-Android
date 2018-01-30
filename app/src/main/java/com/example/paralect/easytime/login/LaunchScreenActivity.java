@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.ETPreferenceManager;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Address;
+import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.JobWithAddress;
@@ -26,6 +28,7 @@ import com.j256.ormlite.dao.Dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -120,7 +123,6 @@ public class LaunchScreenActivity extends Activity {
             Log.d(TAG, String.format("===// %s //===", clazz.getSimpleName()));
 
             Dao<Address, Long> addressDao = EasyTimeManager.getInstance().getHelper().getAddressDao();
-            Dao<Object, String> objectDao = EasyTimeManager.getInstance().getHelper().getObjectDao();
             for (E item : items) {
                 Log.d(TAG, item.toString());
 
@@ -131,9 +133,20 @@ public class LaunchScreenActivity extends Activity {
                     job.setAddressId(address.getAddressId());
                 }
 
+                if (item instanceof Customer) {
+                    Dao<Contact, Long> contactDao = EasyTimeManager.getInstance().getHelper().getContactDao();
+                    Customer customer = (Customer) item;
+                    List<Contact> contacts = customer.getContacts();
+                    for (Contact contact : contacts) {
+                        Log.d(TAG, "Contact: " + contact);
+                        contactDao.create(contact);
+                    }
+                }
                 dao.createOrUpdate(item);
             }
+            Log.d(TAG, "filled " + clazz.getSimpleName() + " class");
         } catch (IOException | SQLException e) {
+            Logger.e(TAG, e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -185,6 +198,17 @@ public class LaunchScreenActivity extends Activity {
                 customer.setCompanyName(fields[38]);
                 customer.setFirstName(fields[53]);
                 customer.setLastName(fields[38]);
+
+                Contact contact = new Contact();
+                contact.setFirstName(customer.getFirstName());
+                contact.setLastName(customer.getLastName());
+                contact.setEmail(fields[23]);
+                contact.setFax(fields[25]);
+                contact.setPhone(fields[47]);
+
+                List<Contact> contacts = new ArrayList<>();
+                contacts.add(contact);
+                customer.setContacts(contacts);
                 return customer;
             }
 
