@@ -97,7 +97,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
         void onCheckedCountChange(int totalCount);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements KeypadEditorView.OnCompletionListener {
+    static class ViewHolder extends RecyclerView.ViewHolder implements KeypadEditorView.OnCompletionListener, TextWatcher {
 
         @BindView(R.id.materialName) TextView materialName;
         @BindView(R.id.materialNumber) TextView materialNumber;
@@ -122,23 +122,24 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
             }
         }
 
-        @OnTouch({R.id.materialName,
-                R.id.materialNumber,
-                R.id.material_expense_input_layout,
-                R.id.material_expense_edit_text,
-                R.id.parent_layout
-        })
+        @OnTouch({R.id.material_expense_edit_text, R.id.parent_layout})
         boolean onMaterialCountClick(View v, MotionEvent ev) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
-                Log.d(TAG, "on materialExpense count click");
-                KeypadEditorView editorView = mAdapter.keypadEditorView;
-                if (editorView != null) {
-                    editorView.setupEditText(inputEditText);
-                    inputEditText.requestFocus();
-                    editorView.expand(true);
+                if (v.getId() == inputEditText.getId()) {
+                    Log.d(TAG, "on editor field count click");
+                    KeypadEditorView editorView = mAdapter.keypadEditorView;
+                    if (editorView != null) {
+                        editorView.setupEditText(inputEditText);
+                        inputEditText.requestFocus();
+                        editorView.expand(true);
+                    }
+                    checkBox.setChecked(true);
+                    afterTextChanged(inputEditText.getText());
+                } else if (v.getId() == R.id.parent_layout) {
+                    Log.d(TAG, "on parent layout click");
+                    checkBox.setChecked(true);
+                    afterTextChanged(inputEditText.getText());
                 }
-                checkBox.setChecked(true);
-                return true;
             }
             return true;
         }
@@ -152,13 +153,6 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
 
             inputEditText.setRawInputType(InputType.TYPE_NULL);
             inputEditText.setTextIsSelectable(true);
-
-            itemView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return onMaterialCountClick(v, event);
-                }
-            });
 
             KeypadEditorView editorView = mAdapter.keypadEditorView;
             if (editorView != null) {
@@ -180,37 +174,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
             inputLayout.setHint(UNITY_PCS);
             inputEditText.setText(maxValue);
 
-            inputEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    String text = s.toString();
-
-                    if (TextUtil.isNotEmpty(text)) {
-                        int value = Integer.parseInt(text);
-                        boolean showError = value > max;
-                        if (showError) {
-                            text = maxValue;
-                            inputEditText.setText(maxValue);
-                            inputEditText.selectAll();
-                            ViewAnimationUtils.shakeAnimation(inputLayout);
-                        }
-                    } else {
-                        inputLayout.setErrorEnabled(false);
-                    }
-
-                    mMaterialExpense.count = valueFromString(text);
-                }
-            });
+            inputEditText.addTextChangedListener(this);
 
             inputEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -238,6 +202,37 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
 
         private int valueFromString(String result) {
             return result.isEmpty() ? 0 : Integer.valueOf(result);
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String text = s.toString();
+            final int max = mMaterialExpense.material.getStockQuantity();
+            final String maxValue = String.valueOf(max);
+            if (TextUtil.isNotEmpty(text)) {
+                int value = Integer.parseInt(text);
+                boolean showError = value > max;
+                if (showError) {
+                    text = maxValue;
+                    inputEditText.setText(maxValue);
+                    inputEditText.selectAll();
+                    ViewAnimationUtils.shakeAnimation(inputLayout);
+                }
+            } else {
+                inputLayout.setErrorEnabled(false);
+            }
+
+            mMaterialExpense.count = valueFromString(text);
         }
     }
 }
