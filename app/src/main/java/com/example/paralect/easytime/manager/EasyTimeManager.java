@@ -187,6 +187,23 @@ public final class EasyTimeManager {
         return getJobs(helper.getProjectDao(), customer, null, null);
     }
 
+    public List<Integer> getJobTypes(Customer customer) {
+        List<Integer> types = new ArrayList<>();
+        try {
+            String id = customer.getCustomerId();
+            if (helper.getObjectDao().queryBuilder().where().eq("customerId", id).countOf() != 0)
+                types.add(ProjectType.Type.TYPE_OBJECT);
+            if (helper.getOrderDao().queryBuilder().where().eq("customerId", id).countOf() != 0)
+                types.add(ProjectType.Type.TYPE_ORDER);
+            if (helper.getProjectDao().queryBuilder().where().eq("customerId", id).countOf() != 0)
+                types.add(ProjectType.Type.TYPE_PROJECT);
+            return types;
+        } catch (SQLException e) {
+            Logger.e(e.getMessage());
+            return types;
+        }
+    }
+
     public long getJobCount(Customer customer, @ProjectType.Type int projectType) {
         try {
             Dao dao;

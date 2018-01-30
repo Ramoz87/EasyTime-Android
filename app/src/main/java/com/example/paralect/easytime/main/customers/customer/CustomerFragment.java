@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,8 @@ import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.utils.ViewUtils;
 import com.rd.PageIndicatorView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -26,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by alexei on 27.12.2017.
  */
 
-public class CustomerFragment extends BaseFragment implements IDataView<Customer> {
+public class CustomerFragment extends BaseFragment implements IDataView<Pair<Customer,List<Integer>>> {
 
     public static final String ARG_CUSTOMER = "arg_customer";
 
@@ -96,20 +99,20 @@ public class CustomerFragment extends BaseFragment implements IDataView<Customer
     }
 
     @Override
-    public void onDataReceived(Customer customer) {
+    public void onDataReceived(Pair<Customer, List<Integer>> pair) {
         // set contacts
-        if (customer != null) {
-            final ContactsAdapter contactsAdapter = new ContactsAdapter(customer.getContacts(), customer.getAddress());
-            contactsViewPager.setAdapter(contactsAdapter);
-            pageIndicatorView.setViewPager(contactsViewPager);
-            if (customer.getContacts() != null) {
-                ViewUtils.setVisibility(pageIndicatorView, customer.getContacts().size() > 1);
-            }
-
-            final FragmentManager fm = getChildFragmentManager();
-            final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, getCustomer());
-            jobsViewPager.setAdapter(adapter);
-            tabs.setupWithViewPager(jobsViewPager);
+        Customer customer = pair.first;
+        List<Integer> types = pair.second;
+        final ContactsAdapter contactsAdapter = new ContactsAdapter(customer.getContacts(), customer.getAddress());
+        contactsViewPager.setAdapter(contactsAdapter);
+        pageIndicatorView.setViewPager(contactsViewPager);
+        if (customer.getContacts() != null) {
+            ViewUtils.setVisibility(pageIndicatorView, customer.getContacts().size() > 1);
         }
+
+        final FragmentManager fm = getChildFragmentManager();
+        final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, getCustomer(), types);
+        jobsViewPager.setAdapter(adapter);
+        tabs.setupWithViewPager(jobsViewPager);
     }
 }
