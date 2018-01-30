@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.customers.customer;
 
-import android.util.Log;
 import android.util.Pair;
 
 import com.example.paralect.easytime.main.IDataPresenter;
@@ -42,7 +41,8 @@ final class CustomerPresenter implements IDataPresenter<Pair<Customer, List<Inte
                     if (!emitter.isCancelled()) {
                         EasyTimeManager manager = EasyTimeManager.getInstance();
                         List<Contact> contacts = manager.getContacts(customer);
-                        customer.setAddress(Address.mock());
+                        Address address = manager.getAddress(customer);
+                        customer.setAddress(address);
                         customer.setContacts(contacts);
                         List<Integer> types = manager.getJobTypes(customer);
                         emitter.onNext(new Pair<>(customer, types));

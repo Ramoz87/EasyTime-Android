@@ -130,6 +130,18 @@ public final class EasyTimeManager {
         }
     }
 
+    public Address getAddress(Customer customer) {
+        try {
+            Dao<Address, Long> dao = helper.getAddressDao();
+            List<Address> found = dao.queryForEq("customerId", customer.getCustomerId());
+            if (!CollectionUtils.isEmpty(found)) return found.get(0);
+            else return null;
+        } catch (SQLException e) {
+            Logger.e(TAG, e.getMessage());
+            return null;
+        }
+    }
+
     public Type getStatus(Job job) {
         try {
             Dao<Type, String> dao = helper.getTypeDao();

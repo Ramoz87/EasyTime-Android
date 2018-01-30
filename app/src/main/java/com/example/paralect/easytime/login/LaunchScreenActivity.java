@@ -230,6 +230,7 @@ public class LaunchScreenActivity extends Activity {
                 fillJob(object, fields);
 
                 Address address = new Address();
+                address.setCustomerId(object.getCustomerId());
                 address.setStreet(fields[16]);
                 address.setCity(fields[17]);
                 address.setZip(fields[18]);
@@ -245,6 +246,7 @@ public class LaunchScreenActivity extends Activity {
                 order.setDeliveryTime(fields[15]);
 
                 Address address = new Address();
+                address.setCustomerId(order.getCustomerId());
                 address.setStreet(fields[16]);
                 address.setCity(fields[17]);
                 address.setZip(fields[18]);

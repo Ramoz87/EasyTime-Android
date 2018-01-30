@@ -30,6 +30,9 @@ public class Address implements Parcelable {
     @DatabaseField(columnName = "zip")
     private String zip; // index ?
 
+    @DatabaseField(columnName = "customerId")
+    private String customerId;
+
     private Customer customer;
     private Object object;
     private Order order;
@@ -47,6 +50,7 @@ public class Address implements Parcelable {
         customer = in.readParcelable(Customer.class.getClassLoader());
         object = in.readParcelable(Object.class.getClassLoader());
         order = in.readParcelable(Order.class.getClassLoader());
+        customerId = in.readString();
     }
 
     @Override
@@ -59,6 +63,7 @@ public class Address implements Parcelable {
         dest.writeParcelable(customer, flags);
         dest.writeParcelable(object, flags);
         dest.writeParcelable(order, flags);
+        dest.writeString(customerId);
     }
 
     @Override
@@ -175,5 +180,13 @@ public class Address implements Parcelable {
     @Override
     public String toString() {
         return city + " " + street;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }
