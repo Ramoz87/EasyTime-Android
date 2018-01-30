@@ -21,6 +21,7 @@ import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.ViewUtils;
 
 import java.util.Calendar;
 import java.util.List;
@@ -57,9 +58,16 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
+        SearchView searchView = (SearchView) menu.findItem(R.id.item_search).getActionView();
+
+        // Set searchView width
+        int[] displaySize = ViewUtils.displaySize(getContext());
+        searchView.setMaxWidth((int)(displaySize[0] * 0.6f));
+//        searchView.setMaxWidth(Integer.MAX_VALUE);
+
         String date = CalendarUtils.stringFromDate(calendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
         presenter.setDataView(this)
-                .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
+                .setupQuerySearch(searchView)
                 .requestData(new String[]{"", date});
     }
 
@@ -84,7 +92,7 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
             String date = CalendarUtils.stringFromDate(calendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
             presenter.setDataView(this)
                     .setupDateSearch(title)
-                    .requestData(new String[] {"", date});
+                    .requestData(new String[]{"", date});
         }
     }
 

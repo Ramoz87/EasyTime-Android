@@ -2,6 +2,7 @@ package com.example.paralect.easytime.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.style.ImageSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -97,7 +99,7 @@ public final class ViewUtils {
         }
     }
 
-    public static TextView getToolbarTextView(Toolbar toolbar){
+    public static TextView getToolbarTextView(Toolbar toolbar) {
         TextView toolbarTitle = null;
         for (int i = 0; i < toolbar.getChildCount(); ++i) {
             View child = toolbar.getChildAt(i);
@@ -105,15 +107,23 @@ public final class ViewUtils {
             // assuming that the title is the first instance of TextView
             // you can also check if the title string matches
             if (child instanceof TextView) {
-                toolbarTitle = (TextView)child;
+                toolbarTitle = (TextView) child;
                 break;
             }
         }
         return toolbarTitle;
     }
 
-    public static void setVisibility(View view, boolean visible){
+    public static void setVisibility(View view, boolean visible) {
         int visibility = visible ? View.VISIBLE : View.GONE;
         view.setVisibility(visibility);
+    }
+
+    public static int[] displaySize(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int dpWidth = displayMetrics.widthPixels;
+        int dpHeight = displayMetrics.heightPixels;
+        int[] displaySize = new int[]{dpWidth, dpHeight};
+        return displaySize;
     }
 }
