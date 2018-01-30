@@ -152,8 +152,8 @@ public class MaterialsFragment extends BaseFragment
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "on options item selected");
         if (item.getItemId() == R.id.delete_materials) {
-            Log.d(TAG, "delete materials mode");
-            primaryState = !primaryState;
+            this.primaryState = !primaryState;
+            Log.d(TAG, "delete materials mode = " + !primaryState);
             adapter.transform(primaryState);
         }
         return super.onOptionsItemSelected(item);

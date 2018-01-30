@@ -238,6 +238,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             boolean primaryState = adapter.primaryState;
             minus.setVisibility(primaryState ? View.VISIBLE : View.GONE);
             plus.setImageResource(primaryState ? R.drawable.ic_plus_material : R.drawable.ic_trash);
+            plus.setOnClickListener(primaryState ? plusHandler : remover);
 
             this.material = material;
             name.setText(material.getName());
