@@ -508,7 +508,7 @@ public final class EasyTimeManager {
                 QueryBuilder<Expense, Long> qb = expenseDao.queryBuilder();
                 Where where = qb.where().eq("jobId", id);
                 if (hasDate)
-                    where.and().eq("creationDate", date);
+                    where.and().like("creationDate", "%" + date + "%");   // date should have "yyyy-MM-dd"
                 List<Expense> foundExpense = qb.query();
                 Log.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
 

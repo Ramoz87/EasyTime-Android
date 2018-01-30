@@ -19,4 +19,7 @@ public final class Constants {
 
     public static final int FRAGMENT_ACTIVITY_DEPTH = 2;
 
+    public static final String SHORT_DATE_PATTERN = "yyyy-MM-dd";
+    public static final String LONG_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
 }

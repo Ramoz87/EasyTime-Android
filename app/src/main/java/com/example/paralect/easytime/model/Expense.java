@@ -61,7 +61,7 @@ public class Expense implements Parcelable {
 
     @DatabaseField(columnName = "jobId")
     private String jobId;
-
+    
     @DatabaseField(columnName = "creationDate")
     private String creationDate;
 
@@ -254,12 +254,7 @@ public class Expense implements Parcelable {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-
     public void setCreationDate(Date date) {
-        String creationDate = CalendarUtils.stringFromDate(date, CalendarUtils.DEFAULT_DATE_FORMAT);
-        setCreationDate(creationDate);
+        creationDate = CalendarUtils.stringFromDate(date, CalendarUtils.LONG_DATE_FORMAT);
     }
 }

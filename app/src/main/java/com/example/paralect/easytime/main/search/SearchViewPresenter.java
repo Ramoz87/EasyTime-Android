@@ -130,6 +130,6 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
     }
 
     public String getDate(){
-        return CalendarUtils.stringFromDate(mCalendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
+        return CalendarUtils.stringFromDate(mCalendar.getTime(), CalendarUtils.SHORT_DATE_FORMAT);
     }
 }

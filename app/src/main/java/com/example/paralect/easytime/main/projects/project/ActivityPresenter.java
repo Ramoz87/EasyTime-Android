@@ -13,8 +13,10 @@ import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.TextUtil;
 
+import java.util.Comparator;
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -39,6 +41,16 @@ public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
                     if (!emitter.isDisposed()) {
                         final String date = parameters[1];
                         List<Expense> expenses = getExpenses(mJob.getJobId(), date);
+
+                        expenses = Flowable.fromIterable(expenses)
+                                .toSortedList(new Comparator<Expense>() {
+                                    @Override
+                                    public int compare(Expense e1, Expense e2) {
+                                        return e2.getCreationDate().compareToIgnoreCase(e1.getCreationDate());
+                                    }
+                                })
+                                .blockingGet();
+
                         emitter.onNext(expenses);
                         emitter.onComplete();
                     }

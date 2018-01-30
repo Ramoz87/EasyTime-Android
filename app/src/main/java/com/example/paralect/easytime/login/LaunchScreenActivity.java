@@ -1,7 +1,6 @@
 package com.example.paralect.easytime.login;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -285,7 +284,7 @@ public class LaunchScreenActivity extends Activity {
                 // random date
 //                Date date = CalendarUtils.nextDate();
                 Date date = new Date();
-                String dateString = CalendarUtils.stringFromDate(date, CalendarUtils.DEFAULT_DATE_FORMAT);
+                String dateString = CalendarUtils.stringFromDate(date, CalendarUtils.SHORT_DATE_FORMAT);
                 Log.d(TAG, "new date for job: " + dateString);
                 job.setDate(dateString);
             }

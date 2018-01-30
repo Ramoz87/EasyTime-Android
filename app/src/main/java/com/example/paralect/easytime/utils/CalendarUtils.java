@@ -1,7 +1,6 @@
 package com.example.paralect.easytime.utils;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +21,9 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 
+import static com.example.paralect.easytime.model.Constants.LONG_DATE_PATTERN;
+import static com.example.paralect.easytime.model.Constants.SHORT_DATE_PATTERN;
+
 /**
  * Created by alexei on 10.01.2018.
  */
@@ -30,7 +32,8 @@ public final class CalendarUtils {
 
     private static Random random = new Random();
 
-    public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    public static final SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat(SHORT_DATE_PATTERN, Locale.US);
+    public static final SimpleDateFormat LONG_DATE_FORMAT = new SimpleDateFormat(LONG_DATE_PATTERN, Locale.US);
 
     private CalendarUtils() {
 
