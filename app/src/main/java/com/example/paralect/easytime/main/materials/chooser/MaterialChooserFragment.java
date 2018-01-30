@@ -107,6 +107,17 @@ public class MaterialChooserFragment extends BaseFragment implements IDataView<S
 
     @Override
     public void onDataReceived(SortedMap<Character, List<Material>> materials) {
+        for (Character c : materials.keySet()) {
+            List<Material> list = materials.get(c);
+            for (Material updatable : materialsToUpdate) {
+                for (Material material : list) {
+                    if (material.equals(updatable)) {
+                        material.setAdded(updatable.isAdded());
+                        break;
+                    }
+                }
+            }
+        }
         adapter.setData(materials);
     }
 
