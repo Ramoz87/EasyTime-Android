@@ -7,6 +7,7 @@ import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Type;
+import com.example.paralect.easytime.utils.RxBus;
 
 import java.util.List;
 
@@ -22,10 +23,11 @@ import io.reactivex.schedulers.Schedulers;
  * Created by alexei on 23.01.2018.
  */
 
-public class StatusPresenter implements IDataPresenter<List<Type>, Void> {
+public class StatusPresenter extends RxBus.Watcher<String> implements IDataPresenter<List<Type>, Void> {
     private static final String TAG = StatusPresenter.class.getSimpleName();
 
     private IDataView<List<Type>> view;
+    private String mDate;
 
     @Override
     public StatusPresenter setDataView(IDataView<List<Type>> view) {
@@ -76,4 +78,20 @@ public class StatusPresenter implements IDataPresenter<List<Type>, Void> {
                 });
         return this;
     }
+
+    // region RxBus subscription for event of date changing
+    void subscribe() {
+        subscribe(String.class);
+    }
+
+    @Override
+    public void onNext(String date) {
+        mDate = date;
+    }
+
+    public String getDate() {
+        return mDate;
+    }
+    // endregion
+
 }

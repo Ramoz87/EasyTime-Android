@@ -34,6 +34,7 @@ import org.apache.commons.collections.ListUtils;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.paralect.easytime.model.Constants.DRIVING;
@@ -455,7 +456,7 @@ public final class EasyTimeManager {
 
             if (TextUtil.isNotEmpty(searchQuery)) {
                 where.and().like("name", "%" + searchQuery + "%");
-        }
+            }
 
             if (TextUtil.isNotEmpty(expenseType))
                 where.and().eq("type", expenseType);
@@ -484,6 +485,10 @@ public final class EasyTimeManager {
     }
 
     public List<Expense> getAllExpenses(String jobId) {
+        return getAllExpenses(jobId, null);
+    }
+
+    public List<Expense> getAllExpenses(String jobId, String date) {
         List<Expense> allExpenses = new ArrayList<>();
         try {
             List<String> ids = new ArrayList<>();
@@ -496,9 +501,17 @@ public final class EasyTimeManager {
             }
             Dao<Expense, Long> expenseDao = helper.getExpenseDao();
             Dao<Material, String> materialDao = helper.getMaterialDao();
+
+            boolean hasDate = TextUtil.isNotEmpty(date);
+
             for (String id : ids) {
-                List<Expense> foundExpense = expenseDao.queryForEq("jobId", id);
+                QueryBuilder<Expense, Long> qb = expenseDao.queryBuilder();
+                Where where = qb.where().eq("jobId", id);
+                if (hasDate)
+                    where.and().eq("creationDate", date);
+                List<Expense> foundExpense = qb.query();
                 Log.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
+
                 for (Expense exp : foundExpense) {
                     if (exp.isMaterialExpense()) {
                         String materialId = exp.getMaterialId();
@@ -507,6 +520,7 @@ public final class EasyTimeManager {
                         exp.setMaterial(material);
                     }
                 }
+
                 allExpenses.addAll(foundExpense);
             }
         } catch (SQLException e) {
@@ -558,12 +572,7 @@ public final class EasyTimeManager {
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
             Dao<Material, String> materialDao = helper.getMaterialDao();
-            Expense expense = new Expense();
-            expense.setJobId(jobId);
-            expense.setName(material.getName());
-            expense.setMaterialId(material.getMaterialId());
-            expense.setType(Expense.Type.MATERIAL);
-            expense.setValue(countOfMaterials);
+            Expense expense = Expense.createMaterialExpense(jobId, material, countOfMaterials);
             material.setStockQuantity(material.getStockQuantity() - countOfMaterials);
             // TODO Should we count the price right here ???
             dao.createOrUpdate(expense);

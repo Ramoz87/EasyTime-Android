@@ -1,8 +1,6 @@
 package com.example.paralect.easytime.main.projects.project;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -55,7 +52,7 @@ import butterknife.OnClick;
 public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
     private static final String TAG = ActivityFragment.class.getSimpleName();
 
-    @BindView(R.id.date) TextView date;
+    @BindView(R.id.date) TextView dateTextView;
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.overlay) View overlay;
@@ -99,14 +96,6 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     private Animation fadeIn;
     private Animation fadeOut;
 
-    @OnClick(R.id.date)
-    void onChooseDate(View view) {
-        Calendar c = Calendar.getInstance();
-        DatePickerDialog datePickerDialog =
-                new DatePickerDialog(getContext(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
-    }
-
     public static ActivityFragment newInstance(Job job) {
         Bundle args = new Bundle(1);
         args.putParcelable(Job.TAG, job);
@@ -146,7 +135,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         switch (item.getItemId()) {
             case R.id.item_new:
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectDetailsFragment.newInstance(job));
+                        .pushFragment(ProjectDetailsFragment.newInstance(job, presenter.getDate()));
                 return true;
             case R.id.item_delete: {
                 Log.d(TAG, "toggled to delete items");
@@ -173,14 +162,13 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     private void initDate() {
         Calendar calendar = Calendar.getInstance();
         String dateString = CalendarUtils.getDateString(calendar);
-        date.setText(dateString);
+        dateTextView.setText(dateString);
     }
 
     private void initList() {
         emptyRecyclerView.setEmptyView(emptyListPlaceholder);
         emptyRecyclerView.setAdapter(adapter);
-        RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
-        emptyRecyclerView.setLayoutManager(lm);
+        emptyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
@@ -189,15 +177,17 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     }
 
     private void populate() {
-        presenter.setDataView(this)
-                .requestData(new String[]{job.getJobId()});
+        presenter.setJob(job)
+                .setDataView(this)
+                .setupDateSearch(dateTextView)
+                .requestData(new String[]{"", presenter.getDate()});
     }
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
         // open activity
         String dateString = CalendarUtils.getDateString(i, i1, i2);
-        date.setText(dateString);
+        dateTextView.setText(dateString);
     }
 
     @Override
@@ -233,8 +223,6 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     private void initFam() {
         Log.d(TAG, "initializing fam");
-        Context context = getContext();
-        Resources res = getResources();
         fam.setOnMenuToggleListener(this);
     }
 

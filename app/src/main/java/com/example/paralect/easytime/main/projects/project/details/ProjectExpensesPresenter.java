@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.main.projects.project.details;
 
+import com.example.paralect.easytime.main.projects.project.ActivityPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
@@ -27,50 +28,18 @@ import io.reactivex.schedulers.Schedulers;
  * Created by alexei on 16.01.2018.
  */
 
-public class ProjectExpensesPresenter extends SearchViewPresenter<List<Expense>> {
+public class ProjectExpensesPresenter extends ActivityPresenter {
 
     @Override
-    public ProjectExpensesPresenter requestData(final String[] parameters) {
-        Observable<List<Expense>> observable = Observable.create(new ObservableOnSubscribe<List<Expense>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<Expense>> emitter) throws Exception {
-                try {
-                    if (!emitter.isDisposed()) {
-                        final String jobId = parameters[0];
-                        List<Expense> consumables = EasyTimeManager.getInstance().getAllExpenses(jobId);
+    protected void setTitle() {
+      // empty
+    }
 
-                        List<Expense> list = getMergedExpenseResult(consumables, Expense.Type.TIME);
-
-                        emitter.onNext(list);
-                        emitter.onComplete();
-                    }
-
-                } catch (Throwable e) {
-                    emitter.onError(e);
-                }
-            }
-        });
-
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<List<Expense>>() {
-                    @Override
-                    public void onNext(List<Expense> consumables) {
-                        if (mView != null)
-                            mView.onDataReceived(consumables);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-        return this;
+    @Override
+    protected List<Expense> getExpenses(String jobId, String date) {
+        List<Expense> consumables = EasyTimeManager.getInstance().getAllExpenses(jobId, date);
+        List<Expense> list = getMergedExpenseResult(consumables, Expense.Type.TIME);
+        return list;
     }
 
     private List<Expense> getMergedExpenseResult(List<Expense> expenses, final @Expense.Type String expenseType) {

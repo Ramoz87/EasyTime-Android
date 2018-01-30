@@ -53,7 +53,8 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
 public class ProjectDetailsFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
 
     private static final String TAG = ProjectDetailsFragment.class.getSimpleName();
-    
+    private static final String DATE_ARG = "date_arg";
+
     @BindView(R.id.detail_title) TextView detailTitle;
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
@@ -76,18 +77,24 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
     private Animation fadeOut;
 
     private Job job;
+    private String date;
 
-    public static ProjectDetailsFragment newInstance(@NonNull Job job) {
+    public static ProjectDetailsFragment newInstance(@NonNull Job job, String date) {
         Bundle args = new Bundle(1);
         args.putParcelable(Job.TAG, job);
+        args.putString(DATE_ARG, date);
         ProjectDetailsFragment fragment = new ProjectDetailsFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    private void initJob() {
-        if (job == null)
-            job = Job.fromBundle(getArguments());
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(DATE_ARG))
+            date = getArguments().getString(DATE_ARG);
+        job = Job.fromBundle(bundle);
     }
 
     @Override
@@ -111,7 +118,6 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
 
     @Override
     public void onCreateActionBar(ActionBar actionBar) {
-        initJob();
         String titleText = getResources().getString(R.string.project_number, job.getNumber());
         actionBar.setTitle(titleText);
     }
@@ -126,7 +132,6 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        initJob();
         initFam();
         initOverlay();
         initAnimations();
@@ -135,7 +140,6 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
     }
 
     private void populate() {
-        initJob();
         Customer customer = job.getCustomer();
         detailTitle.setText(customer.getCompanyName());
 
@@ -149,8 +153,9 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
         decoration.setDrawable(drawable);
         emptyRecyclerView.addItemDecoration(decoration);
 
-        presenter.setDataView(this)
-                .requestData(new String[]{job.getJobId()});
+        presenter.setJob(job)
+                .setDataView(this)
+                .requestData(new String[]{"", date});
     }
 
     private void initOverlay() {

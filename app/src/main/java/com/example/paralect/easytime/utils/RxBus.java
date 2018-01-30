@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.utils;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.PublishSubject;
@@ -60,21 +61,26 @@ public class RxBus {
         return bus.ofType(String.class);
     }
 
-    public <T> Disposable listen(Class<T> eventType, DisposableObserver<T> observer) {
-        return bus.ofType(eventType).subscribeWith(observer);
+    public <T> void listen(Class<T> eventType, Observer<T> observer) {
+         bus.ofType(eventType).subscribeWith(observer);
     }
 
-    public static class Observer<T> extends DisposableObserver<T> {
+    public static class Watcher<T> implements Observer<T> {
 
         protected Disposable disposable;
 
         public void subscribe(Class<T> eventType) {
-            disposable = RxBus.getInstance().listen(eventType, this);
+            RxBus.getInstance().listen(eventType, this);
         }
 
         public void unSubscribe() {
             if (disposable != null)
                 disposable.dispose();
+        }
+
+        @Override
+        public void onSubscribe(Disposable d) {
+            disposable = d;
         }
 
         @Override
