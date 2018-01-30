@@ -10,6 +10,8 @@ import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
+import com.example.paralect.easytime.utils.RxBus;
+import com.example.paralect.easytime.utils.TextUtil;
 
 import java.util.List;
 
@@ -75,6 +77,9 @@ public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
     }
 
     protected List<Expense> getExpenses(String jobId, String date){
+        // send date to InformationFragment
+        if (TextUtil.isNotEmpty(date))
+            RxBus.getInstance().send(date);
         return EasyTimeManager.getInstance().getAllExpenses(jobId, date);
     }
 

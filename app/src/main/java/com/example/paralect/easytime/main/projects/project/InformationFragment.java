@@ -63,6 +63,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
     private StatusPresenter statusPresenter = new StatusPresenter();
     private StatusAdapter statusAdapter = new StatusAdapter();
     private Job job;
+    private String date;
 
     public static InformationFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
@@ -72,9 +73,10 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
         return fragment;
     }
 
-    private void initJob() {
-        if (job == null)
-            job = Job.fromBundle(getArguments());
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        job = Job.fromBundle(getArguments());
     }
 
     @Override
@@ -89,8 +91,19 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
         init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        statusPresenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        statusPresenter.unSubscribe();
+    }
+
     private void init() {
-        initJob();
         jobName.setText(job.getName());
         // jobDescription.setText();
 
@@ -110,7 +123,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
 
         jobDescription.setText(job.getInformation());
         String date = job.getDate();
-        if (date == null) date = "no date";
+        if (date == null) date = "no dateTextView";
         jobTerm.setText(date);
 
         if (job.getProjectType() == ProjectType.Type.TYPE_ORDER) {
@@ -145,7 +158,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
         switch (item.getItemId()) {
             case R.id.item_new: {
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectDetailsFragment.newInstance(job, null));
+                        .pushFragment(ProjectDetailsFragment.newInstance(job, statusPresenter.getDate()));
                 return true;
             }
         }

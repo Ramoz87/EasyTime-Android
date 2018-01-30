@@ -29,7 +29,7 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CAMERA;
  * Created by Oleg Tarashkevich on 16/01/2018.
  */
 
-abstract class FilesPresenter<DATA, E> extends RxBus.Observer<ResultEvent> implements IDataPresenter<DATA, E> {
+abstract class FilesPresenter<DATA, E> extends RxBus.Watcher<ResultEvent> implements IDataPresenter<DATA, E> {
 
     private IFilesView<DATA, E> mView;
 

@@ -1,8 +1,6 @@
 package com.example.paralect.easytime.main.projects.project;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -55,7 +52,7 @@ import butterknife.OnClick;
 public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
     private static final String TAG = ActivityFragment.class.getSimpleName();
 
-    @BindView(R.id.date) TextView date;
+    @BindView(R.id.date) TextView dateTextView;
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.overlay) View overlay;
@@ -165,7 +162,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     private void initDate() {
         Calendar calendar = Calendar.getInstance();
         String dateString = CalendarUtils.getDateString(calendar);
-        date.setText(dateString);
+        dateTextView.setText(dateString);
     }
 
     private void initList() {
@@ -182,7 +179,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     private void populate() {
         presenter.setJob(job)
                 .setDataView(this)
-                .setupDateSearch(date)
+                .setupDateSearch(dateTextView)
                 .requestData(new String[]{"", presenter.getDate()});
     }
 
@@ -190,7 +187,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
         // open activity
         String dateString = CalendarUtils.getDateString(i, i1, i2);
-        date.setText(dateString);
+        dateTextView.setText(dateString);
     }
 
     @Override
