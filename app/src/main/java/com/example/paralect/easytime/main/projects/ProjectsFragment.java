@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.main.projects;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -35,7 +36,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class ProjectsFragment extends AbsStickyFragment implements IDataView<List<Job>> {
     private static final String TAG = ProjectsFragment.class.getSimpleName();
 
-    private Calendar calendar = Calendar.getInstance();
     private final ProjectsPresenter presenter = new ProjectsPresenter();
     private ProjectStickyAdapter adapter = new ProjectStickyAdapter();
     private TextView title;
@@ -47,6 +47,12 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
 
     public static ProjectsFragment newInstance() {
         return new ProjectsFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter.setDataView(this);
     }
 
     @Override
@@ -62,48 +68,29 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
 
         // Set searchView width
         int[] displaySize = ViewUtils.displaySize(getContext());
-        searchView.setMaxWidth((int)(displaySize[0] * 0.6f));
+        searchView.setMaxWidth((int) (displaySize[0] * 0.6f));
 //        searchView.setMaxWidth(Integer.MAX_VALUE);
 
-        String date = CalendarUtils.stringFromDate(calendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
-        presenter.setDataView(this)
-                .setupQuerySearch(searchView)
-                .requestData(new String[]{"", date});
+        presenter.setupQuerySearch(searchView);
     }
 
     @Override
     public void onCreateActionBar(ActionBar actionBar) {
         if (actionBar != null) {
-            // String dateString = CalendarUtils.getDateString(year, month, day);
-            SpannableString ss = CalendarUtils.getSpannableDateString(getContext(), calendar);
-            actionBar.setTitle(ss);
+            actionBar.setTitle(presenter.getSpannableDateString());
 
-            //presenter.getTitle("14 December");
             MainActivity activity = getMainActivity();
             Toolbar toolbar = activity.findViewById(R.id.toolbar);
-            for (int i = 0; i < toolbar.getChildCount(); ++i) {
-                View child = toolbar.getChildAt(i);
-                if (child instanceof TextView) {
-                    title = (TextView) child;
-                    break;
-                }
-            }
+            title = ViewUtils.getToolbarTextView(toolbar);
 
-            String date = CalendarUtils.stringFromDate(calendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
-            presenter.setDataView(this)
-                    .setupDateSearch(title)
-                    .requestData(new String[]{"", date});
+            presenter.setupDateSearch(title)
+                    .requestData(new String[]{"", presenter.getDate()});
         }
     }
 
     @Override
     public boolean needsOptionsMenu() {
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

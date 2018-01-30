@@ -4,12 +4,11 @@ import android.app.DatePickerDialog;
 import android.support.v7.widget.SearchView;
 import android.text.SpannableString;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.utils.CalendarUtils;
 
@@ -39,11 +38,7 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
     private String date;
 
     private TextView mTextView;
-    private Calendar calendar;
-
-    public SearchViewPresenter() {
-
-    }
+    private Calendar mCalendar = Calendar.getInstance();
 
     private void setupPublisher() {
         if (mPublisher == null) {
@@ -73,8 +68,10 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
 
             @Override
             public boolean onQueryTextChange(String query) {
+                if (date == null)
+                    date = getDate();
                 if (mPublisher != null)
-                    mPublisher.onNext(new String[] {query, date});
+                    mPublisher.onNext(new String[]{query, date});
                 return true;
             }
         });
@@ -84,14 +81,14 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
     @Override
     public ISearchViewPresenter<DATA, String[]> setupDateSearch(TextView view) {
         setupPublisher();
-        this.mTextView = view;
-        calendar = Calendar.getInstance();
+        mTextView = view;
+        setTitle();
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int year = mCalendar.get(Calendar.YEAR);
+                int month = mCalendar.get(Calendar.MONTH);
+                int day = mCalendar.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), SearchViewPresenter.this, year, month, day);
                 datePickerDialog.show();
             }
@@ -111,15 +108,28 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
         calendar.set(Calendar.YEAR, i);
         calendar.set(Calendar.MONTH, i1);
         calendar.set(Calendar.DAY_OF_MONTH, i2);
-        this.calendar = calendar;
-        SpannableString spannableDateString = CalendarUtils.getSpannableDateString(mTextView.getContext(), calendar);
-        mTextView.setText(spannableDateString);
+        mCalendar = calendar;
 
-        date = CalendarUtils.stringFromDate(calendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
+        setTitle();
+
+        date = getDate();
         Log.d(TAG, "on date set: " + date);
 
         if (mPublisher != null) {
-            mPublisher.onNext(new String[] {query, date});
+            mPublisher.onNext(new String[]{query, date});
         }
+    }
+
+    private void setTitle(){
+        SpannableString spannableDateString = CalendarUtils.getSpannableDateString(EasyTimeApplication.getContext(), mCalendar);
+        mTextView.setText(spannableDateString);
+    }
+
+    public SpannableString getSpannableDateString(){
+       return CalendarUtils.getSpannableDateString(EasyTimeApplication.getContext(), mCalendar);
+    }
+
+    public String getDate(){
+        return CalendarUtils.stringFromDate(mCalendar.getTime(), CalendarUtils.DEFAULT_DATE_FORMAT);
     }
 }
