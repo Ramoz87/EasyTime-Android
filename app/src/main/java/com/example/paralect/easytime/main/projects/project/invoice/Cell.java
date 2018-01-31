@@ -10,6 +10,20 @@ class Cell implements InvoiceCell{
     private String value;
     private @Type int type;
 
+    public static Cell createHeader(String name) {
+        Cell cell = new Cell();
+        cell.setName(name);
+        cell.setType(Type.HEADER);
+        return cell;
+    }
+
+    public static Cell createTotal(String value) {
+        Cell cell = new Cell();
+        cell.setType(Type.TOTAL);
+        cell.setValue(value);
+        return cell;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

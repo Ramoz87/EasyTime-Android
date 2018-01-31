@@ -23,6 +23,8 @@ import io.reactivex.annotations.Nullable;
 
 import static com.example.paralect.easytime.model.Constants.LONG_DATE_PATTERN;
 import static com.example.paralect.easytime.model.Constants.SHORT_DATE_PATTERN;
+import static com.example.paralect.easytime.model.Constants.UNITY_HOUR;
+import static com.example.paralect.easytime.model.Constants.UNITY_MIN;
 
 /**
  * Created by alexei on 10.01.2018.
@@ -109,8 +111,8 @@ public final class CalendarUtils {
         long hours = TimeUnit.MINUTES.toHours(minutes);
         minutes = minutes - TimeUnit.HOURS.toMinutes(hours);
 
-        timeString += (hours < 10) ? "0" + hours + ":" : hours + ":";
-        timeString += (minutes < 10) ? "0" + minutes : minutes;
+        timeString += hours + UNITY_HOUR;
+        timeString += " " + minutes + UNITY_MIN;
 
         return timeString;
     }

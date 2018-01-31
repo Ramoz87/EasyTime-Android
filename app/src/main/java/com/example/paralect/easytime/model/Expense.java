@@ -62,7 +62,7 @@ public class Expense implements Parcelable, InvoiceCell {
 
     @DatabaseField(columnName = "jobId")
     private String jobId;
-    
+
     @DatabaseField(columnName = "creationDate")
     private String creationDate;
 
@@ -93,7 +93,7 @@ public class Expense implements Parcelable, InvoiceCell {
         return expense;
     }
 
-    public static Expense createMaterialExpense(String jobId, Material material, int countOfMaterials){
+    public static Expense createMaterialExpense(String jobId, Material material, int countOfMaterials) {
         Expense expense = new Expense();
         expense.setJobId(jobId);
         expense.setName(material.getName());
@@ -196,27 +196,7 @@ public class Expense implements Parcelable, InvoiceCell {
     }
 
     public String getTypedValue() {
-        String text = String.valueOf(value);
-        if (TextUtil.isNotEmpty(type)) {
-
-            switch (type) {
-                case Type.TIME:
-                    text = CalendarUtils.timeToString(value) + " " + UNITY_MIN;
-                    break;
-
-                case Type.DRIVING:
-                    text += " " + UNITY_KM;
-                    break;
-
-                case Type.MATERIAL:
-                case Type.OTHER:
-                default:
-                    text += " " + UNITY_PCS;
-            }
-
-        } else
-            text += " " + UNITY_PCS;
-        return text;
+        return getTypedValue(type, value);
     }
 
     public void setValue(long value) {
@@ -272,7 +252,34 @@ public class Expense implements Parcelable, InvoiceCell {
 
     @Override
     public int invoiceCellType() {
-        return InvoiceCell.Type.ITEM;
+        return InvoiceCell.Type.CELL;
     }
     // endregion
+
+    public static String getTypedValue(@Type String type, long value) {
+        String text = String.valueOf(value);
+        if (TextUtil.isNotEmpty(type)) {
+
+            switch (type) {
+                case Type.TIME:
+                    text = CalendarUtils.timeToString(value);
+                    break;
+
+                case Type.DRIVING:
+                    text += " " + UNITY_KM;
+                    break;
+
+                case Type.OTHER:
+                    text += "$";
+                    break;
+
+                case Type.MATERIAL:
+                default:
+                    text += " " + UNITY_PCS;
+            }
+
+        } else
+            text += " " + UNITY_PCS;
+        return text;
+    }
 }

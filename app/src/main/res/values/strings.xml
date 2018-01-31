@@ -93,7 +93,7 @@
 
     <!--Project details-->
     <string name="project_detail_send">Send</string>
-    <string name="project_detail_save">Save</string>
+    <string name="save">Save</string>
     <string name="project_detail_sign">Add signature</string>
     <string name="project_detail_discount">Discount</string>
     <string name="project_detail_completion">Completion</string>
@@ -135,6 +135,10 @@
     <string name="placeholder_for_expense_name">Name</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
+
+    <!--Discount dialog-->
+    <string name="discount_title">Add discount?</string>
+    <string name="discount_hint">$</string>
 
     <!--material expenses-->
     <string name="item_selected">%d item(s) selected</string>

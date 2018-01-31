@@ -3,12 +3,9 @@ package com.example.paralect.easytime.main.projects.project.invoice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,13 +24,12 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.CongratulationsActivity;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.MainActivity;
-import com.example.paralect.easytime.main.projects.project.ActivityAdapter;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
 import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
+import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.SignatureView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -50,7 +46,10 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
  * Created by Oleg Tarashkevich on 15/01/2018.
  */
 
-public class ProjectInvoiceFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
+public class ProjectInvoiceFragment extends BaseFragment implements
+        FloatingActionMenu.OnMenuToggleListener,
+        IDataView<List<InvoiceCell>>,
+        DiscountDialog.Listener {
 
     private static final String TAG = ProjectInvoiceFragment.class.getSimpleName();
     private static final String DATE_ARG = "date_arg";
@@ -70,7 +69,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
     }
 
     //    private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
-    private ActivityAdapter adapter = new ActivityAdapter();
+    private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
     private ProjectInvoicePresenter presenter = new ProjectInvoicePresenter();
 
     private Animation fadeIn;
@@ -99,7 +98,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_project_detail, parent, false);
+        return inflater.inflate(R.layout.fragment_project_invoice, parent, false);
     }
 
     @Override
@@ -110,7 +109,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.item_discount) {
-
+            showCreatorDialog();
             return true;
         } else
             return super.onOptionsItemSelected(item);
@@ -147,11 +146,6 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
         emptyRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         emptyRecyclerView.setLayoutManager(lm);
-        
-        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
-        decoration.setDrawable(drawable);
-        emptyRecyclerView.addItemDecoration(decoration);
 
         presenter.setJob(job)
                 .setDataView(this)
@@ -241,9 +235,27 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
     }
 
     @Override
-    public void onDataReceived(List<Expense> expenses) {
+    public void onDataReceived(List<InvoiceCell> expenses) {
         Log.d(TAG, String.format("received %s expenses", expenses.size()));
         adapter.setData(expenses);
+    }
+
+    private KeypadEditorView keypad;
+
+    private void showCreatorDialog() {
+        DiscountDialog dialog = new DiscountDialog(getContext(), this);
+        dialog.show();
+
+        keypad = getKeypadEditor();
+
+        if (!keypad.isExpanded()) {
+            keypad.expand();
+        }
+    }
+
+    @Override
+    public void onCreateNewExpenseTemplate(DiscountDialog dialog, String expenseName) {
+
     }
     // endregion
 
