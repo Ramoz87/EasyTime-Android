@@ -29,6 +29,7 @@ import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
+import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.SignatureView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -45,7 +46,10 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
  * Created by Oleg Tarashkevich on 15/01/2018.
  */
 
-public class ProjectInvoiceFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<InvoiceCell>> {
+public class ProjectInvoiceFragment extends BaseFragment implements
+        FloatingActionMenu.OnMenuToggleListener,
+        IDataView<List<InvoiceCell>>,
+        DiscountDialog.Listener {
 
     private static final String TAG = ProjectInvoiceFragment.class.getSimpleName();
     private static final String DATE_ARG = "date_arg";
@@ -105,7 +109,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.item_discount) {
-
+            showCreatorDialog();
             return true;
         } else
             return super.onOptionsItemSelected(item);
@@ -234,6 +238,24 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
     public void onDataReceived(List<InvoiceCell> expenses) {
         Log.d(TAG, String.format("received %s expenses", expenses.size()));
         adapter.setData(expenses);
+    }
+
+    private KeypadEditorView keypad;
+
+    private void showCreatorDialog() {
+        DiscountDialog dialog = new DiscountDialog(getContext(), this);
+        dialog.show();
+
+        keypad = getKeypadEditor();
+
+        if (!keypad.isExpanded()) {
+            keypad.expand();
+        }
+    }
+
+    @Override
+    public void onCreateNewExpenseTemplate(DiscountDialog dialog, String expenseName) {
+
     }
     // endregion
 
