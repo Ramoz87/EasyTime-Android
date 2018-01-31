@@ -113,7 +113,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
         MaterialExpense mMaterialExpense;
         Resources mRes;
 
-        @OnTouch({R.id.parent_layout, R.id.material_expense_edit_text})
+        @OnTouch({R.id.parent_layout, R.id.material_expense_edit_text, R.id.checkBox})
         boolean onMaterialCountClick(View v, MotionEvent ev) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 if (v.getId() == inputEditText.getId()) {
@@ -126,7 +126,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                         editorView.expand(true);
                     }
                     afterTextChanged(inputEditText.getText());
-                } else if (v.getId() == R.id.parent_layout) {
+                } else if (v.getId() == R.id.parent_layout || v.getId() == R.id.checkBox) {
                     Log.d(TAG, "on parent layout click");
                     boolean toAdd = !mMaterialExpense.isAdded; // change selection
                     setEnabled(toAdd, mMaterialExpense.material.getStockQuantity());
