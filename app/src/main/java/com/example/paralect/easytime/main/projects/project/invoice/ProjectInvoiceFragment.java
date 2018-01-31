@@ -243,8 +243,11 @@ public class ProjectInvoiceFragment extends BaseFragment implements
     private KeypadEditorView keypad;
 
     private void showCreatorDialog() {
-        DiscountDialog dialog = new DiscountDialog(getContext(), this);
-        dialog.show();
+//        DiscountDialog dialog = new DiscountDialog(getContext(), this);
+//        dialog.show();
+
+        Intent intent = new Intent(getActivity(), DiscountActivity.class);
+        getActivity().startActivityForResult(intent, 463);
 
         keypad = getKeypadEditor();
 

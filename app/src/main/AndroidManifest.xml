@@ -54,6 +54,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
 
+        <activity
+            android:name=".main.projects.project.invoice.DiscountActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/AppTheme.Transparent"/>
+
     </application>
 
 </manifest>
