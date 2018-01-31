@@ -262,7 +262,7 @@ public class Expense implements Parcelable, InvoiceCell {
 
             switch (type) {
                 case Type.TIME:
-                    text = CalendarUtils.timeToString(value) + " " + UNITY_MIN;
+                    text = CalendarUtils.timeToString(value);
                     break;
 
                 case Type.DRIVING:
