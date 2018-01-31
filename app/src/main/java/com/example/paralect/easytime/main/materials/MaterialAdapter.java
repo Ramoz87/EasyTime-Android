@@ -45,6 +45,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHolder> {
+    private static final String TAG = MaterialAdapter.class.getSimpleName();
 
     private List<Material> materials;
     private List<ViewHolder> viewHolders = new ArrayList<>();
@@ -119,9 +120,9 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             public void afterTextChanged(Editable s) {
                 String text = s.toString();
                 if (TextUtil.isEmpty(text) || text.equalsIgnoreCase("0")) {
+                    Log.d(TAG, String.format("text changed = %s", text));
                     text = "1";
                     count.setText(text);
-
                 } else {
                     int value = Integer.parseInt(text);
                     material.setStockQuantity(value);
@@ -210,18 +211,21 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
 
         @OnClick(R.id.plus)
         void plus(View view) {
-            changeValue(view, 1);
+            view.startAnimation(incDec);
+            String text = this.count.getText().toString();
+            int number = Integer.valueOf(text);
+            number++;
+            count.setText(String.valueOf(number));
         }
 
         @OnClick(R.id.minus)
         void minus(View view) {
-            changeValue(view, -1);
-        }
-
-        private void changeValue(View view, int diff) {
             view.startAnimation(incDec);
-            int result = changeCount(diff);
-            count.setText(String.valueOf(result));
+            String text = this.count.getText().toString();
+            int number = Integer.valueOf(text);
+            if (number <= 1) return;
+            number--;
+            count.setText(String.valueOf(number));
         }
 
         public ViewHolder(View itemView, MaterialAdapter adapter, MaterialEditingListener materialEditingListener) {
@@ -244,8 +248,9 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             name.setText(material.getName());
             Resources res = itemView.getResources();
             number.setText(res.getString(R.string.material_number, material.getMaterialNr()));
-            count.setText(String.valueOf(material.getStockQuantity()));
 
+            count.removeTextChangedListener(textWatcher);
+            count.setText(String.valueOf(material.getStockQuantity()));
             count.addTextChangedListener(textWatcher);
         }
 
