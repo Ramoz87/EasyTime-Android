@@ -120,6 +120,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                     if (editorView != null) {
                         editorView.setupEditText(inputEditText);
                         inputEditText.requestFocus();
+                        inputEditText.selectAll();
                         editorView.expand(true);
                     }
                     afterTextChanged(inputEditText.getText());
@@ -234,6 +235,8 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
             inputEditText.setAlpha(enabled ? 1.0f : 0.5f); // imitate enabling/disabling of Edit text
             checkBox.setChecked(enabled);
             if (enabled) {
+                int max = mMaterialExpense.material.getStockQuantity();
+                inputEditText.setText(String.valueOf(max));
                 afterTextChanged(inputEditText.getText());
             }
         }
