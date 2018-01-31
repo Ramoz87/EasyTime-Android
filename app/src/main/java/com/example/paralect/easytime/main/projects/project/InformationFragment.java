@@ -19,7 +19,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.customers.customer.CustomerFragment;
-import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
+import com.example.paralect.easytime.main.projects.project.invoice.ProjectInvoiceFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
@@ -158,7 +158,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
         switch (item.getItemId()) {
             case R.id.item_new: {
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectDetailsFragment.newInstance(job, statusPresenter.getDate()));
+                        .pushFragment(ProjectInvoiceFragment.newInstance(job, statusPresenter.getDate()));
                 return true;
             }
         }

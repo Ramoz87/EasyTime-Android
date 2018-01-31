@@ -1,4 +1,4 @@
-package com.example.paralect.easytime.main.projects.project.details;
+package com.example.paralect.easytime.main.projects.project.invoice;
 
 import android.content.Context;
 import android.content.Intent;
@@ -50,9 +50,9 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
  * Created by Oleg Tarashkevich on 15/01/2018.
  */
 
-public class ProjectDetailsFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
+public class ProjectInvoiceFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
 
-    private static final String TAG = ProjectDetailsFragment.class.getSimpleName();
+    private static final String TAG = ProjectInvoiceFragment.class.getSimpleName();
     private static final String DATE_ARG = "date_arg";
 
     @BindView(R.id.detail_title) TextView detailTitle;
@@ -69,9 +69,9 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
         // getMainActivity().jumpToRoot();
     }
 
-    //    private ProjectExpensesAdapter adapter = new ProjectExpensesAdapter();
+    //    private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
     private ActivityAdapter adapter = new ActivityAdapter();
-    private ProjectExpensesPresenter presenter = new ProjectExpensesPresenter();
+    private ProjectInvoicePresenter presenter = new ProjectInvoicePresenter();
 
     private Animation fadeIn;
     private Animation fadeOut;
@@ -79,11 +79,11 @@ public class ProjectDetailsFragment extends BaseFragment implements FloatingActi
     private Job job;
     private String date;
 
-    public static ProjectDetailsFragment newInstance(@NonNull Job job, String date) {
+    public static ProjectInvoiceFragment newInstance(@NonNull Job job, String date) {
         Bundle args = new Bundle(1);
         args.putParcelable(Job.TAG, job);
         args.putString(DATE_ARG, date);
-        ProjectDetailsFragment fragment = new ProjectDetailsFragment();
+        ProjectInvoiceFragment fragment = new ProjectInvoiceFragment();
         fragment.setArguments(args);
         return fragment;
     }

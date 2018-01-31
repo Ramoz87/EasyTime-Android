@@ -1,34 +1,21 @@
-package com.example.paralect.easytime.main.projects.project.details;
+package com.example.paralect.easytime.main.projects.project.invoice;
 
 import com.example.paralect.easytime.main.projects.project.ActivityPresenter;
-import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
-import com.example.paralect.easytime.utils.CollectionUtils;
-import com.example.paralect.easytime.utils.TextUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by alexei on 16.01.2018.
  */
 
-public class ProjectExpensesPresenter extends ActivityPresenter {
+class ProjectInvoicePresenter extends ActivityPresenter {
 
     @Override
     protected void setTitle() {

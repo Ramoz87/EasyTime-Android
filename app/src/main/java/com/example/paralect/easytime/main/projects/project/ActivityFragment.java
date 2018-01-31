@@ -24,7 +24,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
-import com.example.paralect.easytime.main.projects.project.details.ProjectDetailsFragment;
+import com.example.paralect.easytime.main.projects.project.invoice.ProjectInvoiceFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.time.WorkTypeFragment;
 import com.example.paralect.easytime.main.projects.project.objectsofproject.ObjectsOfProjectFragment;
@@ -135,7 +135,7 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         switch (item.getItemId()) {
             case R.id.item_new:
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectDetailsFragment.newInstance(job, presenter.getDate()));
+                        .pushFragment(ProjectInvoiceFragment.newInstance(job, presenter.getDate()));
                 return true;
             case R.id.item_delete: {
                 Log.d(TAG, "toggled to delete items");

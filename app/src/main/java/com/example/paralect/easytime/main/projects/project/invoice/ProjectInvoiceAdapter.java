@@ -1,4 +1,4 @@
-package com.example.paralect.easytime.main.projects.project.details;
+package com.example.paralect.easytime.main.projects.project.invoice;
 
 import android.content.res.Resources;
 import android.support.annotation.LayoutRes;
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by alexei on 16.01.2018.
  */
 
-public class ProjectExpensesAdapter extends RecyclerView.Adapter<ProjectExpensesAdapter.ExpenseViewHolder> {
+class ProjectInvoiceAdapter extends RecyclerView.Adapter<ProjectInvoiceAdapter.ExpenseViewHolder> {
 
     private static final int TYPE_MATERIAL = 0;
     private static final int TYPE_EXPENSE = 1;
@@ -30,7 +30,7 @@ public class ProjectExpensesAdapter extends RecyclerView.Adapter<ProjectExpenses
     private List<Expense> expenses;
     private Expense total;
 
-    public ProjectExpensesAdapter() {
+    public ProjectInvoiceAdapter() {
 
     }
 

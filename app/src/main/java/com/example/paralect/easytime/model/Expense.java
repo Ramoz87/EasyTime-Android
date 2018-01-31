@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.StringDef;
 
+import com.example.paralect.easytime.main.projects.project.invoice.InvoiceCell;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.j256.ormlite.field.DataType;
@@ -23,7 +24,7 @@ import static com.example.paralect.easytime.model.Constants.UNITY_PCS;
  */
 
 @DatabaseTable(tableName = "expenses")
-public class Expense implements Parcelable {
+public class Expense implements Parcelable, InvoiceCell {
 
     @StringDef({Type.TIME, Type.MATERIAL, Type.DRIVING, Type.OTHER})
     @Retention(RetentionPolicy.RUNTIME)
@@ -257,4 +258,21 @@ public class Expense implements Parcelable {
     public void setCreationDate(Date date) {
         creationDate = CalendarUtils.stringFromDate(date, CalendarUtils.LONG_DATE_FORMAT);
     }
+
+    // region InvoiceCell
+    @Override
+    public String name() {
+        return name;
+    }
+
+    @Override
+    public String value() {
+        return getTypedValue();
+    }
+
+    @Override
+    public int invoiceCellType() {
+        return InvoiceCell.Type.ITEM;
+    }
+    // endregion
 }
