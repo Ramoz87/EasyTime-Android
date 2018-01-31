@@ -45,4 +45,9 @@
     <color name="long_pressed">#D9D5D4</color>
 
     <color name="project_expense_text">#5B759F</color>
+
+    <color name="candidate_normal">#FF000000</color>
+    <color name="candidate_recommended">#FFE35900</color>
+    <color name="candidate_other">#ff808080</color>
+    <color name="candidate_background">#bbffffff</color>
 </resources>

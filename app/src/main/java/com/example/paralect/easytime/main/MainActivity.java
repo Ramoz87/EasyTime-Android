@@ -1,12 +1,23 @@
 package com.example.paralect.easytime.main;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +25,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.customers.CustomersFragment;
@@ -79,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         ViewUtils.disableToolbarAnimation(toolbar);
 
         initNavigationView(savedInstanceState);
+
+        checkKeyboard();
     }
 
     @Override
@@ -112,21 +126,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     public boolean backForOneStep() {
         return mNavController.popFragment(options);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Send event to subscribers
-        Log.d(TAG, String.format("on activity result: request code = %s, result code = %s, data = %s", requestCode, resultCode, data));
-        ResultEvent event = new ResultEvent(requestCode, resultCode, data);
-        RxBus.getInstance().send(event);
-
-        if (requestCode == REQUEST_CODE_CONGRATULATIONS) {
-            Log.d(TAG, "returned from Congratulations screen");
-            mNavController.clearStack(options);
-        }
     }
 
     // works on Loli-Pop and higher
@@ -258,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     /**
      * Pop back to fragment
+     *
      * @param depth - number of fragments from the current to the established one
      */
     @Override
@@ -267,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     /**
      * Pop back to fragment
+     *
      * @param depth - number of fragments from the first to the established one
      */
     @Override
@@ -291,5 +292,85 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     public KeypadEditorView getKeypadEditor() {
         return keypadEditorView;
+    }
+
+    private final static int CODE_WRITE_SETTINGS_PERMISSION = 123;
+    private final static String KEYBOARD = "com.paralect.easytime/com.example.paralect.easytime.views.keyboard.Keying";
+
+    public void checkKeyboard() {
+
+        //Migrate to Setting write permission screen.
+        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
+
+//        boolean permission;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            permission = Settings.System.canWrite(this);
+//        } else {
+//            permission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_SETTINGS) == PackageManager.PERMISSION_GRANTED;
+//        }
+//
+//        permission = false;
+//
+//        if (permission) {
+//            // do your code
+//            Log.d(TAG, "checkKeyboard: do your code");
+//            writeInputMethod();
+//
+//        } else {
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+//                intent.setData(Uri.parse("package:" + getPackageName()));
+//                startActivityForResult(intent, CODE_WRITE_SETTINGS_PERMISSION);
+//            } else {
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_SETTINGS}, CODE_WRITE_SETTINGS_PERMISSION);
+//            }
+//        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Send event to subscribers
+        Log.d(TAG, String.format("on activity result: request code = %s, result code = %s, data = %s", requestCode, resultCode, data));
+        ResultEvent event = new ResultEvent(requestCode, resultCode, data);
+        RxBus.getInstance().send(event);
+
+        if (requestCode == REQUEST_CODE_CONGRATULATIONS) {
+            Log.d(TAG, "returned from Congratulations screen");
+            mNavController.clearStack(options);
+        }
+
+        if (requestCode == CODE_WRITE_SETTINGS_PERMISSION && Settings.System.canWrite(this)) {
+            Log.d("TAG", "CODE_WRITE_SETTINGS_PERMISSION success");
+            //do your code
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CODE_WRITE_SETTINGS_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //do your code
+            Log.d(TAG, "onRequestPermissionsResult: granted");
+            writeInputMethod();
+        } else {
+            Log.d(TAG, "onRequestPermissionsResult: NOT granted");
+        }
+    }
+
+    private void writeInputMethod() {
+        Log.d(TAG, "writeInputMethod");
+        ContentResolver resolver = getContentResolver();
+        //get the old default keyboard in case you want to use it later, or keep it enabled
+        String oldDefaultKeyboard = Settings.Secure.getString(resolver, Settings.Secure.DEFAULT_INPUT_METHOD);
+
+        //enable your keyboard
+        Settings.Secure.putString(resolver, Settings.Secure.ENABLED_INPUT_METHODS, KEYBOARD);
+
+        //set your keyboard as the new default keyboard
+        Settings.Secure.putString(resolver, Settings.Secure.DEFAULT_INPUT_METHOD, KEYBOARD);
     }
 }
