@@ -11,11 +11,11 @@ import java.lang.annotation.RetentionPolicy;
 
 public interface InvoiceCell {
 
-    @IntDef({Type.HEADER, Type.ITEM, Type.TOTAL})
+    @IntDef({Type.HEADER, Type.CELL, Type.TOTAL})
     @Retention(RetentionPolicy.RUNTIME)
     @interface Type {
         int HEADER = 1;
-        int ITEM = 2;
+        int CELL = 2;
         int TOTAL = 3;
     }
 

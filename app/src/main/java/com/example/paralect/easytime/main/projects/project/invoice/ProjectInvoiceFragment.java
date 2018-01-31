@@ -27,10 +27,8 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.CongratulationsActivity;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.MainActivity;
-import com.example.paralect.easytime.main.projects.project.ActivityAdapter;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
 import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
@@ -50,7 +48,7 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
  * Created by Oleg Tarashkevich on 15/01/2018.
  */
 
-public class ProjectInvoiceFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
+public class ProjectInvoiceFragment extends BaseFragment implements FloatingActionMenu.OnMenuToggleListener, IDataView<List<InvoiceCell>> {
 
     private static final String TAG = ProjectInvoiceFragment.class.getSimpleName();
     private static final String DATE_ARG = "date_arg";
@@ -70,7 +68,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
     }
 
     //    private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
-    private ActivityAdapter adapter = new ActivityAdapter();
+    private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
     private ProjectInvoicePresenter presenter = new ProjectInvoicePresenter();
 
     private Animation fadeIn;
@@ -241,7 +239,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
     }
 
     @Override
-    public void onDataReceived(List<Expense> expenses) {
+    public void onDataReceived(List<InvoiceCell> expenses) {
         Log.d(TAG, String.format("received %s expenses", expenses.size()));
         adapter.setData(expenses);
     }

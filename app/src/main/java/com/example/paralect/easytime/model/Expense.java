@@ -272,7 +272,7 @@ public class Expense implements Parcelable, InvoiceCell {
 
     @Override
     public int invoiceCellType() {
-        return InvoiceCell.Type.ITEM;
+        return InvoiceCell.Type.CELL;
     }
     // endregion
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/list_item_horizontal_padding"
+              android:paddingRight="@dimen/list_item_horizontal_padding">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/invoice_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_transparent"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textStyle="bold"
+        android:text="@string/placeholder_price_per_unit"
+        android:textColor="@color/dark_gray"
+        android:textSize="18sp"/>
+
+</FrameLayout>

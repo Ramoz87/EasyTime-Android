@@ -1,7 +1,6 @@
 package com.example.paralect.easytime.main.projects.project.invoice;
 
-import android.content.res.Resources;
-import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,147 +8,119 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.model.Expense;
-import com.example.paralect.easytime.model.Material;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by alexei on 16.01.2018.
+ * Created by Oleg Tarashkevich on 31.01.2018.
  */
 
-class ProjectInvoiceAdapter extends RecyclerView.Adapter<ProjectInvoiceAdapter.ExpenseViewHolder> {
+class ProjectInvoiceAdapter extends RecyclerView.Adapter<ProjectInvoiceAdapter.BaseCellViewHolder> {
 
-    private static final int TYPE_MATERIAL = 0;
-    private static final int TYPE_EXPENSE = 1;
-    private static final int TYPE_TOTAL_COUNT = 2;
+    private List<InvoiceCell> mInvoices = Collections.emptyList();
 
-    private List<Expense> expenses;
-    private Expense total;
-
-    public ProjectInvoiceAdapter() {
-
-    }
-
-    public void setData(List<Expense> expenses) {
-        this.expenses = expenses;
-        initTotal();
+    public void setData(List<InvoiceCell> cells) {
+        mInvoices = cells;
         notifyDataSetChanged();
     }
 
-    private void initTotal() {
-        total = new Expense() {
-            @Override
-            public String getName() {
-                return null;
-            }
-
-            @Override
-            public boolean isMaterialExpense() {
-                return false;
-            }
-
-            @Override
-            public long getValue() {
-                int totalPrice = 0;
-                for (Expense e : expenses) {
-                    totalPrice += e.getValue();
-                }
-                return totalPrice;
-            }
-        };
-    }
-
-    private Expense getItem(int position) {
-        if (position == expenses.size()) return total;
-        else return expenses.get(position);
+    private InvoiceCell getItem(int position) {
+        return mInvoices.get(position);
     }
 
     @Override
     public int getItemViewType(int position) {
-        int itemCount = getItemCount();
-        if (position == (itemCount - 1)) {
-            return TYPE_TOTAL_COUNT;
-        } else {
-            Expense e = getItem(position);
-            return e.isMaterialExpense() ? TYPE_MATERIAL : TYPE_EXPENSE;
-        }
+        InvoiceCell cell = getItem(position);
+        return cell.invoiceCellType();
     }
 
     @Override
-    public ExpenseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseCellViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = null;
-        if (viewType == TYPE_TOTAL_COUNT) {
-            view = inflater.inflate(R.layout.item_project_total_expense, parent, false);
-            return new TotalExpenseViewHolder(view);
-        } else {
-            @LayoutRes int id = R.layout.item_project_expense;
-            view = inflater.inflate(id, parent, false);
-            return new ExpenseViewHolder(view);
+        BaseCellViewHolder holder = null;
+        switch (viewType) {
+
+            case InvoiceCell.Type.HEADER:
+                View view = inflater.inflate(R.layout.item_invoice_header, parent, false);
+                holder = new HeaderViewHolderBase(view);
+                break;
+
+            case InvoiceCell.Type.CELL:
+                view = inflater.inflate(R.layout.item_invoice_cell, parent, false);
+                holder = new CellViewHolderBase(view);
+                break;
+
+            case InvoiceCell.Type.TOTAL:
+                view = inflater.inflate(R.layout.item_invoice_total, parent, false);
+                holder = new TotalViewHolderBase(view);
+                break;
+
         }
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(ExpenseViewHolder holder, int position) {
-        Expense item = getItem(position);
-        holder.bind(item);
+    public void onBindViewHolder(BaseCellViewHolder holder, int position) {
+        InvoiceCell cell = getItem(position);
+        holder.bind(cell);
     }
 
     @Override
     public int getItemCount() {
-        return expenses != null ? expenses.size() + 1 /*for total count*/ : 0;
+        return mInvoices.size();
     }
 
-    static class ExpenseViewHolder extends RecyclerView.ViewHolder {
+    static class HeaderViewHolderBase extends BaseCellViewHolder {
 
-        @BindView(R.id.expenseName)
-        TextView expenseName;
+        HeaderViewHolderBase(View itemView) {
+            super(itemView);
+        }
 
-        @BindView(R.id.pricePerUnit)
-        TextView pricePerUnit;
+        void bind(InvoiceCell cell) {
+            nameTextView.setText(cell.name());
+        }
+    }
 
-        @BindView(R.id.expenseTotalPrice)
-        TextView totalPrice;
+    static class CellViewHolderBase extends BaseCellViewHolder {
 
-        public ExpenseViewHolder(View itemView) {
+        CellViewHolderBase(View itemView) {
+            super(itemView);
+        }
+
+        void bind(InvoiceCell cell) {
+            nameTextView.setText(cell.name());
+            priceTextView.setText(cell.value());
+        }
+    }
+
+    static class TotalViewHolderBase extends CellViewHolderBase {
+
+        TotalViewHolderBase(View itemView) {
+            super(itemView);
+        }
+
+        void bind(InvoiceCell cell) {
+            priceTextView.setText(cell.value());
+        }
+    }
+
+    static abstract class BaseCellViewHolder extends RecyclerView.ViewHolder {
+
+        @Nullable @BindView(R.id.invoice_name_text_view) TextView nameTextView;
+        @Nullable @BindView(R.id.invoice_price_text_view) TextView priceTextView;
+
+        BaseCellViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(Expense expense) {
-            Resources res = itemView.getResources();
-            expenseName.setText(expense.getName());
-            long value = expense.getValue();
-            if (expense.isMaterialExpense()) {
-                Material material = expense.getMaterial();
-                pricePerUnit.setVisibility(View.VISIBLE);
-                long unitPrice = material.getPricePerUnit();
-                pricePerUnit.setText(res.getString(R.string.expense_price, material.getPricePerUnit()));
-                value = value * unitPrice;
-            } else {
-                pricePerUnit.setVisibility(View.GONE);
-            }
+        void bind(InvoiceCell cell) {
 
-            totalPrice.setText(res.getString(R.string.expense_price, value));
-        }
-    }
-
-    static class TotalExpenseViewHolder extends ExpenseViewHolder {
-
-        public TotalExpenseViewHolder(View itemView) {
-            super(itemView);
-        }
-
-        void bind(Expense expense) {
-            Resources res = itemView.getResources();
-            pricePerUnit.setVisibility(View.GONE);
-            expenseName.setText(R.string.total_expense);
-            long price = expense.getValue();
-            totalPrice.setText(res.getString(R.string.expense_price, price));
         }
     }
 }
