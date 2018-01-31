@@ -88,7 +88,7 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
         List<Expense> consumables = EasyTimeManager.getInstance().getAllExpenses(jobId, date);
 
         // Time
-        List<Expense> timeCells = getMergedExpenseResult(consumables, Expense.Type.TIME);
+        List<InvoiceCell> timeCells = getMergedExpenseResult(consumables, Expense.Type.TIME);
         if (CollectionUtils.isNotEmpty(timeCells)) {
             Cell header = new Cell();
             header.setName("TIME");
@@ -98,34 +98,22 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
             cells.addAll(timeCells);
         }
 
-        // Driving
-        List<Expense> drivingCells = getMergedExpenseResult(consumables, Expense.Type.DRIVING);
-        if (CollectionUtils.isNotEmpty(drivingCells)) {
-            Cell header = new Cell();
-            header.setName("DRIVING");
-            header.setType(InvoiceCell.Type.HEADER);
+        // Expenses
+        List<InvoiceCell> drivingCells = getMergedExpenseResult(consumables, Expense.Type.DRIVING);
+        List<InvoiceCell> othersCells = getMergedExpenseResult(consumables, Expense.Type.OTHER);
 
+        if (CollectionUtils.isNotEmpty(drivingCells) || CollectionUtils.isNotEmpty(othersCells)) {
+            Cell header = Cell.createHeader("EXPENSES");
             cells.add(header);
+
             cells.addAll(drivingCells);
-        }
-
-        // Other
-        List<Expense> othersCells = getMergedExpenseResult(consumables, Expense.Type.OTHER);
-        if (CollectionUtils.isNotEmpty(othersCells)) {
-            Cell header = new Cell();
-            header.setName("OTHERS");
-            header.setType(InvoiceCell.Type.HEADER);
-
-            cells.add(header);
             cells.addAll(othersCells);
         }
 
         // Materials
-        List<Expense> materialCells = getMergedExpenseResult(consumables, Expense.Type.MATERIAL);
+        List<InvoiceCell> materialCells = getMergedExpenseResult(consumables, Expense.Type.MATERIAL);
         if (CollectionUtils.isNotEmpty(materialCells)) {
-            Cell header = new Cell();
-            header.setName("MATERIALS");
-            header.setType(InvoiceCell.Type.HEADER);
+            Cell header = Cell.createHeader("MATERIALS");
 
             cells.add(header);
             cells.addAll(materialCells);
@@ -141,9 +129,11 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
         return cells;
     }
 
-    private List<Expense> getMergedExpenseResult(List<Expense> expenses, final @Expense.Type String expenseType) {
-        List<Expense> filtered =
+    private List<InvoiceCell> getMergedExpenseResult(List<Expense> expenses, final @Expense.Type String expenseType) {
+        final long[] totalValue = {0};
+        List<InvoiceCell> filtered =
                 Observable.fromIterable(expenses)
+                        // Filter expenses by type
                         .filter(new Predicate<Expense>() {
                             @Override
                             public boolean test(Expense expense) throws Exception {
@@ -151,38 +141,54 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
                                 return TextUtil.isNotEmpty(type) && type.equalsIgnoreCase(expenseType);
                             }
                         })
+                        // Convert to map. Name is the key
                         .toMultimap(new Function<Expense, String>() {
                             @Override
                             public String apply(Expense expense) throws Exception {
                                 return expense.getName();
                             }
                         })
-
                         .flattenAsObservable(new Function<Map<String, Collection<Expense>>, Iterable<Collection<Expense>>>() {
                             @Override
                             public Iterable<Collection<Expense>> apply(Map<String, Collection<Expense>> stringCollectionMap) throws Exception {
                                 return stringCollectionMap.values();
                             }
                         })
-
+                         // Count total values
                         .map(new Function<Collection<Expense>, Expense>() {
                             @Override
                             public Expense apply(Collection<Expense> expenses) throws Exception {
 
-                                Expense newExpense = new Expense();
-
                                 long value = 0;
+                                Expense lastExpense = null;
                                 for (Expense expense : expenses) {
                                     value += expense.getValue();
-                                    newExpense = Expense.reCreate(expense);
+                                    lastExpense = expense;
                                 }
 
+                                totalValue[0] += value;
+
+                                Expense newExpense = Expense.reCreate(lastExpense);
                                 newExpense.setValue(value);
 
                                 return newExpense;
                             }
                         })
                         .toList()
+                        // Add total cell if type is not DRIVING
+                        .map(new Function<List<Expense>, List<InvoiceCell>>() {
+                            @Override
+                            public List<InvoiceCell> apply(List<Expense> expenses) throws Exception {
+                                List<InvoiceCell> cells = new ArrayList<InvoiceCell>(expenses);
+                                if (!expenseType.equalsIgnoreCase(Expense.Type.DRIVING)) {
+                                    String value = Expense.getTypedValue(expenseType, totalValue[0]);
+                                    Cell total = Cell.createTotal(value);
+                                    cells.add(total);
+                                }
+
+                                return cells;
+                            }
+                        })
                         .blockingGet();
 
         return filtered;
