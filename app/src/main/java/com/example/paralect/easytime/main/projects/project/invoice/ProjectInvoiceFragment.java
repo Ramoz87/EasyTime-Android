@@ -3,12 +3,9 @@ package com.example.paralect.easytime.main.projects.project.invoice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -97,7 +94,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_project_detail, parent, false);
+        return inflater.inflate(R.layout.fragment_project_invoice, parent, false);
     }
 
     @Override
@@ -145,11 +142,6 @@ public class ProjectInvoiceFragment extends BaseFragment implements FloatingActi
         emptyRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         emptyRecyclerView.setLayoutManager(lm);
-        
-        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.divider);
-        decoration.setDrawable(drawable);
-        emptyRecyclerView.addItemDecoration(decoration);
 
         presenter.setJob(job)
                 .setDataView(this)

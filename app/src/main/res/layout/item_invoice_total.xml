@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="vertical"
               android:gravity="right"
-              android:paddingLeft="@dimen/list_item_horizontal_padding"
-              android:paddingRight="@dimen/list_item_horizontal_padding">
+              android:orientation="vertical">
 
     <View
         android:id="@+id/divider"
@@ -15,17 +14,16 @@
         android:layout_marginLeft="@dimen/list_item_horizontal_padding"
         android:layout_marginRight="@dimen/list_item_horizontal_padding"
         android:layout_marginTop="7dp"
-        android:background="@color/gray_header"/>
+        android:background="@color/gray_lite"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/invoice_price_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textStyle="bold"
-        android:text="@string/placeholder_price_per_unit"
+        android:padding="10dp"
         android:textColor="@color/dark_gray"
-        android:textSize="18sp"/>
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="@string/placeholder_price_per_unit"/>
 
 </LinearLayout>
