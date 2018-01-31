@@ -556,6 +556,12 @@ public final class EasyTimeManager {
     public void deleteExpense(Expense expense) {
         try {
             Dao<Expense, Long> expenseDao = helper.getExpenseDao();
+            File file = getFile(expense);
+            if (file != null) {
+                java.io.File imageFile = file.getImageFile();
+                boolean isDeleted = imageFile.delete();
+                Logger.d("file deleted = " + isDeleted);
+            }
             expenseDao.delete(expense);
         } catch (SQLException exc) {
             Logger.e(exc);

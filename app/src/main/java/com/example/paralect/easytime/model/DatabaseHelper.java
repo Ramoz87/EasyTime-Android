@@ -30,7 +30,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Object, String> objectDao = null;
     private Dao<Order, String> orderDao = null;
     private Dao<Project, String> projectDao = null;
-    private Dao<File, String> fileDao = null;
+    private Dao<File, Long> fileDao = null;
     private Dao<Expense, Long> expenseDao = null;
     private Dao<Contact, Long> contactDao = null;
 
@@ -157,7 +157,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return projectDao;
     }
 
-    public Dao<File, String> getFileDao() throws SQLException {
+    public Dao<File, Long> getFileDao() throws SQLException {
         if (fileDao == null) {
             fileDao = getDao(File.class);
         }
