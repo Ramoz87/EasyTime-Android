@@ -59,6 +59,10 @@ public class KeypadEditorView extends KeypadView {
 //        editText.setInputType(InputType.TYPE_NULL);
     }
 
+    public EditText getEditText() {
+        return editorField;
+    }
+
     public void invalidateKeypadHandler() {
         this.setOnKeypadItemClickListener(handler);
     }

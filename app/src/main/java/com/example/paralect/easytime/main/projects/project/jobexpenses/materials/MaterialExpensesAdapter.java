@@ -14,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.utils.ViewAnimationUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
@@ -189,7 +191,8 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
         @Override
         public void onCompletion(KeypadEditorView keypadEditorView, String result) {
             Log.d(TAG, "on completion");
-            inputEditText.clearFocus();
+            EditText editText = keypadEditorView.getEditText();
+            if (editText != null) editText.clearFocus();
             keypadEditorView.collapse(true);
         }
 
@@ -238,6 +241,13 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                 int max = mMaterialExpense.material.getStockQuantity();
                 inputEditText.setText(String.valueOf(max));
                 afterTextChanged(inputEditText.getText());
+            } else {
+                inputEditText.clearFocus();
+                KeypadEditorView editorView = mAdapter.keypadEditorView;
+                if (editorView != null) {
+                    editorView.setupEditText(null);
+                    editorView.collapse();
+                }
             }
         }
 
