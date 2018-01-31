@@ -2,9 +2,11 @@ package com.example.paralect.easytime.main.camera;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -60,6 +62,7 @@ import static io.fotoapparat.selector.SensorSensitivitySelectorsKt.highestSensor
  */
 
 public class CameraActivity extends AppCompatActivity {
+    private static final String TAG = CameraActivity.class.getSimpleName();
 
     public static final String PICTURE_FILE_PATH = "picture_file_path";
 
@@ -213,15 +216,20 @@ public class CameraActivity extends AppCompatActivity {
 
     @OnClick(R.id.capture_done_button)
     public void doneOnClick(){
+        Log.d(TAG, "done");
         if (photoResult != null) {
-            File file = new File(getExternalFilesDir("photos"), System.currentTimeMillis() + ".jpg");
+            Log.d(TAG, "result != null");
+            File rootFile = getExternalFilesDir("photos");
+            Log.d(TAG, String.format("root file = %s", rootFile.getAbsolutePath()));
+            File file = new File(rootFile, System.currentTimeMillis() + ".jpg");
+            Log.d(TAG, String.format("saving file with name = %s", file.getAbsolutePath()));
             photoResult.saveToFile(file);
 
             Intent resultIntent = new Intent();
-            resultIntent.putExtra(PICTURE_FILE_PATH, file.getPath());
+            resultIntent.putExtra(PICTURE_FILE_PATH, file.getAbsolutePath());
             setResult(RESULT_OK, resultIntent);
             finish();
-        }
+        } else Log.d(TAG, "result == null");
     }
 
     @OnClick(R.id.capture_cancel_button)
