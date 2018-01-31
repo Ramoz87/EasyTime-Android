@@ -129,7 +129,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                 } else if (v.getId() == R.id.parent_layout) {
                     Log.d(TAG, "on parent layout click");
                     boolean toAdd = !mMaterialExpense.isAdded; // change selection
-                    setEnabled(toAdd);
+                    setEnabled(toAdd, mMaterialExpense.material.getStockQuantity());
                 }
             }
             return true;
@@ -154,6 +154,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
         }
 
         void bind(MaterialExpense materialExpense) {
+            inputEditText.removeTextChangedListener(this);
             mMaterialExpense = materialExpense;
             Material material = mMaterialExpense.material;
 
@@ -165,8 +166,6 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
 
             inputLayout.setHint(UNITY_PCS);
             inputEditText.setText(maxValue);
-
-            inputEditText.addTextChangedListener(this);
 
             inputEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -185,7 +184,9 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
             });
 
             boolean isAdded = mMaterialExpense.isAdded;
-            setEnabled(isAdded);
+            setEnabled(isAdded, mMaterialExpense.count);
+            if (isAdded) Log.d(TAG, "bind with count = " + mMaterialExpense.count);
+            inputEditText.addTextChangedListener(this);
         }
 
         @Override
@@ -229,17 +230,17 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
             }
 
             mMaterialExpense.count = valueFromString(text);
+            Log.d(TAG, "saving count = " + mMaterialExpense.count);
         }
 
-        void setEnabled(boolean enabled) {
+        void setEnabled(boolean enabled, int count) {
             Log.d(TAG, "enabled = " + enabled);
             mMaterialExpense.isAdded = enabled;
             inputEditText.setEnabled(enabled);
             inputEditText.setAlpha(enabled ? 1.0f : 0.5f); // imitate enabling/disabling of Edit text
             checkBox.setChecked(enabled);
             if (enabled) {
-                int max = mMaterialExpense.material.getStockQuantity();
-                inputEditText.setText(String.valueOf(max));
+                inputEditText.setText(String.valueOf(count));
                 afterTextChanged(inputEditText.getText());
             } else {
                 inputEditText.clearFocus();
