@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
@@ -97,7 +98,8 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
         void onCheckedCountChange(int totalCount);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements KeypadEditorView.OnCompletionListener, TextWatcher {
+    static class ViewHolder extends RecyclerView.ViewHolder
+            implements KeypadEditorView.OnCompletionListener, TextWatcher, CompoundButton.OnCheckedChangeListener {
 
         @BindView(R.id.materialName) TextView materialName;
         @BindView(R.id.materialNumber) TextView materialNumber;
@@ -109,20 +111,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
         MaterialExpense mMaterialExpense;
         Resources mRes;
 
-        @OnCheckedChanged(R.id.checkBox)
-        void onCheckedChanged(CheckBox checkBox, boolean isChecked) {
-            mMaterialExpense.isAdded = isChecked;
-            OnCheckedCountChangeListener listener = mAdapter.onCheckedCountChangeListener;
-            if (listener != null) {
-                int totalCount = 0;
-                for (MaterialExpense me : mAdapter.materialExpenses) {
-                    if (me.isAdded) totalCount++;
-                }
-                listener.onCheckedCountChange(totalCount);
-            }
-        }
-
-        @OnTouch({R.id.material_expense_edit_text, R.id.parent_layout})
+        @OnTouch({R.id.parent_layout, R.id.material_expense_edit_text})
         boolean onMaterialCountClick(View v, MotionEvent ev) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 if (v.getId() == inputEditText.getId()) {
@@ -131,14 +120,14 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                     if (editorView != null) {
                         editorView.setupEditText(inputEditText);
                         inputEditText.requestFocus();
+                        inputEditText.selectAll();
                         editorView.expand(true);
                     }
-                    checkBox.setChecked(true);
                     afterTextChanged(inputEditText.getText());
                 } else if (v.getId() == R.id.parent_layout) {
                     Log.d(TAG, "on parent layout click");
-                    checkBox.setChecked(true);
-                    afterTextChanged(inputEditText.getText());
+                    boolean toAdd = !mMaterialExpense.isAdded; // change selection
+                    setEnabled(toAdd);
                 }
             }
             return true;
@@ -159,6 +148,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                 editorView.setupEditText(inputEditText);
                 editorView.setOnCompletionListener(this);
             }
+            checkBox.setOnCheckedChangeListener(this);
         }
 
         void bind(MaterialExpense materialExpense) {
@@ -191,6 +181,9 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                     }
                 }
             });
+
+            boolean isAdded = mMaterialExpense.isAdded;
+            setEnabled(isAdded);
         }
 
         @Override
@@ -233,6 +226,33 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
             }
 
             mMaterialExpense.count = valueFromString(text);
+        }
+
+        void setEnabled(boolean enabled) {
+            Log.d(TAG, "enabled = " + enabled);
+            mMaterialExpense.isAdded = enabled;
+            inputEditText.setEnabled(enabled);
+            inputEditText.setAlpha(enabled ? 1.0f : 0.5f); // imitate enabling/disabling of Edit text
+            checkBox.setChecked(enabled);
+            if (enabled) {
+                int max = mMaterialExpense.material.getStockQuantity();
+                inputEditText.setText(String.valueOf(max));
+                afterTextChanged(inputEditText.getText());
+            }
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+            Log.d(TAG, "on checked change");
+            OnCheckedCountChangeListener listener = mAdapter.onCheckedCountChangeListener;
+            if (listener != null) {
+                Log.d(TAG, "notify listener on total count change");
+                int totalCount = 0;
+                for (MaterialExpense me : mAdapter.materialExpenses) {
+                    if (me.isAdded) totalCount++;
+                }
+                listener.onCheckedCountChange(totalCount);
+            }
         }
     }
 }
