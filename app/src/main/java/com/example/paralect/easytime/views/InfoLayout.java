@@ -2,6 +2,8 @@ package com.example.paralect.easytime.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Build;
 import android.support.annotation.AttrRes;
 import android.support.annotation.DrawableRes;
@@ -10,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.utils.MetricsUtils;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -98,24 +102,31 @@ public class InfoLayout extends FrameLayout {
         invalidateArrow();
     }
 
-    public void addInfoItem(@DrawableRes int drawableResId, @StringRes int stringResId, OnClickListener eventHandler) {
+    public void addInfoItem(@DrawableRes int drawableResId, String title, OnClickListener eventHandler) {
+        Drawable icon = ContextCompat.getDrawable(getContext(), drawableResId);
+        addInfoItem(icon, title, eventHandler);
+    }
+
+    public void addInfoItem(Drawable icon, String title, OnClickListener eventHandler) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        // View infoItem = inflate(getContext(), R.layout.include_info_item, infoList);
         View infoItem = inflater.inflate(R.layout.include_info_item, infoList, false);
-        ((ImageView) infoItem.findViewById(R.id.icon)).setImageResource(drawableResId);
-        ((TextView) infoItem.findViewById(R.id.text)).setText(stringResId);
+        ImageView iconView = infoItem.findViewById(R.id.icon);
+        TextView titleView = infoItem.findViewById(R.id.text);
+        if (icon != null) {
+            iconView.setImageDrawable(icon);
+            iconView.setVisibility(VISIBLE);
+        } else {
+            iconView.setVisibility(GONE);
+            MarginLayoutParams mlp = (MarginLayoutParams) titleView.getLayoutParams();
+            mlp.setMargins(mlp.leftMargin + (int) MetricsUtils.convertDpToPixel(15), mlp.topMargin, mlp.rightMargin, mlp.bottomMargin);
+        }
+        titleView.setText(title);
         infoItem.setOnClickListener(eventHandler);
         infoList.addView(infoItem);
     }
 
-    public void addInfoItem(@DrawableRes int drawableResId, String title, OnClickListener eventHandler) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        // View infoItem = inflate(getContext(), R.layout.include_info_item, infoList);
-        View infoItem = inflater.inflate(R.layout.include_info_item, infoList, false);
-        ((ImageView) infoItem.findViewById(R.id.icon)).setImageResource(drawableResId);
-        ((TextView) infoItem.findViewById(R.id.text)).setText(title);
-        infoItem.setOnClickListener(eventHandler);
-        infoList.addView(infoItem);
+    public void addInfoItem(String title, OnClickListener eventHandler) {
+        addInfoItem(null, title, eventHandler);
     }
 
     public void setTitle(@StringRes int stringResId) {

@@ -26,6 +26,8 @@ import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.model.Type;
+import com.example.paralect.easytime.model.User;
+import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.views.InfoLayout;
 import com.example.paralect.easytime.views.gallery.JobFilesView;
 
@@ -45,6 +47,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
     @BindView(R.id.scrollView) ScrollView scrollView;
     @BindView(R.id.info_gallery_view) JobFilesView galleryFilesView;
     @BindView(R.id.instructions) InfoLayout instructions;
+    @BindView(R.id.otherEmployees) InfoLayout otherEmployees;
     @BindView(R.id.jobName) TextView jobName;
     @BindView(R.id.jobType) TextView jobType;
     @BindView(R.id.jobStatus) TextView jobStatus;
@@ -133,6 +136,17 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
             instructions.addInfoItem(R.drawable.ic_checkpoint, order.getAddress().toString(), null);
         } else {
             instructions.setVisibility(View.GONE);
+        }
+
+        List<User> members = job.getMembers();
+        if (!CollectionUtil.isEmpty(members)) {
+            for (User member : members) {
+                String s1 = member.getFirstName();
+                String s2 = member.getLastName();
+                otherEmployees.addInfoItem(String.format("%s %s", s1, s2), null);
+            }
+        } else {
+            otherEmployees.setVisibility(View.GONE);
         }
 
         galleryFilesView.setupWithEntity(job);

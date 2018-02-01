@@ -340,13 +340,15 @@ public final class EasyTimeManager {
 
         List<JOB> objects = qb.query();
         for (JOB item : objects) { // populating members
-            String[] ids = item.getMemberIds();
-            item.setMembers(getMembers(ids));
+            List<User> members = getMembers(item);
+            item.setMembers(members);
         }
         return objects;
     }
 
-    private List<User> getMembers(String[] ids) throws SQLException {
+    public List<User> getMembers(Job job) throws SQLException {
+        String[] ids = job.getMemberIds();
+        if (ids == null || ids.length == 0) return null;
         List<User> users = new ArrayList<>();
         Dao<User, String> dao = helper.getUserDao();
         if (ids != null) {
