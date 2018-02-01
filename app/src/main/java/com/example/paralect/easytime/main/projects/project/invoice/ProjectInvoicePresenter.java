@@ -10,6 +10,7 @@ import com.example.paralect.easytime.utils.TextUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -118,18 +119,15 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
             cells.add(header);
             cells.addAll(materialCells);
         }
-
-//        List<Expense> driving = getMergedExpenseResult(consumables, Expense.Type.DRIVING);
-//        List<Expense> other = getMergedExpenseResult(consumables, Expense.Type.OTHER);
-
-
-//            totalPrice.setText(res.getString(R.string.expense_price, value));
-
-
+        
         return cells;
     }
 
     private List<InvoiceCell> getMergedExpenseResult(List<Expense> expenses, final @Expense.Type String expenseType) {
+
+        if (CollectionUtils.isEmpty(expenses))
+            return Collections.emptyList();
+
         final long[] totalValue = {0};
         List<InvoiceCell> filtered =
                 Observable.fromIterable(expenses)
@@ -159,18 +157,21 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
                             @Override
                             public Expense apply(Collection<Expense> expenses) throws Exception {
 
-                                long value = 0;
-                                Expense lastExpense = null;
-                                for (Expense expense : expenses) {
-                                    value += expense.getValue();
-                                    lastExpense = expense;
+                                Expense newExpense = null;
+
+                                if (CollectionUtils.isNotEmpty(expenses)) {
+                                    long value = 0;
+                                    Expense lastExpense = null;
+                                    for (Expense expense : expenses) {
+                                        value += expense.getValue();
+                                        lastExpense = expense;
+                                    }
+
+                                    totalValue[0] += value;
+
+                                    newExpense = Expense.reCreate(lastExpense);
+                                    newExpense.setValue(value);
                                 }
-
-                                totalValue[0] += value;
-
-                                Expense newExpense = Expense.reCreate(lastExpense);
-                                newExpense.setValue(value);
-
                                 return newExpense;
                             }
                         })
@@ -180,7 +181,7 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
                             @Override
                             public List<InvoiceCell> apply(List<Expense> expenses) throws Exception {
                                 List<InvoiceCell> cells = new ArrayList<InvoiceCell>(expenses);
-                                if (!expenseType.equalsIgnoreCase(Expense.Type.DRIVING)) {
+                                if (CollectionUtils.isNotEmpty(cells) && !expenseType.equalsIgnoreCase(Expense.Type.DRIVING)) {
                                     String value = Expense.getTypedValue(expenseType, totalValue[0]);
                                     Cell total = Cell.createTotal(value);
                                     cells.add(total);

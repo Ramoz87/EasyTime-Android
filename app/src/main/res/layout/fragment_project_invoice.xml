@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             xmlns:tools="http://schemas.android.com/tools"
              android:background="@color/mainBackground"
              android:orientation="vertical">
 
@@ -48,32 +48,50 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/detail_title"
+        <LinearLayout
+            android:id="@+id/title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:drawablePadding="10dp"
-            android:padding="15dp"
-            tools:text="@string/placeholder_company"
-            android:textColor="@color/project_expense_text"
-            android:textStyle="bold"/>
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/detail_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="15dp"
+                android:textColor="@color/project_expense_text"
+                android:textStyle="bold"
+                tools:text="@string/placeholder_company"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/discount_title"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rect_price_per_unit_background"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:layout_marginRight="10dp"
+                android:textStyle="bold"
+                tools:text="% 200 CHF"/>
+
+        </LinearLayout>
 
         <com.example.paralect.easytime.views.EmptyRecyclerView
             android:id="@+id/activityList"
             style="@style/RecyclerViewPadding"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/detail_title"/>
+            android:layout_below="@+id/title_container"/>
 
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:layout_below="@+id/detail_title"
+            android:layout_below="@+id/title_container"
             android:background="@drawable/shadow_from_top"/>
 
     </RelativeLayout>
@@ -107,5 +125,14 @@
             app:fab_label="@string/project_detail_sign"/>
 
     </com.github.clans.fab.FloatingActionMenu>
+
+    <com.example.paralect.easytime.views.DiscountDialogView
+        android:id="@+id/discount_dialog_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="100dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="30dp"/>
 
 </FrameLayout>

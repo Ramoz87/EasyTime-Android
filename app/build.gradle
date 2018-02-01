@@ -56,6 +56,7 @@ dependencies {
     implementation deps.gridlayout
     implementation deps.picasso
     implementation deps.fotoapparat
+    implementation deps.cardView
 
     implementation deps.butterKnife
     annotationProcessor deps.butterKnifeCompiler

@@ -28,6 +28,7 @@ import com.example.paralect.easytime.main.projects.project.SignatureDialogFragme
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
+import com.example.paralect.easytime.views.DiscountDialogView;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.SignatureView;
@@ -48,27 +49,26 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
 
 public class ProjectInvoiceFragment extends BaseFragment implements
         FloatingActionMenu.OnMenuToggleListener,
-        IDataView<List<InvoiceCell>>,
-        DiscountDialog.Listener {
+        IDataView<List<InvoiceCell>> {
 
     private static final String TAG = ProjectInvoiceFragment.class.getSimpleName();
     private static final String DATE_ARG = "date_arg";
 
     @BindView(R.id.detail_title) TextView detailTitle;
+    @BindView(R.id.discount_title) TextView discountTitle;
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.overlay) View overlay;
     @BindView(R.id.fam) FloatingActionMenu fam;
+    @BindView(R.id.discount_dialog_view) DiscountDialogView discountDialogView;
 
     @OnClick(R.id.action_send)
     void send(FloatingActionButton fab) {
         Intent intent = CongratulationsActivity.newIntent(getContext());
         MainActivity activity = getMainActivity();
         activity.startActivityForResult(intent, REQUEST_CODE_CONGRATULATIONS);
-        // getMainActivity().jumpToRoot();
     }
 
-    //    private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
     private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
     private ProjectInvoicePresenter presenter = new ProjectInvoicePresenter();
 
@@ -77,6 +77,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements
 
     private Job job;
     private String date;
+    private KeypadEditorView keypad;
 
     public static ProjectInvoiceFragment newInstance(@NonNull Job job, String date) {
         Bundle args = new Bundle(1);
@@ -109,7 +110,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.item_discount) {
-            showCreatorDialog();
+            showDialog();
             return true;
         } else
             return super.onOptionsItemSelected(item);
@@ -134,6 +135,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements
         initFam();
         initOverlay();
         initAnimations();
+        initDialog();
 
         populate();
     }
@@ -240,22 +242,66 @@ public class ProjectInvoiceFragment extends BaseFragment implements
         adapter.setData(expenses);
     }
 
-    private KeypadEditorView keypad;
-
-    private void showCreatorDialog() {
-        DiscountDialog dialog = new DiscountDialog(getContext(), this);
-        dialog.show();
-
+    // region Ugly dialog
+    private void initDialog(){
         keypad = getKeypadEditor();
+        discountDialogView.setVisibility(View.GONE);
 
-        if (!keypad.isExpanded()) {
-            keypad.expand();
+        discountDialogView.getCanelButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideDialog();
+            }
+        });
+        
+        discountDialogView.getSaveButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideDialog();
+                applyDiscount();
+            }
+        });
+
+        keypad.setupEditText(discountDialogView.geteditText());
+        keypad.setOnCompletionListener(new KeypadEditorView.OnCompletionListener() {
+            @Override
+            public void onCompletion(KeypadEditorView editorView, String result) {
+                hideDialog();
+                applyDiscount();
+            }
+        });
+    }
+
+    private void showDialog() {
+
+        if (!discountDialogView.isVisible()){
+
+            keypad.showDoneButton();
+            if (!keypad.isExpanded())
+                keypad.expand();
+
+            discountDialogView.geteditText().setText(null);
+            discountDialogView.setVisibility(View.VISIBLE);
+            showOverlay();
         }
     }
 
-    @Override
-    public void onCreateNewExpenseTemplate(DiscountDialog dialog, String expenseName) {
+    private void hideDialog() {
 
+        if (discountDialogView.isVisible()){
+
+            if (keypad.isExpanded())
+                keypad.collapse();
+
+            discountDialogView.setVisibility(View.GONE);
+            hideOverlay();
+        }
+    }
+
+    private void applyDiscount(){
+        String value = discountDialogView.geteditText().getText().toString();
+        discountTitle.setText(getString(R.string.discount_value, value));
+        discountTitle.setVisibility(View.VISIBLE);
     }
     // endregion
 

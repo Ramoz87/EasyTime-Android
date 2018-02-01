@@ -139,6 +139,7 @@
     <!--Discount dialog-->
     <string name="discount_title">Add discount?</string>
     <string name="discount_hint">$</string>
+    <string name="discount_value">\%% %s CHF</string>
 
     <!--material expenses-->
     <string name="item_selected">%d item(s) selected</string>
