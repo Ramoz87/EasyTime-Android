@@ -10,6 +10,7 @@ import com.example.paralect.easytime.utils.TextUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -118,18 +119,15 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
             cells.add(header);
             cells.addAll(materialCells);
         }
-
-//        List<Expense> driving = getMergedExpenseResult(consumables, Expense.Type.DRIVING);
-//        List<Expense> other = getMergedExpenseResult(consumables, Expense.Type.OTHER);
-
-
-//            totalPrice.setText(res.getString(R.string.expense_price, value));
-
-
+        
         return cells;
     }
 
     private List<InvoiceCell> getMergedExpenseResult(List<Expense> expenses, final @Expense.Type String expenseType) {
+
+        if (CollectionUtils.isEmpty(expenses))
+            return Collections.emptyList();
+
         final long[] totalValue = {0};
         List<InvoiceCell> filtered =
                 Observable.fromIterable(expenses)

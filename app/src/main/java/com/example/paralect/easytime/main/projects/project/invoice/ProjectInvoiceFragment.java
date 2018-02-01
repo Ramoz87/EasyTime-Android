@@ -66,10 +66,8 @@ public class ProjectInvoiceFragment extends BaseFragment implements
         Intent intent = CongratulationsActivity.newIntent(getContext());
         MainActivity activity = getMainActivity();
         activity.startActivityForResult(intent, REQUEST_CODE_CONGRATULATIONS);
-        // getMainActivity().jumpToRoot();
     }
 
-    //    private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
     private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
     private ProjectInvoicePresenter presenter = new ProjectInvoicePresenter();
 
