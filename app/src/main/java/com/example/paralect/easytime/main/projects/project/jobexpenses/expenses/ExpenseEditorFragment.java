@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
  * Created by alexei on 15.01.2018.
  */
 
-public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener, ExpandableLayout.OnExpansionUpdateListener {
+public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorView.OnCompletionListener, ViewTreeObserver.OnGlobalLayoutListener {
     private static final String TAG = ExpenseEditorFragment.class.getSimpleName();
 
     public static final String ARG_EXPENSE = "arg_expense";
@@ -71,6 +71,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        Log.d(TAG, "on view created");
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         init();
@@ -150,28 +151,34 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
     @Override
     public void onPause() {
+        Log.d(TAG, "on pause");
         super.onPause();
-        keypadEditorView.setOnExpansionUpdateListener(null);
+        keypadEditorView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
     }
 
     @Override
     public void onResume() {
+        Log.d(TAG, "on resume");
         super.onResume();
-        keypadEditorView.setOnExpansionUpdateListener(this);
+        keypadEditorView.getViewTreeObserver().addOnGlobalLayoutListener(this);
         keypadEditorView.expand();
     }
 
-    @Override
-    public void onExpansionUpdate(float expansionFraction, int state) {
-        Log.d(TAG, "expansion update: fraction = " + expansionFraction);
+    private void onExpansionUpdate(View expandableView) {
         View root = getView();
-        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) root.getLayoutParams();
         int navBarHeight = (int) MetricsUtils.convertDpToPixel(64);
-        int height = (int) (keypadEditorView.getMeasuredHeight() * expansionFraction) - navBarHeight /*for navigation bar at the bottom*/;
+        int height = expandableView.getMeasuredHeight() - navBarHeight /*for navigation bar at the bottom*/;
+        if (height < 0) height = 0;
+        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) root.getLayoutParams();
         Log.d(TAG, "updated margin = " + height);
         int leftMargin = mlp.leftMargin;
         int topMargin = mlp.topMargin;
         int rightMargin = mlp.rightMargin;
         mlp.setMargins(leftMargin, topMargin, rightMargin, height);
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        onExpansionUpdate(keypadEditorView);
     }
 }
