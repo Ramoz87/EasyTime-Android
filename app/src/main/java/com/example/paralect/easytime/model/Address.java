@@ -148,7 +148,23 @@ public class Address implements Parcelable {
     }
 
     public SpannableString getFullAddress() {
-        String params = country + ", " + city + ", " + street;
+        StringBuilder sb = new StringBuilder();
+        boolean hasItem = false;
+        if (TextUtil.isNotEmpty(country)) {
+            sb.append(country);
+            hasItem = true;
+        }
+        if (TextUtil.isNotEmpty(city)) {
+            if (hasItem) sb.append(", ");
+            sb.append(city);
+            hasItem = true;
+        }
+        if (TextUtil.isNotEmpty(street)) {
+            if (hasItem) sb.append(", ");
+            sb.append(street);
+            hasItem = true;
+        }
+        String params = sb.toString();
         return TextUtil.getSpannableDateString(EasyTimeApplication.getContext(), params, R.drawable.ic_checkpoint);
     }
 
