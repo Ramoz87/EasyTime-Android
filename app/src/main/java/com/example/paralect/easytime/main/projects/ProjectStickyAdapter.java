@@ -12,7 +12,7 @@ import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.ProjectType;
-import com.example.paralect.easytime.utils.CollectionUtils;
+import com.example.paralect.easytime.utils.CollectionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +105,7 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
     }
 
     public void setData(List<Job> jobs) {
-        if (CollectionUtils.isEmpty(jobs))
+        if (CollectionUtil.isEmpty(jobs))
             mJobs.clear();
         else
             mJobs = jobs;

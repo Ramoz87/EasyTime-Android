@@ -27,6 +27,7 @@ import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.DiscountDialogView;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
@@ -300,8 +301,10 @@ public class ProjectInvoiceFragment extends BaseFragment implements
 
     private void applyDiscount(){
         String value = discountDialogView.geteditText().getText().toString();
-        discountTitle.setText(getString(R.string.discount_value, value));
-        discountTitle.setVisibility(View.VISIBLE);
+        if (TextUtil.isNotEmpty(value)) {
+            discountTitle.setText(getString(R.string.discount_value, value));
+            discountTitle.setVisibility(View.VISIBLE);
+        }
     }
     // endregion
 

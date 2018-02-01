@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Expense;
-import com.example.paralect.easytime.utils.CollectionUtils;
+import com.example.paralect.easytime.utils.CollectionUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,12 +28,12 @@ public class ExpensesAdapter extends BaseAdapter implements StickyListHeadersAda
     private List<Expense> mOtherExpenses = Collections.emptyList();
 
     public void setExpenses(List<Expense> defaultExpenses, List<Expense> otherExpenses) {
-        if (CollectionUtils.isEmpty(defaultExpenses))
+        if (CollectionUtil.isEmpty(defaultExpenses))
             mDefaultExpenses.clear();
         else
             mDefaultExpenses = defaultExpenses;
 
-        if (CollectionUtils.isEmpty(otherExpenses))
+        if (CollectionUtil.isEmpty(otherExpenses))
             mOtherExpenses.clear();
         else
             mOtherExpenses = otherExpenses;

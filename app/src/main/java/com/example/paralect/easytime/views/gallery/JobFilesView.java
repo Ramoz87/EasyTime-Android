@@ -18,7 +18,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.camera.CameraActivity;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.utils.CollectionUtils;
+import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.IntentUtils;
 import com.rd.PageIndicatorView;
 import com.squareup.picasso.Picasso;
@@ -85,7 +85,7 @@ public class JobFilesView extends FrameLayout implements IFilesView<List<File>, 
 
     @Override
     public void onDataReceived(List<File> files) {
-        if (CollectionUtils.isNotEmpty(files)) {
+        if (CollectionUtil.isNotEmpty(files)) {
             galleryView.setVisibility(VISIBLE);
             emptyView.setVisibility(GONE);
             final InformationFilesAdapter adapter = new InformationFilesAdapter(files);

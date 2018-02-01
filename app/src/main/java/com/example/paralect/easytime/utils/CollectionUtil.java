@@ -12,9 +12,9 @@ import java.util.Set;
 /**
  * Created by Oleg Tarashkevich on 02.10.15.
  */
-public final class CollectionUtils {
+public final class CollectionUtil {
 
-    private CollectionUtils() {
+    private CollectionUtil() {
     }
 
     public static <T> T getFirst(List<T> list) {

@@ -20,7 +20,7 @@ import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.model.User;
-import com.example.paralect.easytime.utils.CollectionUtils;
+import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.j256.ormlite.dao.Dao;
@@ -29,17 +29,13 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 
-import org.apache.commons.collections.ListUtils;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static com.example.paralect.easytime.model.Constants.DRIVING;
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
-import static com.example.paralect.easytime.model.Type.TypeName.WORK_TYPE;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -135,7 +131,7 @@ public final class EasyTimeManager {
         try {
             Dao<Address, Long> dao = helper.getAddressDao();
             List<Address> found = dao.queryForEq("customerId", customer.getCustomerId());
-            if (!CollectionUtils.isEmpty(found)) return found.get(0);
+            if (!CollectionUtil.isEmpty(found)) return found.get(0);
             else return null;
         } catch (SQLException exc) {
             Logger.e(exc);
@@ -147,7 +143,7 @@ public final class EasyTimeManager {
         try {
             Dao<Type, String> dao = helper.getTypeDao();
             List<Type> results = dao.queryBuilder().where().idEq(job.getStatusId()).query();
-            if (!CollectionUtils.isEmpty(results)) return results.get(0);
+            if (!CollectionUtil.isEmpty(results)) return results.get(0);
             else return null;
         } catch (SQLException exc) {
             Logger.e(exc);
