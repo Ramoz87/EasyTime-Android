@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             xmlns:tools="http://schemas.android.com/tools"
              android:background="@color/mainBackground"
              android:orientation="vertical">
 
@@ -58,9 +58,9 @@
             android:background="@color/white"
             android:drawablePadding="10dp"
             android:padding="15dp"
-            tools:text="@string/placeholder_company"
             android:textColor="@color/project_expense_text"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            tools:text="@string/placeholder_company"/>
 
         <com.example.paralect.easytime.views.EmptyRecyclerView
             android:id="@+id/activityList"
@@ -107,5 +107,14 @@
             app:fab_label="@string/project_detail_sign"/>
 
     </com.github.clans.fab.FloatingActionMenu>
+
+    <com.example.paralect.easytime.views.DiscountDialogView
+        android:id="@+id/discount_dialog_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="100dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="30dp"/>
 
 </FrameLayout>

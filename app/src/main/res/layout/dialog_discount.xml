@@ -1,48 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:background="@color/materials_overlay_background"
-             android:layout_height="match_parent">
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginBottom="100dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="10dp">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="100dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardElevation="10dp">
 
-        <LinearLayout
-            android:layout_width="340dp"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:paddingLeft="@dimen/list_item_horizontal_padding"
+        android:paddingRight="@dimen/list_item_horizontal_padding"
+        android:paddingTop="18dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/discount_title"
+            android:textColor="@color/black"
+            android:textSize="24sp"/>
 
-            android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:paddingLeft="@dimen/list_item_horizontal_padding"
-            android:paddingRight="@dimen/list_item_horizontal_padding"
-            android:paddingTop="18dp">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="18dp"/>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/discount_title"
-                android:textColor="@color/black"
-                android:textSize="24sp"/>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="18dp"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/enter_name"
-                android:textColor="@color/dark_gray"
-                android:textSize="15sp"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/expenseName"
+                android:id="@+id/discount_dialog_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/discount_hint"
@@ -51,50 +44,34 @@
                 android:textSize="19sp"
                 app:backgroundTint="@color/blue"/>
 
-            <LinearLayout
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/cancel_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:orientation="horizontal">
+                android:background="@drawable/selector_ripple"
+                android:text="@string/cancel"/>
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="7dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="7dp"
-                    android:text="@string/cancel"
-                    app:textAllCaps="true"/>
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"/>
 
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/create"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="7dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="7dp"
-                    android:text="@string/save"
-                    android:textColor="@color/dark_blue"
-                    app:textAllCaps="true"/>
-            </LinearLayout>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_ripple"
+                android:text="@string/save"
+                android:textColor="@color/dark_blue"/>
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
 
-    <com.example.paralect.easytime.views.KeypadEditorView
-        android:id="@+id/keypadEditorView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:elevation="5dp"
-        app:el_expanded="true"/>
-
-</FrameLayout>
+    </LinearLayout>
+</merge>
