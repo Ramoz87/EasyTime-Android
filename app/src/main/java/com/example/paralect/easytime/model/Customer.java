@@ -3,6 +3,7 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -27,6 +28,9 @@ public class Customer implements Parcelable {
     @DatabaseField(columnName = "lastName")
     private String lastName;
 
+    @DatabaseField(columnName = "addressId")
+    private long addressId;
+
     private Address address;
     private List<Contact> contacts;
 
@@ -39,6 +43,7 @@ public class Customer implements Parcelable {
         customerId = in.readString();
         firstName = in.readString();
         lastName = in.readString();
+        addressId = in.readLong();
         address = in.readParcelable(Address.class.getClassLoader());
         contacts = in.createTypedArrayList(Contact.CREATOR);
     }
@@ -49,6 +54,7 @@ public class Customer implements Parcelable {
         dest.writeString(customerId);
         dest.writeString(firstName);
         dest.writeString(lastName);
+        dest.writeLong(addressId);
         dest.writeParcelable(address, flags);
         dest.writeTypedList(contacts);
     }
@@ -121,5 +127,13 @@ public class Customer implements Parcelable {
     @Override
     public String toString() {
         return firstName + " " + lastName;
+    }
+
+    public long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(long addressId) {
+        this.addressId = addressId;
     }
 }

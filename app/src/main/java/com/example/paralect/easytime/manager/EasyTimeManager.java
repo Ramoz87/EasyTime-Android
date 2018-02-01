@@ -130,9 +130,7 @@ public final class EasyTimeManager {
     public Address getAddress(Customer customer) {
         try {
             Dao<Address, Long> dao = helper.getAddressDao();
-            List<Address> found = dao.queryForEq("customerId", customer.getCustomerId());
-            if (!CollectionUtil.isEmpty(found)) return found.get(0);
-            else return null;
+            return dao.queryForId(customer.getAddressId());
         } catch (SQLException exc) {
             Logger.e(exc);
             return null;

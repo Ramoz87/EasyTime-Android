@@ -140,6 +140,9 @@ public class LaunchScreenActivity extends Activity {
                         Log.d(TAG, "Contact: " + contact);
                         contactDao.create(contact);
                     }
+                    Address address = customer.getAddress();
+                    addressDao.create(address);
+                    customer.setAddressId(address.getAddressId());
                 }
                 dao.createOrUpdate(item);
             }
@@ -206,9 +209,15 @@ public class LaunchScreenActivity extends Activity {
                 contact.setFax(fields[25]);
                 contact.setPhone(fields[47]);
 
+                Address address = new Address();
+                address.setCity(fields[39]);
+                address.setStreet(fields[15]);
+                address.setZip(fields[41]);
+
                 List<Contact> contacts = new ArrayList<>();
                 contacts.add(contact);
                 customer.setContacts(contacts);
+                customer.setAddress(address);
                 return customer;
             }
 
@@ -229,7 +238,6 @@ public class LaunchScreenActivity extends Activity {
                 fillJob(object, fields);
 
                 Address address = new Address();
-                address.setCustomerId(object.getCustomerId());
                 address.setStreet(fields[16]);
                 address.setCity(fields[17]);
                 address.setZip(fields[18]);
@@ -245,7 +253,6 @@ public class LaunchScreenActivity extends Activity {
                 order.setDeliveryTime(fields[15]);
 
                 Address address = new Address();
-                address.setCustomerId(order.getCustomerId());
                 address.setStreet(fields[16]);
                 address.setCity(fields[17]);
                 address.setZip(fields[18]);
