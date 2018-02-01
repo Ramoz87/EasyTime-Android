@@ -55,6 +55,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements
     private static final String DATE_ARG = "date_arg";
 
     @BindView(R.id.detail_title) TextView detailTitle;
+    @BindView(R.id.discount_title) TextView discountTitle;
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.overlay) View overlay;
@@ -299,7 +300,8 @@ public class ProjectInvoiceFragment extends BaseFragment implements
 
     private void applyDiscount(){
         String value = discountDialogView.geteditText().getText().toString();
-        
+        discountTitle.setText(getString(R.string.discount_value, value));
+        discountTitle.setVisibility(View.VISIBLE);
     }
     // endregion
 
