@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Customer;
+import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.ViewUtils;
 import com.rd.PageIndicatorView;
 
@@ -103,6 +105,9 @@ public class CustomerFragment extends BaseFragment implements IDataView<Pair<Cus
         // set contacts
         Customer customer = pair.first;
         List<Integer> types = pair.second;
+        if (types.size() <= 1) {
+            tabs.setSelectedTabIndicatorHeight(0);
+        }
         final ContactsAdapter contactsAdapter = new ContactsAdapter(customer.getContacts(), customer.getAddress());
         contactsViewPager.setAdapter(contactsAdapter);
         pageIndicatorView.setViewPager(contactsViewPager);
