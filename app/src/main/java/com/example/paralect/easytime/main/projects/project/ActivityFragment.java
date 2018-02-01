@@ -211,13 +211,14 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
         });
     }
 
-    // adding overlay on front of app screen but under fam
     private void showOverlay() {
+        fam.setMenuButtonColorNormalResId(R.color.dark_gray);
         overlay.startAnimation(fadeIn);
     }
 
     // removing overlay
     private void hideOverlay() {
+        fam.setMenuButtonColorNormalResId(R.color.blue);
         overlay.startAnimation(fadeOut);
     }
 
