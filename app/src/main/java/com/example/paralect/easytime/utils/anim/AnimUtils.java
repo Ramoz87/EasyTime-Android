@@ -94,6 +94,34 @@ public final class AnimUtils {
         performReincarnation(imageView, afterReincarnation, durToHide, durToShow, delay);
     }
 
+    public static void performSizingReincarnation(@NonNull final ImageView imageView, @DrawableRes int drawableId, int durToHide, int durToShow, int delay) {
+        Context context = imageView.getContext();
+        final Drawable afterReincarnation = ContextCompat.getDrawable(context, drawableId);
+        final Animation inc = AnimationUtils.loadAnimation(context, R.anim.full_inc);
+        final Animation dec = AnimationUtils.loadAnimation(context, R.anim.full_dec);
+        dec.setDuration(durToHide);
+        inc.setDuration(durToShow);
+        dec.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                imageView.setImageDrawable(afterReincarnation);
+                imageView.startAnimation(inc);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        dec.setStartOffset(delay);
+        imageView.startAnimation(dec);
+    }
+
     public static void hideWithAnimation(@NonNull View view, int duration, int delay) {
         Context context = view.getContext();
         final Animation dec = AnimationUtils.loadAnimation(context, R.anim.fade_out);

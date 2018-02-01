@@ -1,9 +1,11 @@
 package com.example.paralect.easytime.main.projects.project.invoice;
 
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
@@ -59,7 +62,7 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
 
 public class ProjectInvoiceFragment extends BaseFragment implements
         FloatingActionMenu.OnMenuToggleListener,
-        IDataView<List<InvoiceCell>> {
+        IDataView<List<InvoiceCell>>, View.OnClickListener {
 
     private static final String TAG = ProjectInvoiceFragment.class.getSimpleName();
     private static final String DATE_ARG = "date_arg";
@@ -168,7 +171,6 @@ public class ProjectInvoiceFragment extends BaseFragment implements
         overlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //hideOverlay();
                 fam.close(true);
             }
         });
@@ -176,14 +178,12 @@ public class ProjectInvoiceFragment extends BaseFragment implements
 
     // adding overlay on front of app screen but under fam
     private void showOverlay() {
-        fam.getMenuIconView().setImageResource(R.drawable.ic_close);
         fam.setMenuButtonColorNormalResId(R.color.dark_gray);
         overlay.startAnimation(fadeIn);
     }
 
     // removing overlay
     private void hideOverlay() {
-        fam.getMenuIconView().setImageResource(R.drawable.ic_check);
         fam.setMenuButtonColorNormalResId(R.color.blue);
         overlay.startAnimation(fadeOut);
     }
@@ -192,6 +192,7 @@ public class ProjectInvoiceFragment extends BaseFragment implements
         Log.d(TAG, "initializing fam");
         Context context = getContext();
         Resources res = getResources();
+        fam.setOnMenuButtonClickListener(this);
         fam.setOnMenuToggleListener(this);
         fam.getMenuIconView().setImageResource(R.drawable.ic_check);
         fam.setIconAnimated(false);
@@ -319,6 +320,14 @@ public class ProjectInvoiceFragment extends BaseFragment implements
             discountTitle.setText(getString(R.string.discount_value, value));
             discountTitle.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        ImageView img = fam.getMenuIconView();
+        @DrawableRes int id = fam.isOpened() ? R.drawable.ic_check : R.drawable.ic_cross;
+        AnimUtils.performSizingReincarnation(img, id, 75, 75, 0);
+        fam.toggle(true);
     }
     // endregion
 
