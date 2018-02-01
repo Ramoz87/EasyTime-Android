@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+
+import java.util.List;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -32,8 +35,6 @@ public class Job implements Parcelable, ProjectType {
     @DatabaseField(columnName = "jobId", id = true)
     private String jobId;
 
-    private Object members;
-
     @DatabaseField(columnName = "name")
     private String name;
 
@@ -49,9 +50,13 @@ public class Job implements Parcelable, ProjectType {
     @DatabaseField(columnName = "discount")
     private int discount = 0; // default value
 
+    @DatabaseField(columnName = "userIds", dataType = DataType.SERIALIZABLE)
+    private String[] userIds;
+
     private File image;
     private Customer customer;
     private com.example.paralect.easytime.model.Type status;
+    private List<User> members;
 
     public Job() {
 
@@ -64,13 +69,15 @@ public class Job implements Parcelable, ProjectType {
         entityType = in.readString();
         information = in.readString();
         jobId = in.readString();
-        // members = in.readParcelable(Object.class.getClassLoader());
         name = in.readString();
         number = in.readInt();
         statusId = in.readString();
         typeId = in.readString();
         discount = in.readInt();
+        userIds = in.createStringArray();
         customer = in.readParcelable(Customer.class.getClassLoader());
+        status = in.readParcelable(com.example.paralect.easytime.model.Type.class.getClassLoader());
+        members = in.createTypedArrayList(User.CREATOR);
     }
 
     @Override
@@ -81,13 +88,15 @@ public class Job implements Parcelable, ProjectType {
         dest.writeString(entityType);
         dest.writeString(information);
         dest.writeString(jobId);
-        // dest.writeParcelable(members, flags);
         dest.writeString(name);
         dest.writeInt(number);
         dest.writeString(statusId);
         dest.writeString(typeId);
         dest.writeInt(discount);
+        dest.writeStringArray(userIds);
         dest.writeParcelable(customer, flags);
+        dest.writeParcelable(status, flags);
+        dest.writeTypedList(members);
     }
 
     @Override
@@ -153,14 +162,6 @@ public class Job implements Parcelable, ProjectType {
 
     public void setJobId(String jobId) {
         this.jobId = jobId;
-    }
-
-    public Object getMembers() {
-        return members;
-    }
-
-    public void setMembers(Object members) {
-        this.members = members;
     }
 
     public String getName() {
@@ -242,5 +243,21 @@ public class Job implements Parcelable, ProjectType {
 
     public void setDiscount(int discount) {
         this.discount = discount;
+    }
+
+    public String[] getMemberIds() {
+        return userIds;
+    }
+
+    public void setMemberIds(String[] userIds) {
+        this.userIds = userIds;
+    }
+
+    public List<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
     }
 }

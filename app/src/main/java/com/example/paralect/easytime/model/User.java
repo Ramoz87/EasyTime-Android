@@ -1,5 +1,8 @@
 package com.example.paralect.easytime.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -8,7 +11,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 
 @DatabaseTable(tableName = "users")
-public class User {
+public class User implements Parcelable {
     @DatabaseField(columnName = "firstName")
     private String firstName;
     @DatabaseField(columnName = "lastName")
@@ -24,6 +27,40 @@ public class User {
     public User() {
 
     }
+
+    protected User(Parcel in) {
+        firstName = in.readString();
+        lastName = in.readString();
+        password = in.readString();
+        userId = in.readString();
+        userName = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(password);
+        dest.writeString(userId);
+        dest.writeString(userName);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getFirstName() {
         return firstName;

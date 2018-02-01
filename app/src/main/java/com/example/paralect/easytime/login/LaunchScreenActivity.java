@@ -285,6 +285,11 @@ public class LaunchScreenActivity extends Activity {
                 job.setNumber(Integer.valueOf(fields[5]));
                 job.setName(fields[6]);
                 job.setInformation(fields[7]);
+
+                String memberIds = fields[8];
+                memberIds = memberIds.replace("\"", "");
+                String[] ids = memberIds.split(",[ ]*");
+                job.setMemberIds(ids);
                 // fields[8]?
                 job.setCurrency(fields[9]);
 

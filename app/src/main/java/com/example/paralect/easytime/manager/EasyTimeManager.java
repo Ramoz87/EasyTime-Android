@@ -312,7 +312,7 @@ public final class EasyTimeManager {
         return jobs;
     }
 
-    private static <JOB> List<JOB> getList(Dao<JOB, String> dao, String customerId, String query, String date) throws SQLException {
+    private <JOB extends Job> List<JOB> getList(Dao<JOB, String> dao, String customerId, String query, String date) throws SQLException {
         QueryBuilder<JOB, String> qb = dao.queryBuilder();
 
         boolean hasCustomerId = !TextUtils.isEmpty(customerId);
@@ -339,7 +339,23 @@ public final class EasyTimeManager {
         }
 
         List<JOB> objects = qb.query();
+        for (JOB item : objects) { // populating members
+            String[] ids = item.getMemberIds();
+            item.setMembers(getMembers(ids));
+        }
         return objects;
+    }
+
+    private List<User> getMembers(String[] ids) throws SQLException {
+        List<User> users = new ArrayList<>();
+        Dao<User, String> dao = helper.getUserDao();
+        if (ids != null) {
+            for (String id : ids) {
+                User user = dao.queryForId(id);
+                users.add(user);
+            }
+        }
+        return users;
     }
     // endregion
 
