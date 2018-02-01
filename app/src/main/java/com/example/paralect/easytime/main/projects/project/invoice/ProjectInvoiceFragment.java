@@ -25,8 +25,11 @@ import com.example.paralect.easytime.main.CongratulationsActivity;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Customer;
+import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.DiscountDialogView;
@@ -37,10 +40,16 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRATULATIONS;
 
@@ -62,13 +71,6 @@ public class ProjectInvoiceFragment extends BaseFragment implements
     @BindView(R.id.overlay) View overlay;
     @BindView(R.id.fam) FloatingActionMenu fam;
     @BindView(R.id.discount_dialog_view) DiscountDialogView discountDialogView;
-
-    @OnClick(R.id.action_send)
-    void send(FloatingActionButton fab) {
-        Intent intent = CongratulationsActivity.newIntent(getContext());
-        MainActivity activity = getMainActivity();
-        activity.startActivityForResult(intent, REQUEST_CODE_CONGRATULATIONS);
-    }
 
     private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
     private ProjectInvoicePresenter presenter = new ProjectInvoicePresenter();
@@ -145,6 +147,12 @@ public class ProjectInvoiceFragment extends BaseFragment implements
         Customer customer = job.getCustomer();
         detailTitle.setText(customer.getCompanyName());
 
+        int discount = job.getDiscount();
+        if (discount != 0) {
+            discountTitle.setText(getString(R.string.discount_value, String.valueOf(discount)));
+            discountTitle.setVisibility(View.VISIBLE);
+        }
+
         emptyRecyclerView.setEmptyView(emptyListPlaceholder);
         emptyRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
@@ -212,13 +220,10 @@ public class ProjectInvoiceFragment extends BaseFragment implements
     }
 
     @OnClick(R.id.action_send)
-    void onActionSendClick() {
-
-    }
-
-    @OnClick(R.id.action_save)
-    void onActionSaveClick() {
-
+    void send(FloatingActionButton fab) {
+        Intent intent = CongratulationsActivity.newIntent(getContext());
+        MainActivity activity = getMainActivity();
+        activity.startActivityForResult(intent, REQUEST_CODE_CONGRATULATIONS);
     }
 
     @OnClick(R.id.action_sign)
@@ -302,6 +307,15 @@ public class ProjectInvoiceFragment extends BaseFragment implements
     private void applyDiscount(){
         String value = discountDialogView.geteditText().getText().toString();
         if (TextUtil.isNotEmpty(value)) {
+            job.setDiscount(Integer.valueOf(value));
+            Completable completable = Completable.fromCallable(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    EasyTimeManager.getInstance().updateJob(job);
+                    return null;
+                }
+            });
+            completable.subscribeOn(Schedulers.io()).subscribe();
             discountTitle.setText(getString(R.string.discount_value, value));
             discountTitle.setVisibility(View.VISIBLE);
         }

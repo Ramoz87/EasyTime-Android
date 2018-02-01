@@ -112,11 +112,11 @@
             android:src="@drawable/ic_send"
             app:fab_label="@string/project_detail_send"/>
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/action_save"
-            style="@style/FloatingActionButtonMiniStyle"
-            android:src="@drawable/ic_save"
-            app:fab_label="@string/save"/>
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/action_save"-->
+            <!--style="@style/FloatingActionButtonMiniStyle"-->
+            <!--android:src="@drawable/ic_save"-->
+            <!--app:fab_label="@string/save"/>-->
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/action_sign"

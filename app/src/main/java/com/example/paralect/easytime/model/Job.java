@@ -46,6 +46,9 @@ public class Job implements Parcelable, ProjectType {
     @DatabaseField(columnName = "typeId")
     private String typeId;
 
+    @DatabaseField(columnName = "discount")
+    private int discount = 0; // default value
+
     private File image;
     private Customer customer;
     private com.example.paralect.easytime.model.Type status;
@@ -66,6 +69,7 @@ public class Job implements Parcelable, ProjectType {
         number = in.readInt();
         statusId = in.readString();
         typeId = in.readString();
+        discount = in.readInt();
         customer = in.readParcelable(Customer.class.getClassLoader());
     }
 
@@ -82,6 +86,7 @@ public class Job implements Parcelable, ProjectType {
         dest.writeInt(number);
         dest.writeString(statusId);
         dest.writeString(typeId);
+        dest.writeInt(discount);
         dest.writeParcelable(customer, flags);
     }
 
@@ -229,5 +234,13 @@ public class Job implements Parcelable, ProjectType {
         if (bundle != null && bundle.containsKey(TAG))
             return bundle.getParcelable(TAG);
         else return null;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 }
