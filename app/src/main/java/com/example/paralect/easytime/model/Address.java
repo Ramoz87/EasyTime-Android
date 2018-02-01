@@ -170,6 +170,7 @@ public class Address implements Parcelable {
 
     public String getQueryAddress() {
         StringBuilder builder = new StringBuilder();
+        String street = this.street.replaceAll("[0-9]", "").trim();
         builder.append("geo:0,0?q=");
         if (TextUtil.isNotEmpty(country))
             builder.append("+").append(country);
