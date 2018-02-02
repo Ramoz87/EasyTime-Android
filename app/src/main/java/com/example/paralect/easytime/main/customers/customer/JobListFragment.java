@@ -72,9 +72,6 @@ public class JobListFragment extends AbsListFragment implements IDataView<List<J
         presenter.setDataView(this)
                 .requestData(parameter);
         Log.d(TAG, "requesting for project type = " + type);
-        FrameLayout container = getEmptyViewContainer();
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        inflater.inflate(R.layout.include_no_data_placeholder, container, true);
     }
 
     @Override
