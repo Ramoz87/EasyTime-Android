@@ -148,5 +148,10 @@
             app:title="@string/other_employees"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
     </LinearLayout>
 </ScrollView>
