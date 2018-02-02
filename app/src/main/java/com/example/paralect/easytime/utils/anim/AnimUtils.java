@@ -61,6 +61,22 @@ public final class AnimUtils {
         };
     }
 
+    public static void performAppearing(@NonNull View view, int duration, int delay) {
+        Animation anim = AnimationUtils.loadAnimation(view.getContext(), R.anim.fade_in);
+        anim.setDuration(duration);
+        anim.setStartOffset(delay);
+        anim.setAnimationListener(newAppearingAnimListener(view));
+        view.startAnimation(anim);
+    }
+
+    public static void performDisappearing(@NonNull View view, int duration, int delay) {
+        Animation anim = AnimationUtils.loadAnimation(view.getContext(), R.anim.fade_out);
+        anim.setDuration(duration);
+        anim.setStartOffset(delay);
+        anim.setAnimationListener(newDisappearingAnimListener(view));
+        view.startAnimation(anim);
+    }
+
     public static void performReincarnation(@NonNull final ImageView imageView, final Drawable afterReincarnation, int durToHide, int durToShow, int delay) {
         Context context = imageView.getContext();
         final Animation inc = AnimationUtils.loadAnimation(context, R.anim.fade_in);
