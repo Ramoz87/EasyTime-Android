@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 
@@ -16,6 +17,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  */
 
 public class EmptyRecyclerView extends RecyclerView {
+    private static final String TAG = EmptyRecyclerView.class.getSimpleName();
 
     private View mEmptyView;
     private final RecyclerView.AdapterDataObserver mObserver = new RecyclerView.AdapterDataObserver() {
@@ -76,9 +78,9 @@ public class EmptyRecyclerView extends RecyclerView {
     private void checkIfEmpty() {
         if (mEmptyView != null) {
             boolean isEmpty = getAdapter() == null || getAdapter().getItemCount() == 0;
-            // mEmptyView.setVisibility(isEmpty ? VISIBLE : GONE);
+            Log.d(TAG, String.format("list is %s", isEmpty ? "empty" : "not empty"));
             if (isEmpty) {
-                AnimUtils.performAppearing(mEmptyView, 100, 0);
+                mEmptyView.setVisibility(VISIBLE);
             } else {
                 mEmptyView.setVisibility(GONE);
             }

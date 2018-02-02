@@ -6,6 +6,31 @@
              android:background="@color/mainBackground"
              android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F2F4F7"
+            android:gravity="right"
+            android:textSize="18sp"
+            android:padding="15dp"
+            android:text="@string/placeholder_activity_date"
+            android:textColor="@color/blue"
+            android:textStyle="bold"/>
+
+        <com.example.paralect.easytime.views.EmptyRecyclerView
+            android:id="@+id/activityList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/RecyclerViewPadding"/>
+
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/emptyListPlaceholder"
         android:layout_width="match_parent"
@@ -44,31 +69,6 @@
             android:adjustViewBounds="true"
             android:src="@drawable/arrow_add_material"/>
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F2F4F7"
-            android:gravity="right"
-            android:textSize="18sp"
-            android:padding="15dp"
-            android:text="@string/placeholder_activity_date"
-            android:textColor="@color/blue"
-            android:textStyle="bold"/>
-
-        <com.example.paralect.easytime.views.EmptyRecyclerView
-            android:id="@+id/activityList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/RecyclerViewPadding"/>
-
-    </LinearLayout>
 
     <View
         android:id="@+id/overlay"

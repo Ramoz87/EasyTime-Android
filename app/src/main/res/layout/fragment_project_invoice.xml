@@ -8,45 +8,6 @@
              android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/emptyListPlaceholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/placeholder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="180dp"
-                android:layout_height="120dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/data_placeholder"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/project_detail_completion"
-                android:textColor="@color/dark_gray"/>
-
-        </LinearLayout>
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="34dp"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/arrow_add_bottom_margin"
-            android:layout_marginRight="@dimen/arrow_add_right_margin"
-            android:adjustViewBounds="true"
-            android:src="@drawable/arrow_add_material"/>
-    </RelativeLayout>
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -94,6 +55,45 @@
             android:layout_below="@+id/title_container"
             android:background="@drawable/shadow_from_top"/>
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/emptyListPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="180dp"
+                android:layout_height="120dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/data_placeholder"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/project_detail_completion"
+                android:textColor="@color/dark_gray"/>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="34dp"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/arrow_add_bottom_margin"
+            android:layout_marginRight="@dimen/arrow_add_right_margin"
+            android:adjustViewBounds="true"
+            android:src="@drawable/arrow_add_material"/>
     </RelativeLayout>
 
     <View
