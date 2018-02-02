@@ -1,10 +1,15 @@
 package com.example.paralect.easytime.views;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,9 +32,9 @@ public class ContactView extends LinearLayout {
 
     @BindView(R.id.customer_name) TextView nameTextView;
     @BindView(R.id.customer_address) TextView addressTextView;
-    @BindView(R.id.customer_call_button) Button callButton;
-    @BindView(R.id.customer_email_button) Button emailButton;
-    @BindView(R.id.customer_map_button) Button mapButton;
+    @BindView(R.id.customer_call_button) ImageView callButton;
+    @BindView(R.id.customer_email_button) ImageView emailButton;
+    @BindView(R.id.customer_map_button) ImageView mapButton;
 
     private Contact mContact;
     private Address mAddress;
@@ -57,15 +62,26 @@ public class ContactView extends LinearLayout {
     public void setCustomer(Contact contact, Address address) {
         mContact = contact;
         mAddress = address;
-        ViewUtils.setVisibility(callButton, TextUtil.isNotEmpty(contact.getPhone()));
-        ViewUtils.setVisibility(emailButton, TextUtil.isNotEmpty(contact.getEmail()));
-        if (mAddress != null) {
+        int white = ContextCompat.getColor(getContext(), R.color.white);
+        int disabled = ContextCompat.getColor(getContext(), R.color.disabled_icon);
+
+        boolean hasPhone = TextUtil.isNotEmpty(contact.getPhone());
+        Drawable d1 = setTint(callButton.getDrawable(), hasPhone ? white : disabled);
+        callButton.setImageDrawable(d1);
+        callButton.setEnabled(hasPhone);
+
+        boolean hasEmail = TextUtil.isNotEmpty(contact.getEmail());
+        Drawable d2 = setTint(emailButton.getDrawable(), hasEmail ? white : disabled);
+        emailButton.setImageDrawable(d2);
+        emailButton.setEnabled(hasEmail);
+
+        boolean hasAddress = mAddress != null && mAddress.hasAnyAddress();
+        if (hasAddress) {
             addressTextView.setText(mAddress.getFullAddress());
-            ViewUtils.setVisibility(mapButton, mAddress.hasAnyAddress());
-        } else {
-            ViewUtils.setVisibility(addressTextView, false);
-            ViewUtils.setVisibility(mapButton, false);
         }
+        Drawable d3 = setTint(mapButton.getDrawable(), hasAddress ? white : disabled);
+        mapButton.setImageDrawable(d3);
+        mapButton.setEnabled(hasAddress);
 
 
         if (mContact != null) {
@@ -92,5 +108,11 @@ public class ContactView extends LinearLayout {
         if (mAddress != null) {
             IntentUtils.mapIntent(getContext(), mAddress.getQueryAddress());
         }
+    }
+
+    public static Drawable setTint(Drawable drawable, int color) {
+        final Drawable newDrawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(newDrawable, color);
+        return newDrawable;
     }
 }

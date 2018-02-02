@@ -30,32 +30,34 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <Button
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/customer_call_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_ripple_white"
-            android:drawableTop="@drawable/ic_phone"
-            android:text="@string/call"
-            android:textColor="@color/white"/>
+            android:src="@drawable/ic_call_in_circle"/>
 
-        <Button
+        <View
+            android:layout_width="20dp"
+            android:layout_height="1px"/>
+
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/customer_email_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_ripple_white"
-            android:drawableTop="@drawable/ic_message"
-            android:text="@string/email"
-            android:textColor="@color/white"/>
+            android:src="@drawable/ic_mail_in_circle"/>
 
-        <Button
+        <View
+            android:layout_width="20dp"
+            android:layout_height="1px"/>
+
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/customer_map_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_ripple_white"
-            android:drawableTop="@drawable/ic_checkpoint"
-            android:text="@string/map"
-            android:textColor="@color/white"/>
+            android:src="@drawable/ic_map_in_circle"/>
 
     </LinearLayout>
 
