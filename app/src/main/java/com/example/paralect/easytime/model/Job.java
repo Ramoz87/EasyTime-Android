@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.paralect.easytime.utils.CalendarUtils;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +26,7 @@ public class Job implements Parcelable, ProjectType {
     private String customerId;
 
     @DatabaseField(columnName = "date")
-    private String date;
+    private long date;
 
     @DatabaseField(columnName = "entityType")
     private String entityType = "job";
@@ -65,7 +67,7 @@ public class Job implements Parcelable, ProjectType {
     protected Job(Parcel in) {
         currency = in.readString();
         customerId = in.readString();
-        date = in.readString();
+        date = in.readLong();
         entityType = in.readString();
         information = in.readString();
         jobId = in.readString();
@@ -84,7 +86,7 @@ public class Job implements Parcelable, ProjectType {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(currency);
         dest.writeString(customerId);
-        dest.writeString(date);
+        dest.writeLong(date);
         dest.writeString(entityType);
         dest.writeString(information);
         dest.writeString(jobId);
@@ -132,11 +134,15 @@ public class Job implements Parcelable, ProjectType {
         this.customerId = customerId;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public String getStringDate() {
+        return CalendarUtils.stringFromDate(new Date(date), CalendarUtils.SHORT_DATE_FORMAT);
+    }
+
+    public void setDate(long date) {
         this.date = date;
     }
 

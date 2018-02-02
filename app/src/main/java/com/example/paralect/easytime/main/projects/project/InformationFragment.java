@@ -125,7 +125,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
         // client.setText(customer.getCompanyName());
 
         jobDescription.setText(job.getInformation());
-        String date = job.getDate();
+        String date = job.getStringDate();
         if (date == null) date = "no dateTextView";
         jobTerm.setText(date);
 

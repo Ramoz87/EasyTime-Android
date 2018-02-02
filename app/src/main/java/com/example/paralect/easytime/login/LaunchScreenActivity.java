@@ -294,11 +294,11 @@ public class LaunchScreenActivity extends Activity {
                 job.setCurrency(fields[9]);
 
                 // random date
-//                Date date = CalendarUtils.nextDate();
-                Date date = new Date();
-                String dateString = CalendarUtils.stringFromDate(date, CalendarUtils.SHORT_DATE_FORMAT);
-                Log.d(TAG, "new date for job: " + dateString);
-                job.setDate(dateString);
+                Date date = CalendarUtils.nextDate();
+//                Date date = new Date();
+//                String dateString = CalendarUtils.stringFromDate(date, CalendarUtils.SHORT_DATE_FORMAT);
+//                Log.d(TAG, "new date for job: " + dateString);
+                job.setDate(date.getTime());
             }
         };
     }
