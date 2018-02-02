@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Adapter;
 
+import com.example.paralect.easytime.utils.anim.AnimUtils;
+
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
@@ -17,8 +19,39 @@ public class EmptyRecyclerView extends RecyclerView {
 
     private View mEmptyView;
     private final RecyclerView.AdapterDataObserver mObserver = new RecyclerView.AdapterDataObserver() {
-        @Override public void onChanged() {
+        @Override
+        public void onChanged() {
             super.onChanged();
+            checkIfEmpty();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            super.onItemRangeChanged(positionStart, itemCount);
+            checkIfEmpty();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+            super.onItemRangeChanged(positionStart, itemCount, payload);
+            checkIfEmpty();
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            checkIfEmpty();
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+            checkIfEmpty();
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            super.onItemRangeRemoved(positionStart, itemCount);
             checkIfEmpty();
         }
     };
@@ -43,7 +76,12 @@ public class EmptyRecyclerView extends RecyclerView {
     private void checkIfEmpty() {
         if (mEmptyView != null) {
             boolean isEmpty = getAdapter() == null || getAdapter().getItemCount() == 0;
-            mEmptyView.setVisibility(isEmpty ? VISIBLE : GONE);
+            // mEmptyView.setVisibility(isEmpty ? VISIBLE : GONE);
+            if (isEmpty) {
+                AnimUtils.performAppearing(mEmptyView, 100, 0);
+            } else {
+                mEmptyView.setVisibility(GONE);
+            }
         }
     }
 
