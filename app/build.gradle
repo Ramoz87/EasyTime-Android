@@ -35,6 +35,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            debuggable true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -69,9 +73,8 @@ dependencies {
     implementation deps.rxAndroid
     implementation deps.javaxAnnotation
     implementation deps.multidex
-//    implementation deps.crashlytics
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.3@aar') {
-        transitive = true;
+    implementation(deps.crashlytics) {
+        transitive = true
     }
 
 }
