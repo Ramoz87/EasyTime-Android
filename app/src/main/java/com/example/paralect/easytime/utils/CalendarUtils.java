@@ -82,8 +82,8 @@ public final class CalendarUtils {
 
     public static Calendar nextCalendar() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, 2018 + random.nextInt(2));
-        calendar.set(Calendar.MONTH, random.nextInt(12));
+        calendar.set(Calendar.YEAR, 2018);
+        calendar.set(Calendar.MONTH, random.nextInt(2));
         calendar.set(Calendar.DAY_OF_MONTH, random.nextInt(30));
         return calendar;
     }

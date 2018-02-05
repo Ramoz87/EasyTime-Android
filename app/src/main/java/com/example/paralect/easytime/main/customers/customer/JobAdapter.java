@@ -80,7 +80,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
                 text = order.getDeliveryTime();
             } else if (job.getProjectType() == ProjectType.Type.TYPE_OBJECT) {
                 Object object = (Object) job;
-                text = object.getDate();
+                text = object.getStringDate();
             } else if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT) {
                 Project project = (Project) job;
                 String dateStart = project.getDateStart();
