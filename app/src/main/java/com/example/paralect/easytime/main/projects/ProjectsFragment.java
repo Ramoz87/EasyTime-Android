@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +40,8 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
 
     private final ProjectsPresenter presenter = new ProjectsPresenter();
     private ProjectStickyAdapter adapter = new ProjectStickyAdapter();
+
+    private SearchView searchView;
     private TextView title;
 
     @Override
@@ -64,20 +68,15 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        final SearchView searchView = (SearchView) menu.findItem(R.id.item_search).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.item_search).getActionView();
 
-        // Set searchView width
-        final int[] displaySize = ViewUtils.displaySize(getContext());
-        searchView.setMaxWidth((int) (displaySize[0] * 0.5f));
-//        searchView.setOnSearchClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int titleWidth = (int)(title.getWidth()*1.15f);
-//                int width = displaySize[0] - titleWidth;
-//                searchView.setMaxWidth(width);
-//            }
-//        });
-//        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeSearchViewSize();
+            }
+        });
+        searchView.setMaxWidth(Integer.MAX_VALUE);
 
         presenter.setupQuerySearch(searchView);
     }
@@ -90,10 +89,39 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
             MainActivity activity = getMainActivity();
             Toolbar toolbar = activity.findViewById(R.id.toolbar);
             title = ViewUtils.getToolbarTextView(toolbar);
+            title.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    changeSearchViewSize();
+                }
+            });
 
             presenter.setupDateSearch(title)
                     .requestData(new String[]{"", presenter.getDate()});
         }
+    }
+
+    private void changeSearchViewSize() {
+        // Set searchView width
+        final int[] displaySize = ViewUtils.displaySize(getContext());
+        if (searchView != null)
+            searchView.setMaxWidth((int) (displaySize[0] * 0.5f));
+//        if (title != null && searchView != null) {
+//            int titleW = title.getWidth();
+//            int titleWidth = (int) (titleW * 1.15f);
+//            int width = displaySize[0] - titleWidth;
+//            searchView.setMaxWidth(width);
+//        }
     }
 
     @Override
