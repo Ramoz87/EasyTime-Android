@@ -154,8 +154,6 @@ public class JobFilesView extends FrameLayout implements IFilesView<List<File>, 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Picasso.with(container.getContext())
                     .load(file.getFullFileUrl())
-                    .placeholder(R.drawable.data_placeholder)
-                    .error(R.drawable.data_placeholder)
                     .fit()
                     .centerCrop()
                     .into(imageView);

@@ -89,8 +89,6 @@ public class ExpenseFilesView extends FrameLayout implements IFilesView<File, Ex
             }).build();
 
             picasso.load(file.getFullFileUrl())
-                    .placeholder(R.drawable.data_placeholder)
-                    .error(R.drawable.data_placeholder)
                     .fit()
                     .centerInside()
                     .into(imageView);
