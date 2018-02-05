@@ -25,7 +25,6 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.materials.chooser.MaterialChooserFragment;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.MetricsUtils;
-import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.views.KeypadEditorView;
@@ -44,10 +43,10 @@ import butterknife.OnClick;
  * Created by alexei on 26.12.2017.
  */
 
-public class MaterialsFragment extends BaseFragment
+public class StockFragment extends BaseFragment
         implements IDataView<List<Material>>,MaterialAdapter.MaterialEditingListener, ExpandableLayout.OnExpansionUpdateListener {
 
-    private static final String TAG = MaterialsFragment.class.getSimpleName();
+    private static final String TAG = StockFragment.class.getSimpleName();
 
     private MaterialsPresenter presenter = new MaterialsPresenter();
     private MaterialAdapter adapter = new MaterialAdapter();
@@ -72,13 +71,13 @@ public class MaterialsFragment extends BaseFragment
         super.onAttach(context);
     }
 
-    public static MaterialsFragment newInstance() {
-        return new MaterialsFragment();
+    public static StockFragment newInstance() {
+        return new StockFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_materials, parent, false);
+        return inflater.inflate(R.layout.fragment_stock, parent, false);
     }
 
     @CallSuper
@@ -128,7 +127,7 @@ public class MaterialsFragment extends BaseFragment
 
     private void initActionBar(ActionBar actionBar) {
         if (actionBar != null) {
-            actionBar.setTitle(R.string.nav_materials);
+            actionBar.setTitle(R.string.nav_stock);
         }
     }
 

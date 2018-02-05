@@ -17,9 +17,8 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.customers.CustomersFragment;
-import com.example.paralect.easytime.main.materials.MaterialsFragment;
+import com.example.paralect.easytime.main.materials.StockFragment;
 import com.example.paralect.easytime.main.projects.ProjectsFragment;
-import com.example.paralect.easytime.main.projects.project.jobexpenses.time.TimeExpensesFragment;
 import com.example.paralect.easytime.main.settings.SettingsFragment;
 import com.example.paralect.easytime.model.event.ResultEvent;
 import com.example.paralect.easytime.utils.RxBus;
@@ -234,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
                 fragment = ProjectsFragment.newInstance();
                 break;
             case INDEX_MATERIALS:
-                fragment = MaterialsFragment.newInstance();
+                fragment = StockFragment.newInstance();
                 break;
             case INDEX_CLIENTS:
                 fragment = CustomersFragment.newInstance();

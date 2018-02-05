@@ -14,7 +14,7 @@
 
     <!--main navigation menu-->
     <string name="nav_projects">Projects</string>
-    <string name="nav_materials">Materials</string>
+    <string name="nav_stock">Stock</string>
     <string name="nav_clients">Clients</string>
     <string name="nav_settings">Settings</string>
 
