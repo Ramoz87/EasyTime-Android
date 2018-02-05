@@ -3,6 +3,7 @@ package com.example.paralect.easytime.main.materials;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.utils.Logger;
 
 import java.util.List;
 
@@ -48,8 +49,7 @@ public class MaterialsPresenter extends SearchViewPresenter<List<Material>> {
 
                     @Override
                     public void onError(Throwable e) {
-                        // throw new RuntimeException(e);
-                        e.printStackTrace();
+                        Logger.e(e);
                     }
 
                     @Override

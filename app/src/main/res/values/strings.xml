@@ -47,14 +47,12 @@
     <string name="placeholder_activity_date">30 November</string>
     <string name="placeholder_keypad_number">1</string>
     <string name="placeholder_material_count">22</string>
-    <string name="placeholder_driving_unit">km</string>
-    <string name="placeholder_chf_unit">CHF</string>
     <string name="placeholder_company">Company</string>
     <string name="placeholder_company_name_for_expenses">LLC Mobexs</string>
     <string name="placeholder_project_expense">Repair</string>
     <string name="placeholder_expense_time">2:20</string>
-    <string name="placeholder_price_per_unit">$20</string>
-    <string name="placeholder_project_expense_price">$80</string>
+    <string name="placeholder_price_per_unit">20 CHF</string>
+    <string name="placeholder_project_expense_price">80 CHF</string>
     <string name="placeholder_chosen_count">0 item selected</string>
 
     <!--materials-->
@@ -102,7 +100,7 @@
 
     <!--project expenses-->
     <string name="project_number">Project #%d</string>
-    <string name="expense_price">$%d</string>
+    <string name="expense_price">CHF %d</string>
     <string name="total_expense">Total</string>
 
      <!--signature-->
@@ -138,7 +136,7 @@
 
     <!--Discount dialog-->
     <string name="discount_title">Add discount?</string>
-    <string name="discount_hint">$</string>
+    <string name="discount_hint">CHF</string>
     <string name="discount_value">\%% %s CHF</string>
 
     <!--material expenses-->

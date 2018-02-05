@@ -86,10 +86,8 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
         } else {
 
-            if (mExpense.getType().equalsIgnoreCase(Expense.Type.DRIVING))
-                unitTextView.setText(R.string.placeholder_driving_unit);
-            else if (mExpense.getType().equalsIgnoreCase(Expense.Type.OTHER))
-                unitTextView.setText(R.string.placeholder_chf_unit);
+            String unitName = Expense.getUnitName(mExpense.getType(), mExpense.getMaterial());
+            unitTextView.setText(unitName);
 
             expenseName.setText(mExpense.getName());
 

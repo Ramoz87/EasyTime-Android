@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Material;
-import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.utils.ViewAnimationUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
@@ -29,10 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnTouch;
-
-import static com.example.paralect.easytime.model.Constants.UNITY_PCS;
 
 /**
  * Created by alexei on 17.01.2018.
@@ -41,38 +37,25 @@ import static com.example.paralect.easytime.model.Constants.UNITY_PCS;
 class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapter.ViewHolder> {
     private static final String TAG = MaterialExpensesAdapter.class.getSimpleName();
 
-    private List<Material> materials;
     private KeypadEditorView keypadEditorView;
-    private List<MaterialExpense> materialExpenses = new ArrayList<>();
+    private List<MaterialExpense> mMaterialExpenses = new ArrayList<>();
     private OnCheckedCountChangeListener onCheckedCountChangeListener;
 
     public void setKeypadEditorView(KeypadEditorView editorView) {
         this.keypadEditorView = editorView;
     }
 
-    public void setData(List<Material> materials) {
-        this.materials = materials;
-        materialExpenses.clear();
-        for (Material material : materials) {
-            materialExpenses.add(new MaterialExpense(material));
-        }
+    public void setData(List<MaterialExpense> materials) {
+        mMaterialExpenses = materials;
         notifyDataSetChanged();
     }
 
-    private Material getItem(int position) {
-        return materials.get(position);
-    }
-
     private MaterialExpense getMaterialExpense(int position) {
-        return materialExpenses.get(position);
-    }
-
-    public List<Material> getItems() {
-        return materials;
+        return mMaterialExpenses.get(position);
     }
 
     public List<MaterialExpense> getCheckedMaterials() {
-        return materialExpenses;
+        return mMaterialExpenses;
     }
 
     @Override
@@ -89,7 +72,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
 
     @Override
     public int getItemCount() {
-        return materials != null ? materials.size() : 0;
+        return mMaterialExpenses != null ? mMaterialExpenses.size() : 0;
     }
 
     public void setOnCheckedCountChangeListener(OnCheckedCountChangeListener onCheckedCountChangeListener) {
@@ -164,7 +147,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
             materialName.setText(material.getName());
             materialNumber.setText(mRes.getString(R.string.material_number, material.getMaterialNr()));
 
-            inputLayout.setHint(UNITY_PCS);
+            inputLayout.setHint(mMaterialExpense.unitName);
             inputEditText.setText(maxValue);
 
             inputEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -259,7 +242,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
             if (listener != null) {
                 Log.d(TAG, "notify listener on total count change");
                 int totalCount = 0;
-                for (MaterialExpense me : mAdapter.materialExpenses) {
+                for (MaterialExpense me : mAdapter.mMaterialExpenses) {
                     if (me.isAdded) totalCount++;
                 }
                 listener.onCheckedCountChange(totalCount);

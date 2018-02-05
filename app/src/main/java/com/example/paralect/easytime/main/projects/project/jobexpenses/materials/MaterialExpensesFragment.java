@@ -37,9 +37,12 @@ import butterknife.OnClick;
  * Created by alexei on 17.01.2018.
  */
 
-public class MaterialExpensesFragment extends BaseFragment implements IMaterialExpenses<List<Material>>, MaterialExpensesAdapter.OnCheckedCountChangeListener, ExpandableLayout.OnExpansionUpdateListener {
-    private static final String TAG = MaterialExpensesFragment.class.getSimpleName();
+public class MaterialExpensesFragment extends BaseFragment implements
+        IMaterialExpenses<List<MaterialExpense>>,
+        MaterialExpensesAdapter.OnCheckedCountChangeListener,
+        ExpandableLayout.OnExpansionUpdateListener {
 
+    private static final String TAG = MaterialExpensesFragment.class.getSimpleName();
     public static final String ARG_KEYBOARD_STATE = "keyboard_state";
 
     @BindView(R.id.addMaterials) Button addMaterials;
@@ -106,7 +109,7 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
         super.onDestroyView();
     }
 
-    private void saveState(){
+    private void saveState() {
         Bundle bundle = getArguments();
         if (bundle == null)
             bundle = new Bundle();
@@ -114,7 +117,7 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
         setArguments(bundle);
     }
 
-    private void restoreState(){
+    private void restoreState() {
         Bundle bundle = getArguments();
         boolean show = bundle != null && bundle.getBoolean(ARG_KEYBOARD_STATE);
         if (show)
@@ -160,7 +163,7 @@ public class MaterialExpensesFragment extends BaseFragment implements IMaterialE
 
     // region IMaterialExpenses
     @Override
-    public void onDataReceived(List<Material> materials) {
+    public void onDataReceived(List<MaterialExpense> materials) {
         adapter.setData(materials);
     }
 
