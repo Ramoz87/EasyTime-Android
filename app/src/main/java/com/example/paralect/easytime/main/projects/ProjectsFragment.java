@@ -68,7 +68,7 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
 
         // Set searchView width
         int[] displaySize = ViewUtils.displaySize(getContext());
-        searchView.setMaxWidth((int) (displaySize[0] * 0.6f));
+        searchView.setMaxWidth((int) (displaySize[0] * 0.5f));
 //        searchView.setMaxWidth(Integer.MAX_VALUE);
 
         presenter.setupQuerySearch(searchView);
