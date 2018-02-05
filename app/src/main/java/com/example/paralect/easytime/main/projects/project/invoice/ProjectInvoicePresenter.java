@@ -176,13 +176,14 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
                             }
                         })
                         .toList()
-                        // Add total cell if type is not DRIVING
+                        // Add total cell if type is not DRIVING and not MATERIAL
                         .map(new Function<List<Expense>, List<InvoiceCell>>() {
                             @Override
                             public List<InvoiceCell> apply(List<Expense> expenses) throws Exception {
                                 List<InvoiceCell> cells = new ArrayList<InvoiceCell>(expenses);
-                                if (CollectionUtil.isNotEmpty(cells) && !expenseType.equalsIgnoreCase(Expense.Type.DRIVING)) {
-                                    String value = Expense.getTypedValue(expenseType, totalValue[0]);
+                                if (CollectionUtil.isNotEmpty(cells) && !expenseType.equalsIgnoreCase(Expense.Type.DRIVING)
+                                        && !expenseType.equalsIgnoreCase(Expense.Type.MATERIAL)) {
+                                    String value = Expense.getTypedValue(expenseType, totalValue[0], null);
                                     Cell total = Cell.createTotal(value);
                                     cells.add(total);
                                 }

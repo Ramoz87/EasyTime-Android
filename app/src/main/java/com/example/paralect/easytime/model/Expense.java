@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.StringDef;
 
 import com.example.paralect.easytime.main.projects.project.invoice.InvoiceCell;
+import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.j256.ormlite.field.DataType;
@@ -15,6 +16,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Date;
 
+import static com.example.paralect.easytime.model.Constants.UNITY_CURRENCY;
 import static com.example.paralect.easytime.model.Constants.UNITY_KM;
 import static com.example.paralect.easytime.model.Constants.UNITY_MIN;
 import static com.example.paralect.easytime.model.Constants.UNITY_PCS;
@@ -65,6 +67,8 @@ public class Expense implements Parcelable, InvoiceCell {
 
     @DatabaseField(columnName = "creationDate")
     private String creationDate;
+
+    private String typedValue;
 
     // region Create new expense
     public static Expense reCreate(Expense ex) {
@@ -196,7 +200,9 @@ public class Expense implements Parcelable, InvoiceCell {
     }
 
     public String getTypedValue() {
-        return getTypedValue(type, value);
+        if (typedValue == null)
+            typedValue = getTypedValue(type, value, material);
+        return typedValue;
     }
 
     public void setValue(long value) {
@@ -256,7 +262,7 @@ public class Expense implements Parcelable, InvoiceCell {
     }
     // endregion
 
-    public static String getTypedValue(@Type String type, long value) {
+    public static String getTypedValue(@Type String type, long value, Material material) {
         String text = String.valueOf(value);
         if (TextUtil.isNotEmpty(type)) {
 
@@ -270,16 +276,57 @@ public class Expense implements Parcelable, InvoiceCell {
                     break;
 
                 case Type.OTHER:
-                    text += "$";
+                    text += " " + UNITY_CURRENCY;
                     break;
 
                 case Type.MATERIAL:
+                    if (material != null) {
+                        com.example.paralect.easytime.model.Type t =
+                                EasyTimeManager.getInstance().getType(material.getUnitId());
+                        if (t != null)
+                            text += t.getName();
+                        else
+                            text = "";
+                    } else
+                        text = "";
+                    break;
+
                 default:
-                    text += " " + UNITY_PCS;
+                    text = "";
             }
 
         } else
-            text += " " + UNITY_PCS;
+            text = "";
+        return text;
+    }
+
+    public static String getUnitName(@Type String type, Material material) {
+        String text = "";
+        if (TextUtil.isNotEmpty(type)) {
+
+            switch (type) {
+                case Type.TIME:
+                    text = UNITY_MIN;
+                    break;
+
+                case Type.DRIVING:
+                    text = UNITY_KM;
+                    break;
+
+                case Type.OTHER:
+                    text = UNITY_CURRENCY;
+                    break;
+
+                case Type.MATERIAL:
+                    if (material != null) {
+                        com.example.paralect.easytime.model.Type t =
+                                EasyTimeManager.getInstance().getType(material.getUnitId());
+                        if (t != null)
+                            text = t.getName();
+                    }
+                    break;
+            }
+        }
         return text;
     }
 }

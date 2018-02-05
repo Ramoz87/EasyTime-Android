@@ -37,7 +37,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.paralect.easytime.model.Constants.DRIVING;
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
 import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
 
@@ -93,6 +92,17 @@ public final class EasyTimeManager {
     }
 
     // region Type
+    public Type getType(String typeId) {
+        Type type = null;
+        try {
+            Dao<Type, String> dao = helper.getTypeDao();
+            type = dao.queryForId(typeId);
+        } catch (SQLException exc) {
+            Logger.e(exc);
+        }
+        return type;
+    }
+
     public List<Type> getStatuses() {
         return getTypes(STATUS, "");
     }
@@ -434,7 +444,7 @@ public final class EasyTimeManager {
 
         // Driving
         Expense expense = new Expense();
-        expense.setName(DRIVING);
+        expense.setName(EasyTimeApplication.getContext().getString(R.string.driving));
         expense.setType(Expense.Type.DRIVING);
         expense.setJobId(jobId);
         expenses.add(expense);
@@ -479,6 +489,11 @@ public final class EasyTimeManager {
                 for (Expense exp : foundExpenses) {
                     Material material = materialDao.queryForId(exp.getMaterialId());
                     exp.setMaterial(material);
+                    exp.getTypedValue();
+                }
+            } else{
+                for (Expense exp : foundExpenses) {
+                    exp.getTypedValue();
                 }
             }
             expenses.addAll(foundExpenses);
@@ -531,6 +546,7 @@ public final class EasyTimeManager {
                         Material material = materialDao.queryForId(materialId);
                         exp.setMaterial(material);
                     }
+                    exp.getTypedValue();
                 }
 
                 allExpenses.addAll(foundExpense);
