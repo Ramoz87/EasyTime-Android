@@ -64,11 +64,19 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.item_search).getActionView();
+        final SearchView searchView = (SearchView) menu.findItem(R.id.item_search).getActionView();
 
         // Set searchView width
-        int[] displaySize = ViewUtils.displaySize(getContext());
+        final int[] displaySize = ViewUtils.displaySize(getContext());
         searchView.setMaxWidth((int) (displaySize[0] * 0.5f));
+//        searchView.setOnSearchClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int titleWidth = (int)(title.getWidth()*1.15f);
+//                int width = displaySize[0] - titleWidth;
+//                searchView.setMaxWidth(width);
+//            }
+//        });
 //        searchView.setMaxWidth(Integer.MAX_VALUE);
 
         presenter.setupQuerySearch(searchView);
