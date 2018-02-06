@@ -130,7 +130,6 @@ public class CameraActivity extends AppCompatActivity {
         mCapturingPicture = true;
         mCaptureTime = System.currentTimeMillis();
         mCaptureNativeSize = camera.getPictureSize();
-        message("Capturing picture...", false);
         camera.capturePicture();
     }
 
@@ -156,11 +155,6 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-    }
-
-    private void message(String content, boolean important) {
-        int length = important ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT;
-        Toast.makeText(this, content, length).show();
     }
 
     @Override
