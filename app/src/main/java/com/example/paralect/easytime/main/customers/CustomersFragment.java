@@ -60,6 +60,10 @@ public class CustomersFragment extends AbsStickyFragment implements IDataView<So
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.item_search).getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
         presenter.setDataView(this)
                 .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
                 .requestData(new String[] {""});
