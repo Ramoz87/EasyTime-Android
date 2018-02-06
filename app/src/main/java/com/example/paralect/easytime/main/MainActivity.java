@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
@@ -23,7 +25,9 @@ import com.example.paralect.easytime.main.settings.SettingsFragment;
 import com.example.paralect.easytime.model.event.ResultEvent;
 import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.ViewUtils;
+import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
+import com.github.clans.fab.FloatingActionMenu;
 import com.ncapdevi.fragnav.FragNavController;
 import com.ncapdevi.fragnav.FragNavSwitchController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
@@ -33,6 +37,7 @@ import java.util.Stack;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRATULATIONS;
 
@@ -42,7 +47,7 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
 
 public class MainActivity extends AppCompatActivity implements FragmentNavigator,
         FragNavController.TransactionListener,
-        FragNavController.RootFragmentListener {
+        FragNavController.RootFragmentListener, FloatingActionMenu.OnMenuToggleListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private final int INDEX_PROJECTS = FragNavController.TAB1;
@@ -62,6 +67,16 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
     @BindView(R.id.top_shadow_view) View mainTopShadowView;
     @BindView(R.id.keypadEditorView) KeypadEditorView keypadEditorView;
+    @BindView(R.id.fam) FloatingActionMenu fam;
+    @BindView(R.id.shadowOverlay) View shadowOverlay;
+
+    @OnClick(R.id.shadowOverlay)
+    void onClickShadowOverlay(View overlay) {
+        fam.close(true);
+    }
+
+    private Animation fadeIn;
+    private Animation fadeOut;
 
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
@@ -78,6 +93,18 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         ViewUtils.disableToolbarAnimation(toolbar);
 
         initNavigationView(savedInstanceState);
+        initFam();
+    }
+
+    private void initFam() {
+        int duration = 100;
+        fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+        fadeIn.setAnimationListener(AnimUtils.newAppearingAnimListener(shadowOverlay));
+        fadeOut.setAnimationListener(AnimUtils.newDisappearingAnimListener(shadowOverlay));
+        fadeIn.setDuration(duration);
+        fadeOut.setDuration(duration);
+        fam.setOnMenuToggleListener(this);
     }
 
     @Override
@@ -290,5 +317,29 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     public KeypadEditorView getKeypadEditor() {
         return keypadEditorView;
+    }
+
+    public FloatingActionMenu getFam() {
+        return fam;
+    }
+
+    public View getShadowOverlay() {
+        return shadowOverlay;
+    }
+
+    @Override
+    public void onMenuToggle(boolean opened) {
+        if (opened) showOverlay();
+        else hideOverlay();
+    }
+
+    private void showOverlay() {
+        fam.setMenuButtonColorNormalResId(R.color.dark_gray);
+        shadowOverlay.startAnimation(fadeIn);
+    }
+
+    private void hideOverlay() {
+        fam.setMenuButtonColorNormalResId(R.color.blue);
+        shadowOverlay.startAnimation(fadeOut);
     }
 }

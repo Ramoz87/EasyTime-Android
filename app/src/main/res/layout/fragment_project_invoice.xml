@@ -103,6 +103,7 @@
         android:background="@color/materials_overlay_background"/>
 
     <com.github.clans.fab.FloatingActionMenu
+        android:visibility="gone"
         android:id="@+id/fam"
         style="@style/FloatingActionButtonNormalStyle">
 
