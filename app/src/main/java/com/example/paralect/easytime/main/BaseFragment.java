@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.main;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
@@ -70,6 +71,13 @@ public abstract class BaseFragment extends Fragment {
      */
     public boolean onBackPressed() {
         return false;
+    }
+
+    protected void invalidateOptionsMenu() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.invalidateOptionsMenu();
+        }
     }
 
 }

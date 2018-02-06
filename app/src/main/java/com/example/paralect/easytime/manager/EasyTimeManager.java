@@ -511,6 +511,17 @@ public final class EasyTimeManager {
         return getExpenses(jobId, true, null, Expense.Type.MATERIAL);
     }
 
+    public long getTotalExpensesCount(String jobId) {
+        try {
+            Dao<Expense, Long> dao = helper.getExpenseDao();
+            Where where = dao.queryBuilder().where().eq("jobId", jobId);
+            return where.countOf();
+        } catch (SQLException e) {
+            Logger.e(e);
+            return 0;
+        }
+    }
+
     public List<Expense> getAllExpenses(String jobId) {
         return getAllExpenses(jobId, null);
     }

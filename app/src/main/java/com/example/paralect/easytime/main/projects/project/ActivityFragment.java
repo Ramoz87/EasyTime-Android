@@ -8,7 +8,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +35,7 @@ import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.utils.CalendarUtils;
+import com.example.paralect.easytime.utils.DefAdapterDataObserver;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.github.clans.fab.FloatingActionButton;
@@ -49,7 +52,10 @@ import butterknife.OnClick;
  * Created by alexei on 27.12.2017.
  */
 
-public class ActivityFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, FloatingActionMenu.OnMenuToggleListener, IDataView<List<Expense>> {
+public class ActivityFragment extends BaseFragment
+        implements DatePickerDialog.OnDateSetListener,
+        FloatingActionMenu.OnMenuToggleListener,
+        IDataView<Pair<Integer, List<Expense>>> {
     private static final String TAG = ActivityFragment.class.getSimpleName();
 
     @BindView(R.id.date) TextView dateTextView;
@@ -91,7 +97,14 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     private ActivityPresenter presenter = new ActivityPresenter();
     private ActivityAdapter adapter = new ActivityAdapter();
+    private int totalExpenseCountBefore = 0;
     private Job job;
+    private RecyclerView.AdapterDataObserver observer = new DefAdapterDataObserver() {
+        @Override
+        public void onDataChanged() {
+            invalidateOptionsMenu();
+        }
+    };
 
     private Animation fadeIn;
     private Animation fadeOut;
@@ -116,7 +129,16 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.d(TAG, "on create options menu");
         inflater.inflate(R.menu.menu_project_activity, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        Log.d(TAG, "on prepare options menu");
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.item_new).setVisible(totalExpenseCountBefore + adapter.getItemCount() > 0);
+        menu.findItem(R.id.item_delete).setVisible(adapter.getItemCount() > 0);
     }
 
     @Override
@@ -193,11 +215,14 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     @Override
     public void onPause() {
         super.onPause();
+        adapter.unregisterAdapterDataObserver(observer);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        adapter.registerAdapterDataObserver(observer);
+        adapter.setEditorModeEnabled(false);
     }
 
     private void initOverlay() {
@@ -247,8 +272,11 @@ public class ActivityFragment extends BaseFragment implements DatePickerDialog.O
     }
 
     @Override
-    public void onDataReceived(List<Expense> expenses) {
+    public void onDataReceived(Pair<Integer, List<Expense>> data) {
+        List<Expense> expenses = data.second;
         Log.d(TAG, String.format("received %s expenses", expenses.size()));
+        totalExpenseCountBefore = data.first - expenses.size();
         adapter.setData(expenses);
+        invalidateOptionsMenu();
     }
 }
