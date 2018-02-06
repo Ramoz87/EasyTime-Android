@@ -57,8 +57,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         }
     }
 
-    public void setEditorModeEnabled(boolean enabled) {
-        if (enabled == editorModeEnabled) return;
+    public void toggle(boolean editorModeEnabled) {
+        if (editorModeEnabled == this.editorModeEnabled) return;
         toggle();
     }
 
