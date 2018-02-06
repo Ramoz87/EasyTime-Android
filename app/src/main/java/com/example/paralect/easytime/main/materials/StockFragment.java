@@ -50,7 +50,6 @@ public class StockFragment extends BaseFragment
 
     private MaterialsPresenter presenter = new MaterialsPresenter();
     private MaterialAdapter adapter = new MaterialAdapter();
-    private boolean primaryState = true;
 
     @BindView(R.id.list) EmptyRecyclerView list;
     @BindView(R.id.placeholder) View placeholder;
@@ -151,9 +150,7 @@ public class StockFragment extends BaseFragment
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "on options item selected");
         if (item.getItemId() == R.id.delete_materials) {
-            this.primaryState = !primaryState;
-            Log.d(TAG, "delete materials mode = " + !primaryState);
-            adapter.transform(primaryState);
+            adapter.toggle();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -266,5 +263,6 @@ public class StockFragment extends BaseFragment
         super.onResume();
         Log.d(TAG, "on resume");
         keypad.setOnExpansionUpdateListener(this);
+        adapter.toggle(true);
     }
 }

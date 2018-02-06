@@ -61,9 +61,13 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public void transform(boolean primaryState) {
+    public void toggle(boolean primaryState) {
         if (this.primaryState == primaryState) return;
-        this.primaryState = primaryState;
+        toggle();
+    }
+
+    public void toggle() {
+        this.primaryState = !primaryState;
         for (ViewHolder holder : viewHolders) {
             holder.transform(primaryState);
         }

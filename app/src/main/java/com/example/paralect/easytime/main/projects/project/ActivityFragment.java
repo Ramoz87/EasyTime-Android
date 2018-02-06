@@ -222,7 +222,7 @@ public class ActivityFragment extends BaseFragment
     public void onResume() {
         super.onResume();
         adapter.registerAdapterDataObserver(observer);
-        adapter.setEditorModeEnabled(false);
+        adapter.toggle(false);
     }
 
     private void initOverlay() {
