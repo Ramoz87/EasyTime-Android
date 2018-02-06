@@ -57,6 +57,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         }
     }
 
+    public void setEditorModeEnabled(boolean enabled) {
+        if (enabled == editorModeEnabled) return;
+        toggle();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_activity_expense, parent, false);

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 
+import com.example.paralect.easytime.utils.DefAdapterDataObserver;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -20,40 +21,9 @@ public class EmptyRecyclerView extends RecyclerView {
     private static final String TAG = EmptyRecyclerView.class.getSimpleName();
 
     private View mEmptyView;
-    private final RecyclerView.AdapterDataObserver mObserver = new RecyclerView.AdapterDataObserver() {
+    private final RecyclerView.AdapterDataObserver mObserver = new DefAdapterDataObserver() {
         @Override
-        public void onChanged() {
-            super.onChanged();
-            checkIfEmpty();
-        }
-
-        @Override
-        public void onItemRangeChanged(int positionStart, int itemCount) {
-            super.onItemRangeChanged(positionStart, itemCount);
-            checkIfEmpty();
-        }
-
-        @Override
-        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
-            super.onItemRangeChanged(positionStart, itemCount, payload);
-            checkIfEmpty();
-        }
-
-        @Override
-        public void onItemRangeInserted(int positionStart, int itemCount) {
-            super.onItemRangeInserted(positionStart, itemCount);
-            checkIfEmpty();
-        }
-
-        @Override
-        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            super.onItemRangeMoved(fromPosition, toPosition, itemCount);
-            checkIfEmpty();
-        }
-
-        @Override
-        public void onItemRangeRemoved(int positionStart, int itemCount) {
-            super.onItemRangeRemoved(positionStart, itemCount);
+        public void onDataChanged() {
             checkIfEmpty();
         }
     };

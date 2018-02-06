@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.main.projects.project;
 
 import android.text.SpannableString;
+import android.util.Pair;
 
 import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.R;
@@ -28,15 +29,15 @@ import io.reactivex.schedulers.Schedulers;
  * Created by alexei on 18.01.2018.
  */
 
-public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
+public class ActivityPresenter extends SearchViewPresenter<Pair<Integer, List<Expense>>> {
 
     private Job mJob;
 
     @Override
-    public IDataPresenter<List<Expense>, String[]> requestData(final String[] parameters) {
-        Observable<List<Expense>> observable = Observable.create(new ObservableOnSubscribe<List<Expense>>() {
+    public IDataPresenter<Pair<Integer, List<Expense>>, String[]> requestData(final String[] parameters) {
+        Observable<Pair<Integer, List<Expense>>> observable = Observable.create(new ObservableOnSubscribe<Pair<Integer, List<Expense>>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<Expense>> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<Pair<Integer, List<Expense>>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
                         final String date = parameters[1];
@@ -51,7 +52,8 @@ public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
                                 })
                                 .blockingGet();
 
-                        emitter.onNext(expenses);
+                        int count = (int) EasyTimeManager.getInstance().getTotalExpensesCount(mJob.getJobId());
+                        emitter.onNext(new Pair<>(count, expenses));
                         emitter.onComplete();
                     }
 
@@ -63,9 +65,9 @@ public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<List<Expense>>() {
+                .subscribe(new DisposableObserver<Pair<Integer, List<Expense>>>() {
                     @Override
-                    public void onNext(List<Expense> expenses) {
+                    public void onNext(Pair<Integer, List<Expense>> expenses) {
                         if (mView != null)
                             mView.onDataReceived(expenses);
                     }
@@ -83,7 +85,7 @@ public class ActivityPresenter extends SearchViewPresenter<List<Expense>> {
         return this;
     }
 
-    public SearchViewPresenter<List<Expense>> setJob(Job job) {
+    public SearchViewPresenter<Pair<Integer, List<Expense>>> setJob(Job job) {
         mJob = job;
         return this;
     }
