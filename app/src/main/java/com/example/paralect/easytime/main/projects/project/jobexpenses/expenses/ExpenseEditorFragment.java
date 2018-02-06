@@ -164,7 +164,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
     private void onExpansionUpdate(View expandableView) {
         View root = getView();
-        int navBarHeight = (int) MetricsUtils.convertDpToPixel(64);
+        int navBarHeight = (int) MetricsUtils.convertDpToPixel(56);
         int height = expandableView.getMeasuredHeight() - navBarHeight /*for navigation bar at the bottom*/;
         if (height < 0) height = 0;
         ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) root.getLayoutParams();
