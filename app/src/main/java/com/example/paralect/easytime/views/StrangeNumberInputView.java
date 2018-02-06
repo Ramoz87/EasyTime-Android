@@ -84,6 +84,9 @@ public class StrangeNumberInputView extends LinearLayout implements View.OnFocus
 
         if (mOnChangeListener != null)
             mOnChangeListener.onSelected(StrangeNumberInputView.this, hasFocus);
+
+        if (hasFocus)
+            mMainTextView.setText("00");
     }
 
     @Override
@@ -139,8 +142,10 @@ public class StrangeNumberInputView extends LinearLayout implements View.OnFocus
                         result = first + "" + number;
                     } else if (first == 0 && second != 0) {
                         result = second + "" + number;
+                        callOnEntered();
                     } else if (first != 0 && second == 0) {
                         result = first + "" + number;
+                        callOnEntered();
                     } 
 
                     int resultNumber = Integer.parseInt(result);
@@ -156,6 +161,11 @@ public class StrangeNumberInputView extends LinearLayout implements View.OnFocus
         };
     }
 
+    private void callOnEntered() {
+       if (mOnChangeListener != null)
+           mOnChangeListener.onEntered(this);
+    }
+
     public String getValue() {
         return mMainTextView.getText().toString();
     }
@@ -167,6 +177,8 @@ public class StrangeNumberInputView extends LinearLayout implements View.OnFocus
     public interface OnChangeListener {
 
         void onSelected(StrangeNumberInputView view, boolean isSelected);
+        
+        void onEntered(StrangeNumberInputView view);
 
         void onCompleted();
     }

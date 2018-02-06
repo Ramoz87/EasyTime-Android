@@ -109,11 +109,20 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
 
             case R.id.time_exp_hours_view:
                 view.setMaxInputNumber(MAX_HOURS);
+                keypadEditorView.showNextButton();
                 break;
 
             case R.id.time_exp_minutes_view:
                 view.setMaxInputNumber(MAX_MINS);
+                keypadEditorView.showDoneButton();
                 break;
+        }
+    }
+
+    @Override
+    public void onEntered(StrangeNumberInputView view) {
+        if (view.getId() == R.id.time_exp_hours_view){
+            onCompleted();
         }
     }
 
@@ -125,7 +134,7 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
             keypadEditorView.showDoneButton();
 
         } else {
-            Log.d(TAG, "on completed");
+            Logger.d(TAG, "on completed");
             try {
                 int hours = hoursView.getIntValue();
                 int minutes = minutesView.getIntValue();
