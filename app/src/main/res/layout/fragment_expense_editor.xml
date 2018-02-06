@@ -35,7 +35,7 @@
                 android:id="@+id/expense_unit_text_view"
                 android:layout_gravity="right"
                 android:gravity="right"
-                tools:text="@string/placeholder_driving_unit"
+                tools:text="unit"
                 android:textColor="@color/list_item_primary_text"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"
