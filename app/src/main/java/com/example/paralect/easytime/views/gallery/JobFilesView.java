@@ -99,10 +99,8 @@ public class JobFilesView extends FrameLayout implements IFilesView<List<File>, 
     }
 
     @OnClick({R.id.gallery_capture_button, R.id.gallery_start_capture_button})
-    public void onCaptureClick() {
-        Activity activity = IntentUtils.getActivity(getContext());
-        if (!IntentUtils.isFinishing(activity))
-            activity.startActivityForResult(new Intent(activity, CameraActivity.class), REQUEST_CODE_CAMERA);
+    public void onCaptureClick(View view) {
+       PopupMediaMenu.showPopup(view);
     }
 
     @OnClick(R.id.gallery_delete_button)
@@ -154,8 +152,6 @@ public class JobFilesView extends FrameLayout implements IFilesView<List<File>, 
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Picasso.with(container.getContext())
                     .load(file.getFullFileUrl())
-                    .placeholder(R.drawable.data_placeholder)
-                    .error(R.drawable.data_placeholder)
                     .fit()
                     .centerCrop()
                     .into(imageView);

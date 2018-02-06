@@ -21,6 +21,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 import static com.example.paralect.easytime.main.camera.CameraActivity.PICTURE_FILE_PATH;
 import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CAMERA;
@@ -47,6 +49,30 @@ abstract class FilesPresenter<DATA, E> extends RxBus.Watcher<ResultEvent> implem
                 if (TextUtil.isNotEmpty(filePath))
                     onFilePathReceived(filePath);
             }
+
+            EasyImage.handleActivityResult(event.getRequestCode(), event.getResultCode(), event.getData(), activity, new DefaultCallback() {
+                @Override
+                public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                    Logger.e(e);
+                }
+
+                @Override
+                public void onImagePicked(java.io.File imageFile, EasyImage.ImageSource source, int type) {
+                    String filePath = imageFile.getPath();
+                    if (TextUtil.isNotEmpty(filePath))
+                        onFilePathReceived(filePath);
+                }
+
+                @Override
+                public void onCanceled(EasyImage.ImageSource source, int type) {
+                    //Cancel handling, you might wanna remove taken photo if it was canceled
+                    if (source == EasyImage.ImageSource.CAMERA) {
+                        java.io.File photoFile = EasyImage.lastlyTakenButCanceledPhoto(mView.getViewContext());
+                        if (photoFile != null) photoFile.delete();
+                    }
+                }
+            });
+
         }
     }
 

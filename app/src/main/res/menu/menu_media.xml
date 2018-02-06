@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_popupmenu">
+        <item
+            android:id="@+id/camera_item"
+            android:icon="@drawable/ic_camera_alt_black"
+            android:title="@string/media_menu_camera"/>
+        <item
+            android:id="@+id/gallery_item"
+            android:icon="@drawable/ic_gallery"
+            android:title="@string/media_menu_gallery"/>
+        <item
+            android:icon="@drawable/ic_cross_black"
+            android:id="@+id/cancel_item"
+            android:title="@string/cancel"/>
+    </group>
+</menu>
