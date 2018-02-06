@@ -96,10 +96,14 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
         MaterialExpense mMaterialExpense;
         Resources mRes;
 
-        @OnTouch({R.id.parent_layout, R.id.material_expense_edit_text, R.id.checkBox})
+        @OnTouch({R.id.parent_layout, R.id.material_expense_edit_text, R.id.checkBox, R.id.material_expense_input_layout})
         boolean onMaterialCountClick(View v, MotionEvent ev) {
+            Log.d(TAG, "handle motion event");
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 if (v.getId() == inputEditText.getId()) {
+                    if (!mMaterialExpense.isAdded) {
+                        return onMaterialCountClick(checkBox, ev);
+                    }
                     Log.d(TAG, "on editor field count click");
                     KeypadEditorView editorView = mAdapter.keypadEditorView;
                     if (editorView != null) {
@@ -219,7 +223,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
         void setEnabled(boolean enabled, int count) {
             Log.d(TAG, "enabled = " + enabled);
             mMaterialExpense.isAdded = enabled;
-            inputEditText.setEnabled(enabled);
+            // inputEditText.setEnabled(enabled);
             inputEditText.setAlpha(enabled ? 1.0f : 0.5f); // imitate enabling/disabling of Edit text
             checkBox.setChecked(enabled);
             if (enabled) {
@@ -227,6 +231,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
                 afterTextChanged(inputEditText.getText());
             } else {
                 inputEditText.clearFocus();
+                inputEditText.setText(String.valueOf(mMaterialExpense.material.getStockQuantity()));
                 KeypadEditorView editorView = mAdapter.keypadEditorView;
                 if (editorView != null) {
                     editorView.setupEditText(null);
