@@ -59,6 +59,7 @@ dependencies {
     implementation deps.fab
     implementation deps.gridlayout
     implementation deps.picasso
+    implementation deps.easyImage
     implementation deps.cameraview
     implementation deps.cardView
 

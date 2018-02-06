@@ -174,4 +174,8 @@
     <string name="active">Active</string>
     <string name="not_active">Not active</string>
 
+    <!--Media menu-->
+    <string name="media_menu_camera">Camera</string>
+    <string name="media_menu_gallery">Gallery</string>
+
 </resources>
