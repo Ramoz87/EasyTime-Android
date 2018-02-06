@@ -98,6 +98,7 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
 
         @OnTouch({R.id.parent_layout, R.id.material_expense_edit_text, R.id.checkBox, R.id.material_expense_input_layout})
         boolean onMaterialCountClick(View v, MotionEvent ev) {
+            if (mMaterialExpense.material.getStockQuantity() == 0) return true;
             Log.d(TAG, "handle motion event");
             if (ev.getAction() == MotionEvent.ACTION_UP) {
                 if (v.getId() == inputEditText.getId()) {
@@ -174,6 +175,9 @@ class MaterialExpensesAdapter extends RecyclerView.Adapter<MaterialExpensesAdapt
             setEnabled(isAdded, mMaterialExpense.count);
             if (isAdded) Log.d(TAG, "bind with count = " + mMaterialExpense.count);
             inputEditText.addTextChangedListener(this);
+
+            boolean hasMaterials = materialExpense.material.getStockQuantity() > 0;
+            itemView.setAlpha(hasMaterials ? 1.0f : 0.35f);
         }
 
         @Override
