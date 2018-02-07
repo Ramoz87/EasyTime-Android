@@ -20,10 +20,9 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.time.WorkTypeFragment;
-import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
-import com.example.paralect.easytime.model.Project;
+import com.example.paralect.easytime.model.ObjectCollection;
 import com.example.paralect.easytime.utils.TextUtil;
 
 import java.util.List;
@@ -38,25 +37,25 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class ObjectsOfProjectFragment extends AbsStickyFragment implements IDataView<SortedMap<Character, List<Object>>> {
 
     public static final String TAG = ObjectsOfProjectFragment.class.getSimpleName();
-    public static final String ARG_PROJECT = "arg_project";
+    public static final String ARG_OBJECT_COLLECTION = "arg_project";
 
     private ObjectsOfProjectPresenter presenter = new ObjectsOfProjectPresenter();
     private ObjectsOfProjectAdapter adapter = new ObjectsOfProjectAdapter();
-    private Project project;
+    private ObjectCollection objectCollection;
 
-    public static ObjectsOfProjectFragment newInstance(@NonNull Project project, @NonNull String fragmentName) {
+    public static ObjectsOfProjectFragment newInstance(@NonNull ObjectCollection objectCollection, @NonNull String fragmentName) {
         Bundle args = new Bundle(1);
-        args.putParcelable(ARG_PROJECT, project);
+        args.putParcelable(ARG_OBJECT_COLLECTION, objectCollection);
         args.putString(FRAGMENT_KEY, fragmentName);
         ObjectsOfProjectFragment fragment = new ObjectsOfProjectFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    private Project getProjectArg() {
+    private ObjectCollection getObjectCollectionArg() {
         Bundle args = getArguments();
-        if (args != null && args.containsKey(ARG_PROJECT)) {
-            return args.getParcelable(ARG_PROJECT);
+        if (args != null && args.containsKey(ARG_OBJECT_COLLECTION)) {
+            return args.getParcelable(ARG_OBJECT_COLLECTION);
         } else return null;
     }
 
@@ -68,8 +67,8 @@ public class ObjectsOfProjectFragment extends AbsStickyFragment implements IData
     }
 
     private void initProject() {
-        if (project == null) {
-            project = getProjectArg();
+        if (objectCollection == null) {
+            objectCollection = getObjectCollectionArg();
         }
     }
 
@@ -78,7 +77,7 @@ public class ObjectsOfProjectFragment extends AbsStickyFragment implements IData
         super.onViewCreated(view, savedInstanceState);
         initProject();
         presenter.setDataView(this)
-                .requestData(project.getObjectIds());
+                .requestData(objectCollection.getObjectIds());
     }
 
     @Override
@@ -94,7 +93,7 @@ public class ObjectsOfProjectFragment extends AbsStickyFragment implements IData
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pushFragment(project);
+                pushFragment((Job) objectCollection);
             }
         });
 

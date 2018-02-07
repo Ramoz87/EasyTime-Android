@@ -35,10 +35,12 @@ import com.example.paralect.easytime.main.projects.project.jobexpenses.time.Work
 import com.example.paralect.easytime.main.projects.project.objectsofproject.ObjectsOfProjectFragment;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.ObjectCollection;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.DefAdapterDataObserver;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.github.clans.fab.FloatingActionButton;
@@ -69,10 +71,9 @@ public class ActivityFragment extends BaseFragment
 
     void addTime() {
         Fragment fragment;
-        if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT)
-            fragment = ObjectsOfProjectFragment.newInstance((Project) job, WorkTypeFragment.TAG);
-        else
-            fragment = WorkTypeFragment.newInstance(job);
+        if (isObjectCollectionAndIsNotEmpty(job)) {
+            fragment = ObjectsOfProjectFragment.newInstance((ObjectCollection) job, WorkTypeFragment.TAG);
+        } else fragment = WorkTypeFragment.newInstance(job);
 
         getMainActivity().pushFragment(fragment);
     }
@@ -80,21 +81,41 @@ public class ActivityFragment extends BaseFragment
     void addMaterials() {
         Fragment fragment;
         // MaterialExpensesFragment.newInstance(job);
-        if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT)
-            fragment = ObjectsOfProjectFragment.newInstance((Project) job, MaterialExpensesFragment.TAG);
-        else
-            fragment = MaterialExpensesFragment.newInstance(job);
+        if (isObjectCollectionAndIsNotEmpty(job)) {
+            fragment = ObjectsOfProjectFragment.newInstance((ObjectCollection) job, MaterialExpensesFragment.TAG);
+        } else fragment = MaterialExpensesFragment.newInstance(job);
         getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 
     void addExpenses() {
         Fragment fragment;
-        if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT) {
-            fragment = ObjectsOfProjectFragment.newInstance((Project) job, ExpensesFragment.TAG);
+        if (isObjectCollectionAndIsNotEmpty(job)) {
+            fragment = ObjectsOfProjectFragment.newInstance((ObjectCollection) job, ExpensesFragment.TAG);
         } else {
             fragment = ExpensesFragment.newInstance(job);
         }
         getMainActivity().pushFragment(fragment);
+    }
+
+    private boolean isObjectCollectionAndIsNotEmpty(Job job) {
+        if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT || job.getProjectType() == ProjectType.Type.TYPE_ORDER) {
+            String[] ids = ((ObjectCollection) job).getObjectIds();
+            if (ids != null) {
+                int length = ids.length;
+                Logger.d(TAG, "ids length = " + length);
+                if (length == 0) return false;
+                int i = 0;
+                boolean hasNonEmptyId = false;
+                for (String id : ids) {
+                    Logger.d(TAG, (i++) + ") id = " + id);
+                    if (id != null && !id.isEmpty()) hasNonEmptyId = true;
+                }
+                return hasNonEmptyId;
+            } else {
+                Logger.d(TAG, "ids == null");
+                return false;
+            }
+        } else return false;
     }
 
     private ActivityPresenter presenter = new ActivityPresenter();

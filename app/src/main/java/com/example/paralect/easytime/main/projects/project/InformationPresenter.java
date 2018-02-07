@@ -5,6 +5,7 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
+import com.example.paralect.easytime.model.ObjectCollection;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.model.Type;
@@ -85,16 +86,15 @@ class InformationPresenter extends RxBus.Watcher<String> implements IDataPresent
         if (job == null) return;
 
         @ProjectType.Type int type = job.getProjectType();
-        if (type != ProjectType.Type.TYPE_PROJECT) return;
+        if (type != ProjectType.Type.TYPE_PROJECT && type != ProjectType.Type.TYPE_ORDER) return;
 
         Observable<List<Object>> observable = Observable.create(new ObservableOnSubscribe<List<Object>>() {
             @Override
             public void subscribe(ObservableEmitter<List<Object>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-
-                        Project project = (Project)job;
-                        String[] jobIds = project.getObjectIds();
+                        ObjectCollection oc = (ObjectCollection) job;
+                        String[] jobIds = oc.getObjectIds();
                         List<Object> objects = EasyTimeManager.getInstance().getObjects(jobIds);
                         emitter.onNext(objects);
                         emitter.onComplete();

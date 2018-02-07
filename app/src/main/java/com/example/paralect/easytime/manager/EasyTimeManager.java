@@ -537,6 +537,12 @@ public final class EasyTimeManager {
                 Log.d(TAG, "its a project, query should be also performed for all objects");
                 ids.addAll(Arrays.asList(project.getObjectIds()));
             }
+            Dao<Order, String> orderDao = helper.getOrderDao();
+            Order order = orderDao.queryForId(jobId);
+            if (order != null) {
+                Log.d(TAG, "its an order, query should be also performed for all objects");
+                ids.addAll(Arrays.asList(order.getObjectIds()));
+            }
             Dao<Expense, Long> expenseDao = helper.getExpenseDao();
             Dao<Material, String> materialDao = helper.getMaterialDao();
 
