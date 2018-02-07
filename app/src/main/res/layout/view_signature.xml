@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/signature_title_text_view"
@@ -36,12 +36,39 @@
         android:layout_below="@+id/signature_switcher"
         android:background="@drawable/shadow_from_top"/>
 
+    <LinearLayout
+        android:id="@+id/signature_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/signature_canvas_view"
+        android:layout_alignTop="@+id/signature_canvas_view"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/empty_sign"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/sign_here"
+            android:textColor="@color/dark_gray"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/signature_clear_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/signature_shadow_view"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/signature_shadow_view"
         android:background="?android:attr/selectableItemBackground"
         android:text="@string/signature_clear"
         android:textColor="@color/colorPrimary"/>

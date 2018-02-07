@@ -7,12 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.utils.anim.AnimUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -31,6 +33,7 @@ public class SignatureView extends RelativeLayout {
     @BindView(R.id.signature_title_text_view) TextView titleTextView;
     @BindView(R.id.signature_switcher) SwitchCompat switcher;
     @BindView(R.id.signature_canvas_view) CanvasView canvasView;
+    @BindView(R.id.signature_empty_view) View emptyView;
 
     private SignatureListener signatureListener;
 
@@ -51,6 +54,12 @@ public class SignatureView extends RelativeLayout {
         inflate(getContext(), R.layout.view_signature, this);
         ButterKnife.bind(this);
         setBackgroundColor(Color.WHITE);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        AnimUtils.hideWithAnimation(emptyView, 1000, 1000);
     }
 
     @OnClick(R.id.signature_sign_button)

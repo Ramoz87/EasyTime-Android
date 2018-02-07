@@ -111,6 +111,7 @@
     <string name="signature_switcher">Sign yourself</string>
     <string name="signature_sign">Sign</string>
     <string name="signature_clear">Clear</string>
+    <string name="sign_here">Sign here</string>
 
     <!--settings-->
     <string name="help">Help</string>
