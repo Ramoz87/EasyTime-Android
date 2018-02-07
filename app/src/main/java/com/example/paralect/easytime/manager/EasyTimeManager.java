@@ -515,7 +515,26 @@ public final class EasyTimeManager {
         try {
             Dao<Expense, Long> dao = helper.getExpenseDao();
             Where where = dao.queryBuilder().where().eq("jobId", jobId);
-            return where.countOf();
+            long totalCount = where.countOf();
+
+            Dao<Project, String> projectDao = helper.getProjectDao();
+            Project project = projectDao.queryForId(jobId);
+            if (project != null) {
+                List<Object> objects = getObjects(project.getObjectIds());
+                for (Object o : objects) {
+                    totalCount += getTotalExpensesCount(o.getJobId());
+                }
+            } else {
+                Dao<Order, String> orderDao = helper.getOrderDao();
+                Order order = orderDao.queryForId(jobId);
+                if (order != null) {
+                    List<Object> objects = getObjects(order.getObjectIds());
+                    for (Object o : objects) {
+                        totalCount += getTotalExpensesCount(o.getJobId());
+                    }
+                }
+            }
+            return totalCount;
         } catch (SQLException e) {
             Logger.e(e);
             return 0;
