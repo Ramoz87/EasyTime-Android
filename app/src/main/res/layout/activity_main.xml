@@ -61,15 +61,6 @@
             android:layout_above="@id/navigationView"
             android:background="@drawable/shadow_from_bottom"/>
 
-        <com.example.paralect.easytime.views.KeypadEditorView
-            android:layout_alignParentBottom="true"
-            android:elevation="5dp"
-            app:el_expanded="false"
-            android:layout_gravity="bottom"
-            android:id="@+id/keypadEditorView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <View
             android:visibility="gone"
             android:background="@color/materials_overlay_background"
@@ -80,6 +71,7 @@
             android:layout_height="wrap_content" />
 
         <com.github.clans.fab.FloatingActionMenu
+            android:elevation="0dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="72dp"
@@ -88,6 +80,15 @@
             android:id="@+id/fam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <com.example.paralect.easytime.views.KeypadEditorView
+            android:layout_alignParentBottom="true"
+            android:elevation="5dp"
+            app:el_expanded="false"
+            android:layout_gravity="bottom"
+            android:id="@+id/keypadEditorView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 

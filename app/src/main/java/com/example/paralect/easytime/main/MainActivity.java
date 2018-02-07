@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -47,7 +48,9 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
 
 public class MainActivity extends AppCompatActivity implements FragmentNavigator,
         FragNavController.TransactionListener,
-        FragNavController.RootFragmentListener, FloatingActionMenu.OnMenuToggleListener {
+        FragNavController.RootFragmentListener,
+        FloatingActionMenu.OnMenuToggleListener,
+        View.OnClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private final int INDEX_PROJECTS = FragNavController.TAB1;
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
 
     private Animation fadeIn;
     private Animation fadeOut;
+    private Drawable famIcon;
 
     public static Intent newIntent(@NonNull Context context) {
         return new Intent(context, MainActivity.class);
@@ -104,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         fadeOut.setAnimationListener(AnimUtils.newDisappearingAnimListener(shadowOverlay));
         fadeIn.setDuration(duration);
         fadeOut.setDuration(duration);
+        famIcon = fam.getMenuIconView().getDrawable();
         fam.setOnMenuToggleListener(getDefaultMenuToggleListener());
     }
 
@@ -363,7 +368,15 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         return this;
     }
 
-    public void invalidateOnMenuToggleListener() {
+    public void resetFamSettings() {
         fam.setOnMenuToggleListener(getDefaultMenuToggleListener());
+        fam.getMenuIconView().setImageDrawable(famIcon);
+        fam.setOnMenuButtonClickListener(this);
+        fam.setIconAnimated(true);
+    }
+
+    @Override
+    public void onClick(View view) {
+        fam.toggle(true);
     }
 }

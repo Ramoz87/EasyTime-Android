@@ -102,31 +102,6 @@
         android:layout_height="match_parent"
         android:background="@color/materials_overlay_background"/>
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:visibility="gone"
-        android:id="@+id/fam"
-        style="@style/FloatingActionButtonNormalStyle">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/action_send"
-            style="@style/FloatingActionButtonMiniStyle"
-            android:src="@drawable/ic_send"
-            app:fab_label="@string/project_detail_send"/>
-
-        <!--<com.github.clans.fab.FloatingActionButton-->
-            <!--android:id="@+id/action_save"-->
-            <!--style="@style/FloatingActionButtonMiniStyle"-->
-            <!--android:src="@drawable/ic_save"-->
-            <!--app:fab_label="@string/save"/>-->
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/action_sign"
-            style="@style/FloatingActionButtonMiniStyle"
-            android:src="@drawable/ic_edit"
-            app:fab_label="@string/project_detail_sign"/>
-
-    </com.github.clans.fab.FloatingActionMenu>
-
     <com.example.paralect.easytime.views.DiscountDialogView
         android:id="@+id/discount_dialog_view"
         android:layout_width="wrap_content"
