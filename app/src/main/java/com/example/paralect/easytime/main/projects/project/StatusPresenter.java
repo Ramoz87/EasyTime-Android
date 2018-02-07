@@ -1,12 +1,10 @@
 package com.example.paralect.easytime.main.projects.project;
 
-
-import android.util.Log;
-
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Type;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.RxBus;
 
 import java.util.List;
@@ -42,7 +40,7 @@ public class StatusPresenter extends RxBus.Watcher<String> implements IDataPrese
             public void subscribe(ObservableEmitter<List<Type>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        Log.d(TAG, "performing request");
+                        Logger.d(TAG, "performing request");
                         List<Type> types = EasyTimeManager.getInstance().getStatuses();
                         emitter.onNext(types);
                         emitter.onComplete();
@@ -60,15 +58,14 @@ public class StatusPresenter extends RxBus.Watcher<String> implements IDataPrese
                     @Override
                     public void onNext(List<Type> types) {
                         if (view != null) {
-                            Log.d(TAG, "request performed, passing data");
+                            Logger.d(TAG, "request performed, passing data");
                             view.onDataReceived(types);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        // throw new RuntimeException(e);
-                        e.printStackTrace();
+                        Logger.e(e);
                     }
 
                     @Override

@@ -3,7 +3,6 @@ package com.example.paralect.easytime.main.projects.project;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +27,7 @@ import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.CollectionUtil;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.views.InfoLayout;
 import com.example.paralect.easytime.views.gallery.JobFilesView;
 
@@ -181,7 +181,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
 
     @Override
     public void onDataReceived(List<Type> types) {
-        Log.d(TAG, String.format("received %s statuses", types.size()));
+        Logger.d(TAG, String.format("received %s statuses", types.size()));
         statusAdapter.setData(types);
         for (int i = 0; i < types.size(); i++) {
             Type status = types.get(i);
@@ -194,13 +194,13 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         Type status = statusAdapter.getItem(i);
-        Log.d(TAG, String.format("selected status '%s'", status));
+        Logger.d(TAG, String.format("selected status '%s'", status));
         job.setStatusId(status.getTypeId());
         EasyTimeManager.getInstance().updateJob(job);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-        Log.d(TAG, "nothing selected");
+        Logger.d(TAG, "nothing selected");
     }
 }
