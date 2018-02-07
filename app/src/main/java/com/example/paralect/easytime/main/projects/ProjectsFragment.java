@@ -9,10 +9,12 @@ import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
@@ -29,7 +31,9 @@ import com.example.paralect.easytime.utils.ViewUtils;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.BindView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -44,6 +48,8 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
     private SearchView searchView;
     private TextView title;
 
+    @BindView(R.id.emptyListPlaceholder) protected View emptyView;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -57,6 +63,17 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.setDataView(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_projects_sticky, parent, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        stickyListHeadersListView.setEmptyView(emptyView);
     }
 
     @Override
