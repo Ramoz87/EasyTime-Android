@@ -39,6 +39,8 @@ import com.example.paralect.easytime.views.SignatureView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -221,6 +223,7 @@ public class ProjectInvoiceFragment extends BaseFragment
     @Override
     public void onPause() {
         super.onPause();
+        keypad.setOnExpansionUpdateListener(null);
         fam.removeAllMenuButtons();
         getMainActivity().resetFamSettings();
     }
@@ -292,6 +295,14 @@ public class ProjectInvoiceFragment extends BaseFragment
             public void onCompletion(KeypadEditorView editorView, String result) {
                 hideDialog();
                 applyDiscount();
+            }
+        });
+        keypad.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
+            @Override
+            public void onExpansionUpdate(float expansionFraction, int state) {
+                if (state == ExpandableLayout.State.COLLAPSED || state == ExpandableLayout.State.COLLAPSING) {
+                    hideDialog();
+                }
             }
         });
     }
