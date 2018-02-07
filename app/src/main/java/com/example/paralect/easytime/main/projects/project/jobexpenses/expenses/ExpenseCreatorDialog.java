@@ -13,7 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.utils.TouchHandler;
+import com.example.paralect.easytime.utils.ViewAnimationUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,9 +63,14 @@ public class ExpenseCreatorDialog extends Dialog {
         TouchHandler createAction = new TouchHandler() {
             @Override
             public void performClick(View v) {
+                String value = expenseName.getText().toString();
+                if (TextUtil.isEmpty(value)){
+                    ViewAnimationUtils.shakeAnimation(expenseName);
+                    return;
+                }
                 ExpenseCreatorDialog dialog = ExpenseCreatorDialog.this;
                 dialog.cancel();
-                dialog.listener.onCreateNewExpenseTemplate(dialog, expenseName.getText().toString());
+                dialog.listener.onCreateNewExpenseTemplate(dialog, value);
             }
         };
         create.setOnTouchListener(createAction);

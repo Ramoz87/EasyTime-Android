@@ -22,6 +22,7 @@ import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.MetricsUtils;
+import com.example.paralect.easytime.utils.ViewAnimationUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.gallery.ExpenseFilesView;
 
@@ -119,8 +120,14 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     public void onCompletion(KeypadEditorView keypadEditorView, String result) {
         Logger.d(TAG, "completed");
 
-        Expense expense = Expense.reCreate(mExpense);
         int value = result.isEmpty() ? 0 : Integer.valueOf(result);
+        if (value == 0) {
+            ViewAnimationUtils.shakeAnimation(unitTextView);
+            ViewAnimationUtils.shakeAnimation(expenseCount);
+            return;
+        }
+        
+        Expense expense = Expense.reCreate(mExpense);
         expense.setValue(value);
 
         try {
