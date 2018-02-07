@@ -78,7 +78,12 @@ public class ActivityFragment extends BaseFragment
     }
 
     void addMaterials() {
-        Fragment fragment = MaterialExpensesFragment.newInstance(job);
+        Fragment fragment;
+        // MaterialExpensesFragment.newInstance(job);
+        if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT)
+            fragment = ObjectsOfProjectFragment.newInstance((Project) job, MaterialExpensesFragment.TAG);
+        else
+            fragment = MaterialExpensesFragment.newInstance(job);
         getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 

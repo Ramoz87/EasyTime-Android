@@ -19,6 +19,7 @@ import android.widget.Button;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
+import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.CollectionUtil;
@@ -43,7 +44,8 @@ public class MaterialExpensesFragment extends BaseFragment implements
         MaterialExpensesAdapter.OnCheckedCountChangeListener,
         ExpandableLayout.OnExpansionUpdateListener {
 
-    private static final String TAG = MaterialExpensesFragment.class.getSimpleName();
+    public static final String TAG = MaterialExpensesFragment.class.getSimpleName();
+
     public static final String ARG_KEYBOARD_STATE = "keyboard_state";
 
     @BindView(R.id.addMaterials) Button addMaterials;
@@ -182,9 +184,13 @@ public class MaterialExpensesFragment extends BaseFragment implements
 
     @Override
     public void onFinishing() {
-        backForOneStep();
+        popToActivityFragment();
     }
     // endregion
+
+    private void popToActivityFragment() {
+        getMainActivity().getFragmentNavigator().popToFragment(Constants.FRAGMENT_ACTIVITY_DEPTH);
+    }
 
     @Override
     public void onPause() {

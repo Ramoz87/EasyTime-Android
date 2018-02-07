@@ -18,7 +18,9 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
+import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.time.WorkTypeFragment;
+import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Project;
@@ -137,6 +139,9 @@ public class ObjectsOfProjectFragment extends AbsStickyFragment implements IData
 
             else if (fragmentName.equalsIgnoreCase(ExpensesFragment.TAG))
                 fragment = ExpensesFragment.newInstance(job);
+
+            else if (fragmentName.equalsIgnoreCase(MaterialExpensesFragment.TAG))
+                fragment = MaterialExpensesFragment.newInstance(job);
 
             if (fragment != null)
                 getMainActivity().getFragmentNavigator().pushFragment(fragment);

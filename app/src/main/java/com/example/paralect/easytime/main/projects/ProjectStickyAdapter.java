@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.main.projects;
 
+import android.content.res.Resources;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,13 +119,15 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         @BindView(R.id.jobStatus) TextView jobStatus;
         @BindView(R.id.jobCustomer) TextView jobCustomer;
         @BindView(R.id.jobTerm) TextView jobTerm;
+        Resources res;
 
         JobViewHolder(View itemView) {
             ButterKnife.bind(this, itemView);
+            res = itemView.getResources();
         }
 
         void bind(Job job) {
-            jobName.setText(job.getName());
+            jobName.setText(res.getString(R.string.job_name_and_address, job.getNumber(), job.getName()));
             // jobName.setText(project.getStatusId());
             jobCustomer.setText(job.getCustomer().getCompanyName());
             jobTerm.setText(job.getStringDate());

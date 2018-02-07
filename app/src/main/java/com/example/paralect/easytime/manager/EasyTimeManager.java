@@ -585,11 +585,24 @@ public final class EasyTimeManager {
         List<Object> objects = new ArrayList<>();
         try {
             Dao<Object, String> dao = helper.getObjectDao();
+            Dao<Customer, String> customerDao = helper.getCustomerDao();
+            Dao<Address, Long> addressDao = helper.getAddressDao();
+            Dao<Type, String> typeDao = helper.getTypeDao();
             if (ids != null) {
                 for (String id : ids) {
                     Object o = dao.queryForId(id);
-                    if (o != null)
+                    if (o != null) {
+                        Address address = addressDao.queryForId(o.getAddressId());
+                        o.setAddress(address);
+
+                        Customer customer = customerDao.queryForId(o.getCustomerId());
+                        o.setCustomer(customer);
+
+                        Type status = typeDao.queryForId(o.getStatusId());
+                        o.setStatus(status);
+
                         objects.add(o);
+                    }
                 }
             }
         } catch (SQLException exc) {

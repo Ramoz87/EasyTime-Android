@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.Logger;
@@ -131,7 +132,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
             Logger.e(e);
         }
         keypadEditorView.collapse();
-        getMainActivity().getFragmentNavigator().popToFragment(2);
+        getMainActivity().getFragmentNavigator().popToFragment(Constants.FRAGMENT_ACTIVITY_DEPTH);
     }
 
     @Override

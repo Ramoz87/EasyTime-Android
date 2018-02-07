@@ -41,7 +41,9 @@ public class ObjectsOfProjectAdapter extends AlphabetStickyAdapter<Object> {
 
     static class ViewHolder {
         @BindView(R.id.jobName) TextView jobName;
-        @BindView(R.id.jobNumber) TextView jobNumber;
+        @BindView(R.id.jobStatus) TextView jobStatus;
+        @BindView(R.id.jobCustomer) TextView jobCustomer;
+        @BindView(R.id.jobTerm) TextView jobTerm;
         Resources res;
 
         ViewHolder(View itemView) {
@@ -49,9 +51,11 @@ public class ObjectsOfProjectAdapter extends AlphabetStickyAdapter<Object> {
             res = itemView.getResources();
         }
 
-        void bind(Object object) {
-            jobName.setText(object.getName());
-            jobNumber.setText(res.getString(R.string.job_number, object.getNumber()));
+        void bind(Object job) {
+            jobName.setText(res.getString(R.string.job_name_and_address, job.getNumber(), job.getName()));
+            jobCustomer.setText(job.getCustomer().getCompanyName());
+            jobTerm.setText(job.getStringDate());
+            jobStatus.setText(job.getStatus().getName());
         }
     }
 }
