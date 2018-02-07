@@ -15,7 +15,11 @@
             android:id="@+id/file_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="85dp"
+            android:layout_marginRight="85dp"
+            android:layout_marginTop="5dp"/>
 
         <Button
             android:id="@+id/gallery_capture_button"
@@ -40,12 +44,12 @@
 
         <Button
             android:id="@+id/gallery_start_capture_button"
-            android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@drawable/selector_ripple"
             android:drawableTop="@drawable/ic_add_a_photo_gray"
+            android:padding="15dp"
             android:text="@string/project_detail_add_photo"
             android:textColor="@color/gray_blue"/>
 
