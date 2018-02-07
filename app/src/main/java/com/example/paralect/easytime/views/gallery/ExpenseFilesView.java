@@ -1,29 +1,21 @@
 package com.example.paralect.easytime.views.gallery;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.main.camera.CameraActivity;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
-import com.example.paralect.easytime.utils.IntentUtils;
-import com.squareup.picasso.Callback;
+import com.example.paralect.easytime.utils.Logger;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CAMERA;
 
 /**
  * Created by Oleg Tarashkevich on 17/01/2018.
@@ -78,13 +70,13 @@ public class ExpenseFilesView extends FrameLayout implements IFilesView<File, Ex
     @Override
     public void onDataReceived(File file) {
         if (file != null) {
-            Log.d(TAG, String.format("received file = %s", file.getFileUrl()));
+            Logger.d(TAG, String.format("received file = %s", file.getFileUrl()));
             galleryView.setVisibility(VISIBLE);
             emptyView.setVisibility(GONE);
 
             Picasso picasso = new Picasso.Builder(getContext()).listener(new Picasso.Listener() {
                 @Override public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                    Log.e(TAG, "can not load image", exception);
+                    Logger.e(TAG, "can not load image", exception);
                 }
             }).build();
 

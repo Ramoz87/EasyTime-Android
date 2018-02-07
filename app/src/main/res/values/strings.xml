@@ -56,6 +56,7 @@
     <string name="placeholder_chosen_count">0 item selected</string>
 
     <!--materials-->
+    <string name="title_materials">Materials</string>
     <string name="delete_materials">Delete</string>
     <string name="add_your_materials">Add your materials</string>
     <string name="add_time">Add time</string>
@@ -88,6 +89,8 @@
     <string name="client">Client</string>
 
     <string name="add_your_activities">Add your activities</string>
+    <string name="add_your_materials_stock">Nothing here…\nPlease add materials to stock</string>
+    <string name="choose_date">Nothing here…\nPlease choose another date</string>
 
     <!--Project details-->
     <string name="project_detail_send">Send</string>
@@ -108,6 +111,7 @@
     <string name="signature_switcher">Sign yourself</string>
     <string name="signature_sign">Sign</string>
     <string name="signature_clear">Clear</string>
+    <string name="sign_here">Sign here</string>
 
     <!--settings-->
     <string name="help">Help</string>
@@ -143,6 +147,7 @@
     <string name="item_selected">%d item(s) selected</string>
     <string name="add_materials">Add %d material(s)</string>
     <string name="confirm_materials">Confirm %d materials</string>
+    <string name="go_to_stock">Go to stock!</string>
 
     <!--time expenses-->
     <string name="time_exp_title">New time</string>

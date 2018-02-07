@@ -128,13 +128,6 @@ public class StockFragment extends BaseFragment
         fam.setOnMenuButtonClickListener(this);
     }
 
-    private void initActionBar(ActionBar actionBar) {
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.nav_stock);
-        }
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_materials, menu);
         deleteMaterials = menu.findItem(R.id.delete_materials);
@@ -142,7 +135,7 @@ public class StockFragment extends BaseFragment
 
     @Override
     public void onCreateActionBar(ActionBar actionBar) {
-        initActionBar(actionBar);
+        actionBar.setTitle(R.string.nav_stock);
     }
 
     @Override

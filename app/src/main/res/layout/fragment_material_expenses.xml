@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
 
+    <LinearLayout
+        android:id="@+id/emptyListPlaceholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_opened_box"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/add_your_materials_stock"
+            android:textColor="@color/dark_gray"/>
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/editor_layout"
         android:layout_alignParentBottom="true"

@@ -29,7 +29,7 @@ public abstract class AbsStickyFragment extends BaseFragment
 
     private int firstVisiblePosition = 0;
 
-    @BindView(R.id.sticky_list_headers_list_view)
+    @BindView(R.id.sticky_list_headers_list_view) protected
     StickyListHeadersListView stickyListHeadersListView;
 
     @Override

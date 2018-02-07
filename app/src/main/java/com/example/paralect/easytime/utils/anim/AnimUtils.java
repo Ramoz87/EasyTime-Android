@@ -138,7 +138,7 @@ public final class AnimUtils {
         imageView.startAnimation(dec);
     }
 
-    public static void hideWithAnimation(@NonNull View view, int duration, int delay) {
+    public static void hideWithAnimation(@NonNull View view, long duration, long delay) {
         Context context = view.getContext();
         final Animation dec = AnimationUtils.loadAnimation(context, R.anim.fade_out);
         dec.setAnimationListener(newDisappearingAnimListener(view));
@@ -147,7 +147,7 @@ public final class AnimUtils {
         view.startAnimation(dec);
     }
 
-    public static void showWithAnimation(@NonNull View view, int duration, int delay) {
+    public static void showWithAnimation(@NonNull View view, long duration, long delay) {
         Context context = view.getContext();
         final Animation inc = AnimationUtils.loadAnimation(context, R.anim.fade_in);
         inc.setAnimationListener(newAppearingAnimListener(view));
