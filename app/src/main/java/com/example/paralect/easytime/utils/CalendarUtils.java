@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.utils;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
@@ -60,8 +61,8 @@ public final class CalendarUtils {
         String dateString = getDateString(calendar);
         SpannableString ss = new SpannableString(dateString + space);
         int color = ContextCompat.getColor(context, colorId);
-        Drawable d = context.getResources().getDrawable(R.drawable.ic_arrow_drop_down_black_24dp).getConstantState().newDrawable().mutate();
-        DrawableCompat.setTint(d, color);
+        Drawable d = context.getResources().getDrawable(R.drawable.ic_arrow_drop_down_black_24dp).mutate();
+        d.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
         ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
         ss.setSpan(span, dateString.length(), dateString.length() + space.length(), 0);
