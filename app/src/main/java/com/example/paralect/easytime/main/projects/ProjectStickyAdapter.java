@@ -117,8 +117,7 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
         @BindView(R.id.jobName) TextView jobName;
         @BindView(R.id.jobStatus) TextView jobStatus;
         @BindView(R.id.jobCustomer) TextView jobCustomer;
-        @BindView(R.id.jobNumber) TextView jobNumber;
-        @BindView(R.id.job_address_and_date) TextView addressAndDate;
+        @BindView(R.id.jobTerm) TextView jobTerm;
 
         JobViewHolder(View itemView) {
             ButterKnife.bind(this, itemView);
@@ -128,18 +127,8 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
             jobName.setText(job.getName());
             // jobName.setText(project.getStatusId());
             jobCustomer.setText(job.getCustomer().getCompanyName());
-            String number = jobNumber.getResources().getString(R.string.job_number, job.getNumber());
-            jobNumber.setText(number);
+            jobTerm.setText(job.getStringDate());
             jobStatus.setText(job.getStatus().getName());
-            if (job.getProjectType() == ProjectType.Type.TYPE_ORDER) {
-                addressAndDate.setVisibility(View.VISIBLE);
-                Order order = (Order) job;
-                Address address = order.getAddress();
-                String text = address.toString() + ", " + order.getDeliveryTime();
-                addressAndDate.setText(text);
-            } else {
-                addressAndDate.setVisibility(View.GONE);
-            }
         }
     }
     // endregion
