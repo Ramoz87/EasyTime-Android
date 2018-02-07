@@ -12,7 +12,7 @@ import java.util.List;
  * Created by alexei on 26.12.2017.
  */
 
-public class Project extends Job implements Parcelable, ProjectType {
+public class Project extends Job implements Parcelable, ProjectType, ObjectCollection {
 
     @DatabaseField(columnName = "dateStart")
     private String dateStart;
@@ -81,6 +81,7 @@ public class Project extends Job implements Parcelable, ProjectType {
         return super.toString() + " | " + dateStart + " " + dateEnd;
     }
 
+    @Override
     public String[] getObjectIds() {
         return objectIds;
     }

@@ -3,6 +3,7 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -13,13 +14,16 @@ import java.util.ArrayList;
  */
 
 @DatabaseTable(tableName = "orders")
-public class Order extends JobWithAddress implements Parcelable, ProjectType {
+public class Order extends JobWithAddress implements Parcelable, ProjectType, ObjectCollection {
 
     @DatabaseField(columnName = "contact")
     private String contact;
 
     @DatabaseField(columnName = "deliveryTime")
     private String deliveryTime;
+
+    @DatabaseField(columnName = "objectIds", dataType = DataType.SERIALIZABLE)
+    private String[] objectIds;
 
     private ArrayList<Object> objects;
 
@@ -31,6 +35,7 @@ public class Order extends JobWithAddress implements Parcelable, ProjectType {
         super(in);
         contact = in.readString();
         deliveryTime = in.readString();
+        objectIds = in.createStringArray();
     }
 
     @Override
@@ -43,6 +48,7 @@ public class Order extends JobWithAddress implements Parcelable, ProjectType {
         super.writeToParcel(parcel, i);
         parcel.writeString(contact);
         parcel.writeString(deliveryTime);
+        parcel.writeStringArray(objectIds);
     }
 
     public static final Creator<Object> CREATOR = new Creator<Object>() {
@@ -82,5 +88,14 @@ public class Order extends JobWithAddress implements Parcelable, ProjectType {
     @Type
     public int getProjectType() {
         return Type.TYPE_ORDER;
+    }
+
+    @Override
+    public String[] getObjectIds() {
+        return objectIds;
+    }
+
+    public void setObjectIds(String[] objectIds) {
+        this.objectIds = objectIds;
     }
 }

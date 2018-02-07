@@ -257,6 +257,12 @@ public class LaunchScreenActivity extends Activity {
                 address.setCity(fields[17]);
                 address.setZip(fields[18]);
                 order.setAddress(address);
+
+                String objectIds = fields[13];
+                objectIds = objectIds.replace("\"", "");
+                String[] ids = objectIds.split(",[ ]*");
+                if (ids.length == 1 && ids[0].isEmpty()) ids = new String[0];
+                order.setObjectIds(ids);
                 return order;
             }
 
@@ -270,7 +276,7 @@ public class LaunchScreenActivity extends Activity {
                 String objectIds = fields[13];
                 objectIds = objectIds.replace("\"", "");
                 String[] ids = objectIds.split(",[ ]*");
-
+                if (ids.length == 1 && ids[0].isEmpty()) ids = new String[0];
                 project.setObjectIds(ids);
 
                 return project;
@@ -289,9 +295,10 @@ public class LaunchScreenActivity extends Activity {
                 String memberIds = fields[8];
                 memberIds = memberIds.replace("\"", "");
                 String[] ids = memberIds.split(",[ ]*");
+                if (ids.length == 1 && ids[0].isEmpty()) ids = new String[0];
                 job.setMemberIds(ids);
                 // fields[8]?
-                job.setCurrency(fields[9]);
+                job.setCurrency(fields[10]);
 
                 // random date
                 Date date = CalendarUtils.nextDate();

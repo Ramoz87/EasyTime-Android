@@ -70,6 +70,7 @@
     <string name="perform">Perform</string>
 
     <!--job info-->
+    <string name="job_name_and_address">%d: %s</string>
     <string name="projects">Projects</string>
     <string name="orders">Orders</string>
     <string name="objects">Objects</string>
