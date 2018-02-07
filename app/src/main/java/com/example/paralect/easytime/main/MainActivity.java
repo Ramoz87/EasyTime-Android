@@ -205,6 +205,10 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         }
         return itemId;
     }
+
+    public void switchToMaterials(){
+        bottomBar.setSelectedItemId(getSelectedItemId(INDEX_MATERIALS));
+    }
     // endregion
 
     // region Listeners

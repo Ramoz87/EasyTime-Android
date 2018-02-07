@@ -21,6 +21,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.MetricsUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.views.KeypadEditorView;
@@ -47,6 +48,7 @@ public class MaterialExpensesFragment extends BaseFragment implements
 
     @BindView(R.id.addMaterials) Button addMaterials;
     @BindView(R.id.list) EmptyRecyclerView emptyRecyclerView;
+    @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.editor_layout) View editorLayout;
     private KeypadEditorView keypadEditorView;
 
@@ -83,12 +85,12 @@ public class MaterialExpensesFragment extends BaseFragment implements
         keypadEditorView = getKeypadEditor();
 
         initJob();
-        Resources res = getResources();
-        addMaterials.setText(res.getString(R.string.add_materials, 0));
+        onCheckedCountChange(0);
 
         adapter.setKeypadEditorView(keypadEditorView);
         adapter.setOnCheckedCountChangeListener(this);
 
+        emptyRecyclerView.setEmptyView(emptyListPlaceholder);
         emptyRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getContext());
         emptyRecyclerView.setLayoutManager(lm);
@@ -133,7 +135,7 @@ public class MaterialExpensesFragment extends BaseFragment implements
 
     @Override
     public void onCreateActionBar(ActionBar actionBar) {
-
+        actionBar.setTitle(R.string.title_materials);
     }
 
     @Override
@@ -152,19 +154,30 @@ public class MaterialExpensesFragment extends BaseFragment implements
     @OnClick(R.id.addMaterials)
     void addMaterials() {
         List<MaterialExpense> materialExpenses = adapter.getCheckedMaterials();
-        presenter.updateExpenses(job, materialExpenses, this);
+        if (CollectionUtil.isEmpty(materialExpenses)) {
+           getMainActivity().switchToMaterials();
+        } else
+            presenter.updateExpenses(job, materialExpenses, this);
     }
 
+    /**
+     * Update button text
+     */
     @Override
     public void onCheckedCountChange(int totalCount) {
-        String message = getResources().getString(R.string.add_materials, totalCount);
-        addMaterials.setText(message);
+        if (adapter.getItemCount() == 0)
+            addMaterials.setText(R.string.go_to_stock);
+        else {
+            String message = getResources().getString(R.string.add_materials, totalCount);
+            addMaterials.setText(message);
+        }
     }
 
     // region IMaterialExpenses
     @Override
     public void onDataReceived(List<MaterialExpense> materials) {
         adapter.setData(materials);
+        onCheckedCountChange(0);
     }
 
     @Override
