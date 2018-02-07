@@ -1,6 +1,8 @@
 package com.example.paralect.easytime.main.projects.project;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
+import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.invoice.ProjectInvoiceFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
@@ -62,13 +65,9 @@ public class ActivityFragment extends BaseFragment
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.overlay) View overlay;
-    @BindView(R.id.fam) FloatingActionMenu fam;
-    @BindView(R.id.addTime) FloatingActionButton addTime;
-    @BindView(R.id.addMaterials) FloatingActionButton addMaterials;
-    @BindView(R.id.addExpenses) FloatingActionButton addExpenses;
+    FloatingActionMenu fam;
 
-    @OnClick(R.id.addTime)
-    void addTime(FloatingActionButton fab) {
+    void addTime() {
         Fragment fragment;
         if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT)
             fragment = ObjectsOfProjectFragment.newInstance((Project) job, WorkTypeFragment.TAG);
@@ -78,14 +77,12 @@ public class ActivityFragment extends BaseFragment
         getMainActivity().pushFragment(fragment);
     }
 
-    @OnClick(R.id.addMaterials)
-    void addMaterials(FloatingActionButton fab) {
+    void addMaterials() {
         Fragment fragment = MaterialExpensesFragment.newInstance(job);
         getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 
-    @OnClick(R.id.addExpenses)
-    void addExpenses(FloatingActionButton fab) {
+    void addExpenses() {
         Fragment fragment;
         if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT) {
             fragment = ObjectsOfProjectFragment.newInstance((Project) job, ExpensesFragment.TAG);
@@ -105,9 +102,6 @@ public class ActivityFragment extends BaseFragment
             invalidateOptionsMenu();
         }
     };
-
-    private Animation fadeIn;
-    private Animation fadeOut;
 
     public static ActivityFragment newInstance(Job job) {
         Bundle args = new Bundle(1);
@@ -171,13 +165,13 @@ public class ActivityFragment extends BaseFragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "on view created");
         ButterKnife.bind(this, view);
         initJob();
         initDate();
         initList();
         initFam();
         initOverlay();
-        initAnimations();
         populate();
     }
 
@@ -216,6 +210,7 @@ public class ActivityFragment extends BaseFragment
     public void onPause() {
         super.onPause();
         adapter.unregisterAdapterDataObserver(observer);
+        fam.removeAllMenuButtons();
     }
 
     @Override
@@ -237,29 +232,49 @@ public class ActivityFragment extends BaseFragment
     }
 
     private void showOverlay() {
-        fam.setMenuButtonColorNormalResId(R.color.dark_gray);
-        overlay.startAnimation(fadeIn);
+        getMainActivity().showOverlay();
     }
 
     // removing overlay
     private void hideOverlay() {
-        fam.setMenuButtonColorNormalResId(R.color.blue);
-        overlay.startAnimation(fadeOut);
+        getMainActivity().hideOverlay();
     }
 
     private void initFam() {
         Log.d(TAG, "initializing fam");
+        fam = getFam();
         fam.setOnMenuToggleListener(this);
-    }
+        Context context = getContext();
+        Resources res = getResources();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        final FloatingActionButton addTime = (FloatingActionButton) inflater.inflate(R.layout.fab, null, false);
+        addTime.setImageResource(R.drawable.ic_time);
+        addTime.setLabelText(res.getString(R.string.add_time));
+        final FloatingActionButton addMaterials = (FloatingActionButton) inflater.inflate(R.layout.fab, null, false);
+        addMaterials.setImageResource(R.drawable.ic_materials_blue);
+        addMaterials.setLabelText(res.getString(R.string.add_material));
+        final FloatingActionButton addExpenses = (FloatingActionButton) inflater.inflate(R.layout.fab, null, false);
+        addExpenses.setImageResource(R.drawable.ic_expense);
+        addExpenses.setLabelText(res.getString(R.string.add_expenses));
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view == addTime) {
+                    addTime();
+                } else if (view == addMaterials) {
+                    addMaterials();
+                } else if (view == addExpenses) {
+                    addExpenses();
+                }
+            }
+        };
+        addTime.setOnClickListener(listener);
+        addMaterials.setOnClickListener(listener);
+        addExpenses.setOnClickListener(listener);
 
-    private void initAnimations() {
-        int duration = 100;
-        fadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-        fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-        fadeIn.setAnimationListener(AnimUtils.newAppearingAnimListener(overlay));
-        fadeOut.setAnimationListener(AnimUtils.newDisappearingAnimListener(overlay));
-        fadeIn.setDuration(duration);
-        fadeOut.setDuration(duration);
+        fam.addMenuButton(addTime);
+        fam.addMenuButton(addMaterials);
+        fam.addMenuButton(addExpenses);
     }
 
     @Override

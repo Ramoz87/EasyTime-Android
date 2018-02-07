@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -117,6 +118,10 @@ public final class ViewUtils {
     public static void setVisibility(View view, boolean visible) {
         int visibility = visible ? View.VISIBLE : View.GONE;
         view.setVisibility(visibility);
+    }
+
+    public static boolean isViewVisible(@NonNull View view) {
+        return view.getVisibility() == View.VISIBLE;
     }
 
     public static int[] displaySize(Context context) {

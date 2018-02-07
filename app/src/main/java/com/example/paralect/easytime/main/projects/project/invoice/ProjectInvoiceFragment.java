@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.projects.project.invoice;
 
-import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -30,9 +29,7 @@ import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.DiscountDialogView;
@@ -47,11 +44,7 @@ import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRATULATIONS;
@@ -60,9 +53,8 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
  * Created by Oleg Tarashkevich on 15/01/2018.
  */
 
-public class ProjectInvoiceFragment extends BaseFragment implements
-        FloatingActionMenu.OnMenuToggleListener,
-        IDataView<List<InvoiceCell>>, View.OnClickListener {
+public class ProjectInvoiceFragment extends BaseFragment
+        implements IDataView<List<InvoiceCell>>, View.OnClickListener {
 
     private static final String TAG = ProjectInvoiceFragment.class.getSimpleName();
     private static final String DATE_ARG = "date_arg";
@@ -72,8 +64,8 @@ public class ProjectInvoiceFragment extends BaseFragment implements
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.overlay) View overlay;
-    @BindView(R.id.fam) FloatingActionMenu fam;
     @BindView(R.id.discount_dialog_view) DiscountDialogView discountDialogView;
+    FloatingActionMenu fam;
 
     private ProjectInvoiceAdapter adapter = new ProjectInvoiceAdapter();
     private ProjectInvoicePresenter presenter = new ProjectInvoicePresenter();
@@ -188,14 +180,49 @@ public class ProjectInvoiceFragment extends BaseFragment implements
         overlay.startAnimation(fadeOut);
     }
 
+    @Override
+    public boolean needsFam() {
+        return true;
+    }
+
     private void initFam() {
         Log.d(TAG, "initializing fam");
         Context context = getContext();
         Resources res = getResources();
+        fam = getFam();
         fam.setOnMenuButtonClickListener(this);
-        fam.setOnMenuToggleListener(this);
         fam.getMenuIconView().setImageResource(R.drawable.ic_check);
         fam.setIconAnimated(false);
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        final FloatingActionButton send = (FloatingActionButton) inflater.inflate(R.layout.fab, null, false);
+        send.setImageResource(R.drawable.ic_send);
+        send.setLabelText(res.getString(R.string.send_feedback));
+        final FloatingActionButton sign = (FloatingActionButton) inflater.inflate(R.layout.fab, null, false);
+        sign.setImageResource(R.drawable.ic_edit);
+        sign.setLabelText(res.getString(R.string.project_detail_sign));
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view == send) {
+                    send();
+                } else if (view == sign) {
+                    onActionSignClick();
+                }
+            }
+        };
+        send.setOnClickListener(listener);
+        sign.setOnClickListener(listener);
+
+        fam.addMenuButton(send);
+        fam.addMenuButton(sign);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fam.removeAllMenuButtons();
+        getMainActivity().resetFamSettings();
     }
 
     private void initAnimations() {
@@ -208,29 +235,16 @@ public class ProjectInvoiceFragment extends BaseFragment implements
         fadeOut.setDuration(duration);
     }
 
-    // region Clicks
-    @Override
-    public void onMenuToggle(boolean opened) {
-        if (opened) {
-            showOverlay();
-        } else {
-            hideOverlay();
-        }
-    }
-
-    @OnClick(R.id.detail_title)
     void onTitleClick() {
 
     }
 
-    @OnClick(R.id.action_send)
-    void send(FloatingActionButton fab) {
+    void send() {
         Intent intent = CongratulationsActivity.newIntent(getContext());
         MainActivity activity = getMainActivity();
         activity.startActivityForResult(intent, REQUEST_CODE_CONGRATULATIONS);
     }
 
-    @OnClick(R.id.action_sign)
     void onActionSignClick() {
         final SignatureDialogFragment signatureDialogFragment = SignatureDialogFragment.show(getActivity());
         signatureDialogFragment.setSignatureListener(new SignatureView.SignatureListener() {

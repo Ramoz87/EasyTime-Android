@@ -29,7 +29,7 @@ import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.KeypadView;
-import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -37,14 +37,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by alexei on 26.12.2017.
  */
 
 public class StockFragment extends BaseFragment
-        implements IDataView<List<Material>>,MaterialAdapter.MaterialEditingListener, ExpandableLayout.OnExpansionUpdateListener {
+        implements IDataView<List<Material>>,MaterialAdapter.MaterialEditingListener, ExpandableLayout.OnExpansionUpdateListener, View.OnClickListener {
 
     private static final String TAG = StockFragment.class.getSimpleName();
 
@@ -53,13 +52,12 @@ public class StockFragment extends BaseFragment
 
     @BindView(R.id.list) EmptyRecyclerView list;
     @BindView(R.id.placeholder) View placeholder;
-    @BindView(R.id.fab) FloatingActionButton fab;
     private KeypadEditorView keypad;
+    private FloatingActionMenu fam;
 
     private MenuItem deleteMaterials;
 
-    @OnClick(R.id.fab)
-    void onFabClick(FloatingActionButton fab) {
+    void openMaterialChooser() {
         Log.d(TAG, "on fab click");
         Fragment chooser = MaterialChooserFragment.newInstance();
         getMainActivity().getFragmentNavigator().pushFragment(chooser);
@@ -85,6 +83,7 @@ public class StockFragment extends BaseFragment
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "on view created");
         ButterKnife.bind(this, view);
+        initFam();
         init();
         updateMyMaterials();
     }
@@ -124,6 +123,11 @@ public class StockFragment extends BaseFragment
         list.addItemDecoration(decoration);
     }
 
+    private void initFam() {
+        fam = getFam();
+        fam.setOnMenuButtonClickListener(this);
+    }
+
     private void initActionBar(ActionBar actionBar) {
         if (actionBar != null) {
             actionBar.setTitle(R.string.nav_stock);
@@ -143,6 +147,11 @@ public class StockFragment extends BaseFragment
 
     @Override
     public boolean needsOptionsMenu() {
+        return true;
+    }
+
+    @Override
+    public boolean needsFam() {
         return true;
     }
 
@@ -185,6 +194,11 @@ public class StockFragment extends BaseFragment
         int paddingBottom = (int) (keypad.getMeasuredHeight() * expansionFraction);
         if (paddingBottom < minPaddingBottom) paddingBottom = minPaddingBottom; // min bottom padding
         list.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+    }
+
+    @Override
+    public void onClick(View view) {
+        openMaterialChooser();
     }
 
     /**
@@ -256,6 +270,7 @@ public class StockFragment extends BaseFragment
         super.onPause();
         Log.d(TAG, "on pause");
         keypad.setOnExpansionUpdateListener(null);
+        getMainActivity().resetFamSettings();
     }
 
     @Override

@@ -54,19 +54,4 @@
         android:fillViewport="true"
         android:paddingBottom="80dp"/>
 
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/fab_bottom_margin"
-        android:layout_marginRight="@dimen/fab_right_margin"
-        android:src="@drawable/ic_plus"
-        android:tint="@color/white"
-        app:backgroundTint="@color/white"
-        app:fab_colorNormal="@color/blue"
-        app:fab_colorPressed="@color/dark_blue"
-        app:fab_colorRipple="@color/blue"/>
-
 </RelativeLayout>

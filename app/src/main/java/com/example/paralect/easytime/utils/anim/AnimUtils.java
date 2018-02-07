@@ -155,4 +155,8 @@ public final class AnimUtils {
         inc.setStartOffset(delay);
         view.startAnimation(inc);
     }
+
+    public static boolean isAnimationRunning(@NonNull Animation animation) {
+        return !(!animation.hasStarted() || animation.hasEnded());
+    }
 }
