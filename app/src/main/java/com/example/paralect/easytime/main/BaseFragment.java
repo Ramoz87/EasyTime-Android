@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import com.example.paralect.easytime.views.KeypadEditorView;
+import com.github.clans.fab.FloatingActionMenu;
 
 /**
  * Created by alexei on 05.01.2018.
@@ -43,6 +44,11 @@ public abstract class BaseFragment extends Fragment {
         ActionBar actionBar = getMainActivity().getSupportActionBar();
         if (actionBar != null)
             onCreateActionBar(actionBar);
+        if (needsFam()) {
+            getFam().setVisibility(View.VISIBLE);
+        } else {
+            getFam().setVisibility(View.GONE);
+        }
     }
 
     protected void showMainTopShadow(boolean show){
@@ -56,14 +62,34 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract boolean needsOptionsMenu();
 
+    public boolean needsFam() {
+        return false;
+    }
+
     public KeypadEditorView getKeypadEditor() {
         return getMainActivity().getKeypadEditor();
+    }
+
+    public FloatingActionMenu getFam() {
+        return getMainActivity().getFam();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         getKeypadEditor().collapse();
+        // getMainActivity().hideOverlay(false);
+        // getFam().close(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (needsFam()) {
+            getFam().setVisibility(View.VISIBLE);
+        } else {
+            getFam().setVisibility(View.GONE);
+        }
     }
 
     /**

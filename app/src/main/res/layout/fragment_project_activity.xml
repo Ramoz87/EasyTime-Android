@@ -76,29 +76,29 @@
         android:layout_height="match_parent"
         android:background="@color/materials_overlay_background"/>
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:visibility="gone"
-        android:id="@+id/fam"
-        style="@style/FloatingActionButtonNormalStyle">
+    <!--<com.github.clans.fab.FloatingActionMenu-->
+        <!--android:visibility="gone"-->
+        <!--android:id="@+id/fam"-->
+        <!--style="@style/FloatingActionButtonNormalStyle">-->
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/addTime"
-            style="@style/FloatingActionButtonMiniStyle"
-            android:src="@drawable/ic_time"
-            app:fab_label="@string/add_time"/>
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/addTime"-->
+            <!--style="@style/FloatingActionButtonMiniStyle"-->
+            <!--android:src="@drawable/ic_time"-->
+            <!--app:fab_label="@string/add_time"/>-->
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/addMaterials"
-            style="@style/FloatingActionButtonMiniStyle"
-            android:src="@drawable/ic_materials_blue"
-            app:fab_label="@string/add_material"/>
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/addMaterials"-->
+            <!--style="@style/FloatingActionButtonMiniStyle"-->
+            <!--android:src="@drawable/ic_materials_blue"-->
+            <!--app:fab_label="@string/add_material"/>-->
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/addExpenses"
-            style="@style/FloatingActionButtonMiniStyle"
-            android:src="@drawable/ic_expense"
-            app:fab_label="@string/add_expenses"/>
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/addExpenses"-->
+            <!--style="@style/FloatingActionButtonMiniStyle"-->
+            <!--android:src="@drawable/ic_expense"-->
+            <!--app:fab_label="@string/add_expenses"/>-->
 
-    </com.github.clans.fab.FloatingActionMenu>
+    <!--</com.github.clans.fab.FloatingActionMenu>-->
 
 </FrameLayout>

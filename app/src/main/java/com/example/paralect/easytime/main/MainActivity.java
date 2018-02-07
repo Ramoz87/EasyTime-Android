@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         fadeOut.setAnimationListener(AnimUtils.newDisappearingAnimListener(shadowOverlay));
         fadeIn.setDuration(duration);
         fadeOut.setDuration(duration);
-        fam.setOnMenuToggleListener(this);
+        fam.setOnMenuToggleListener(getDefaultMenuToggleListener());
     }
 
     @Override
@@ -333,13 +333,37 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigator
         else hideOverlay();
     }
 
-    private void showOverlay() {
-        fam.setMenuButtonColorNormalResId(R.color.dark_gray);
-        shadowOverlay.startAnimation(fadeIn);
+    public void showOverlay() {
+        showOverlay(true);
     }
 
-    private void hideOverlay() {
+    public void hideOverlay() {
+        hideOverlay(true);
+    }
+
+    public void hideOverlay(boolean animate) {
         fam.setMenuButtonColorNormalResId(R.color.blue);
-        shadowOverlay.startAnimation(fadeOut);
+        if (animate) {
+            shadowOverlay.startAnimation(fadeOut);
+        } else {
+            shadowOverlay.setVisibility(View.GONE);
+        }
+    }
+
+    public void showOverlay(boolean animate) {
+        fam.setMenuButtonColorNormalResId(R.color.dark_gray);
+        if (animate) {
+            shadowOverlay.startAnimation(fadeIn);
+        } else {
+            shadowOverlay.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public FloatingActionMenu.OnMenuToggleListener getDefaultMenuToggleListener() {
+        return this;
+    }
+
+    public void invalidateOnMenuToggleListener() {
+        fam.setOnMenuToggleListener(getDefaultMenuToggleListener());
     }
 }
