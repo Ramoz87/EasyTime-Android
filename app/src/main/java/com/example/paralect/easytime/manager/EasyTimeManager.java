@@ -491,7 +491,7 @@ public final class EasyTimeManager {
                     exp.setMaterial(material);
                     exp.getTypedValue();
                 }
-            } else{
+            } else {
                 for (Expense exp : foundExpenses) {
                     exp.getTypedValue();
                 }
@@ -588,7 +588,8 @@ public final class EasyTimeManager {
             if (ids != null) {
                 for (String id : ids) {
                     Object o = dao.queryForId(id);
-                    objects.add(o);
+                    if (o != null)
+                        objects.add(o);
                 }
             }
         } catch (SQLException exc) {

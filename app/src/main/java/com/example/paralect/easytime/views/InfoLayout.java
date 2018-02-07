@@ -3,27 +3,27 @@ package com.example.paralect.easytime.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Build;
 import android.support.annotation.AttrRes;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
+import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.utils.MetricsUtils;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -92,6 +92,13 @@ public class InfoLayout extends FrameLayout {
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.InfoLayout, 0, 0);
         try {
             String title = array.getString(R.styleable.InfoLayout_title);
+            int drawablePadding = array.getDimensionPixelSize(R.styleable.InfoLayout_drawablePadding, 0);
+
+            final Drawable d = array.getDrawable(R.styleable.InfoLayout_drawable);
+            if (d != null) {
+                this.title.setCompoundDrawablesWithIntrinsicBounds( d, null, null, null);
+            }
+            this.title.setCompoundDrawablePadding(drawablePadding);
             this.title.setText(title);
         } finally {
             array.recycle();
@@ -102,31 +109,25 @@ public class InfoLayout extends FrameLayout {
         invalidateArrow();
     }
 
-    public void addInfoItem(@DrawableRes int drawableResId, String title, OnClickListener eventHandler) {
-        Drawable icon = ContextCompat.getDrawable(getContext(), drawableResId);
-        addInfoItem(icon, title, eventHandler);
-    }
-
-    public void addInfoItem(Drawable icon, String title, OnClickListener eventHandler) {
+    public void addInfoItem(String title, OnClickListener eventHandler) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View infoItem = inflater.inflate(R.layout.include_info_item, infoList, false);
-        ImageView iconView = infoItem.findViewById(R.id.icon);
         TextView titleView = infoItem.findViewById(R.id.text);
-        if (icon != null) {
-            iconView.setImageDrawable(icon);
-            iconView.setVisibility(VISIBLE);
-        } else {
-            iconView.setVisibility(GONE);
-            MarginLayoutParams mlp = (MarginLayoutParams) titleView.getLayoutParams();
-            mlp.setMargins(mlp.leftMargin + (int) MetricsUtils.convertDpToPixel(15), mlp.topMargin, mlp.rightMargin, mlp.bottomMargin);
-        }
         titleView.setText(title);
         infoItem.setOnClickListener(eventHandler);
         infoList.addView(infoItem);
     }
 
-    public void addInfoItem(String title, OnClickListener eventHandler) {
-        addInfoItem(null, title, eventHandler);
+    public void addInfoItem(String title, String hint, OnClickListener eventHandler) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View infoItem = inflater.inflate(R.layout.include_info_item_2, infoList, false);
+        EditText titleView = infoItem.findViewById(R.id.text);
+        titleView.setInputType(InputType.TYPE_NULL);
+        TextInputLayout inputLayout = infoItem.findViewById(R.id.input_layout);
+        titleView.setText(title);
+        inputLayout.setHint(hint);
+        infoItem.setOnClickListener(eventHandler);
+        infoList.addView(infoItem);
     }
 
     public void setTitle(@StringRes int stringResId) {

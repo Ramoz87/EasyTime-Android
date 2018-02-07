@@ -88,6 +88,10 @@
     <string name="other_employees">Other employees</string>
     <string name="client">Client</string>
 
+    <string name="instructions_contact">Contact person</string>
+    <string name="instructions_address">Delivery address</string>
+    <string name="instructions_time">Time</string>
+
     <string name="add_your_activities">Add your activities</string>
     <string name="add_your_materials_stock">Nothing here…\nPlease add materials to stock</string>
     <string name="choose_date">Nothing here…\nPlease choose another date</string>

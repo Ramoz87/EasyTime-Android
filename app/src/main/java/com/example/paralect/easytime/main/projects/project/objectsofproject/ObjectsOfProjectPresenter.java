@@ -6,6 +6,7 @@ import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.ObjectComparator;
 import com.example.paralect.easytime.model.Object;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.Sorter;
 
 import java.util.Comparator;
@@ -66,7 +67,7 @@ public class ObjectsOfProjectPresenter extends SearchViewPresenter<SortedMap<Cha
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        Logger.e(e);
                     }
 
                     @Override

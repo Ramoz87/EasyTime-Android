@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.example.paralect.easytime.utils.Logger;
 
 import io.fabric.sdk.android.Fabric;
@@ -23,10 +24,14 @@ public class EasyTimeApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sContext = this;
-        Fabric.with(this, new Crashlytics());
 
         // TODO disable on release version!!!
-        Logger.setEnabled(BuildConfig.DEBUG);
+        boolean debug = BuildConfig.DEBUG;
+        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(debug).build();
+        Crashlytics crashlytics = new Crashlytics.Builder().core(core).build();
+        Fabric.with(this, crashlytics);
+
+        Logger.setEnabled(debug);
     }
 
     public static Context getContext() {

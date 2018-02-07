@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
-import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.customers.customer.CustomerFragment;
 import com.example.paralect.easytime.main.projects.project.invoice.ProjectInvoiceFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.model.Type;
@@ -41,18 +41,20 @@ import butterknife.OnClick;
  * Created by alexei on 27.12.2017.
  */
 
-public class InformationFragment extends BaseFragment implements IDataView<List<Type>>, AdapterView.OnItemSelectedListener {
+public class InformationFragment extends BaseFragment implements InformationView<List<Type>>, AdapterView.OnItemSelectedListener {
     public static final String TAG = InformationFragment.class.getSimpleName();
 
     @BindView(R.id.scrollView) ScrollView scrollView;
     @BindView(R.id.info_gallery_view) JobFilesView galleryFilesView;
     @BindView(R.id.instructions) InfoLayout instructions;
+    @BindView(R.id.object) InfoLayout objectView;
     @BindView(R.id.otherEmployees) InfoLayout otherEmployees;
     @BindView(R.id.jobName) TextView jobName;
     @BindView(R.id.jobType) TextView jobType;
     @BindView(R.id.jobStatus) TextView jobStatus;
     @BindView(R.id.jobTerm) TextView jobTerm;
     @BindView(R.id.client) TextView client;
+    @BindView(R.id.client_name) TextView clientName;
     @BindView(R.id.jobDescription) TextView jobDescription;
     @BindView(R.id.statusChooser) Spinner statusChooser;
 
@@ -63,10 +65,9 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
         getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }
 
-    private StatusPresenter statusPresenter = new StatusPresenter();
+    private InformationPresenter presenter = new InformationPresenter();
     private StatusAdapter statusAdapter = new StatusAdapter();
     private Job job;
-    private String date;
 
     public static InformationFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
@@ -97,22 +98,21 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
     @Override
     public void onResume() {
         super.onResume();
-        statusPresenter.subscribe();
+        presenter.subscribe();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        statusPresenter.unSubscribe();
+        presenter.unSubscribe();
     }
 
     private void init() {
         jobName.setText(job.getName());
-        // jobDescription.setText();
 
         statusChooser.setAdapter(statusAdapter);
         statusChooser.setOnItemSelectedListener(this);
-        statusPresenter.setDataView(this)
+        presenter.setDataView(this)
                 .requestData(null);
 
         @ProjectType.Type int type = job.getProjectType();
@@ -122,7 +122,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
         else if (type == ProjectType.Type.TYPE_ORDER) jobType.setText(R.string.order);
 
         Customer customer = job.getCustomer();
-        // client.setText(customer.getCompanyName());
+        clientName.setText(customer.getCompanyName());
 
         jobDescription.setText(job.getInformation());
         String date = job.getStringDate();
@@ -131,9 +131,9 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
 
         if (job.getProjectType() == ProjectType.Type.TYPE_ORDER) {
             Order order = (Order) job;
-            instructions.addInfoItem(R.drawable.ic_watch, order.getDeliveryTime(), null);
-            instructions.addInfoItem(R.drawable.ic_phone, order.getContact(), null);
-            instructions.addInfoItem(R.drawable.ic_checkpoint, order.getAddress().toString(), null);
+            instructions.addInfoItem(order.getContact(), getString(R.string.instructions_contact), null);
+            instructions.addInfoItem(order.getAddress().toString(), getString(R.string.instructions_address), null);
+            instructions.addInfoItem(order.getDeliveryTime(), getString(R.string.instructions_time), null);
         } else {
             instructions.setVisibility(View.GONE);
         }
@@ -149,6 +149,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
             otherEmployees.setVisibility(View.GONE);
         }
 
+        presenter.requestObjects(job);
         galleryFilesView.setupWithEntity(job);
     }
 
@@ -172,7 +173,7 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
         switch (item.getItemId()) {
             case R.id.item_new: {
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectInvoiceFragment.newInstance(job, statusPresenter.getDate()));
+                        .pushFragment(ProjectInvoiceFragment.newInstance(job, presenter.getDate()));
                 return true;
             }
         }
@@ -192,6 +193,17 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
     }
 
     @Override
+    public void onObjectsReceived(List<Object> objects) {
+        if (!CollectionUtil.isEmpty(objects)) {
+            for (Object object : objects) {
+                String name = object.getName();
+                objectView.addInfoItem(name, null);
+            }
+            objectView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         Type status = statusAdapter.getItem(i);
         Logger.d(TAG, String.format("selected status '%s'", status));
@@ -203,4 +215,5 @@ public class InformationFragment extends BaseFragment implements IDataView<List<
     public void onNothingSelected(AdapterView<?> adapterView) {
         Logger.d(TAG, "nothing selected");
     }
+
 }
