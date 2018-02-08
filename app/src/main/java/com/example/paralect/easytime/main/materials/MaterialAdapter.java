@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TextUtil;
@@ -180,6 +181,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
 
         @BindView(R.id.materialName) TextView name;
         @BindView(R.id.materialNumber) TextView number;
+        @BindView(R.id.material_unit) TextView unit;
         @BindView(R.id.materialCount) EditText count;
         @BindView(R.id.plus) ImageView plus;
         @BindView(R.id.minus) ImageView minus;
@@ -250,6 +252,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
 
             this.material = material;
             name.setText(material.getName());
+            unit.setText(Expense.getUnitName(Expense.Type.MATERIAL, material));
             Resources res = itemView.getResources();
             number.setText(res.getString(R.string.material_number, material.getMaterialNr()));
 
