@@ -302,7 +302,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
 
             } else {
                 // minus.setVisibility(View.GONE);
-                AnimUtils.hideWithAnimation(minus, halfDur, 0);
+                AnimUtils.hideWithAnimation(minus, halfDur, 0, false);
                 // plus.setImageResource(R.drawable.ic_trash);
                 AnimUtils.performReincarnation(plus, R.drawable.ic_trash, halfDur, halfDur, 0);
                 plus.setOnClickListener(remover);
