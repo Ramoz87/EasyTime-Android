@@ -102,6 +102,7 @@ public class InformationFragment extends BaseFragment implements InformationView
     public void onResume() {
         super.onResume();
         presenter.subscribe();
+        Logger.d("Information fragment resumed");
     }
 
     @Override

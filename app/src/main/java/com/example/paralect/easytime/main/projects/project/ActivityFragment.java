@@ -251,6 +251,7 @@ public class ActivityFragment extends BaseFragment
         super.onResume();
         adapter.registerAdapterDataObserver(observer);
         adapter.toggle(false);
+        Logger.d("Activity fragment resumed");
     }
 
     private void initOverlay() {

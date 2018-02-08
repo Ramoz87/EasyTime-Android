@@ -19,6 +19,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.IntentUtils;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.ViewUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.github.clans.fab.FloatingActionMenu;
@@ -45,16 +46,15 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     private ViewPager.SimpleOnPageChangeListener pageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
+            Logger.d(TAG, String.format("selected page i = %s", position));
             invalidateFragmentMenus(position);
         }
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            // super.onPageScrolled(position, positionOffset, positionOffsetPixels);
             float percentageOfVisibility = 1 - positionOffset;
             float x = originalFamX * percentageOfVisibility;
-            Log.d(TAG, String.format("position = %s, visibility = %s, x = %s", position, percentageOfVisibility, x));
-            //getFam().setX(x);
+            Logger.d(TAG, String.format("position = %s, visibility = %s, x = %s", position, percentageOfVisibility, x));
             if (fam == null) {
                 Log.d(TAG, "fam == null, ignore scrolling");
                 return;
@@ -71,16 +71,6 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
                 Log.d(TAG, "showing");
                 fam.setVisibility(View.VISIBLE);
             }
-
-//            if (percentageOfVisibility < 0.8f && !AnimUtils.isAnimationRunning(fullDec) && ViewUtils.isViewVisible(fam)) {
-//                Log.d(TAG, "hiding");
-//                // fam.startAnimation(fullDec);
-//                fam.setVisibility(View.GONE);
-//            } else if (percentageOfVisibility >= 0.8f && !AnimUtils.isAnimationRunning(fullInc) && !ViewUtils.isViewVisible(fam)) {
-//                Log.d(TAG, "showing");
-//                // fam.startAnimation(fullInc);
-//                fam.setVisibility(View.VISIBLE);
-//            }
         }
     };
 
@@ -146,10 +136,19 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     private void init() {
         originalFamX = getFam().getX();
         adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager(), job);
-        viewPager.setAdapter(adapter);
+        // viewPager.setAdapter(adapter);
         viewPager.removeOnPageChangeListener(pageChangeListener);
         viewPager.addOnPageChangeListener(pageChangeListener);
         tabs.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter == null) {
+            adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager(), job);
+        }
+        viewPager.setAdapter(adapter);
     }
 
     @Override
