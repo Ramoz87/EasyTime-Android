@@ -167,9 +167,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         for (int i = 0; i < adapter.getCount(); i++) {
             adapter.getItem(i).setHasOptionsMenu(i == position);
         }
-        Activity activity = getActivity();
-        if (!IntentUtils.isFinishing(activity))
-            activity.invalidateOptionsMenu();
+        invalidateOptionsMenu();
     }
 
     @Override

@@ -19,6 +19,8 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:textSize="16sp"
+            android:maxLines="25"
+            android:ellipsize="end"
             android:textColor="@color/list_item_primary_text"
             android:id="@+id/materialName"
             android:text="@string/placeholder_material_name"

@@ -3,6 +3,8 @@ package com.example.paralect.easytime.main.projects.project;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +43,7 @@ import butterknife.OnClick;
  * Created by alexei on 27.12.2017.
  */
 
-public class InformationFragment extends BaseFragment implements InformationView<List<Type>>, AdapterView.OnItemSelectedListener {
+public class InformationFragment extends BaseFragment implements InformationView<Pair<Integer, List<Type>>>, AdapterView.OnItemSelectedListener {
     public static final String TAG = InformationFragment.class.getSimpleName();
 
     @BindView(R.id.scrollView) ScrollView scrollView;
@@ -68,6 +70,7 @@ public class InformationFragment extends BaseFragment implements InformationView
     private InformationPresenter presenter = new InformationPresenter();
     private StatusAdapter statusAdapter = new StatusAdapter();
     private Job job;
+    private int totalExpenseCountBefore = 0;
 
     public static InformationFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
@@ -113,7 +116,7 @@ public class InformationFragment extends BaseFragment implements InformationView
         statusChooser.setAdapter(statusAdapter);
         statusChooser.setOnItemSelectedListener(this);
         presenter.setDataView(this)
-                .requestData(null);
+                .requestData(job);
 
         @ProjectType.Type int type = job.getProjectType();
         if (type == ProjectType.Type.TYPE_NONE) jobType.setText(R.string.job);
@@ -159,6 +162,13 @@ public class InformationFragment extends BaseFragment implements InformationView
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        Log.d(TAG, "on prepare options menu");
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.item_new).setVisible(totalExpenseCountBefore > 0);
+    }
+
+    @Override
     public void onCreateActionBar(ActionBar actionBar) {
 
     }
@@ -181,7 +191,9 @@ public class InformationFragment extends BaseFragment implements InformationView
     }
 
     @Override
-    public void onDataReceived(List<Type> types) {
+    public void onDataReceived(Pair<Integer, List<Type>> data) {
+        List<Type> types = data.second;
+        totalExpenseCountBefore = data.first;
         Logger.d(TAG, String.format("received %s statuses", types.size()));
         statusAdapter.setData(types);
         for (int i = 0; i < types.size(); i++) {
@@ -190,6 +202,7 @@ public class InformationFragment extends BaseFragment implements InformationView
                 statusChooser.setSelection(i);
             }
         }
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -215,4 +228,11 @@ public class InformationFragment extends BaseFragment implements InformationView
         Logger.d(TAG, "nothing selected");
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            presenter.requestData(job);
+        }
+    }
 }

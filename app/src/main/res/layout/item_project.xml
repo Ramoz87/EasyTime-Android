@@ -9,12 +9,22 @@
     android:paddingLeft="@dimen/list_item_horizontal_padding"
     android:paddingRight="@dimen/list_item_horizontal_padding">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.AppCompatTextView
+            android:layout_alignParentRight="true"
+            android:text="@string/placeholder_job_status"
+            android:textColor="@color/list_item_secondary_text"
+            android:id="@+id/jobStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_toLeftOf="@id/jobStatus"
+            android:layout_alignParentLeft="true"
             android:maxLines="2"
             android:ellipsize="end"
             android:text="@string/placeholder_job_name"
@@ -24,18 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <Space
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.AppCompatTextView
-            android:text="@string/placeholder_job_status"
-            android:textColor="@color/list_item_secondary_text"
-            android:id="@+id/jobStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
