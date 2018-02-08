@@ -90,4 +90,13 @@ public class Object extends JobWithAddress implements Parcelable, ProjectType {
     public void setProjectId(String projectId) {
         this.projectId = projectId;
     }
+
+    public String getFullAddress(){
+        String fullAddress = null;
+        Address ad = getAddress();
+        if (ad != null) {
+            fullAddress = ad.getFullAddress();
+        }
+        return fullAddress;
+    }
 }

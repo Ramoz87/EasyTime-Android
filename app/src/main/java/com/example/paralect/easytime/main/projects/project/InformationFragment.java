@@ -21,6 +21,7 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.customers.customer.CustomerFragment;
 import com.example.paralect.easytime.main.projects.project.invoice.ProjectInvoiceFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
@@ -30,6 +31,7 @@ import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.Logger;
+import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.views.InfoLayout;
 import com.example.paralect.easytime.views.gallery.JobFilesView;
 
@@ -59,6 +61,9 @@ public class InformationFragment extends BaseFragment implements InformationView
     @BindView(R.id.client_name) TextView clientName;
     @BindView(R.id.jobDescription) TextView jobDescription;
     @BindView(R.id.statusChooser) Spinner statusChooser;
+
+    @BindView(R.id.address) TextView address;
+    @BindView(R.id.address_layout) View addressLayout;
 
     @OnClick(R.id.clientZ_layout)
     void jumpToClient(View view) {
@@ -132,6 +137,18 @@ public class InformationFragment extends BaseFragment implements InformationView
         String date = job.getStringDate();
         if (date == null) date = "no dateTextView";
         jobTerm.setText(date);
+
+        // Address
+        if (job.getProjectType() == ProjectType.Type.TYPE_OBJECT) {
+            Object object = (Object) job;
+            String fullAddress = object.getFullAddress();
+            if (TextUtil.isNotEmpty(fullAddress)) {
+                address.setText(fullAddress);
+            } else
+                addressLayout.setVisibility(View.GONE);
+        } else {
+            addressLayout.setVisibility(View.GONE);
+        }
 
         if (job.getProjectType() == ProjectType.Type.TYPE_ORDER) {
             Order order = (Order) job;

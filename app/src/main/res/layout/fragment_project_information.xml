@@ -37,7 +37,6 @@
                 android:textSize="26sp"/>
 
             <RelativeLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -84,6 +83,33 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/address_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/project_information_left_padding"
+            android:paddingStart="@dimen/project_information_left_padding">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/project_information_item_height"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_location_on"
+                android:drawablePadding="30dp"
+                android:gravity="center_vertical"
+                android:text="Location"
+                android:textColor="@color/black"
+                android:textSize="@dimen/project_information_text_normal"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/dark_blue"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/clientZ_layout"

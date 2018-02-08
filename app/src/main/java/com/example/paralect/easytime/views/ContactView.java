@@ -5,11 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +16,6 @@ import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.utils.IntentUtils;
 import com.example.paralect.easytime.utils.TextUtil;
-import com.example.paralect.easytime.utils.ViewUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +74,7 @@ public class ContactView extends LinearLayout {
 
         boolean hasAddress = mAddress != null && mAddress.hasAnyAddress();
         if (hasAddress) {
-            addressTextView.setText(mAddress.getFullAddress());
+            addressTextView.setText(mAddress.getFullAddressSpannable());
         }
         Drawable d3 = setTint(mapButton.getDrawable(), hasAddress ? white : disabled);
         mapButton.setImageDrawable(d3);

@@ -147,7 +147,7 @@ public class Address implements Parcelable {
         this.order = order;
     }
 
-    public SpannableString getFullAddress() {
+    public String getFullAddress() {
         StringBuilder sb = new StringBuilder();
         boolean hasItem = false;
         if (TextUtil.isNotEmpty(country)) {
@@ -164,7 +164,11 @@ public class Address implements Parcelable {
             sb.append(street);
             hasItem = true;
         }
-        String params = sb.toString();
+        return sb.toString();
+    }
+
+    public SpannableString getFullAddressSpannable() {
+        String params = getFullAddress();
         return TextUtil.getSpannableDateString(EasyTimeApplication.getContext(), params, R.drawable.ic_checkpoint);
     }
 
