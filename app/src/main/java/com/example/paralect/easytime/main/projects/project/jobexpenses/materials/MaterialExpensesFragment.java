@@ -46,8 +46,6 @@ public class MaterialExpensesFragment extends BaseFragment implements
 
     public static final String TAG = MaterialExpensesFragment.class.getSimpleName();
 
-    public static final String ARG_KEYBOARD_STATE = "keyboard_state";
-
     @BindView(R.id.addMaterials) Button addMaterials;
     @BindView(R.id.list) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
@@ -113,23 +111,6 @@ public class MaterialExpensesFragment extends BaseFragment implements
         super.onDestroyView();
     }
 
-    private void saveState() {
-        Bundle bundle = getArguments();
-        if (bundle == null)
-            bundle = new Bundle();
-        bundle.putBoolean(ARG_KEYBOARD_STATE, keypadEditorView.isExpanded());
-        setArguments(bundle);
-    }
-
-    private void restoreState() {
-        Bundle bundle = getArguments();
-        boolean show = bundle != null && bundle.getBoolean(ARG_KEYBOARD_STATE);
-        if (show)
-            showKeypad(false);
-        else
-            hideKeypad(false);
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
@@ -143,14 +124,6 @@ public class MaterialExpensesFragment extends BaseFragment implements
     @Override
     public boolean needsOptionsMenu() {
         return true;
-    }
-
-    private void showKeypad(boolean animate) {
-        keypadEditorView.expand(animate);
-    }
-
-    private void hideKeypad(boolean animate) {
-        keypadEditorView.collapse(animate);
     }
 
     @OnClick(R.id.addMaterials)

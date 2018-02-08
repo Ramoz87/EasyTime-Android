@@ -22,6 +22,7 @@ import com.github.clans.fab.FloatingActionMenu;
 public abstract class BaseFragment extends Fragment {
 
     public static String FRAGMENT_KEY = "FRAGMENT_KEY";
+    public static final String ARG_KEYBOARD_STATE = "keyboard_state";
 
     public MainActivity getMainActivity() {
         return (MainActivity) getActivity();
@@ -66,17 +67,13 @@ public abstract class BaseFragment extends Fragment {
         return false;
     }
 
-    public KeypadEditorView getKeypadEditor() {
-        return getMainActivity().getKeypadEditor();
-    }
-
     public FloatingActionMenu getFam() {
         return getMainActivity().getFam();
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
+        super.onDestroyView();
         getKeypadEditor().collapse();
         // getMainActivity().hideOverlay(false);
         // getFam().close(false);
@@ -105,5 +102,36 @@ public abstract class BaseFragment extends Fragment {
             activity.invalidateOptionsMenu();
         }
     }
+
+    // region Keyboard
+    public KeypadEditorView getKeypadEditor() {
+        return getMainActivity().getKeypadEditor();
+    }
+
+    protected void saveState() {
+        Bundle bundle = getArguments();
+        if (bundle == null)
+            bundle = new Bundle();
+        bundle.putBoolean(ARG_KEYBOARD_STATE, getKeypadEditor().isExpanded());
+        setArguments(bundle);
+    }
+
+    protected void restoreState() {
+        Bundle bundle = getArguments();
+        boolean show = bundle != null && bundle.getBoolean(ARG_KEYBOARD_STATE);
+        if (show)
+            showKeypad(false);
+        else
+            hideKeypad(false);
+    }
+
+    private void showKeypad(boolean animate) {
+        getKeypadEditor().expand(animate);
+    }
+
+    private void hideKeypad(boolean animate) {
+        getKeypadEditor().collapse(animate);
+    }
+    // endregion
 
 }
