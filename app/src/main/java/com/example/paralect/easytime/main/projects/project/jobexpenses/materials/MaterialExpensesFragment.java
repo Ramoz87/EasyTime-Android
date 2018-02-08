@@ -151,6 +151,7 @@ public class MaterialExpensesFragment extends BaseFragment implements
     // region IMaterialExpenses
     @Override
     public void onDataReceived(List<MaterialExpense> materials) {
+        sort(materials);
         adapter.setData(materials);
         onCheckedCountChange(0);
     }
@@ -193,5 +194,18 @@ public class MaterialExpensesFragment extends BaseFragment implements
         }
         Log.d(TAG, String.format("padding bottom = %s", paddingBottom));
         emptyRecyclerView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+    }
+
+    private void sort(List<MaterialExpense> materialExpenses) {
+        int count = materialExpenses.size();
+        for (int i = 0; i < count; i++) {
+            MaterialExpense me = materialExpenses.get(i);
+            if (me.material.getStockQuantity() == 0) { // empty stock
+                me = materialExpenses.remove(i);
+                materialExpenses.add(materialExpenses.size(), me);
+                i--;
+                count--;
+            }
+        }
     }
 }

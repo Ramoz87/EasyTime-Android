@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -66,12 +67,12 @@ public class ContactView extends LinearLayout {
         int disabled = ContextCompat.getColor(getContext(), R.color.disabled_icon);
 
         boolean hasPhone = TextUtil.isNotEmpty(contact.getPhone());
-        Drawable d1 = setTint(callButton.getDrawable(), hasPhone ? white : disabled);
+        Drawable d1 = setTint(callButton.getDrawable().getConstantState().newDrawable().mutate(), hasPhone ? white : disabled);
         callButton.setImageDrawable(d1);
         callButton.setEnabled(hasPhone);
 
         boolean hasEmail = TextUtil.isNotEmpty(contact.getEmail());
-        Drawable d2 = setTint(emailButton.getDrawable(), hasEmail ? white : disabled);
+        Drawable d2 = setTint(emailButton.getDrawable().getConstantState().newDrawable().mutate(), hasEmail ? white : disabled);
         emailButton.setImageDrawable(d2);
         emailButton.setEnabled(hasEmail);
 
