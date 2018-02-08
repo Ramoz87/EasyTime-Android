@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.main.customers.customer;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -40,7 +41,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
     @Override
     public JobAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_job, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_project, parent, false);
         return new ViewHolder(view);
     }
 
@@ -63,39 +64,21 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
         @BindView(R.id.jobName) TextView jobName;
         @BindView(R.id.jobStatus) TextView jobStatus;
-        @BindView(R.id.jobNumber) TextView jobNumber;
+        @BindView(R.id.jobCustomer) TextView jobCustomer;
         @BindView(R.id.jobTerm) TextView jobTerm;
+        Resources res;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            res = itemView.getResources();
         }
 
         void bind(Job job) {
-            jobName.setText(job.getName());
-            jobNumber.setText(itemView.getContext().getString(R.string.job_number, job.getNumber()));
-            String text = null;
-            if (job.getProjectType() == ProjectType.Type.TYPE_ORDER) {
-                Order order = (Order) job;
-                text = order.getDeliveryTime();
-            } else if (job.getProjectType() == ProjectType.Type.TYPE_OBJECT) {
-                Object object = (Object) job;
-                text = object.getStringDate();
-            } else if (job.getProjectType() == ProjectType.Type.TYPE_PROJECT) {
-                Project project = (Project) job;
-                String dateStart = project.getDateStart();
-                String dateEnd = project.getDateEnd();
-                if (!TextUtils.isEmpty(dateStart) || !TextUtils.isEmpty(dateEnd)) {
-                    text = itemView
-                            .getResources()
-                            .getString(R.string.project_date_start_date_end, dateStart, dateEnd);
-                }
-            }
-            if (!TextUtils.isEmpty(text)) jobTerm.setText(text);
-            else jobTerm.setText(R.string.no_data);
-
-            Type status = job.getStatus();
-            jobStatus.setText(status.getName());
+            jobName.setText(res.getString(R.string.job_name_and_address, job.getNumber(), job.getName()));
+            jobCustomer.setVisibility(View.GONE);
+            jobTerm.setText(job.getStringDate());
+            jobStatus.setText(job.getStatus().getName());
         }
     }
 }
