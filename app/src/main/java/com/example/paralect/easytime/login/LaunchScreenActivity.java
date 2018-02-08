@@ -74,6 +74,7 @@ public class LaunchScreenActivity extends Activity {
                }, new Consumer<Throwable>() {
                    @Override
                    public void accept(Throwable throwable) {
+                       Logger.d(TAG, throwable.getMessage());
                        Logger.e(throwable);
                    }
                });
@@ -201,13 +202,19 @@ public class LaunchScreenActivity extends Activity {
                 customer.setFirstName(fields[53]);
                 customer.setLastName(fields[38]);
 
-                Contact contact = new Contact();
-                contact.setCustomerId(customer.getCustomerId());
-                contact.setFirstName(customer.getFirstName());
-                contact.setLastName(customer.getLastName());
-                contact.setEmail(fields[23]);
-                contact.setFax(fields[25]);
-                contact.setPhone(fields[47]);
+                Contact c1 = new Contact();
+                c1.setCustomerId(customer.getCustomerId());
+                c1.setFirstName(fields[57]);
+                c1.setLastName(fields[58]);
+                c1.setEmail(fields[55]);
+                c1.setPhone(fields[54]);
+
+                Contact c2 = new Contact();
+                c2.setCustomerId(customer.getCustomerId());
+                c2.setFirstName(fields[62]);
+                c2.setLastName(fields[63]);
+                c2.setEmail(fields[60]);
+                c2.setPhone(fields[59]);
 
                 Address address = new Address();
                 address.setCity(fields[39]);
@@ -215,7 +222,8 @@ public class LaunchScreenActivity extends Activity {
                 address.setZip(fields[41]);
 
                 List<Contact> contacts = new ArrayList<>();
-                contacts.add(contact);
+                contacts.add(c1);
+                contacts.add(c2);
                 customer.setContacts(contacts);
                 customer.setAddress(address);
                 return customer;
