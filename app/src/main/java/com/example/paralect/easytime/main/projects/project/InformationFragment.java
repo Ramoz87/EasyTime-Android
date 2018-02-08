@@ -196,8 +196,7 @@ public class InformationFragment extends BaseFragment implements InformationView
     public void onObjectsReceived(List<Object> objects) {
         if (!CollectionUtil.isEmpty(objects)) {
             for (Object object : objects) {
-                String name = object.getName();
-                objectView.addInfoItem(name, null);
+                objectView.addInfoItem(object.getNumberWithName(), null);
             }
             objectView.setVisibility(View.VISIBLE);
         }

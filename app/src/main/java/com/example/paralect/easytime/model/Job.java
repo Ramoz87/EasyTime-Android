@@ -210,6 +210,10 @@ public class Job implements Parcelable, ProjectType {
         this.image = image;
     }
 
+    public String getNumberWithName(){
+        return number + ": " + name;
+    }
+
     @Override
     public String toString() {
         return entityType + " " + name + " | " + information;
