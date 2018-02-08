@@ -53,6 +53,10 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.item_search).getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
         presenter.setJobId(job.getJobId())
                 .setDataView(this)
                 .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
