@@ -418,7 +418,11 @@ public final class EasyTimeManager {
             QueryBuilder<Material, String> qb = dao.queryBuilder();
             // Where where = null;
             qb.where().like("isAdded", true);
-            List<Material> myMaterials = qb.query();
+            List<Material> myMaterials = qb
+                    .orderByRaw("stockQuantity IS 0 ASC")
+                    .orderBy("name", true)
+                    .query();
+
             materials.addAll(myMaterials);
         } catch (SQLException exc) {
             Logger.e(exc);
