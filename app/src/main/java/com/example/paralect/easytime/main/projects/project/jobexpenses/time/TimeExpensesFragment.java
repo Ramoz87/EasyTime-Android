@@ -138,16 +138,24 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
             try {
                 int hours = hoursView.getIntValue();
                 int minutes = minutesView.getIntValue();
-                Expense expense = Expense.createTimeExpense(job, type, hours, minutes);
-                expense = EasyTimeManager.getInstance().saveExpense(expense);
-                Logger.d(TAG, "Expense created");
+                
+                if (hours == 0 && minutes == 0){
+                    hoursView.errorAnimation();
+                    minutesView.errorAnimation();
+
+                } else {
+                    Expense expense = Expense.createTimeExpense(job, type, hours, minutes);
+                    expense = EasyTimeManager.getInstance().saveExpense(expense);
+                    Logger.d(TAG, "Expense created");
+
+                    if (keypadEditorView.isExpanded())
+                        keypadEditorView.collapse();
+                    popToActivityFragment();
+                }
             } catch (Throwable e) {
                 Logger.e(e);
             }
 
-            if (keypadEditorView.isExpanded())
-                keypadEditorView.collapse();
-            popToActivityFragment();
         }
     }
 

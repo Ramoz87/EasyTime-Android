@@ -352,19 +352,21 @@ public class ProjectInvoiceFragment extends BaseFragment
 
     private void applyDiscount() {
         String value = discountDialogView.geteditText().getText().toString();
-        if (TextUtil.isNotEmpty(value)) {
-            job.setDiscount(Integer.valueOf(value));
-            Completable completable = Completable.fromCallable(new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    EasyTimeManager.getInstance().updateJob(job);
-                    return null;
-                }
-            });
-            completable.subscribeOn(Schedulers.io()).subscribe();
-            discountTitle.setText(getString(R.string.discount_value, value));
-            discountTitle.setVisibility(View.VISIBLE);
-        }
+        int discount = TextUtil.isNotEmpty(value) ? Integer.valueOf(value) : 0;
+
+        job.setDiscount(discount);
+        Completable completable = Completable.fromCallable(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                EasyTimeManager.getInstance().updateJob(job);
+                return null;
+            }
+        });
+        completable.subscribeOn(Schedulers.io()).subscribe();
+        
+        discountTitle.setText(getString(R.string.discount_value, value));
+        discountTitle.setVisibility(discount == 0 ? View.GONE : View.VISIBLE);
+
     }
 
     @Override

@@ -153,7 +153,7 @@ public class StrangeNumberInputView extends LinearLayout implements View.OnFocus
                         mMainTextView.setText(result);
                     else {
                         mMainTextView.setText(String.valueOf(mMaxInputNumber));
-                        ViewAnimationUtils.shakeAnimation(StrangeNumberInputView.this, 1000);
+                        errorAnimation();
                     }
                 }
             }
@@ -183,4 +183,7 @@ public class StrangeNumberInputView extends LinearLayout implements View.OnFocus
         void onCompleted();
     }
 
+    public void errorAnimation(){
+        ViewAnimationUtils.shakeAnimation(StrangeNumberInputView.this, 1000);
+    }
 }
