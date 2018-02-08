@@ -42,7 +42,7 @@ public final class AnimUtils {
         };
     }
 
-    public static Animation.AnimationListener newDisappearingAnimListener(final View view) {
+    public static Animation.AnimationListener newDisappearingAnimListener(final View view, final boolean removeSpace) {
         return new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -51,7 +51,7 @@ public final class AnimUtils {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                view.setVisibility(View.GONE);
+                view.setVisibility(removeSpace ? View.GONE : View.INVISIBLE);
             }
 
             @Override
@@ -59,6 +59,10 @@ public final class AnimUtils {
 
             }
         };
+    }
+
+    public static Animation.AnimationListener newDisappearingAnimListener(final View view) {
+        return newDisappearingAnimListener(view, true);
     }
 
     public static void performAppearing(@NonNull View view, int duration, int delay) {
@@ -73,7 +77,7 @@ public final class AnimUtils {
         Animation anim = AnimationUtils.loadAnimation(view.getContext(), R.anim.fade_out);
         anim.setDuration(duration);
         anim.setStartOffset(delay);
-        anim.setAnimationListener(newDisappearingAnimListener(view));
+        anim.setAnimationListener(newDisappearingAnimListener(view, true));
         view.startAnimation(anim);
     }
 
@@ -138,13 +142,17 @@ public final class AnimUtils {
         imageView.startAnimation(dec);
     }
 
-    public static void hideWithAnimation(@NonNull View view, long duration, long delay) {
+    public static void hideWithAnimation(@NonNull View view, long duration, long delay, boolean removeSpace) {
         Context context = view.getContext();
         final Animation dec = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-        dec.setAnimationListener(newDisappearingAnimListener(view));
+        dec.setAnimationListener(newDisappearingAnimListener(view, removeSpace));
         dec.setDuration(duration);
         dec.setStartOffset(delay);
         view.startAnimation(dec);
+    }
+
+    public static void hideWithAnimation(@NonNull View view, long duration, long delay) {
+        hideWithAnimation(view, duration, delay, true);
     }
 
     public static void showWithAnimation(@NonNull View view, long duration, long delay) {
