@@ -1,5 +1,7 @@
 package com.example.paralect.easytime.main.projects.project;
 
+import android.util.Pair;
+
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
@@ -27,28 +29,29 @@ import io.reactivex.schedulers.Schedulers;
  * Created by alexei on 23.01.2018.
  */
 
-class InformationPresenter extends RxBus.Watcher<String> implements IDataPresenter<List<Type>, Void> {
+class InformationPresenter extends RxBus.Watcher<String> implements IDataPresenter<Pair<Integer, List<Type>>, Job> {
     private static final String TAG = InformationPresenter.class.getSimpleName();
 
-    private InformationView<List<Type>> view;
+    private InformationView<Pair<Integer, List<Type>>> view;
     private String mDate;
 
     @Override
-    public IDataPresenter<List<Type>, Void> setDataView(IDataView<List<Type>> view) {
+    public IDataPresenter<Pair<Integer, List<Type>>, Job> setDataView(IDataView<Pair<Integer, List<Type>>> view) {
         this.view = (InformationView)view;
         return this;
     }
 
     @Override
-    public InformationPresenter requestData(Void v) {
-        Observable<List<Type>> observable = Observable.create(new ObservableOnSubscribe<List<Type>>() {
+    public InformationPresenter requestData(final Job parameter) {
+        Observable<Pair<Integer, List<Type>>> observable = Observable.create(new ObservableOnSubscribe<Pair<Integer, List<Type>>>() {
             @Override
-            public void subscribe(ObservableEmitter<List<Type>> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<Pair<Integer, List<Type>>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
                         Logger.d(TAG, "performing request");
+                        int count = (int) EasyTimeManager.getInstance().getTotalExpensesCount(parameter.getJobId());
                         List<Type> types = EasyTimeManager.getInstance().getStatuses();
-                        emitter.onNext(types);
+                        emitter.onNext(new Pair<>(count, types));
                         emitter.onComplete();
                     }
 
@@ -60,12 +63,12 @@ class InformationPresenter extends RxBus.Watcher<String> implements IDataPresent
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<List<Type>>() {
+                .subscribe(new DisposableObserver<Pair<Integer, List<Type>>>() {
                     @Override
-                    public void onNext(List<Type> types) {
+                    public void onNext(Pair<Integer, List<Type>> data) {
                         if (view != null) {
                             Logger.d(TAG, "request performed, passing data");
-                            view.onDataReceived(types);
+                            view.onDataReceived(data);
                         }
                     }
 
