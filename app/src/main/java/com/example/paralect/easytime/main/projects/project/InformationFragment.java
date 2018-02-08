@@ -58,7 +58,7 @@ public class InformationFragment extends BaseFragment implements InformationView
     @BindView(R.id.jobDescription) TextView jobDescription;
     @BindView(R.id.statusChooser) Spinner statusChooser;
 
-    @OnClick(R.id.client)
+    @OnClick(R.id.clientZ_layout)
     void jumpToClient(View view) {
         Customer customer = job.getCustomer();
         CustomerFragment fragment = CustomerFragment.newInstance(customer);
