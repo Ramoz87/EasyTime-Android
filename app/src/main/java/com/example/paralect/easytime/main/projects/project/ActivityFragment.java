@@ -45,6 +45,7 @@ import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.github.clans.fab.Label;
 
 import java.util.Calendar;
 import java.util.List;
@@ -268,32 +269,42 @@ public class ActivityFragment extends BaseFragment
 
     private void initFam() {
         Log.d(TAG, "initializing fam");
+
+        final int TIME_LABEL_ID = 15;
+        final int MATERIAL_LABEL_ID = 16;
+        final int EXPENSE_LABEL_ID = 17;
+
         fam = getFam();
         fam.setOnMenuToggleListener(this);
         Context context = getContext();
         Resources res = getResources();
         LayoutInflater inflater = LayoutInflater.from(context);
+
         final FloatingActionButton addTime = (FloatingActionButton) inflater.inflate(R.layout.fab, null, false);
         addTime.setImageResource(R.drawable.ic_time);
         addTime.setLabelText(res.getString(R.string.add_time));
+
         final FloatingActionButton addMaterials = (FloatingActionButton) inflater.inflate(R.layout.fab, null, false);
         addMaterials.setImageResource(R.drawable.ic_materials_blue);
         addMaterials.setLabelText(res.getString(R.string.add_material));
+
         final FloatingActionButton addExpenses = (FloatingActionButton) inflater.inflate(R.layout.fab, null, false);
         addExpenses.setImageResource(R.drawable.ic_expense);
         addExpenses.setLabelText(res.getString(R.string.add_expenses));
+
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view == addTime) {
+                if (view == addTime || view.getId() == TIME_LABEL_ID) {
                     addTime();
-                } else if (view == addMaterials) {
+                } else if (view == addMaterials || view.getId() == MATERIAL_LABEL_ID) {
                     addMaterials();
-                } else if (view == addExpenses) {
+                } else if (view == addExpenses || view.getId() == EXPENSE_LABEL_ID) {
                     addExpenses();
                 }
             }
         };
+
         addTime.setOnClickListener(listener);
         addMaterials.setOnClickListener(listener);
         addExpenses.setOnClickListener(listener);
@@ -301,6 +312,19 @@ public class ActivityFragment extends BaseFragment
         fam.addMenuButton(addTime);
         fam.addMenuButton(addMaterials);
         fam.addMenuButton(addExpenses);
+
+        // designate onClick only after fam population
+        Label addTimeLabel = (Label) addTime.getTag(com.github.clans.fab.R.id.fab_label);
+        Label addMaterialsLabel = (Label) addMaterials.getTag(com.github.clans.fab.R.id.fab_label);
+        Label addExpensesLabel = (Label) addExpenses.getTag(com.github.clans.fab.R.id.fab_label);
+
+        addTimeLabel.setId(TIME_LABEL_ID);
+        addMaterialsLabel.setId(MATERIAL_LABEL_ID);
+        addExpensesLabel.setId(EXPENSE_LABEL_ID);
+
+        addTimeLabel.setOnClickListener(listener);
+        addMaterialsLabel.setOnClickListener(listener);
+        addExpensesLabel.setOnClickListener(listener);
     }
 
     @Override

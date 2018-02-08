@@ -38,6 +38,7 @@ import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.SignatureView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.github.clans.fab.Label;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -189,26 +190,32 @@ public class ProjectInvoiceFragment extends BaseFragment
 
     private void initFam() {
         Log.d(TAG, "initializing fam");
+
+        final int SEND_LABEL_ID = 15;
+        final int SIGN_LABEL_ID = 16;
+
         Context context = getContext();
         Resources res = getResources();
+
         fam = getFam();
         fam.setOnMenuButtonClickListener(this);
         fam.getMenuIconView().setImageResource(R.drawable.ic_check);
         fam.setIconAnimated(false);
-
         LayoutInflater inflater = LayoutInflater.from(context);
+
         final FloatingActionButton send = (FloatingActionButton) inflater.inflate(R.layout.fab, null, false);
         send.setImageResource(R.drawable.ic_send);
         send.setLabelText(res.getString(R.string.send_feedback));
+
         final FloatingActionButton sign = (FloatingActionButton) inflater.inflate(R.layout.fab, null, false);
         sign.setImageResource(R.drawable.ic_edit);
         sign.setLabelText(res.getString(R.string.project_detail_sign));
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view == send) {
+                if (view == send || view.getId() == SEND_LABEL_ID) {
                     send();
-                } else if (view == sign) {
+                } else if (view == sign || view.getId() == SIGN_LABEL_ID) {
                     onActionSignClick();
                 }
             }
@@ -218,6 +225,16 @@ public class ProjectInvoiceFragment extends BaseFragment
 
         fam.addMenuButton(send);
         fam.addMenuButton(sign);
+
+        // designate onClick only after fam population
+        Label sendLabel = (Label) send.getTag(com.github.clans.fab.R.id.fab_label);
+        Label signLabel = (Label) sign.getTag(com.github.clans.fab.R.id.fab_label);
+
+        sendLabel.setId(SEND_LABEL_ID);
+        signLabel.setId(SIGN_LABEL_ID);
+
+        sendLabel.setOnClickListener(listener);
+        signLabel.setOnClickListener(listener);
     }
 
     @Override
@@ -270,7 +287,7 @@ public class ProjectInvoiceFragment extends BaseFragment
     }
 
     // region Ugly dialog
-    private void initDialog(){
+    private void initDialog() {
         keypad = getKeypadEditor();
         discountDialogView.setVisibility(View.GONE);
 
@@ -280,7 +297,7 @@ public class ProjectInvoiceFragment extends BaseFragment
                 hideDialog();
             }
         });
-        
+
         discountDialogView.getSaveButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -309,7 +326,7 @@ public class ProjectInvoiceFragment extends BaseFragment
 
     private void showDialog() {
 
-        if (!discountDialogView.isVisible()){
+        if (!discountDialogView.isVisible()) {
 
             keypad.showDoneButton();
             if (!keypad.isExpanded())
@@ -323,7 +340,7 @@ public class ProjectInvoiceFragment extends BaseFragment
 
     private void hideDialog() {
 
-        if (discountDialogView.isVisible()){
+        if (discountDialogView.isVisible()) {
 
             if (keypad.isExpanded())
                 keypad.collapse();
@@ -333,7 +350,7 @@ public class ProjectInvoiceFragment extends BaseFragment
         }
     }
 
-    private void applyDiscount(){
+    private void applyDiscount() {
         String value = discountDialogView.geteditText().getText().toString();
         if (TextUtil.isNotEmpty(value)) {
             job.setDiscount(Integer.valueOf(value));
