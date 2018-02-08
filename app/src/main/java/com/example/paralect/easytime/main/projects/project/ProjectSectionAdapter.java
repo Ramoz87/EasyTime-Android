@@ -18,7 +18,6 @@ public class ProjectSectionAdapter extends BaseFragmentPagerAdapter {
 
     private Context context;
     private Job job;
-    private ActivityFragment activityFragment;
 
     public ProjectSectionAdapter(Context context, FragmentManager fm, Job job) {
         super(fm);
@@ -29,7 +28,7 @@ public class ProjectSectionAdapter extends BaseFragmentPagerAdapter {
     @Override
     public Fragment onCreateFragment(int position) {
         switch (position) {
-            case 0: return (activityFragment = ActivityFragment.newInstance(job));
+            case 0: return ActivityFragment.newInstance(job);
             case 1: return InformationFragment.newInstance(job);
             default: return new Fragment();
         }
