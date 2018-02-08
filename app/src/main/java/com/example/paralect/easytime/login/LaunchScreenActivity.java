@@ -202,6 +202,14 @@ public class LaunchScreenActivity extends Activity {
                 customer.setFirstName(fields[53]);
                 customer.setLastName(fields[38]);
 
+                Contact c = new Contact();
+                c.setCustomerId(customer.getCustomerId());
+                c.setFirstName(customer.getFirstName());
+                c.setLastName(customer.getLastName());
+                c.setEmail(fields[23]);
+                c.setFax(fields[25]);
+                c.setPhone(fields[47]);
+
                 Contact c1 = new Contact();
                 c1.setCustomerId(customer.getCustomerId());
                 c1.setFirstName(fields[57]);
@@ -222,6 +230,7 @@ public class LaunchScreenActivity extends Activity {
                 address.setZip(fields[41]);
 
                 List<Contact> contacts = new ArrayList<>();
+                contacts.add(c);
                 contacts.add(c1);
                 contacts.add(c2);
                 customer.setContacts(contacts);
