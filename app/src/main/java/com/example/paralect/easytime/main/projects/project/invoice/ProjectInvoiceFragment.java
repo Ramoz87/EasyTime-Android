@@ -58,7 +58,7 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CONGRAT
  */
 
 public class ProjectInvoiceFragment extends BaseFragment
-        implements IDataView<List<InvoiceCell>>, View.OnClickListener {
+        implements IDataView<List<InvoiceCell>>, FloatingActionMenu.OnMenuToggleListener {
 
     private static final String TAG = ProjectInvoiceFragment.class.getSimpleName();
     private static final String DATE_ARG = "date_arg";
@@ -200,7 +200,7 @@ public class ProjectInvoiceFragment extends BaseFragment
         Resources res = getResources();
 
         fam = getFam();
-        fam.setOnMenuButtonClickListener(this);
+        fam.setOnMenuToggleListener(this);
         fam.getMenuIconView().setImageResource(R.drawable.ic_check);
         fam.setIconAnimated(false);
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -216,8 +216,10 @@ public class ProjectInvoiceFragment extends BaseFragment
             @Override
             public void onClick(View view) {
                 if (view == send || view.getId() == SEND_LABEL_ID) {
+                    fam.close(true);
                     send();
                 } else if (view == sign || view.getId() == SIGN_LABEL_ID) {
+                    fam.close(true);
                     onActionSignClick();
                 }
             }
@@ -262,10 +264,6 @@ public class ProjectInvoiceFragment extends BaseFragment
         fadeOut.setAnimationListener(AnimUtils.newDisappearingAnimListener(overlay));
         fadeIn.setDuration(duration);
         fadeOut.setDuration(duration);
-    }
-
-    void onTitleClick() {
-
     }
 
     void send() {
@@ -379,11 +377,15 @@ public class ProjectInvoiceFragment extends BaseFragment
     }
 
     @Override
-    public void onClick(View view) {
+    public void onMenuToggle(boolean opened) {
         ImageView img = fam.getMenuIconView();
-        @DrawableRes int id = fam.isOpened() ? R.drawable.ic_check : R.drawable.ic_cross;
+        @DrawableRes int id = !opened ? R.drawable.ic_check : R.drawable.ic_cross;
         AnimUtils.performSizingReincarnation(img, id, 75, 75, 0);
-        fam.toggle(true);
+        if (opened) {
+            getMainActivity().showOverlay();
+        } else {
+            getMainActivity().hideOverlay();
+        }
     }
     // endregion
 
