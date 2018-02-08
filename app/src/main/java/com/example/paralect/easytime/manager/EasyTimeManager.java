@@ -342,7 +342,8 @@ public final class EasyTimeManager {
             if (where == null) where = qb.where();
             else where.and();
 
-            where.like("name", "%" + query + "%");
+            where.like("name", "%" + query + "%")
+                    .or().raw("CAST(number AS TEXT) LIKE '%" + query + "%'");
         }
 
         if (hasDate) {
