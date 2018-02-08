@@ -136,7 +136,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     private void init() {
         originalFamX = getFam().getX();
         adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager(), job);
-        // viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
         viewPager.removeOnPageChangeListener(pageChangeListener);
         viewPager.addOnPageChangeListener(pageChangeListener);
         tabs.setupWithViewPager(viewPager);
@@ -145,10 +145,6 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     @Override
     public void onResume() {
         super.onResume();
-        if (adapter == null) {
-            adapter = new ProjectSectionAdapter(getContext(), getChildFragmentManager(), job);
-        }
-        viewPager.setAdapter(adapter);
     }
 
     @Override

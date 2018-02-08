@@ -144,7 +144,7 @@ public class StockFragment extends BaseFragment
     }
 
     @Override
-    public boolean needsFam() {
+    public Boolean needsFam() {
         return true;
     }
 

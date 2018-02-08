@@ -45,7 +45,14 @@ public abstract class BaseFragment extends Fragment {
         ActionBar actionBar = getMainActivity().getSupportActionBar();
         if (actionBar != null)
             onCreateActionBar(actionBar);
-        if (needsFam()) {
+        handleFam();
+    }
+
+    private void handleFam() {
+        Boolean flag = needsFam();
+        if (flag == null) {
+            // just ignore
+        } else if (flag) {
             getFam().setVisibility(View.VISIBLE);
         } else {
             getFam().setVisibility(View.GONE);
@@ -63,7 +70,12 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract boolean needsOptionsMenu();
 
-    public boolean needsFam() {
+    /**
+     * @return true if fragment needs visible fam
+     * false if fragment needs to hide fam
+     * null if fragment does not want to handle fam visibility
+     */
+    public Boolean needsFam() {
         return false;
     }
 
@@ -82,11 +94,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (needsFam()) {
-            getFam().setVisibility(View.VISIBLE);
-        } else {
-            getFam().setVisibility(View.GONE);
-        }
+        handleFam();
     }
 
     /**

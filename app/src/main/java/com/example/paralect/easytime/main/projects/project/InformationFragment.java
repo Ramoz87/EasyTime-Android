@@ -236,4 +236,9 @@ public class InformationFragment extends BaseFragment implements InformationView
             presenter.requestData(job);
         }
     }
+
+    @Override
+    public Boolean needsFam() {
+        return null;
+    }
 }

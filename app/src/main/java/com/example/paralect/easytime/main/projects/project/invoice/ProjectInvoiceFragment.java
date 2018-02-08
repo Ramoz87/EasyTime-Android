@@ -181,7 +181,7 @@ public class ProjectInvoiceFragment extends BaseFragment
     }
 
     @Override
-    public boolean needsFam() {
+    public Boolean needsFam() {
         return true;
     }
 

@@ -351,4 +351,9 @@ public class ActivityFragment extends BaseFragment
         adapter.setData(expenses);
         invalidateOptionsMenu();
     }
+
+    @Override
+    public Boolean needsFam() {
+        return true;
+    }
 }
