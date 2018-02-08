@@ -1,5 +1,7 @@
 package com.example.paralect.easytime.main.projects.project;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.text.SpannableString;
 import android.util.Pair;
 
@@ -14,6 +16,7 @@ import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.TextUtil;
 
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
@@ -101,6 +104,14 @@ public class ActivityPresenter extends SearchViewPresenter<Pair<Integer, List<Ex
     protected void setTitle() {
         SpannableString spannableDateString = CalendarUtils.getSpannableDateString(EasyTimeApplication.getContext(), mCalendar, R.color.blue);
         mTextView.setText(spannableDateString);
+    }
+
+    // prevent date pciker dialog choose the future
+    @Override
+    protected DatePickerDialog createDatePickerDialog(Context context) {
+        DatePickerDialog dpd = super.createDatePickerDialog(context);
+        dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
+        return dpd;
     }
 
 }

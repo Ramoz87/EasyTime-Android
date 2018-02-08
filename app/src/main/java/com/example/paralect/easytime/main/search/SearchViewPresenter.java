@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.main.search;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.support.v7.widget.SearchView;
 import android.text.SpannableString;
 import android.util.Log;
@@ -86,14 +87,18 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int year = mCalendar.get(Calendar.YEAR);
-                int month = mCalendar.get(Calendar.MONTH);
-                int day = mCalendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), SearchViewPresenter.this, year, month, day);
+                DatePickerDialog datePickerDialog = createDatePickerDialog(view.getContext());
                 datePickerDialog.show();
             }
         });
         return this;
+    }
+
+    protected DatePickerDialog createDatePickerDialog(Context context) {
+        int year = mCalendar.get(Calendar.YEAR);
+        int month = mCalendar.get(Calendar.MONTH);
+        int day = mCalendar.get(Calendar.DAY_OF_MONTH);
+        return new DatePickerDialog(context, this, year, month, day);
     }
 
     @Override
