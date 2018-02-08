@@ -87,8 +87,8 @@
             android:id="@+id/materialName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="25"
             android:ellipsize="end"
-            android:maxLines="3"
             android:text="@string/placeholder_material_name"
             android:textColor="@color/black"
             android:textSize="17sp"/>
