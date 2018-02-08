@@ -206,15 +206,15 @@ public class LaunchScreenActivity extends Activity {
                 c1.setCustomerId(customer.getCustomerId());
                 c1.setFirstName(fields[57]);
                 c1.setLastName(fields[58]);
-                c1.setEmail(fields[55]);
-                c1.setPhone(fields[54]);
+                c1.setEmail(getValidString(fields[55]));
+                c1.setPhone(getValidString(fields[54]));
 
                 Contact c2 = new Contact();
                 c2.setCustomerId(customer.getCustomerId());
                 c2.setFirstName(fields[62]);
                 c2.setLastName(fields[63]);
-                c2.setEmail(fields[60]);
-                c2.setPhone(fields[59]);
+                c2.setEmail(getValidString(fields[60]));
+                c2.setPhone(getValidString(fields[59]));
 
                 Address address = new Address();
                 address.setCity(fields[39]);
@@ -314,6 +314,11 @@ public class LaunchScreenActivity extends Activity {
 //                String dateString = CalendarUtils.stringFromDate(date, CalendarUtils.SHORT_DATE_FORMAT);
 //                Log.d(TAG, "new date for job: " + dateString);
                 job.setDate(date.getTime());
+            }
+
+            private String getValidString(String s) {
+                if (s.trim().isEmpty()) return ""; // s contains only whitespaces
+                else return s;
             }
         };
     }
