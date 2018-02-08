@@ -14,6 +14,7 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.utils.CalendarUtils;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -70,7 +71,7 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
             @Override
             public boolean onQueryTextChange(String query) {
                 if (date == null)
-                    date = getDate();
+                    date = getDateString();
                 if (mPublisher != null)
                     mPublisher.onNext(new String[]{query, date});
                 return true;
@@ -117,7 +118,7 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
 
         setTitle();
 
-        date = getDate();
+        date = getDateString();
         Log.d(TAG, "on date set: " + date);
 
         if (mPublisher != null) {
@@ -134,7 +135,11 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
        return CalendarUtils.getSpannableDateString(EasyTimeApplication.getContext(), mCalendar);
     }
 
-    public String getDate(){
+    public String getDateString(){
         return CalendarUtils.stringFromDate(mCalendar.getTime(), CalendarUtils.SHORT_DATE_FORMAT);
+    }
+
+    public Date getDate() {
+        return mCalendar.getTime();
     }
 }

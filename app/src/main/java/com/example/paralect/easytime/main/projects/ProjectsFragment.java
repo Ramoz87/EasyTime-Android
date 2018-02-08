@@ -6,34 +6,28 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.example.paralect.easytime.main.FragmentNavigator;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.projects.project.ProjectFragment;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.ViewUtils;
 
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -124,7 +118,7 @@ public class ProjectsFragment extends AbsStickyFragment implements IDataView<Lis
             });
 
             presenter.setupDateSearch(title)
-                    .requestData(new String[]{"", presenter.getDate()});
+                    .requestData(new String[]{"", presenter.getDateString()});
         }
     }
 

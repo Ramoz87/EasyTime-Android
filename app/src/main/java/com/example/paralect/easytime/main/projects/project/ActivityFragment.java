@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -19,15 +20,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.expenses.ExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.invoice.ProjectInvoiceFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
@@ -36,23 +35,21 @@ import com.example.paralect.easytime.main.projects.project.objectsofproject.Obje
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.ObjectCollection;
-import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.DefAdapterDataObserver;
 import com.example.paralect.easytime.utils.Logger;
-import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.Label;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by alexei on 27.12.2017.
@@ -68,7 +65,27 @@ public class ActivityFragment extends BaseFragment
     @BindView(R.id.activityList) EmptyRecyclerView emptyRecyclerView;
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.overlay) View overlay;
+    @BindView(R.id.placeholderImageView) ImageView placeholderImageView;
     FloatingActionMenu fam;
+
+    private ActivityPresenter presenter = new ActivityPresenter();
+    private ActivityAdapter adapter = new ActivityAdapter();
+    private int totalExpenseCountBefore = 0;
+    private Job job;
+    private RecyclerView.AdapterDataObserver observer = new DefAdapterDataObserver() {
+        @Override
+        public void onDataChanged() {
+            invalidateOptionsMenu();
+        }
+    };
+
+    public static ActivityFragment newInstance(Job job) {
+        Bundle args = new Bundle(1);
+        args.putParcelable(Job.TAG, job);
+        ActivityFragment fragment = new ActivityFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     void addTime() {
         Fragment fragment;
@@ -117,25 +134,6 @@ public class ActivityFragment extends BaseFragment
                 return false;
             }
         } else return false;
-    }
-
-    private ActivityPresenter presenter = new ActivityPresenter();
-    private ActivityAdapter adapter = new ActivityAdapter();
-    private int totalExpenseCountBefore = 0;
-    private Job job;
-    private RecyclerView.AdapterDataObserver observer = new DefAdapterDataObserver() {
-        @Override
-        public void onDataChanged() {
-            invalidateOptionsMenu();
-        }
-    };
-
-    public static ActivityFragment newInstance(Job job) {
-        Bundle args = new Bundle(1);
-        args.putParcelable(Job.TAG, job);
-        ActivityFragment fragment = new ActivityFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     private void initJob() {
@@ -223,7 +221,7 @@ public class ActivityFragment extends BaseFragment
         presenter.setJob(job)
                 .setDataView(this)
                 .setupDateSearch(dateTextView)
-                .requestData(new String[]{"", presenter.getDate()});
+                .requestData(new String[]{"", presenter.getDateString()});
     }
 
     @Override
@@ -345,6 +343,12 @@ public class ActivityFragment extends BaseFragment
 
     @Override
     public void onDataReceived(Pair<Integer, List<Expense>> data) {
+        Date chosenDate = presenter.getDate();
+        if (!DateUtils.isToday(chosenDate.getTime())) {
+            placeholderImageView.setImageResource(R.drawable.empty_opened_box);
+        } else {
+            placeholderImageView.setImageResource(R.drawable.empty_activity);
+        }
         List<Expense> expenses = data.second;
         Log.d(TAG, String.format("received %s expenses", expenses.size()));
         totalExpenseCountBefore = data.first - expenses.size();

@@ -90,7 +90,7 @@ public class LaunchScreenActivity extends Activity {
         } else {
             List<Job> jobs = EasyTimeManager.getInstance().getAllJobs();
             for (Job job : jobs) {
-                // Log.d(TAG, "date for job: " + job.getDate());
+                // Log.d(TAG, "date for job: " + job.getDateString());
             }
         }
 
