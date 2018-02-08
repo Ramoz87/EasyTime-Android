@@ -61,7 +61,6 @@ public class ProjectInvoiceFragment extends BaseFragment
         implements IDataView<List<InvoiceCell>>, FloatingActionMenu.OnMenuToggleListener {
 
     private static final String TAG = ProjectInvoiceFragment.class.getSimpleName();
-    private static final String DATE_ARG = "date_arg";
 
     @BindView(R.id.detail_title) TextView detailTitle;
     @BindView(R.id.discount_title) TextView discountTitle;
@@ -78,13 +77,11 @@ public class ProjectInvoiceFragment extends BaseFragment
     private Animation fadeOut;
 
     private Job job;
-    private String date;
     private KeypadEditorView keypad;
 
-    public static ProjectInvoiceFragment newInstance(@NonNull Job job, String date) {
+    public static ProjectInvoiceFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
         args.putParcelable(Job.TAG, job);
-        args.putString(DATE_ARG, date);
         ProjectInvoiceFragment fragment = new ProjectInvoiceFragment();
         fragment.setArguments(args);
         return fragment;
@@ -94,8 +91,6 @@ public class ProjectInvoiceFragment extends BaseFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if (bundle != null && bundle.containsKey(DATE_ARG))
-            date = getArguments().getString(DATE_ARG);
         job = Job.fromBundle(bundle);
     }
 
@@ -160,7 +155,7 @@ public class ProjectInvoiceFragment extends BaseFragment
 
         presenter.setJob(job)
                 .setDataView(this)
-                .requestData(new String[]{"", date});
+                .requestData(new String[]{""});
     }
 
     private void initOverlay() {

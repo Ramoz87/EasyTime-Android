@@ -43,8 +43,7 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
             public void subscribe(ObservableEmitter<List<InvoiceCell>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        final String date = parameters[1];
-                        List<InvoiceCell> invoices = getInvoices(mJob.getJobId(), date);
+                        List<InvoiceCell> invoices = getInvoices(mJob.getJobId());
                         emitter.onNext(invoices);
                         emitter.onComplete();
                     }
@@ -83,10 +82,10 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
     }
 
 
-    List<InvoiceCell> getInvoices(String jobId, String date) {
+    List<InvoiceCell> getInvoices(String jobId) {
 
         List<InvoiceCell> cells = new ArrayList<>();
-        List<Expense> consumables = EasyTimeManager.getInstance().getAllExpenses(jobId, date);
+        List<Expense> consumables = EasyTimeManager.getInstance().getAllExpenses(jobId);
 
         // Time
         List<InvoiceCell> timeCells = getMergedExpenseResult(consumables, Expense.Type.TIME);

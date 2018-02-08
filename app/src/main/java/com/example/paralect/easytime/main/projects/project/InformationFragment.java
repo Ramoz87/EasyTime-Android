@@ -184,7 +184,7 @@ public class InformationFragment extends BaseFragment implements InformationView
         switch (item.getItemId()) {
             case R.id.item_new: {
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectInvoiceFragment.newInstance(job, presenter.getDate()));
+                        .pushFragment(ProjectInvoiceFragment.newInstance(job));
                 return true;
             }
         }

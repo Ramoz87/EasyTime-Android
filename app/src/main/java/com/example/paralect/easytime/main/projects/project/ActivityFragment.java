@@ -178,7 +178,7 @@ public class ActivityFragment extends BaseFragment
         switch (item.getItemId()) {
             case R.id.item_new:
                 getMainActivity().getFragmentNavigator()
-                        .pushFragment(ProjectInvoiceFragment.newInstance(job, presenter.getDate()));
+                        .pushFragment(ProjectInvoiceFragment.newInstance(job));
                 return true;
             case R.id.item_delete: {
                 Log.d(TAG, "toggled to delete items");
