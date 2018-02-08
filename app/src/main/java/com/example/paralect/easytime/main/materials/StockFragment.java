@@ -264,6 +264,11 @@ public class StockFragment extends BaseFragment
         super.onPause();
         Log.d(TAG, "on pause");
         keypad.setOnExpansionUpdateListener(null);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         getMainActivity().resetFamSettings();
     }
 
