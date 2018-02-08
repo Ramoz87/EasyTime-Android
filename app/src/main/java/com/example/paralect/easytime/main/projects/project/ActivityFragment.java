@@ -234,10 +234,16 @@ public class ActivityFragment extends BaseFragment
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        fam.removeAllMenuButtons();
+        getMainActivity().resetFamSettings();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         adapter.unregisterAdapterDataObserver(observer);
-        fam.removeAllMenuButtons();
     }
 
     @Override

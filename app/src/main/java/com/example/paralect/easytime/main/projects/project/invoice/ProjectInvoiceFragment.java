@@ -30,6 +30,7 @@ import com.example.paralect.easytime.main.projects.project.SignatureDialogFragme
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.example.paralect.easytime.views.DiscountDialogView;
@@ -132,6 +133,7 @@ public class ProjectInvoiceFragment extends BaseFragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        Logger.d(TAG, "on view created");
 
         initFam();
         initOverlay();
@@ -189,7 +191,7 @@ public class ProjectInvoiceFragment extends BaseFragment
     }
 
     private void initFam() {
-        Log.d(TAG, "initializing fam");
+        Logger.d(TAG, "initializing fam");
 
         final int SEND_LABEL_ID = 15;
         final int SIGN_LABEL_ID = 16;
@@ -238,11 +240,18 @@ public class ProjectInvoiceFragment extends BaseFragment
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
+        super.onDestroyView();
+        Logger.d(TAG, "on destroyView");
         keypad.setOnExpansionUpdateListener(null);
         fam.removeAllMenuButtons();
         getMainActivity().resetFamSettings();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Logger.d(TAG, "on resume");
     }
 
     private void initAnimations() {
