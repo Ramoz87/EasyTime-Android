@@ -175,6 +175,7 @@ public class StockFragment extends BaseFragment
             keypad.expand();
         }
         keypad.setOnKeypadItemClickListener(new KeypadHandler(editText));
+        adapter.toggle(true);
     }
 
     @Override
