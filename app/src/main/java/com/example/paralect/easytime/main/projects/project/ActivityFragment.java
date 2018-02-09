@@ -356,6 +356,12 @@ public class ActivityFragment extends BaseFragment
             placeholderArrowView.setVisibility(View.VISIBLE);
         }
 
+        List<Expense> expenses = data.second;
+        Log.d(TAG, String.format("received %s expenses", expenses.size()));
+        totalExpenseCountBefore = data.first - expenses.size();
+        adapter.setData(expenses);
+        invalidateOptionsMenu();
+
     }
 
     @Override
