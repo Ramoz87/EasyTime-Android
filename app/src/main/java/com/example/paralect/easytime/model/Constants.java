@@ -21,5 +21,6 @@ public final class Constants {
 
     public static final String SHORT_DATE_PATTERN = "yyyy-MM-dd";
     public static final String LONG_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String EUROPE_DATE_PATTERN = "MM.dd.yyyy";
 
 }

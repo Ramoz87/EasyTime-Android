@@ -29,12 +29,14 @@ import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.model.User;
+import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.views.InfoLayout;
 import com.example.paralect.easytime.views.gallery.JobFilesView;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -134,7 +136,7 @@ public class InformationFragment extends BaseFragment implements InformationView
         clientName.setText(customer.getCompanyName());
 
         jobDescription.setText(job.getInformation());
-        String date = job.getStringDate();
+        String date = CalendarUtils.stringFromDate(new Date(job.getDate()), CalendarUtils.EUROPE_DATE_FORMAT);
         if (date == null) date = "no dateTextView";
         jobTerm.setText(date);
 

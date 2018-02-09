@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 
+import static com.example.paralect.easytime.model.Constants.EUROPE_DATE_PATTERN;
 import static com.example.paralect.easytime.model.Constants.LONG_DATE_PATTERN;
 import static com.example.paralect.easytime.model.Constants.SHORT_DATE_PATTERN;
 import static com.example.paralect.easytime.model.Constants.UNITY_HOUR;
@@ -37,6 +38,7 @@ public final class CalendarUtils {
 
     public static final SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat(SHORT_DATE_PATTERN, Locale.US);
     public static final SimpleDateFormat LONG_DATE_FORMAT = new SimpleDateFormat(LONG_DATE_PATTERN, Locale.US);
+    public static final SimpleDateFormat EUROPE_DATE_FORMAT = new SimpleDateFormat(EUROPE_DATE_PATTERN, Locale.GERMANY);
 
     private CalendarUtils() {
 
