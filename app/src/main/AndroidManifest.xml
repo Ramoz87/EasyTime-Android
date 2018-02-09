@@ -18,7 +18,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="eb27576f0664964f0b5241993c343d4b0993f24c"/>
+            android:value="86ab66c01b6b17b317f5818025b593a83cc913aa" />
 
         <activity
             android:name=".login.LaunchScreenActivity"

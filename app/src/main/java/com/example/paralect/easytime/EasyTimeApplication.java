@@ -40,6 +40,6 @@ public class EasyTimeApplication extends Application {
     }
 
     private void breakDown() {
-        throw new RuntimeException("For crashlytis");
+        throw new RuntimeException("For crashlytics");
     }
 }

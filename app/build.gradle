@@ -27,7 +27,7 @@ android {
     buildToolsVersion buildToolsVer
 
     defaultConfig {
-        applicationId "com.paralect.easytime"
+        applicationId "com.swiss1mobile.easytime"
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
         versionCode 1

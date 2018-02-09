@@ -38,7 +38,7 @@ ext {
     easyImageVersion = '1.3.1'
     fotoapparatVersion = '2.1.2'
     cameraviewVersion = '1.4.1'
-    crashlyticsVersion = '2.8.0'
+    crashlyticsVersion = '2.9.0'
 
     deps = [
 
