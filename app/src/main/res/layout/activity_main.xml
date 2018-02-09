@@ -71,6 +71,7 @@
             android:layout_height="wrap_content" />
 
         <com.github.clans.fab.FloatingActionMenu
+            app:menu_labels_showShadow="false"
             android:elevation="0dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
