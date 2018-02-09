@@ -39,6 +39,8 @@ public class CustomerFragment extends BaseFragment implements IDataView<Pair<Cus
     @BindView(R.id.contacts_page_indicator) PageIndicatorView pageIndicatorView;
     @BindView(R.id.tabs) TabLayout tabs;
     @BindView(R.id.jobs_view_pager) ViewPager jobsViewPager;
+    @BindView(R.id.jobContentLayout) View jobContentLayout;
+    @BindView(R.id.placeholder) View placeholder;
 
     private final CustomerPresenter presenter = new CustomerPresenter();
     private Customer mCustomer;
@@ -105,9 +107,7 @@ public class CustomerFragment extends BaseFragment implements IDataView<Pair<Cus
         // set contacts
         Customer customer = pair.first;
         List<Integer> types = pair.second;
-        if (types.size() <= 1) {
-            tabs.setSelectedTabIndicatorHeight(0);
-        }
+
         final ContactsAdapter contactsAdapter = new ContactsAdapter(customer.getContacts(), customer.getAddress());
         contactsViewPager.setAdapter(contactsAdapter);
         pageIndicatorView.setViewPager(contactsViewPager);
@@ -115,9 +115,17 @@ public class CustomerFragment extends BaseFragment implements IDataView<Pair<Cus
             ViewUtils.setVisibility(pageIndicatorView, customer.getContacts().size() > 1);
         }
 
-        final FragmentManager fm = getChildFragmentManager();
-        final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, getCustomer(), types);
-        jobsViewPager.setAdapter(adapter);
-        tabs.setupWithViewPager(jobsViewPager);
+        if (types.isEmpty()) { // no jobs fot this customer
+            placeholder.setVisibility(View.VISIBLE);
+            jobContentLayout.setVisibility(View.GONE);
+        } else {
+            if (types.size() == 1) {
+                tabs.setSelectedTabIndicatorHeight(0);
+            }
+            final FragmentManager fm = getChildFragmentManager();
+            final JobSectionPagerAdapter adapter = new JobSectionPagerAdapter(getContext(), fm, getCustomer(), types);
+            jobsViewPager.setAdapter(adapter);
+            tabs.setupWithViewPager(jobsViewPager);
+        }
     }
 }

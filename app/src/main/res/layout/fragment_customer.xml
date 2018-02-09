@@ -24,25 +24,66 @@
         app:piv_selectedColor="@color/white"
         app:piv_unselectedColor="@color/white_transparent"/>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/contacts_page_indicator"
+    <FrameLayout
         android:background="@color/mainBackground"
-        app:tabMode="fixed"/>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/jobs_view_pager"
+        android:layout_below="@id/contacts_page_indicator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tabs"
-        android:background="@color/mainBackground"/>
+        android:layout_height="match_parent">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_below="@id/tabs"
-        android:background="@drawable/shadow_from_top"/>
+        <RelativeLayout
+            android:id="@+id/jobContentLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.TabLayout
+                android:layout_alignParentTop="true"
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/mainBackground"
+                app:tabMode="fixed"/>
+
+            <android.support.v4.view.ViewPager
+                android:layout_below="@id/tabs"
+                android:id="@+id/jobs_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/mainBackground"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_below="@id/tabs"
+                android:background="@drawable/shadow_from_top"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/placeholderImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="25dp"
+                android:src="@drawable/empty_opened_box"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/placeholder_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/nothing_here"
+                android:textColor="@color/dark_gray"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
 </RelativeLayout>

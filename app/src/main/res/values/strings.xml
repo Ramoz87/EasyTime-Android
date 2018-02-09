@@ -96,6 +96,7 @@
     <string name="add_your_activities">Add your activities</string>
     <string name="add_your_materials_stock">Nothing here…\nPlease add materials to stock</string>
     <string name="choose_date">Nothing here…\nPlease choose another date</string>
+    <string name="nothing_here">Nothing here…\nThe client doesn\'t have active jobs</string>
 
     <!--Project details-->
     <string name="project_detail_send">Send</string>
