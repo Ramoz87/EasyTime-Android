@@ -1,12 +1,10 @@
 package com.example.paralect.easytime.manager;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Address;
-import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
@@ -34,6 +32,7 @@ import com.j256.ormlite.stmt.Where;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -438,7 +437,7 @@ public final class EasyTimeManager {
             ub.updateColumnValue("isAdded", false);
             ub.updateColumnValue("stockQuantity", 0);
             ub.update();
-            Log.d(TAG, "cleaned stock of my materials");
+            Logger.d(TAG, "cleaned stock of my materials");
         } catch (SQLException exc) {
             Logger.e(exc);
         }
@@ -558,13 +557,13 @@ public final class EasyTimeManager {
             Dao<Project, String> projectDao = helper.getProjectDao();
             Project project = projectDao.queryForId(jobId);
             if (project != null) {
-                Log.d(TAG, "its a project, query should be also performed for all objects");
+                Logger.d(TAG, "its a project, query should be also performed for all objects");
                 ids.addAll(Arrays.asList(project.getObjectIds()));
             }
             Dao<Order, String> orderDao = helper.getOrderDao();
             Order order = orderDao.queryForId(jobId);
             if (order != null) {
-                Log.d(TAG, "its an order, query should be also performed for all objects");
+                Logger.d(TAG, "its an order, query should be also performed for all objects");
                 ids.addAll(Arrays.asList(order.getObjectIds()));
             }
             Dao<Expense, Long> expenseDao = helper.getExpenseDao();
@@ -575,15 +574,29 @@ public final class EasyTimeManager {
             for (String id : ids) {
                 QueryBuilder<Expense, Long> qb = expenseDao.queryBuilder();
                 Where where = qb.where().eq("jobId", id);
-                if (hasDate)
-                    where.and().like("creationDate", "%" + date + "%");   // date should have "yyyy-MM-dd"
-                List<Expense> foundExpense = qb.query();
-                Log.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
+                if (hasDate) {
+
+                    Date time = CalendarUtils.dateFromString(date, SHORT_DATE_FORMAT);
+
+                    Calendar yesterday = Calendar.getInstance();
+                    yesterday.setTime(time);
+
+                    Calendar tomorrow = Calendar.getInstance();
+                    tomorrow.setTime(time);
+                    tomorrow.add(Calendar.DATE, 1);
+
+                    long beforeTime = yesterday.getTime().getTime();
+                    long afterTime = tomorrow.getTime().getTime();
+                    where.and().between("creationDate", beforeTime, afterTime);
+
+                }
+                List<Expense> foundExpense = qb.orderBy("creationDate", false).query();
+                Logger.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
 
                 for (Expense exp : foundExpense) {
                     if (exp.isMaterialExpense()) {
                         String materialId = exp.getMaterialId();
-                        Log.d(TAG, String.format("material id for curr expense = %s", materialId));
+                        Logger.d(TAG, String.format("material id for curr expense = %s", materialId));
                         Material material = materialDao.queryForId(materialId);
                         exp.setMaterial(material);
                     }

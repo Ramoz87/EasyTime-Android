@@ -66,7 +66,7 @@ public class Expense implements Parcelable, InvoiceCell {
     private String jobId;
 
     @DatabaseField(columnName = "creationDate")
-    private String creationDate;
+    private long creationDate;
 
     private String typedValue;
 
@@ -123,6 +123,7 @@ public class Expense implements Parcelable, InvoiceCell {
         value = in.readInt();
         workTypeId = in.readString();
         jobId = in.readString();
+        creationDate = in.readLong();
     }
 
     @Override
@@ -136,6 +137,7 @@ public class Expense implements Parcelable, InvoiceCell {
         dest.writeLong(value);
         dest.writeString(workTypeId);
         dest.writeString(jobId);
+        dest.writeLong(creationDate);
     }
 
     @Override
@@ -237,12 +239,21 @@ public class Expense implements Parcelable, InvoiceCell {
         this.jobId = jobId;
     }
 
-    public String getCreationDate() {
+    public long getCreationDate() {
         return creationDate;
     }
 
+    public String getStringDate() {
+        return CalendarUtils.stringFromDate(new Date(creationDate), CalendarUtils.LONG_DATE_FORMAT);
+    }
+
     public void setCreationDate(Date date) {
-        creationDate = CalendarUtils.stringFromDate(date, CalendarUtils.LONG_DATE_FORMAT);
+        creationDate = date.getTime();
+    }
+
+
+    public void setCreationDate(long date) {
+        creationDate = date;
     }
 
     // region InvoiceCell

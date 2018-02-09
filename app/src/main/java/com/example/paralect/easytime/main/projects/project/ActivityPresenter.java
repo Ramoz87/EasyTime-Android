@@ -46,15 +46,6 @@ public class ActivityPresenter extends SearchViewPresenter<Pair<Integer, List<Ex
                         final String date = parameters[1];
                         List<Expense> expenses = getExpenses(mJob.getJobId(), date);
 
-                        expenses = Flowable.fromIterable(expenses)
-                                .toSortedList(new Comparator<Expense>() {
-                                    @Override
-                                    public int compare(Expense e1, Expense e2) {
-                                        return e2.getCreationDate().compareToIgnoreCase(e1.getCreationDate());
-                                    }
-                                })
-                                .blockingGet();
-
                         int count = (int) EasyTimeManager.getInstance().getTotalExpensesCount(mJob.getJobId());
                         emitter.onNext(new Pair<>(count, expenses));
                         emitter.onComplete();
