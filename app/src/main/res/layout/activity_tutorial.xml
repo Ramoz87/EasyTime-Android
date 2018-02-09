@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/blue"
+                android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/tutorial_skip_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/selector_ripple_white"
+        android:text="@string/skip_button"
+        android:textColor="@color/white"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tutorial_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tutorial_skip_button"/>
+
+    <LinearLayout
+        android:id="@+id/tutorial_text_layout"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"/>
+
+        <TextView
+            android:id="@+id/tutorial_main_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal|top"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            tools:text="Main page"/>
+
+        <TextView
+            android:id="@+id/tutorial_details_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:layout_marginRight="30dp"
+            android:gravity="center_horizontal|top"
+            android:textColor="@color/dark_gray"
+            android:textSize="15sp"
+            tools:text="Name"/>
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/tutorial_page_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            app:piv_animationType="worm"
+            app:piv_dynamicCount="true"
+            app:piv_padding="5dp"
+            app:piv_radius="4dp"
+            app:piv_selectedColor="@color/black"
+            app:piv_strokeWidth="1dp"
+            app:piv_unselectedColor="@color/gray_lite"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

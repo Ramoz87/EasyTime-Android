@@ -112,7 +112,7 @@
     <string name="expense_price">CHF %d</string>
     <string name="total_expense">Total</string>
 
-     <!--signature-->
+    <!--signature-->
     <string name="signature_title">Signature</string>
     <string name="signature_switcher">Sign yourself</string>
     <string name="signature_sign">Sign</string>
@@ -188,5 +188,9 @@
     <!--Media menu-->
     <string name="media_menu_camera">Camera</string>
     <string name="media_menu_gallery">Gallery</string>
+
+    <!--Tutoral-->
+    <string name="skip_button">Skip</string>
+
 
 </resources>

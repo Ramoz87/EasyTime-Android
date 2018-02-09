@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="tutorial_titles">
+        <item>Task list</item>
+        <item>Information</item>
+        <item>Activities</item>
+        <item>Time</item>
+        <item>Expenses</item>
+        <item>Materials</item>
+        <item>Stock</item>
+        <item>Invoice</item>
+        <item>Customer</item>
+    </string-array>
+
+    <string-array name="tutorial_details">
+        <item>Manage your projects, orders, objects in one place</item>
+        <item>Get information about selected work</item>
+        <item>Manage your time, materials, expenses on the project</item>
+        <item>Add spent time for different work types</item>
+        <item>Add your expenses and attach the check</item>
+        <item>Add materials to the project from your stock</item>
+        <item>Manage your stock</item>
+        <item>Get invoice for entire period, sign and send it for review</item>
+        <item>Get information about customer and his active works</item>
+    </string-array>
+
+    <integer-array name="tutorial_images">
+        <item>@drawable/t_01_main</item>
+        <item>@drawable/t_02_info</item>
+        <item>@drawable/t_03_activity</item>
+        <item>@drawable/t_04_time</item>
+        <item>@drawable/t_05_expense</item>
+        <item>@drawable/t_06_materials</item>
+        <item>@drawable/t_07_stock</item>
+        <item>@drawable/t_08_invoice</item>
+        <item>@drawable/t_09_clients</item>
+    </integer-array>
+
+</resources>

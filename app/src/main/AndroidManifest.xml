@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.example.paralect.easytime">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -12,11 +13,12 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_app_rounded"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="eb27576f0664964f0b5241993c343d4b0993f24c" />
+            android:value="eb27576f0664964f0b5241993c343d4b0993f24c"/>
 
         <activity
             android:name=".login.LaunchScreenActivity"
@@ -46,6 +48,11 @@
 
         <activity
             android:name=".main.CongratulationsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".main.tutorial.TutorialActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 

@@ -7,9 +7,11 @@ import android.util.Log;
 
 import com.example.paralect.easytime.BuildConfig;
 import com.example.paralect.easytime.R;
+import com.example.paralect.easytime.main.tutorial.TutorialActivity;
 import com.example.paralect.easytime.manager.ETPreferenceManager;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Address;
+import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
@@ -23,6 +25,7 @@ import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.FakeCreator;
 import com.example.paralect.easytime.utils.Logger;
+import com.example.paralect.easytime.utils.TinyDB;
 import com.j256.ormlite.dao.Dao;
 
 import java.io.IOException;
@@ -53,34 +56,40 @@ public class LaunchScreenActivity extends Activity {
         init();
     }
 
-   private void init(){
-       Completable completable = Completable.fromCallable(new Callable<Void>() {
-           @Override
-           public Void call() throws Exception {
-               setupDataBase();
-               return null;
-           }
-       });
+    private void init() {
+        Completable completable = Completable.fromCallable(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                setupDataBase();
+                return null;
+            }
+        });
 
-       completable
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Action() {
-                   @Override
-                   public void run() throws Exception {
-                       Intent intent = new Intent(LaunchScreenActivity.this, LoginActivity.class);
-                       startActivity(intent);
-                   }
-               }, new Consumer<Throwable>() {
-                   @Override
-                   public void accept(Throwable throwable) {
-                       Logger.d(TAG, throwable.getMessage());
-                       Logger.e(throwable);
-                   }
-               });
-   }
+        completable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Intent intent = null;
+                        TinyDB tinyDB = new TinyDB(LaunchScreenActivity.this);
+                        boolean isLaunched = tinyDB.getBoolean(Constants.TUTORIAL_LAUNCH, false);
+                        if (isLaunched)
+                            intent = new Intent(LaunchScreenActivity.this, LoginActivity.class);
+                        else
+                            intent = new Intent(LaunchScreenActivity.this, TutorialActivity.class);
+                        startActivity(intent);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        Logger.d(TAG, throwable.getMessage());
+                        Logger.e(throwable);
+                    }
+                });
+    }
 
-    private void setupDataBase(){
+    private void setupDataBase() {
         ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
         preferenceManager.plusLaunch();
         if (BuildConfig.DEBUG && preferenceManager.isLaunchFirst()) { // pre-populate data from assets
