@@ -1,20 +1,17 @@
 package com.example.paralect.easytime.main.tutorial;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.login.LaunchScreenActivity;
 import com.example.paralect.easytime.login.LoginActivity;
 import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.TutorialItem;
 import com.example.paralect.easytime.utils.TinyDB;
-import com.hanks.htextview.fade.FadeTextView;
 import com.rd.PageIndicatorView;
 
 import java.util.List;
@@ -31,8 +28,8 @@ public class TutorialActivity extends AppCompatActivity {
 
     @BindView(R.id.tutorial_view_pager) ViewPager viewPager;
     @BindView(R.id.tutorial_page_indicator) PageIndicatorView pageIndicatorView;
-    @BindView(R.id.tutorial_main_text_view) FadeTextView mainTextView;
-    @BindView(R.id.tutorial_details_text_view) FadeTextView detailsTextView;
+    @BindView(R.id.tutorial_main_text_view) TextView mainTextView;
+    @BindView(R.id.tutorial_details_text_view) TextView detailsTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,8 +47,8 @@ public class TutorialActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 TutorialItem item = adapter.getTutorialItem(position);
-                mainTextView.animateText(item.getTitle());
-                detailsTextView.animateText(item.getDetails());
+                mainTextView.setText(item.getTitle());
+                detailsTextView.setText(item.getDetails());
 
             }
         };

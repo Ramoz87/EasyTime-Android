@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.paralect.easytime.login.LoginActivity;
 import com.example.paralect.easytime.main.MainActivity;
+import com.example.paralect.easytime.main.tutorial.TutorialActivity;
 import com.example.paralect.easytime.manager.ETAccountManager;
 import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.User;
@@ -39,7 +40,7 @@ public class SettingsFragment extends BaseFragment {
 
     @OnClick(R.id.helpLayout)
     void help() {
-
+      startActivity(new Intent(getActivity(), TutorialActivity.class));
     }
 
     @OnClick(R.id.sendFeedbackLayout)

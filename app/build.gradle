@@ -78,7 +78,4 @@ dependencies {
         transitive = true
     }
 
-    implementation "com.hanks:htextview-base:0.1.2"
-    implementation "com.hanks:htextview-fade:0.1.2"        // optional
-
 }

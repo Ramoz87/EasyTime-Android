@@ -25,7 +25,7 @@
     <LinearLayout
         android:id="@+id/tutorial_text_layout"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:gravity="center"
@@ -36,29 +36,27 @@
             android:layout_height="1dp"
             android:background="@color/black"/>
 
-        <com.hanks.htextview.fade.FadeTextView
+        <TextView
             android:id="@+id/tutorial_main_text_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="center_horizontal|top"
             android:textColor="@color/black"
             android:textSize="22sp"
-            app:animationDuration="700"
             tools:text="Main page"/>
 
-        <com.hanks.htextview.fade.FadeTextView
+        <TextView
             android:id="@+id/tutorial_details_text_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="30dp"
+            android:layout_weight="1"
             android:layout_marginRight="30dp"
             android:gravity="center_horizontal|top"
             android:textColor="@color/dark_gray"
             android:textSize="15sp"
-            app:animationDuration="700"
             tools:text="Name"/>
 
         <com.rd.PageIndicatorView
