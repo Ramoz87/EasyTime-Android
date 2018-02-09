@@ -164,6 +164,11 @@ public class Address implements Parcelable {
             sb.append(street);
             hasItem = true;
         }
+        if (TextUtil.isNotEmpty(zip)) {
+            if (hasItem) sb.append(", ");
+            sb.append(zip);
+            hasItem = true;
+        }
         return sb.toString();
     }
 
