@@ -177,7 +177,7 @@
     <string name="delete_file_message">The file will be deleted immediately</string>
 
     <!--customers-->
-    <string name="customer_info">%d object(s)/ %d order(s)/ %d project(s)</string>
+    <string name="customer_info">%d objects/ %d orders/ %d projects</string>
     <string name="project_date_start_date_end">%s - %s</string>
     <string name="order_delivery_time_and_address">%s, %s</string>
 

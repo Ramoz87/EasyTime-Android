@@ -28,7 +28,7 @@
             android:maxLines="2"
             android:ellipsize="end"
             android:text="@string/placeholder_job_name"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:textColor="@color/black"
             android:id="@+id/jobName"
             android:layout_width="wrap_content"
@@ -43,6 +43,7 @@
     <android.support.v7.widget.AppCompatTextView
         android:text="@string/placeholder_job_customer"
         android:id="@+id/jobCustomer"
+        android:textSize="15sp"
         android:textColor="@color/list_item_secondary_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -50,6 +51,7 @@
     <android.support.v7.widget.AppCompatTextView
         android:text="@string/placeholder_job_term"
         android:id="@+id/jobTerm"
+        android:textSize="15sp"
         android:textColor="@color/list_item_secondary_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

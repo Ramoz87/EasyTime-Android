@@ -20,7 +20,7 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:layout_marginTop="5dp"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:text="@string/placeholder_no_jobs"
         android:textColor="@color/list_item_secondary_text"
         android:id="@+id/jobs"
