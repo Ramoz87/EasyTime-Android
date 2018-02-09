@@ -13,9 +13,11 @@ import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.ProjectType;
+import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.CollectionUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -130,7 +132,7 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
             jobName.setText(res.getString(R.string.job_name_and_address, job.getNumber(), job.getName()));
             // jobName.setText(project.getStatusId());
             jobCustomer.setText(job.getCustomer().getCompanyName());
-            jobTerm.setText(job.getStringDate());
+            jobTerm.setText(CalendarUtils.stringFromDate(new Date(job.getDate()), CalendarUtils.EUROPE_DATE_FORMAT));
             jobStatus.setText(job.getStatus().getName());
         }
     }
