@@ -66,6 +66,8 @@ public class ActivityFragment extends BaseFragment
     @BindView(R.id.emptyListPlaceholder) View emptyListPlaceholder;
     @BindView(R.id.overlay) View overlay;
     @BindView(R.id.placeholderImageView) ImageView placeholderImageView;
+    @BindView(R.id.placeholder_text_view) TextView placeholderTextView;
+    @BindView(R.id.placeholder_arrow) View placeholderArrowView;
     FloatingActionMenu fam;
 
     private ActivityPresenter presenter = new ActivityPresenter();
@@ -346,14 +348,14 @@ public class ActivityFragment extends BaseFragment
         Date chosenDate = presenter.getDate();
         if (!DateUtils.isToday(chosenDate.getTime())) {
             placeholderImageView.setImageResource(R.drawable.empty_opened_box);
+            placeholderTextView.setText(R.string.choose_date);
+            placeholderArrowView.setVisibility(View.GONE);
         } else {
             placeholderImageView.setImageResource(R.drawable.empty_activity);
+            placeholderTextView.setText(R.string.add_your_activities);
+            placeholderArrowView.setVisibility(View.VISIBLE);
         }
-        List<Expense> expenses = data.second;
-        Log.d(TAG, String.format("received %s expenses", expenses.size()));
-        totalExpenseCountBefore = data.first - expenses.size();
-        adapter.setData(expenses);
-        invalidateOptionsMenu();
+
     }
 
     @Override

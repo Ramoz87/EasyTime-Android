@@ -100,8 +100,10 @@ public class ActivityPresenter extends SearchViewPresenter<Pair<Integer, List<Ex
     // prevent date pciker dialog choose the future
     @Override
     protected DatePickerDialog createDatePickerDialog(Context context) {
+        Calendar maxDate = Calendar.getInstance();
+        CalendarUtils.setCalendarToMax(maxDate);
         DatePickerDialog dpd = super.createDatePickerDialog(context);
-        dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dpd.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
         return dpd;
     }
 

@@ -1,10 +1,12 @@
 package com.example.paralect.easytime.manager;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Address;
+import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
@@ -585,8 +587,8 @@ public final class EasyTimeManager {
                     tomorrow.setTime(time);
                     tomorrow.add(Calendar.DATE, 1);
 
-                    long beforeTime = yesterday.getTime().getTime();
-                    long afterTime = tomorrow.getTime().getTime();
+                    long beforeTime = yesterday.getTimeInMillis();
+                    long afterTime = tomorrow.getTimeInMillis();
                     where.and().between("creationDate", beforeTime, afterTime);
 
                 }

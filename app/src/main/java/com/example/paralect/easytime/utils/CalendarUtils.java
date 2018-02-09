@@ -117,4 +117,14 @@ public final class CalendarUtils {
 
         return timeString;
     }
+
+    public static Calendar setCalendarToMax(Calendar calendar) {
+        if (calendar != null) {
+            calendar.set(Calendar.HOUR_OF_DAY, calendar.getMaximum(Calendar.HOUR_OF_DAY));
+            calendar.set(Calendar.MINUTE, calendar.getMaximum(Calendar.MINUTE));
+            calendar.set(Calendar.SECOND, calendar.getMaximum(Calendar.SECOND));
+            calendar.set(Calendar.MILLISECOND, calendar.getMaximum(Calendar.MILLISECOND));
+        }
+        return calendar;
+    }
 }
