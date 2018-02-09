@@ -70,6 +70,7 @@ public abstract class SearchViewPresenter<DATA> implements ISearchViewPresenter<
 
             @Override
             public boolean onQueryTextChange(String query) {
+                SearchViewPresenter.this.query = query;
                 if (date == null)
                     date = getDateString();
                 if (mPublisher != null)
