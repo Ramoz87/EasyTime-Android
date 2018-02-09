@@ -26,12 +26,13 @@ public class EasyTimeApplication extends Application {
         sContext = this;
 
         // TODO disable on release version!!!
-        boolean debug = BuildConfig.DEBUG;
+        boolean debug = false;//BuildConfig.DEBUG;
         CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(debug).build();
         Crashlytics crashlytics = new Crashlytics.Builder().core(core).build();
         Fabric.with(this, crashlytics);
 
         Logger.setEnabled(debug);
+
     }
 
     public static Context getContext() {
