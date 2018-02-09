@@ -119,6 +119,8 @@ public class CustomerFragment extends BaseFragment implements IDataView<Pair<Cus
             placeholder.setVisibility(View.VISIBLE);
             jobContentLayout.setVisibility(View.GONE);
         } else {
+            placeholder.setVisibility(View.GONE);
+            jobContentLayout.setVisibility(View.VISIBLE);
             if (types.size() == 1) {
                 tabs.setSelectedTabIndicatorHeight(0);
             }
