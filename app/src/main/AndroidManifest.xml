@@ -19,7 +19,7 @@
             android:value="eb27576f0664964f0b5241993c343d4b0993f24c" />
 
         <activity
-            android:name=".login.LaunchScreenActivity"
+            android:name=".main.tutorial.TutorialActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
@@ -46,6 +46,11 @@
 
         <activity
             android:name=".main.CongratulationsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".login.LaunchScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
