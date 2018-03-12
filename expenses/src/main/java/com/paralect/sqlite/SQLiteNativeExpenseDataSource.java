@@ -18,8 +18,8 @@ public class SQLiteNativeExpenseDataSource extends ExpenseDataSource<Expense> {
     }
 
     @Override
-    public void deleteExpense(Expense expense) {
-
+    public long deleteExpense(Expense expense) {
+     return 0;
     }
 
     @Override
