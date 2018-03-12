@@ -1,7 +1,9 @@
 package com.paralect.expences;
 
 import com.paralect.base.DataSource;
+import com.paralect.sqlite.Expense;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -10,11 +12,11 @@ import java.util.List;
 
 public abstract class IExpenseDataSource<MODEL extends IExpense> extends DataSource<MODEL> {
 
-    public abstract void saveExpense();
+    public abstract MODEL saveExpense(MODEL expense) throws SQLException;
 
-    public abstract void deleteExpense();
+    public abstract long deleteExpense(MODEL expense) throws SQLException;
 
-    public abstract MODEL getExpenseById(long id);
+    public abstract MODEL getExpenseById(long id) throws SQLException;
 
     public abstract List<MODEL> getExpensesByType(String type, long typeId);
 

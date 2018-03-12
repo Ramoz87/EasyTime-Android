@@ -15,7 +15,8 @@ public abstract class DataSource<M extends Model> {
         /**
          * Populates a {@link DataSource} instance.
          */
-        public Factory() {
+
+        public void init(){
             int count = getDataSourceCount();
             for (int i = 0; i < count; i++) {
                 int dataSourceType = getDataSourceType(i);

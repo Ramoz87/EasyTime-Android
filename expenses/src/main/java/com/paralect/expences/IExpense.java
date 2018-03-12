@@ -10,6 +10,17 @@ import java.util.Date;
 
 public interface IExpense extends Model{
 
+    String EXPENSE_TABLE_NAME = "expenses_table";
+    String EXPENSE_ID = "expenseId";
+    String NAME = "name";
+    String DISCOUNT = "discount";
+    String VALUE = "value";
+    String UNIT_NAME = "unitName";
+    String CREATION_DATE = "creationDate";
+    String TYPE = "type";
+    String TYPE_ID = "typeId";
+    String PARENT_ID = "parentId";
+
     /**
      * The name of this expense
      */
@@ -59,9 +70,9 @@ public interface IExpense extends Model{
     /**
      * Unique Id of job
      */
-    String getMainId();
+    String getParentId();
 
-    void setMainId(String id);
+    void setParentId(String id);
 
     /**
      * Discount

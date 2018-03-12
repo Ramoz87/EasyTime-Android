@@ -2,6 +2,7 @@ package com.paralect.sqlite;
 
 import com.paralect.expences.IExpenseDataSource;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -10,13 +11,14 @@ import java.util.List;
 
 public class SQLiteNativeExpenseDataSource extends IExpenseDataSource<Expense> {
 
-    @Override
-    public void saveExpense() {
 
+    @Override
+    public Expense saveExpense(Expense expense) throws SQLException {
+        return null;
     }
 
     @Override
-    public void deleteExpense() {
+    public void deleteExpense(Expense expense) {
 
     }
 

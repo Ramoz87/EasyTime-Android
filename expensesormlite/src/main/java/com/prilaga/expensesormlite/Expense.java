@@ -6,16 +6,20 @@ import android.support.annotation.StringDef;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 import com.paralect.expences.IExpense;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Date;
 
+import static com.paralect.expences.IExpense.EXPENSE_TABLE_NAME;
+
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
+@DatabaseTable(tableName = EXPENSE_TABLE_NAME)
 public class Expense implements IExpense, Parcelable {
 
     @StringDef({Type.TIME, Type.MATERIAL, Type.DRIVING, Type.OTHER})
@@ -27,33 +31,33 @@ public class Expense implements IExpense, Parcelable {
         String OTHER = "Other";
     }
 
-    @DatabaseField(columnName = "expenseId", generatedId = true)
+    @DatabaseField(columnName = EXPENSE_ID, generatedId = true)
     private long expenseId;
 
-    @DatabaseField(columnName = "name")
+    @DatabaseField(columnName = NAME)
     private String name;
 
-    @DatabaseField(columnName = "discount", dataType = DataType.FLOAT)
+    @DatabaseField(columnName = DISCOUNT, dataType = DataType.FLOAT)
     private float discount;
 
-    @DatabaseField(columnName = "value")
+    @DatabaseField(columnName = VALUE)
     private long value;
 
-    @DatabaseField(columnName = "unitName")
+    @DatabaseField(columnName = UNIT_NAME)
     private String unitName;
 
-    @DatabaseField(columnName = "creationDate")
+    @DatabaseField(columnName = CREATION_DATE)
     private long creationDate;
 
     @Type
-    @DatabaseField(columnName = "type")
+    @DatabaseField(columnName = TYPE)
     private String type;
 
-    @DatabaseField(columnName = "typeId")
+    @DatabaseField(columnName = TYPE_ID)
     private long typeId;
 
-    @DatabaseField(columnName = "mainId")
-    private String mainId;
+    @DatabaseField(columnName = PARENT_ID)
+    private String parentId;
 
     private String typedValue;
 
@@ -67,7 +71,7 @@ public class Expense implements IExpense, Parcelable {
             expense.setCreationDate(new Date());
             expense.setType(ex.getType());
             expense.setTypeId(ex.getTypeId());
-            expense.setMainId(ex.getMainId());
+            expense.setParentId(ex.getParentId());
             expense.setDiscount(ex.getDiscount());
         }
         return expense;
@@ -78,7 +82,7 @@ public class Expense implements IExpense, Parcelable {
         Expense expense = new Expense();
         expense.setType(Expense.Type.TIME);
         expense.setName(name);
-        expense.setMainId(jobId);
+        expense.setParentId(jobId);
         expense.setCreationDate(new Date());
         expense.setValue(total);
         return expense;
@@ -86,7 +90,7 @@ public class Expense implements IExpense, Parcelable {
 
     public static Expense createMaterialExpense(String jobId, String materialName, long materialId, int countOfMaterials) {
         Expense expense = new Expense();
-        expense.setMainId(jobId);
+        expense.setParentId(jobId);
         expense.setName(materialName);
         expense.setTypeId(materialId);
         expense.setType(Expense.Type.MATERIAL);
@@ -106,7 +110,7 @@ public class Expense implements IExpense, Parcelable {
         creationDate = in.readLong();
         type = in.readString();
         typeId = in.readLong();
-        mainId = in.readString();
+        parentId = in.readString();
         typedValue = in.readString();
     }
 
@@ -120,7 +124,7 @@ public class Expense implements IExpense, Parcelable {
         dest.writeLong(creationDate);
         dest.writeString(type);
         dest.writeLong(typeId);
-        dest.writeString(mainId);
+        dest.writeString(parentId);
         dest.writeString(typedValue);
     }
 
@@ -223,13 +227,13 @@ public class Expense implements IExpense, Parcelable {
     }
 
     @Override
-    public String getMainId() {
-        return mainId;
+    public String getParentId() {
+        return parentId;
     }
 
     @Override
-    public void setMainId(String id) {
-        mainId = id;
+    public void setParentId(String id) {
+        parentId = id;
     }
 
     @Override

@@ -32,6 +32,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Project, String> projectDao = null;
     private Dao<File, Long> fileDao = null;
     private Dao<Expense, Long> expenseDao = null;
+    private Dao<com.prilaga.expensesormlite.Expense, Long> expenseDaoModule = null;
     private Dao<Contact, Long> contactDao = null;
 
     public DatabaseHelper(@NonNull Context context) {
@@ -51,6 +52,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Project.class);
             TableUtils.createTableIfNotExists(connectionSource, File.class);
             TableUtils.createTableIfNotExists(connectionSource, Expense.class);
+            TableUtils.createTableIfNotExists(connectionSource, com.prilaga.expensesormlite.Expense.class);
             TableUtils.createTableIfNotExists(connectionSource, Contact.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -70,6 +72,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Project.class, true);
             TableUtils.dropTable(connectionSource, File.class, true);
             TableUtils.dropTable(connectionSource, Expense.class, true);
+            TableUtils.dropTable(connectionSource, com.prilaga.expensesormlite.Expense.class, true);
             TableUtils.dropTable(connectionSource, Contact.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
@@ -105,6 +108,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return expenseDao;
     }
 
+    public Dao<com.prilaga.expensesormlite.Expense, Long> getExpenseDaoModule() throws SQLException {
+        if (expenseDaoModule == null) {
+            expenseDaoModule = getDao(com.prilaga.expensesormlite.Expense.class);
+        }
+        return expenseDaoModule;
+    }
+
     @Override
     public void close() {
         addressDao = null;
@@ -117,6 +127,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         projectDao = null;
         fileDao = null;
         expenseDao = null;
+        expenseDaoModule = null;
         contactDao = null;
 
         super.close();

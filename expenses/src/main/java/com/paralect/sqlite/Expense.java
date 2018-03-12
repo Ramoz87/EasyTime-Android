@@ -86,12 +86,12 @@ public class Expense implements IExpense {
     }
 
     @Override
-    public String getMainId() {
+    public String getParentId() {
         return null;
     }
 
     @Override
-    public void setMainId(String id) {
+    public void setParentId(String id) {
 
     }
 
