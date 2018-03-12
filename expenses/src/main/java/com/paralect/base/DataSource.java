@@ -16,13 +16,14 @@ public abstract class DataSource<M extends Model> {
          * Populates a {@link DataSource} instance.
          */
 
-        public void init(){
+        public Factory<DATA_SOURCE> init(){
             int count = getDataSourceCount();
             for (int i = 0; i < count; i++) {
                 int dataSourceType = getDataSourceType(i);
                 DATA_SOURCE dataSource = onCreateDataSource(dataSourceType);
                 dataSources.put(dataSourceType, dataSource);
             }
+            return this;
         }
 
         /**

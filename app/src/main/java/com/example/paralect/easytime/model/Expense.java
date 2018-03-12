@@ -19,7 +19,6 @@ import java.util.Date;
 import static com.example.paralect.easytime.model.Constants.UNITY_CURRENCY;
 import static com.example.paralect.easytime.model.Constants.UNITY_KM;
 import static com.example.paralect.easytime.model.Constants.UNITY_MIN;
-import static com.example.paralect.easytime.model.Constants.UNITY_PCS;
 
 /**
  * Created by alexei on 26.12.2017.

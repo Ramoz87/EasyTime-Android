@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
-import com.paralect.expences.IExpenseDataSource;
+import com.paralect.expences.ExpenseDataSource;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import static com.paralect.expences.IExpense.EXPENSE_ID;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class ORMLiteExpenseDataSource extends IExpenseDataSource<Expense> {
+public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
 
     private Context context;
     private Dao<Expense, Long> dao;

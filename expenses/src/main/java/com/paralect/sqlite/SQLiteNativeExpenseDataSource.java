@@ -1,6 +1,6 @@
 package com.paralect.sqlite;
 
-import com.paralect.expences.IExpenseDataSource;
+import com.paralect.expences.ExpenseDataSource;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class SQLiteNativeExpenseDataSource extends IExpenseDataSource<Expense> {
+public class SQLiteNativeExpenseDataSource extends ExpenseDataSource<Expense> {
 
 
     @Override

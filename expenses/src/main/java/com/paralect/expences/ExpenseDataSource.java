@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public abstract class IExpenseDataSource<MODEL extends IExpense> extends DataSource<MODEL> {
+public abstract class ExpenseDataSource<MODEL extends IExpense> extends DataSource<MODEL> {
 
     public abstract MODEL saveExpense(MODEL expense) throws SQLException;
 

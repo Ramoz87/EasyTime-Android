@@ -2,10 +2,9 @@ package com.example.paralect.easytime.manager;
 
 
 import com.example.paralect.easytime.EasyTimeApplication;
-import com.example.paralect.easytime.model.Expense;
 import com.j256.ormlite.dao.Dao;
 import com.paralect.base.DataSource;
-import com.paralect.expences.IExpenseDataSource;
+import com.paralect.expences.ExpenseDataSource;
 import com.paralect.sqlite.SQLiteNativeExpenseDataSource;
 import com.prilaga.expensesormlite.ORMLiteExpenseDataSource;
 
@@ -15,13 +14,23 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class ExpenseFactory extends DataSource.Factory<IExpenseDataSource> {
+/*
+
+Example of using:
+
+  ExpenseFactory factory = new ExpenseFactory();
+  factory.init();
+
+  ExpenseDataSource dataSource = factory.getDataSource(ORMLITE);
+  List<Expense> expenses = dataSource.getExpenses();
+
+ */
+
+public class ExpenseFactory extends DataSource.Factory<ExpenseDataSource> {
 
     public static final int NONE = 0;
     public static final int SQLITE_NATIVE = 1;
     public static final int ORMLITE = 2;
-
-
 
     @Override
     public int getDataSourceCount() {
@@ -41,7 +50,7 @@ public class ExpenseFactory extends DataSource.Factory<IExpenseDataSource> {
     }
 
     @Override
-    public IExpenseDataSource onCreateDataSource(int dataSourceType) {
+    public ExpenseDataSource onCreateDataSource(int dataSourceType) {
         switch (dataSourceType) {
             case SQLITE_NATIVE:
                 return new SQLiteNativeExpenseDataSource();
