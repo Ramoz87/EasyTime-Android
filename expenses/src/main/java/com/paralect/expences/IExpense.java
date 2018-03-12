@@ -2,6 +2,8 @@ package com.paralect.expences;
 
 import com.paralect.base.Model;
 
+import java.util.Date;
+
 /**
  * Created by Oleg Tarashkevich on 05/03/2018.
  */
@@ -36,6 +38,8 @@ public interface IExpense extends Model{
 
     void setCreationDate(long date);
 
+    void setCreationDate(Date date);
+
     // region Type
     /**
      * Type of Time, material or any work
@@ -52,12 +56,18 @@ public interface IExpense extends Model{
     long getTypeId();
     // endregion
 
-
     /**
      * Unique Id of job
      */
-    long getMainId();
+    String getMainId();
 
-    void setMainId(long id);
+    void setMainId(String id);
+
+    /**
+     * Discount
+     */
+    float getDiscount();
+
+    void setDiscount(float discount);
 
 }

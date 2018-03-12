@@ -57,6 +57,7 @@ ext {
             fabview            : "com.getbase:floatingactionbutton:${fabviewVersion}",
             fab                : "com.github.clans:fab:${fabVersion}",
             gridlayout         : "com.android.support:gridlayout-v7:${gridlayoutVersion}",
+            annotations        : "com.android.support:support-annotations:${gridlayoutVersion}",
 
             // Injection
             dataBinding        : "com.android.databinding:compiler:${gradleVer}",

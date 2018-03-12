@@ -78,4 +78,6 @@ dependencies {
         transitive = true
     }
 
+    implementation project(":expenses")
+    implementation project(":expensesormlite")
 }

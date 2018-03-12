@@ -1,1 +1,1 @@
-include ':app', ':expenses'
+include ':app', ':expenses', ':expensesormlite'

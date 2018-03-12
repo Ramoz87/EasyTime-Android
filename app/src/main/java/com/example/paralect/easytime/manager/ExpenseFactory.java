@@ -1,9 +1,10 @@
-package com.paralect;
+package com.example.paralect.easytime.manager;
+
 
 import com.paralect.base.DataSource;
 import com.paralect.expences.IExpenseDataSource;
-import com.paralect.ormlite.ORMLiteExpenseDataSource;
 import com.paralect.sqlite.SQLiteNativeExpenseDataSource;
+import com.prilaga.expensesormlite.ORMLiteExpenseDataSource;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.

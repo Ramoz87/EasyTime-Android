@@ -1,4 +1,4 @@
-package com.paralect.ormlite;
+package com.prilaga.expensesormlite;
 
 import com.paralect.expences.IExpenseDataSource;
 
