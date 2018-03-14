@@ -28,7 +28,7 @@ public abstract class ExpenseDataSource<EXPENSE extends ExtendedExpense> extends
      * @param expenseType
      * @return list of expenses
      */
-    protected abstract List<EXPENSE> getExpenses(String jobId, String searchQuery, @ExtendedExpense.Type String expenseType) throws SQLException;
+    protected abstract List<EXPENSE> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException;
 
     /**
      * @param jobId is field of Job object

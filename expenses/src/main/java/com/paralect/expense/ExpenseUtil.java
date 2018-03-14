@@ -9,10 +9,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import static com.paralect.expense.ExtendedExpense.Type.DRIVING;
-import static com.paralect.expense.ExtendedExpense.Type.MATERIAL;
-import static com.paralect.expense.ExtendedExpense.Type.OTHER;
-import static com.paralect.expense.ExtendedExpense.Type.TIME;
+import static com.paralect.expense.ExpenseUnit.Type.DRIVING;
+import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
+import static com.paralect.expense.ExpenseUnit.Type.OTHER;
+import static com.paralect.expense.ExpenseUnit.Type.TIME;
 
 /**
  * Created by Oleg Tarashkevich on 14/03/2018.
@@ -49,7 +49,7 @@ public class ExpenseUtil {
         }
     }
 
-    public static String getUnit(@ExtendedExpense.Type String type, UnitCallback callback) {
+    public static String getUnit(@ExpenseUnit.Type String type, ExpenseUnit callback) {
         String text = "";
         if (!TextUtils.isEmpty(type)) {
 
@@ -69,6 +69,9 @@ public class ExpenseUtil {
                 case MATERIAL:
                     text = callback.getMaterialUnit();
                     break;
+
+                default:
+                    text = "";
             }
         }
         return text;

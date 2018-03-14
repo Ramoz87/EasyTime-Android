@@ -6,11 +6,18 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.paralect.expense.ExpenseUnit;
+import com.paralect.expense.ExpenseUtil;
 import com.paralect.expense.ExtendedExpense;
 
 import java.util.Date;
 
 import static com.paralect.core.BaseExpense.EXPENSE_TABLE_NAME;
+import static com.paralect.expense.ExpenseUtil.UNITY_CURRENCY;
+import static com.paralect.expense.ExpenseUtil.UNITY_KM;
+import static com.paralect.expense.ExpenseUtil.UNITY_MIN;
+import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
+import static com.paralect.expense.ExpenseUnit.Type.TIME;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
@@ -34,7 +41,7 @@ public class Expense implements ExtendedExpense, Parcelable {
     @DatabaseField(columnName = CREATION_DATE)
     private long creationDate;
 
-    @Type
+    @ExpenseUnit.Type
     @DatabaseField(columnName = TYPE)
     private String type;
 
@@ -75,7 +82,7 @@ public class Expense implements ExtendedExpense, Parcelable {
     public static Expense createTimeExpense(String jobId, String name, int hours, int minutes) {
         long total = hours * 60 + minutes;
         Expense expense = new Expense();
-        expense.setType(Expense.Type.TIME);
+        expense.setType(TIME);
         expense.setName(name);
         expense.setJobId(jobId);
         expense.setCreationDate(new Date());
@@ -88,7 +95,7 @@ public class Expense implements ExtendedExpense, Parcelable {
         expense.setJobId(jobId);
         expense.setName(materialName);
         expense.setMaterialId(materialId);
-        expense.setType(Expense.Type.MATERIAL);
+        expense.setType(MATERIAL);
         expense.setCreationDate(new Date());
         expense.setValue(countOfMaterials);
         return expense;
@@ -156,7 +163,7 @@ public class Expense implements ExtendedExpense, Parcelable {
 
     @Override
     public void setId(long id) {
-      // no need
+        // no need
     }
 
     @Override
@@ -246,6 +253,11 @@ public class Expense implements ExtendedExpense, Parcelable {
     }
 
     @Override
+    public boolean isMaterialExpense() {
+        return materialId != null;
+    }
+
+    @Override
     public String getWorkTypeId() {
         return workTypeId;
     }
@@ -255,5 +267,66 @@ public class Expense implements ExtendedExpense, Parcelable {
         workTypeId = id;
     }
 
+    @Override
+    public String getValueWithUnit() {
+        return valueWithUnit;
+    }
 
+    @Override
+    public void setValueWithUnit(ExpenseUnit expenseUnitCallback) {
+        valueWithUnit = ExpenseUtil.getUnit(type, expenseUnitCallback);
+    }
+
+    public static class ExpenseValueWithUnit implements ExpenseUnit {
+
+        long value;
+
+        ExpenseValueWithUnit setValue(long value) {
+            this.value = value;
+            return this;
+        }
+
+        @Override
+        public String getTimeUnit() {
+            return ExpenseUtil.timeToString(value);
+        }
+
+        @Override
+        public String getDrivingUnit() {
+            return value + " " + UNITY_KM;
+        }
+
+        @Override
+        public String getOtherUnit() {
+            return value + " " + UNITY_CURRENCY;
+        }
+
+        @Override
+        public String getMaterialUnit() {
+            return "";
+        }
+    }
+
+    public static class ExpenseUnitName implements ExpenseUnit {
+
+        @Override
+        public String getTimeUnit() {
+            return UNITY_MIN;
+        }
+
+        @Override
+        public String getDrivingUnit() {
+            return UNITY_KM;
+        }
+
+        @Override
+        public String getOtherUnit() {
+            return UNITY_CURRENCY;
+        }
+
+        @Override
+        public String getMaterialUnit() {
+            return "";
+        }
+    }
 }

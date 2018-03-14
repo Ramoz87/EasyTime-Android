@@ -11,7 +11,9 @@ import java.util.List;
 
 public abstract class DataSource<MODEL extends Model> {
 
-    public abstract MODEL saveModel(MODEL model) throws SQLException;
+    public abstract void saveModel(MODEL model) throws SQLException;
+
+    public abstract MODEL saveAndGetModel(MODEL model) throws SQLException;
 
     public abstract long deleteModel(MODEL model) throws SQLException;
 

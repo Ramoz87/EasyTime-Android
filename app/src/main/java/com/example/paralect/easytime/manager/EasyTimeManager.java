@@ -1,16 +1,14 @@
 package com.example.paralect.easytime.manager;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.example.paralect.easytime.EasyTimeApplication;
-import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Address;
-import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.DatabaseHelper;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.JobWithAddress;
@@ -30,6 +28,8 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.paralect.expense.ExpenseUnit;
+import com.paralect.expensesormlite.Expense;
 import com.paralect.expensesormlite.ORMLiteExpenseDataSource;
 
 import java.sql.SQLException;
@@ -41,6 +41,9 @@ import java.util.List;
 
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
 import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
+import static com.paralect.core.BaseExpense.EXPENSE_ID;
+import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
+import static com.paralect.expense.ExpenseUnit.Type.OTHER;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -71,11 +74,12 @@ public final class EasyTimeManager {
     }
 
     private EasyTimeManager() {
+        Context context = EasyTimeApplication.getContext();
         if (helper == null)
-            helper = new DatabaseHelper(EasyTimeApplication.getContext());
+            helper = new DatabaseHelper(context);
         if (expenseDS == null)
             try {
-                expenseDS = new ORMLiteExpenseDataSource(helper.getExpenseDaoModule());
+                expenseDS = new ORMLiteExpenseDataSource(context, helper.getExpenseDaoModule());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -454,82 +458,30 @@ public final class EasyTimeManager {
     }
 
     public List<Expense> getDefaultExpenses(String jobId) {
-        List<Expense> expenses = new ArrayList<>();
+        return expenseDS.getDefaultExpenses(jobId);
+    }
 
-        // Driving
-        Expense expense = new Expense();
-        expense.setName(EasyTimeApplication.getContext().getString(R.string.driving));
-        expense.setType(Expense.Type.DRIVING);
-        expense.setJobId(jobId);
-        expenses.add(expense);
+    private List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
+        List<Expense> expenses = expenseDS.getExpenses(jobId, searchQuery, expenseType);
+        final Dao<Material, String> materialDao = helper.getMaterialDao();
 
-        // Other expenses
-        expense = new Expense();
-        expense.setName(EasyTimeApplication.getContext().getString(R.string.other_expenses));
-        expense.setType(Expense.Type.OTHER);
-        expense.setJobId(jobId);
-        expenses.add(expense);
+        for (final Expense exp : expenses)
+            setValueWithUnit(exp, materialDao);
 
         return expenses;
     }
 
-    private List<Expense> getExpenses(String jobId, boolean isMaterial, String searchQuery, @Expense.Type String expenseType) {
-        List<Expense> expenses = new ArrayList<>();
-        try {
-            Dao<Expense, Long> dao = helper.getExpenseDao();
-            Dao<Material, String> materialDao = helper.getMaterialDao();
-            QueryBuilder<Expense, Long> qb = dao.queryBuilder();
-
-//            // Doesn't work in case of case sensitive
-//            qb.distinct().selectColumns("name");
-
-            Where where;
-            if (isMaterial) {
-                where = qb.where().eq("jobId", jobId).and().isNotNull("materialId");
-            } else {
-                where = qb.where().eq("jobId", jobId).and().isNull("materialId");
-            }
-
-            if (TextUtil.isNotEmpty(searchQuery)) {
-                where.and().like("name", "%" + searchQuery + "%");
-            }
-
-            if (TextUtil.isNotEmpty(expenseType))
-                where.and().eq("type", expenseType);
-
-            List<Expense> foundExpenses = qb.query();
-
-            if (isMaterial) {
-                for (Expense exp : foundExpenses) {
-                    Material material = materialDao.queryForId(exp.getMaterialId());
-                    exp.setMaterial(material);
-                    exp.getTypedValue();
-                }
-            } else {
-                for (Expense exp : foundExpenses) {
-                    exp.getTypedValue();
-                }
-            }
-            expenses.addAll(foundExpenses);
-        } catch (SQLException exc) {
-            Logger.e(exc);
-        }
-        return expenses;
+    public List<Expense> getOtherExpenses(String jobId, String searchQuery) throws SQLException {
+        return getExpenses(jobId, searchQuery, OTHER);
     }
 
-    public List<Expense> getOtherExpenses(String jobId, String searchQuery) {
-        return getExpenses(jobId, false, searchQuery, Expense.Type.OTHER);
-    }
-
-    public List<Expense> getMaterialExpenses(String jobId) {
-        return getExpenses(jobId, true, null, Expense.Type.MATERIAL);
+    public List<Expense> getMaterialExpenses(String jobId) throws SQLException {
+        return getExpenses(jobId, null, MATERIAL);
     }
 
     public long getTotalExpensesCount(String jobId) {
         try {
-            Dao<Expense, Long> dao = helper.getExpenseDao();
-            Where where = dao.queryBuilder().where().eq("jobId", jobId);
-            long totalCount = where.countOf();
+            long totalCount = expenseDS.getTotalExpensesCount(jobId);
 
             Dao<Project, String> projectDao = helper.getProjectDao();
             Project project = projectDao.queryForId(jobId);
@@ -576,42 +528,15 @@ public final class EasyTimeManager {
                 Logger.d(TAG, "its an order, query should be also performed for all objects");
                 ids.addAll(Arrays.asList(order.getObjectIds()));
             }
-            Dao<Expense, Long> expenseDao = helper.getExpenseDao();
-            Dao<Material, String> materialDao = helper.getMaterialDao();
-
-            boolean hasDate = TextUtil.isNotEmpty(date);
+            final Dao<Material, String> materialDao = helper.getMaterialDao();
 
             for (String id : ids) {
-                QueryBuilder<Expense, Long> qb = expenseDao.queryBuilder();
-                Where where = qb.where().eq("jobId", id);
-                if (hasDate) {
 
-                    Date time = CalendarUtils.dateFromString(date, SHORT_DATE_FORMAT);
-
-                    Calendar yesterday = Calendar.getInstance();
-                    yesterday.setTime(time);
-
-                    Calendar tomorrow = Calendar.getInstance();
-                    tomorrow.setTime(time);
-                    tomorrow.add(Calendar.DATE, 1);
-
-                    long beforeTime = yesterday.getTimeInMillis();
-                    long afterTime = tomorrow.getTimeInMillis();
-                    where.and().between("creationDate", beforeTime, afterTime);
-
-                }
-                List<Expense> foundExpense = qb.orderBy("creationDate", false).query();
+                List<Expense> foundExpense = expenseDS.getExpenses(id, date);
                 Logger.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
 
-                for (Expense exp : foundExpense) {
-                    if (exp.isMaterialExpense()) {
-                        String materialId = exp.getMaterialId();
-                        Logger.d(TAG, String.format("material id for curr expense = %s", materialId));
-                        Material material = materialDao.queryForId(materialId);
-                        exp.setMaterial(material);
-                    }
-                    exp.getTypedValue();
-                }
+                for (final Expense exp : foundExpense)
+                    setValueWithUnit(exp, materialDao);
 
                 allExpenses.addAll(foundExpense);
             }
@@ -621,17 +546,35 @@ public final class EasyTimeManager {
         return allExpenses;
     }
 
-    public Expense saveExpense(Expense expense) throws SQLException {
-        // save
-        Dao<Expense, Long> dao = helper.getExpenseDao();
-        dao.createOrUpdate(expense);
-        // retrieve
-        PreparedQuery<Expense> query = dao.queryBuilder()
-                .orderBy("expenseId", false)
-                .limit(1L)
-                .prepare();
+    /**
+     * Create value with unit description
+     *
+     * @param expense
+     * @param materialDao
+     */
+    private void setValueWithUnit(@NonNull final Expense expense, final Dao<Material, String> materialDao) {
+        expense.setValueWithUnit(new Expense.ExpenseValueWithUnit() {
+            @Override
+            public String getMaterialUnit() {
+                try {
+                    String materialId = expense.getMaterialId();
+                    Logger.d(TAG, String.format("material id for curr expense = %s", materialId));
+                    Material material = materialDao.queryForId(materialId);
+                    if (material != null) {
+                        com.example.paralect.easytime.model.Type t = getType(material.getUnitId());
+                        if (t != null)
+                            return t.getName();
+                    }
+                } catch (SQLException e) {
+                    Logger.e(e);
+                }
+                return super.getMaterialUnit();
+            }
+        });
+    }
 
-        return dao.query(query).get(0);
+    public Expense saveExpense(Expense expense) throws SQLException {
+        return expenseDS.saveAndGetModel(expense);
     }
 
     public List<Object> getObjects(String[] ids) {
@@ -666,44 +609,38 @@ public final class EasyTimeManager {
 
     public void deleteExpense(Expense expense) {
         try {
-            Dao<Expense, Long> expenseDao = helper.getExpenseDao();
             File file = getFile(expense);
             if (file != null) {
                 java.io.File imageFile = file.getImageFile();
                 boolean isDeleted = imageFile.delete();
                 Logger.d("file deleted = " + isDeleted);
             }
-            expenseDao.delete(expense);
+            expenseDS.deleteModel(expense);
         } catch (SQLException exc) {
             Logger.e(exc);
             exc.printStackTrace();
         }
     }
 
-    public void saveExpense(String jobId, Material material, int countOfMaterials) {
-        try {
-            Dao<Expense, Long> dao = helper.getExpenseDao();
-            Dao<Material, String> materialDao = helper.getMaterialDao();
-            Expense expense = Expense.createMaterialExpense(jobId, material, countOfMaterials);
-            material.setStockQuantity(material.getStockQuantity() - countOfMaterials);
-            // TODO Should we count the price right here ???
-            dao.createOrUpdate(expense);
-            materialDao.update(material);
-        } catch (SQLException exc) {
-            Logger.e(exc);
-        }
+    public void saveExpense(String jobId, Material material, int countOfMaterials) throws SQLException {
+        Dao<Material, String> materialDao = helper.getMaterialDao();
+        Expense expense = Expense.createMaterialExpense(jobId, material.getName(), material.getMaterialId(), countOfMaterials);
+        material.setStockQuantity(material.getStockQuantity() - countOfMaterials);
+        // TODO Should we count the price right here ???
+        expenseDS.saveModel(expense);
+        materialDao.update(material);
     }
 
     // region File
     public File getFile(Expense expense) throws SQLException {
         return helper.getFileDao().queryBuilder()
                 .where()
-                .eq("expenseId", expense.getExpenseId())
+                .eq("expenseId", expense.getId())
                 .queryForFirst();
     }
 
     public List<File> getFilesByExpenseId(Long expenseId) throws SQLException {
-        return helper.getFileDao().queryForEq("expenseId", expenseId);
+        return helper.getFileDao().queryForEq(EXPENSE_ID, expenseId);
     }
 
     public List<File> getFiles(Job job) throws SQLException {

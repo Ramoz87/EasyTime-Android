@@ -32,7 +32,7 @@ public interface BaseExpense extends Model {
     void setValue(long value);
 
     /**
-     * Unit name of value of this expense, for ex. kg, meters, seconds etc.
+     * ExpenseUnit name of value of this expense, for ex. kg, meters, seconds etc.
      */
     String getUnitName();
 

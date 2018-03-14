@@ -9,6 +9,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.paralect.expense.ExpenseDataSource;
+import com.paralect.expense.ExpenseUnit;
 import com.paralect.expense.ExpenseUtil;
 import com.prilaga.expensesormlite.R;
 
@@ -24,6 +25,8 @@ import static com.paralect.core.BaseExpense.CREATION_DATE;
 import static com.paralect.core.BaseExpense.EXPENSE_ID;
 import static com.paralect.core.BaseExpense.NAME;
 import static com.paralect.core.BaseExpense.TYPE;
+import static com.paralect.expense.ExpenseUnit.Type.DRIVING;
+import static com.paralect.expense.ExpenseUnit.Type.OTHER;
 import static com.paralect.expense.ExtendedExpense.JOB_ID;
 
 /**
@@ -43,9 +46,14 @@ public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
 
     // region Basic methods
     @Override
-    public Expense saveModel(Expense expense) throws SQLException {
-        // save
+    public void saveModel(Expense expense) throws SQLException {
         dao.createOrUpdate(expense);
+    }
+
+    @Override
+    public Expense saveAndGetModel(Expense expense) throws SQLException {
+        // save
+        saveModel(expense);
         // retrieve
         PreparedQuery<Expense> query = dao.queryBuilder()
                 .orderBy(EXPENSE_ID, false)
@@ -113,7 +121,7 @@ public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
      * @param expenseType
      * @return list of expenses
      */
-    public List<Expense> getExpenses(String jobId, String searchQuery, @Expense.Type String expenseType) throws SQLException {
+    public List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
         QueryBuilder<Expense, Long> qb = dao.queryBuilder();
 
 //            // Doesn't work in case of case sensitive
@@ -153,14 +161,14 @@ public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
         // Driving
         Expense expense = new Expense();
         expense.setName(context.getString(R.string.driving));
-        expense.setType(Expense.Type.DRIVING);
+        expense.setType(DRIVING);
         expense.setJobId(jobId);
         expenses.add(expense);
 
         // Other expenses
         expense = new Expense();
         expense.setName(context.getString(R.string.other_expenses));
-        expense.setType(Expense.Type.OTHER);
+        expense.setType(OTHER);
         expense.setJobId(jobId);
         expenses.add(expense);
 
