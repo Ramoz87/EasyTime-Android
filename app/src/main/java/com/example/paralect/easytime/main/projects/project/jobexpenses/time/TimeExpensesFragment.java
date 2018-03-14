@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,12 +14,13 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Constants;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.StrangeNumberInputView;
+import com.example.paralect.easytime.model.Expense;
+import com.paralect.expense.ExtendedExpense;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,7 +144,7 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
                     minutesView.errorAnimation();
 
                 } else {
-                    Expense expense = Expense.createTimeExpense(job, type, hours, minutes);
+                    ExtendedExpense expense = Expense.createTimeExpense(job.getJobId(), type.getName(), hours, minutes);
                     expense = EasyTimeManager.getInstance().saveExpense(expense);
                     Logger.d(TAG, "Expense created");
 

@@ -8,9 +8,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.Logger;
+import com.example.paralect.easytime.model.Expense;
+import com.paralect.expense.ExtendedExpense;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -21,7 +22,7 @@ import butterknife.OnClick;
  * Created by Oleg Tarashkevich on 17/01/2018.
  */
 
-public class ExpenseFilesView extends FrameLayout implements IFilesView<File, Expense> {
+public class ExpenseFilesView extends FrameLayout implements IFilesView<File, ExtendedExpense> {
     private static final String TAG = ExpenseFilesView.class.getSimpleName();
 
     @BindView(R.id.image_layout) View galleryView;
@@ -96,7 +97,7 @@ public class ExpenseFilesView extends FrameLayout implements IFilesView<File, Ex
     }
 
     @Override
-    public void setupWithEntity(Expense expense) {
+    public void setupWithEntity(ExtendedExpense expense) {
         presenter.setExpense(expense);
     }
 

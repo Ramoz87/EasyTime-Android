@@ -7,8 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.utils.CollectionUtil;
+import com.example.paralect.easytime.model.Expense;
 
 import java.util.ArrayList;
 import java.util.Collections;

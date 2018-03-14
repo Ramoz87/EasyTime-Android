@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Expense;
-import com.example.paralect.easytime.utils.anim.AnimUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +108,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         void bind(Expense expense, boolean editorModeEnabled) {
             this.expense = expense;
             expenseName.setText(expense.getName());
-            expenseValue.setText(expense.getTypedValue());
+            expenseValue.setText(expense.getValueWithUnit());
             setEditorIconVisibility(editorModeEnabled);
         }
 

@@ -10,17 +10,15 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.TextUtil;
+import com.example.paralect.easytime.model.Expense;
 
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;

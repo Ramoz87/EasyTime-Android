@@ -36,12 +36,4 @@ public abstract class ExpenseDataSource<EXPENSE extends ExtendedExpense> extends
      */
     protected abstract long getTotalExpensesCount(String jobId) throws SQLException;
 
-    /**
-     * Expenses which always exists
-     *
-     * @param jobId is field of Job object
-     * @return list of expenses
-     */
-    protected abstract List<EXPENSE> getDefaultExpenses(String jobId);
-    
 }

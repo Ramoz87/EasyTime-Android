@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.materials;
 
-import android.animation.AnimatorInflater;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -18,13 +17,10 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TextUtil;
-import com.example.paralect.easytime.utils.ViewAnimationUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
-import com.example.paralect.easytime.views.KeypadEditorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +28,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
 import butterknife.OnTouch;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -40,6 +35,8 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
 
 /**
  * Created by alexei on 15.01.2018.
@@ -252,7 +249,8 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
 
             this.material = material;
             name.setText(material.getName());
-            unit.setText(Expense.getUnitName(Expense.Type.MATERIAL, material));
+            String unitName = EasyTimeManager.getInstance().getUnitName(MATERIAL, material);
+            unit.setText(unitName);
             Resources res = itemView.getResources();
             number.setText(res.getString(R.string.material_number, material.getMaterialNr()));
 

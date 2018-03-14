@@ -32,7 +32,6 @@ import com.example.paralect.easytime.main.projects.project.invoice.ProjectInvoic
 import com.example.paralect.easytime.main.projects.project.jobexpenses.materials.MaterialExpensesFragment;
 import com.example.paralect.easytime.main.projects.project.jobexpenses.time.WorkTypeFragment;
 import com.example.paralect.easytime.main.projects.project.objectsofproject.ObjectsOfProjectFragment;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.ObjectCollection;
 import com.example.paralect.easytime.model.ProjectType;
@@ -43,6 +42,7 @@ import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.Label;
+import com.example.paralect.easytime.model.Expense;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -1,7 +1,6 @@
 package com.paralect.expensesormlite;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.j256.ormlite.dao.Dao;
@@ -11,12 +10,9 @@ import com.j256.ormlite.stmt.Where;
 import com.paralect.expense.ExpenseDataSource;
 import com.paralect.expense.ExpenseUnit;
 import com.paralect.expense.ExpenseUtil;
-import com.prilaga.expensesormlite.R;
+import com.paralect.expense.ExtendedExpense;
 
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,37 +21,35 @@ import static com.paralect.core.BaseExpense.CREATION_DATE;
 import static com.paralect.core.BaseExpense.EXPENSE_ID;
 import static com.paralect.core.BaseExpense.NAME;
 import static com.paralect.core.BaseExpense.TYPE;
-import static com.paralect.expense.ExpenseUnit.Type.DRIVING;
-import static com.paralect.expense.ExpenseUnit.Type.OTHER;
 import static com.paralect.expense.ExtendedExpense.JOB_ID;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
+public class ORMLiteExpenseDataSource<EXPENSE extends ExtendedExpense> extends ExpenseDataSource<EXPENSE> {
 
     private Context context;
-    private Dao<Expense, Long> dao;
+    private Dao<EXPENSE, Long> dao;
 
 
-    public ORMLiteExpenseDataSource(Context context, Dao<Expense, Long> expenseDao) {
+    public ORMLiteExpenseDataSource(Context context, Dao<EXPENSE, Long> expenseDao) {
         this.context = context;
         dao = expenseDao;
     }
 
     // region Basic methods
     @Override
-    public void saveModel(Expense expense) throws SQLException {
+    public void saveModel(EXPENSE expense) throws SQLException {
         dao.createOrUpdate(expense);
     }
 
     @Override
-    public Expense saveAndGetModel(Expense expense) throws SQLException {
+    public EXPENSE saveAndGetModel(EXPENSE expense) throws SQLException {
         // save
         saveModel(expense);
         // retrieve
-        PreparedQuery<Expense> query = dao.queryBuilder()
+        PreparedQuery<EXPENSE> query = dao.queryBuilder()
                 .orderBy(EXPENSE_ID, false)
                 .limit(1L)
                 .prepare();
@@ -63,19 +57,19 @@ public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
     }
 
     @Override
-    public long deleteModel(Expense expense) throws SQLException {
+    public long deleteModel(EXPENSE expense) throws SQLException {
         long id = expense.getId();
         dao.delete(expense);
         return id;
     }
 
     @Override
-    public Expense getModelById(long id) throws SQLException {
+    public EXPENSE getModelById(long id) throws SQLException {
         return dao.queryForId(id);
     }
 
     @Override
-    public List<Expense> getModels() {
+    public List<EXPENSE> getModels() {
         return null;
     }
     // endregion
@@ -89,9 +83,9 @@ public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
      * @param date  should be in "yyyy-MM-dd" format
      * @return list of expenses
      */
-    public List<Expense> getExpenses(String jobId, String date) throws SQLException {
+    public List<EXPENSE> getExpenses(String jobId, String date) throws SQLException {
         boolean hasDate = !TextUtils.isEmpty(date);
-        QueryBuilder<Expense, Long> qb = dao.queryBuilder();
+        QueryBuilder<EXPENSE, Long> qb = dao.queryBuilder();
         Where where = qb.where().eq(JOB_ID, jobId);
         if (hasDate) {
 
@@ -109,7 +103,7 @@ public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
             where.and().between(CREATION_DATE, beforeTime, afterTime);
 
         }
-        List<Expense> expenses = qb.orderBy(CREATION_DATE, false).query();
+        List<EXPENSE> expenses = qb.orderBy(CREATION_DATE, false).query();
         return expenses;
     }
 
@@ -121,8 +115,8 @@ public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
      * @param expenseType
      * @return list of expenses
      */
-    public List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
-        QueryBuilder<Expense, Long> qb = dao.queryBuilder();
+    public List<EXPENSE> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
+        QueryBuilder<EXPENSE, Long> qb = dao.queryBuilder();
 
 //            // Doesn't work in case of case sensitive
 //            qb.distinct().selectColumns("name");
@@ -135,7 +129,7 @@ public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
         if (!TextUtils.isEmpty(expenseType))
             where.and().eq(TYPE, expenseType);
 
-        List<Expense> expenses = qb.query();
+        List<EXPENSE> expenses = qb.query();
         return expenses;
     }
 
@@ -147,32 +141,6 @@ public class ORMLiteExpenseDataSource extends ExpenseDataSource<Expense> {
         Where where = dao.queryBuilder().where().eq(JOB_ID, jobId);
         long totalCount = where.countOf();
         return totalCount;
-    }
-
-    /**
-     * Expenses which always exists
-     *
-     * @param jobId is field of Job object
-     * @return list of expenses
-     */
-    public List<Expense> getDefaultExpenses(String jobId) {
-        List<Expense> expenses = new ArrayList<>();
-
-        // Driving
-        Expense expense = new Expense();
-        expense.setName(context.getString(R.string.driving));
-        expense.setType(DRIVING);
-        expense.setJobId(jobId);
-        expenses.add(expense);
-
-        // Other expenses
-        expense = new Expense();
-        expense.setName(context.getString(R.string.other_expenses));
-        expense.setType(OTHER);
-        expense.setJobId(jobId);
-        expenses.add(expense);
-
-        return expenses;
     }
     // endregion
 }

@@ -1,9 +1,7 @@
 package com.example.paralect.easytime.main.projects.project.jobexpenses.materials;
 
-import com.example.paralect.easytime.main.materials.MaterialsPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.Logger;
@@ -23,6 +21,8 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
+
 /**
  * Created by alexei on 17.01.2018.
  */
@@ -41,7 +41,7 @@ class MaterialExpensesPresenter extends SearchViewPresenter<List<MaterialExpense
                         List<MaterialExpense> materialExpenses = new ArrayList<>();
                         for (Material material : materials) {
                             MaterialExpense expense = new MaterialExpense(material);
-                            expense.unitName = Expense.getUnitName(Expense.Type.MATERIAL, material);
+                            expense.unitName = EasyTimeManager.getInstance().getUnitName(MATERIAL, material);
                             materialExpenses.add(expense);
                         }
 

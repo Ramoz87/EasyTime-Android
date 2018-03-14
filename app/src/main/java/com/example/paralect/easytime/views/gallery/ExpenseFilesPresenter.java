@@ -3,25 +3,26 @@ package com.example.paralect.easytime.views.gallery;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.Logger;
+import com.example.paralect.easytime.model.Expense;
+import com.paralect.expense.ExtendedExpense;
 
 /**
  * Created by Oleg Tarashkevich on 17/01/2018.
  */
 
-final class ExpenseFilesPresenter extends FilesPresenter<File, Expense> {
+final class ExpenseFilesPresenter extends FilesPresenter<File, ExtendedExpense> {
 
     private File file;
 
     @Override
-    public IDataPresenter<File, Expense> setDataView(IDataView<File> view) {
+    public IDataPresenter<File, ExtendedExpense> setDataView(IDataView<File> view) {
         return this;
     }
 
     @Override
-    public IDataPresenter<File, Expense> requestData(final Expense parameter) {
+    public IDataPresenter<File, ExtendedExpense> requestData(final ExtendedExpense parameter) {
         return this;
     }
 
@@ -47,10 +48,10 @@ final class ExpenseFilesPresenter extends FilesPresenter<File, Expense> {
      *
      * @param expense
      */
-    void setExpense(Expense expense) {
+    void setExpense(ExtendedExpense expense) {
         try {
             if (file != null) {
-                file.setExpenseId(expense.getExpenseId());
+                file.setExpenseId(expense.getId());
                 file = EasyTimeManager.getInstance().saveFileAndGet(file);
             }
             Logger.d("file saved");

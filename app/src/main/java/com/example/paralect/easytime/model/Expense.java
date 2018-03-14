@@ -2,141 +2,143 @@ package com.example.paralect.easytime.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.StringDef;
 
+import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.main.projects.project.invoice.InvoiceCell;
-import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.utils.CalendarUtils;
-import com.example.paralect.easytime.utils.TextUtil;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.paralect.expense.ExpenseUnit;
+import com.paralect.expense.ExpenseUtil;
+import com.paralect.expense.ExtendedExpense;
+import com.prilaga.expensesormlite.R;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import static com.example.paralect.easytime.model.Constants.UNITY_CURRENCY;
-import static com.example.paralect.easytime.model.Constants.UNITY_KM;
-import static com.example.paralect.easytime.model.Constants.UNITY_MIN;
+import static com.paralect.core.BaseExpense.EXPENSE_TABLE_NAME;
+import static com.paralect.expense.ExpenseUnit.Type.DRIVING;
+import static com.paralect.expense.ExpenseUnit.Type.OTHER;
+import static com.paralect.expense.ExpenseUtil.UNITY_CURRENCY;
+import static com.paralect.expense.ExpenseUtil.UNITY_KM;
+import static com.paralect.expense.ExpenseUtil.UNITY_MIN;
+import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
+import static com.paralect.expense.ExpenseUnit.Type.TIME;
 
 /**
- * Created by alexei on 26.12.2017.
+ * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-@DatabaseTable(tableName = "expenses")
-public class Expense implements Parcelable, InvoiceCell {
+@DatabaseTable(tableName = EXPENSE_TABLE_NAME)
+public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
 
-    @StringDef({Type.TIME, Type.MATERIAL, Type.DRIVING, Type.OTHER})
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface Type {
-        String TIME = "Time";
-        String MATERIAL = "Material";
-        String DRIVING = "Driving";
-        String OTHER = "Other";
-    }
-
-    @DatabaseField(columnName = "discount", dataType = DataType.FLOAT)
-    private float discount;
-
-    @DatabaseField(columnName = "expenseId", generatedId = true)
+    @DatabaseField(columnName = EXPENSE_ID, generatedId = true)
     private long expenseId;
 
-    @DatabaseField(columnName = "materialId")
-    private String materialId;
-
-    /* to simplify the access to material of expense we need to hold reference to that material */
-    private Material material;
-
-    @DatabaseField(columnName = "name")
+    @DatabaseField(columnName = NAME)
     private String name;
 
-    @Type
-    @DatabaseField(columnName = "type")
-    private String type;
-
-    @DatabaseField(columnName = "value")
+    @DatabaseField(columnName = VALUE)
     private long value;
 
-    @DatabaseField(columnName = "workTypeId")
-    private String workTypeId;
+    @DatabaseField(columnName = UNIT_NAME)
+    private String unitName;
 
-    @DatabaseField(columnName = "jobId")
-    private String jobId;
-
-    @DatabaseField(columnName = "creationDate")
+    @DatabaseField(columnName = CREATION_DATE)
     private long creationDate;
 
-    private String typedValue;
+    @ExpenseUnit.Type
+    @DatabaseField(columnName = TYPE)
+    private String type;
+
+    @DatabaseField(columnName = DISCOUNT, dataType = DataType.FLOAT)
+    private float discount;
+
+    // region external Ids
+    @DatabaseField(columnName = JOB_ID)
+    private String jobId;
+
+    @DatabaseField(columnName = MATERIAL_ID)
+    private String materialId;
+
+    @DatabaseField(columnName = WORK_TYPE_ID)
+    private String workTypeId;
+    // endregion
+
+    private String valueWithUnit;
 
     // region Create new expense
-    public static Expense reCreate(Expense ex) {
+    public static Expense copy(Expense ex) {
         Expense expense = new Expense();
         if (ex != null) {
+            expense.setName(ex.getName());
+            expense.setValue(ex.getValue());
+            expense.setUnitName(ex.getUnitName());
+            expense.setCreationDate(new Date());
+            expense.setType(ex.getType());
             expense.setDiscount(ex.getDiscount());
             expense.setJobId(ex.getJobId());
-            expense.setName(ex.getName());
-            expense.setType(ex.getType());
-            expense.setWorkTypeId(ex.getWorkTypeId());
-            expense.setMaterialId(ex.getMaterialId());
-            expense.setMaterial(ex.getMaterial());
-            expense.setCreationDate(new Date());
+            ex.setJobId(ex.getJobId());
+            ex.setMaterialId(ex.getMaterialId());
+            ex.setWorkTypeId(ex.getWorkTypeId());
         }
         return expense;
     }
 
-    public static Expense createTimeExpense(Job job, com.example.paralect.easytime.model.Type type, int hours, int minutes) {
+    public static Expense createTimeExpense(String jobId, String name, int hours, int minutes) {
         long total = hours * 60 + minutes;
         Expense expense = new Expense();
-        expense.setType(Expense.Type.TIME);
-        expense.setName(type.getName());
-        expense.setJobId(job.getJobId());
+        expense.setType(TIME);
+        expense.setName(name);
+        expense.setJobId(jobId);
         expense.setCreationDate(new Date());
         expense.setValue(total);
         return expense;
     }
 
-    public static Expense createMaterialExpense(String jobId, Material material, int countOfMaterials) {
+    public static Expense createMaterialExpense(String jobId, String materialName, String materialId, int countOfMaterials) {
         Expense expense = new Expense();
         expense.setJobId(jobId);
-        expense.setName(material.getName());
-        expense.setMaterialId(material.getMaterialId());
-        expense.setType(Expense.Type.MATERIAL);
+        expense.setName(materialName);
+        expense.setMaterialId(materialId);
+        expense.setType(MATERIAL);
         expense.setCreationDate(new Date());
         expense.setValue(countOfMaterials);
         return expense;
     }
     // endregion
 
-    public Expense() {
-
-    }
-
+    // region Parcel
     protected Expense(Parcel in) {
-        discount = in.readFloat();
         expenseId = in.readLong();
-        materialId = in.readString();
-        material = in.readParcelable(Material.class.getClassLoader());
         name = in.readString();
-        type = in.readString();
-        value = in.readInt();
-        workTypeId = in.readString();
-        jobId = in.readString();
+        value = in.readLong();
+        unitName = in.readString();
         creationDate = in.readLong();
+        type = in.readString();
+        discount = in.readFloat();
+        jobId = in.readString();
+        materialId = in.readString();
+        workTypeId = in.readString();
+
+        valueWithUnit = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeFloat(discount);
         dest.writeLong(expenseId);
-        dest.writeString(materialId);
-        dest.writeParcelable(material, flags);
         dest.writeString(name);
-        dest.writeString(type);
         dest.writeLong(value);
-        dest.writeString(workTypeId);
-        dest.writeString(jobId);
+        dest.writeString(unitName);
         dest.writeLong(creationDate);
+        dest.writeString(type);
+        dest.writeFloat(discount);
+        dest.writeString(jobId);
+        dest.writeString(materialId);
+        dest.writeString(workTypeId);
+
+        dest.writeString(valueWithUnit);
     }
 
     @Override
@@ -155,188 +157,235 @@ public class Expense implements Parcelable, InvoiceCell {
             return new Expense[size];
         }
     };
+    // endregion
 
-    public float getDiscount() {
-        return discount;
+    // region Getters & Setters
+    public Expense() {
+
     }
 
-    public void setDiscount(float discount) {
-        this.discount = discount;
-    }
-
-    public long getExpenseId() {
+    @Override
+    public long getId() {
         return expenseId;
     }
 
-    public void setExpenseId(long expenseId) {
-        this.expenseId = expenseId;
+    @Override
+    public void setId(long id) {
+        // no need
     }
 
-    public String getMaterialId() {
-        return materialId;
-    }
-
-    public void setMaterialId(String materialId) {
-        this.materialId = materialId;
-    }
-
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
+    @Override
     public long getValue() {
         return value;
     }
 
-    public String getTypedValue() {
-        if (typedValue == null)
-            typedValue = getTypedValue(type, value, material);
-        return typedValue;
-    }
-
+    @Override
     public void setValue(long value) {
         this.value = value;
     }
 
-    public String getWorkTypeId() {
-        return workTypeId;
+    @Override
+    public String getUnitName() {
+        return unitName;
     }
 
-    public void setWorkTypeId(String workTypeId) {
-        this.workTypeId = workTypeId;
+    @Override
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
     }
 
-    public Material getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
-
-    public boolean isMaterialExpense() {
-        return materialId != null;
-    }
-
-    public String getJobId() {
-        return jobId;
-    }
-
-    public void setJobId(String jobId) {
-        this.jobId = jobId;
-    }
-
+    @Override
     public long getCreationDate() {
         return creationDate;
     }
 
-    public String getStringDate() {
-        return CalendarUtils.stringFromDate(new Date(creationDate), CalendarUtils.LONG_DATE_FORMAT);
-    }
-
-    public void setCreationDate(Date date) {
-        creationDate = date.getTime();
-    }
-
-
+    @Override
     public void setCreationDate(long date) {
-        creationDate = date;
+        this.creationDate = date;
     }
+
+    @Override
+    public void setCreationDate(Date date) {
+        if (date != null)
+            creationDate = date.getTime();
+    }
+
+    @Override
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public float getDiscount() {
+        return discount;
+    }
+
+    @Override
+    public void setDiscount(float discount) {
+        this.discount = discount;
+    }
+
+    @Override
+    public String getJobId() {
+        return jobId;
+    }
+
+    @Override
+    public void setJobId(String id) {
+        jobId = id;
+    }
+
+    @Override
+    public String getMaterialId() {
+        return materialId;
+    }
+
+    @Override
+    public void setMaterialId(String id) {
+        materialId = id;
+    }
+
+    @Override
+    public boolean isMaterialExpense() {
+        return materialId != null;
+    }
+
+    @Override
+    public String getWorkTypeId() {
+        return workTypeId;
+    }
+
+    @Override
+    public void setWorkTypeId(String id) {
+        workTypeId = id;
+    }
+
+    @Override
+    public String getValueWithUnit() {
+        return valueWithUnit;
+    }
+
+    @Override
+    public void setValueWithUnit(ExpenseUnit expenseUnitCallback) {
+        valueWithUnit = ExpenseUtil.getUnit(type, expenseUnitCallback);
+    }
+    // endregion
 
     // region InvoiceCell
     @Override
     public String name() {
-        return name;
+        return getName();
     }
 
     @Override
     public String value() {
-        return getTypedValue();
+        return getValueWithUnit();
     }
 
     @Override
     public int invoiceCellType() {
         return InvoiceCell.Type.CELL;
     }
+
     // endregion
 
-    public static String getTypedValue(@Type String type, long value, Material material) {
-        String text = String.valueOf(value);
-        if (TextUtil.isNotEmpty(type)) {
+    /**
+     * Returns value and unit
+     */
+    public static class ExpenseValueWithUnit implements ExpenseUnit {
 
-            switch (type) {
-                case Type.TIME:
-                    text = CalendarUtils.timeToString(value);
-                    break;
+        long value;
 
-                case Type.DRIVING:
-                    text += " " + UNITY_KM;
-                    break;
+        public ExpenseValueWithUnit setValue(long value) {
+            this.value = value;
+            return this;
+        }
 
-                case Type.OTHER:
-                    text += " " + UNITY_CURRENCY;
-                    break;
+        @Override
+        public String getTimeUnit() {
+            return ExpenseUtil.timeToString(value);
+        }
 
-                case Type.MATERIAL:
-                    if (material != null) {
-                        com.example.paralect.easytime.model.Type t =
-                                EasyTimeManager.getInstance().getType(material.getUnitId());
-                        if (t != null)
-                            text += t.getName();
-                        else
-                            text = "";
-                    } else
-                        text = "";
-                    break;
+        @Override
+        public String getDrivingUnit() {
+            return value + " " + UNITY_KM;
+        }
 
-                default:
-                    text = "";
-            }
+        @Override
+        public String getOtherUnit() {
+            return value + " " + UNITY_CURRENCY;
+        }
 
-        } else
-            text = "";
-        return text;
+        @Override
+        public String getMaterialUnit() {
+            return "";
+        }
     }
 
-    public static String getUnitName(@Type String type, Material material) {
-        String text = "";
-        if (TextUtil.isNotEmpty(type)) {
+    /**
+     * Returns only value unit
+     */
+    public static class ExpenseUnitName implements ExpenseUnit {
 
-            switch (type) {
-                case Type.TIME:
-                    text = UNITY_MIN;
-                    break;
-
-                case Type.DRIVING:
-                    text = UNITY_KM;
-                    break;
-
-                case Type.OTHER:
-                    text = UNITY_CURRENCY;
-                    break;
-
-                case Type.MATERIAL:
-                    if (material != null) {
-                        com.example.paralect.easytime.model.Type t =
-                                EasyTimeManager.getInstance().getType(material.getUnitId());
-                        if (t != null)
-                            text = t.getName();
-                    }
-                    break;
-            }
+        @Override
+        public String getTimeUnit() {
+            return UNITY_MIN;
         }
-        return text;
+
+        @Override
+        public String getDrivingUnit() {
+            return UNITY_KM;
+        }
+
+        @Override
+        public String getOtherUnit() {
+            return UNITY_CURRENCY;
+        }
+
+        @Override
+        public String getMaterialUnit() {
+            return "";
+        }
+    }
+
+    /**
+     * Expenses which always exists
+     *
+     * @param jobId is field of Job object
+     * @return list of expenses
+     */
+    public static List<Expense> getDefaultExpenses(String jobId) {
+        List<Expense> expenses = new ArrayList<>();
+
+        // Driving
+        Expense expense = new Expense();
+        expense.setName(EasyTimeApplication.getContext().getString(R.string.driving));
+        expense.setType(DRIVING);
+        expense.setJobId(jobId);
+        expenses.add(expense);
+
+        // Other expenses
+        expense = new Expense();
+        expense.setName(EasyTimeApplication.getContext().getString(R.string.other_expenses));
+        expense.setType(OTHER);
+        expense.setJobId(jobId);
+        expenses.add(expense);
+
+        return expenses;
     }
 }

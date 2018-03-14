@@ -22,20 +22,20 @@ import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.Logger;
-import com.example.paralect.easytime.utils.TextUtil;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.paralect.expense.ExpenseUnit;
-import com.paralect.expensesormlite.Expense;
+import com.paralect.expense.ExpenseUtil;
+import com.example.paralect.easytime.model.Expense;
+import com.paralect.expense.ExtendedExpense;
 import com.paralect.expensesormlite.ORMLiteExpenseDataSource;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -79,7 +79,7 @@ public final class EasyTimeManager {
             helper = new DatabaseHelper(context);
         if (expenseDS == null)
             try {
-                expenseDS = new ORMLiteExpenseDataSource(context, helper.getExpenseDaoModule());
+                expenseDS = new ORMLiteExpenseDataSource(context, helper.getExpenseDao());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -458,7 +458,7 @@ public final class EasyTimeManager {
     }
 
     public List<Expense> getDefaultExpenses(String jobId) {
-        return expenseDS.getDefaultExpenses(jobId);
+        return Expense.getDefaultExpenses(jobId);
     }
 
     private List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
@@ -570,10 +570,24 @@ public final class EasyTimeManager {
                 }
                 return super.getMaterialUnit();
             }
+        }.setValue(expense.getValue()));
+    }
+
+    public String getUnitName(@ExpenseUnit.Type String type, final Material material){
+        return ExpenseUtil.getUnit(type, new Expense.ExpenseUnitName() {
+            @Override
+            public String getMaterialUnit() {
+                String unitName = super.getMaterialUnit();
+                com.example.paralect.easytime.model.Type t =
+                        EasyTimeManager.getInstance().getType(material.getUnitId());
+                if (t != null)
+                    unitName = t.getName();
+                return unitName;
+            }
         });
     }
 
-    public Expense saveExpense(Expense expense) throws SQLException {
+    public ExtendedExpense saveExpense(ExtendedExpense expense) throws SQLException {
         return expenseDS.saveAndGetModel(expense);
     }
 

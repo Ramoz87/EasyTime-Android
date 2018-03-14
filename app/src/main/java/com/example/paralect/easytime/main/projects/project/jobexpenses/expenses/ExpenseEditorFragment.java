@@ -12,24 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Constants;
-import com.example.paralect.easytime.model.Expense;
-import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.MetricsUtils;
 import com.example.paralect.easytime.utils.ViewAnimationUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.gallery.ExpenseFilesView;
-
-import net.cachapa.expandablelayout.ExpandableLayout;
-
-import java.sql.SQLException;
+import com.example.paralect.easytime.model.Expense;
+import com.paralect.expense.ExtendedExpense;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,8 +83,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
         } else {
 
-            String unitName = Expense.getUnitName(mExpense.getType(), mExpense.getMaterial());
-            unitTextView.setText(unitName);
+            unitTextView.setText(mExpense.getValueWithUnit());
 
             expenseName.setText(mExpense.getName());
 
@@ -128,7 +122,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
             return;
         }
         
-        Expense expense = Expense.reCreate(mExpense);
+        ExtendedExpense expense = Expense.copy(mExpense);
         expense.setValue(value);
 
         try {

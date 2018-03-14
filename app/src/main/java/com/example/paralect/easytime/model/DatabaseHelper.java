@@ -3,14 +3,12 @@ package com.example.paralect.easytime.model;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import java.io.*;
 import java.sql.SQLException;
 
 /**
@@ -32,7 +30,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Project, String> projectDao = null;
     private Dao<File, Long> fileDao = null;
     private Dao<Expense, Long> expenseDao = null;
-    private Dao<com.paralect.expensesormlite.Expense, Long> expenseDaoModule = null;
     private Dao<Contact, Long> contactDao = null;
 
     public DatabaseHelper(@NonNull Context context) {
@@ -52,7 +49,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Project.class);
             TableUtils.createTableIfNotExists(connectionSource, File.class);
             TableUtils.createTableIfNotExists(connectionSource, Expense.class);
-            TableUtils.createTableIfNotExists(connectionSource, com.paralect.expensesormlite.Expense.class);
+            TableUtils.createTableIfNotExists(connectionSource, Expense.class);
             TableUtils.createTableIfNotExists(connectionSource, Contact.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -72,7 +69,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Project.class, true);
             TableUtils.dropTable(connectionSource, File.class, true);
             TableUtils.dropTable(connectionSource, Expense.class, true);
-            TableUtils.dropTable(connectionSource, com.paralect.expensesormlite.Expense.class, true);
+            TableUtils.dropTable(connectionSource, Expense.class, true);
             TableUtils.dropTable(connectionSource, Contact.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
@@ -108,13 +105,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return expenseDao;
     }
 
-    public Dao<com.paralect.expensesormlite.Expense, Long> getExpenseDaoModule() throws SQLException {
-        if (expenseDaoModule == null) {
-            expenseDaoModule = getDao(com.paralect.expensesormlite.Expense.class);
-        }
-        return expenseDaoModule;
-    }
-
     @Override
     public void close() {
         addressDao = null;
@@ -127,7 +117,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         projectDao = null;
         fileDao = null;
         expenseDao = null;
-        expenseDaoModule = null;
         contactDao = null;
 
         super.close();

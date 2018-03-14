@@ -15,13 +15,12 @@ import android.widget.Toast;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.Job;
-
-import java.util.List;
+import com.example.paralect.easytime.model.Expense;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
+import static com.paralect.expense.ExpenseUnit.Type.OTHER;
 
 /**
  * Created by alexei on 15.01.2018.
@@ -100,7 +99,7 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
         Toast.makeText(getContext(), String.format("created new expense %s", expenseName), Toast.LENGTH_SHORT).show();
         Expense expense = new Expense();
         expense.setName(expenseName);
-        expense.setType(Expense.Type.OTHER);
+        expense.setType(OTHER);
         expense.setJobId(job.getJobId());
         ExpenseEditorFragment fragment = ExpenseEditorFragment.newInstance(expense);
         getMainActivity().getFragmentNavigator().pushFragment(fragment);
