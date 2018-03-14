@@ -121,7 +121,7 @@ public class ORMLiteExpenseDataSource<EXPENSE extends ExtendedExpense> extends E
 //            // Doesn't work in case of case sensitive
 //            qb.distinct().selectColumns("name");
 
-        Where where = qb.where().eq(JOB_ID, jobId).and();
+        Where where = qb.where().eq(JOB_ID, jobId);
 
         if (!TextUtils.isEmpty(searchQuery))
             where.and().like(NAME, "%" + searchQuery + "%");
