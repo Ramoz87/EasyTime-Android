@@ -108,17 +108,7 @@ public final class CalendarUtils {
         return format.format(date);
     }
 
-    public static String timeToString(long minutes) {
-        String timeString = "";
 
-        long hours = TimeUnit.MINUTES.toHours(minutes);
-        minutes = minutes - TimeUnit.HOURS.toMinutes(hours);
-
-        timeString += hours + UNITY_HOUR;
-        timeString += " " + minutes + UNITY_MIN;
-
-        return timeString;
-    }
 
     public static Calendar setCalendarToMax(Calendar calendar) {
         if (calendar != null) {

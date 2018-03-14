@@ -1,12 +1,23 @@
-package com.paralect.base;
+package com.paralect.core;
 
 import android.util.SparseArray;
+
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public abstract class DataSource<M extends Model> {
+public abstract class DataSource<MODEL extends Model> {
+
+    public abstract MODEL saveModel(MODEL model) throws SQLException;
+
+    public abstract long deleteModel(MODEL model) throws SQLException;
+
+    public abstract MODEL getModelById(long id) throws SQLException;
+
+    public abstract List<MODEL> getModels() throws SQLException;
 
     public static abstract class Factory<DATA_SOURCE extends DataSource> {
 

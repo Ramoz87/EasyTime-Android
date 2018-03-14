@@ -30,6 +30,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.paralect.expensesormlite.ORMLiteExpenseDataSource;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public final class EasyTimeManager {
 
     private volatile static EasyTimeManager instance;
     private DatabaseHelper helper;
+    private ORMLiteExpenseDataSource expenseDS;
 
     /**
      * Returns singleton class instance
@@ -71,6 +73,12 @@ public final class EasyTimeManager {
     private EasyTimeManager() {
         if (helper == null)
             helper = new DatabaseHelper(EasyTimeApplication.getContext());
+        if (expenseDS == null)
+            try {
+                expenseDS = new ORMLiteExpenseDataSource(helper.getExpenseDaoModule());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
     }
 
     public DatabaseHelper getHelper() {

@@ -1,4 +1,4 @@
-package com.paralect.base;
+package com.paralect.core;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.

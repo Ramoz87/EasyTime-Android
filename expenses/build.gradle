@@ -24,4 +24,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def deps = rootProject.ext.deps
+    implementation deps.annotations
 }

@@ -3,10 +3,11 @@ package com.example.paralect.easytime.manager;
 
 import com.example.paralect.easytime.EasyTimeApplication;
 import com.j256.ormlite.dao.Dao;
-import com.paralect.base.DataSource;
-import com.paralect.expences.ExpenseDataSource;
+import com.paralect.core.DataSource;
+import com.paralect.expense.ExpenseDataSource;
+import com.paralect.expensesormlite.Expense;
 import com.paralect.sqlite.SQLiteNativeExpenseDataSource;
-import com.prilaga.expensesormlite.ORMLiteExpenseDataSource;
+import com.paralect.expensesormlite.ORMLiteExpenseDataSource;
 
 import java.sql.SQLException;
 
@@ -56,7 +57,7 @@ public class ExpenseFactory extends DataSource.Factory<ExpenseDataSource> {
                 return new SQLiteNativeExpenseDataSource();
             case ORMLITE:
                 try {
-                    Dao<com.prilaga.expensesormlite.Expense, Long> dao =
+                    Dao<Expense, Long> dao =
                             EasyTimeManager.getInstance().getHelper().getExpenseDaoModule();
                     return new ORMLiteExpenseDataSource(EasyTimeApplication.getContext(), dao);
                 } catch (SQLException e) {

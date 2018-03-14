@@ -1,6 +1,4 @@
-package com.paralect.expences;
-
-import com.paralect.base.Model;
+package com.paralect.core;
 
 import java.util.Date;
 
@@ -8,7 +6,7 @@ import java.util.Date;
  * Created by Oleg Tarashkevich on 05/03/2018.
  */
 
-public interface IExpense extends Model{
+public interface BaseExpense extends Model {
 
     String EXPENSE_TABLE_NAME = "expenses_table";
     String EXPENSE_ID = "expenseId";
@@ -18,8 +16,6 @@ public interface IExpense extends Model{
     String UNIT_NAME = "unitName";
     String CREATION_DATE = "creationDate";
     String TYPE = "type";
-    String TYPE_ID = "typeId";
-    String PARENT_ID = "parentId";
 
     /**
      * The name of this expense
@@ -58,21 +54,6 @@ public interface IExpense extends Model{
     void setType(String type);
 
     String getType();
-
-    /**
-     * Id of Time, material or any work
-     */
-    void setTypeId(long id);
-
-    long getTypeId();
-    // endregion
-
-    /**
-     * Unique Id of job
-     */
-    String getParentId();
-
-    void setParentId(String id);
 
     /**
      * Discount

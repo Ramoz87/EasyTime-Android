@@ -1,44 +1,29 @@
-package com.prilaga.expensesormlite;
+package com.paralect.expensesormlite;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.StringDef;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.paralect.expences.IExpense;
+import com.paralect.expense.ExtendedExpense;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.Date;
 
-import static com.paralect.expences.IExpense.EXPENSE_TABLE_NAME;
+import static com.paralect.core.BaseExpense.EXPENSE_TABLE_NAME;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
 @DatabaseTable(tableName = EXPENSE_TABLE_NAME)
-public class Expense implements IExpense, Parcelable {
-
-    @StringDef({Type.TIME, Type.MATERIAL, Type.DRIVING, Type.OTHER})
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface Type {
-        String TIME = "Time";
-        String MATERIAL = "Material";
-        String DRIVING = "Driving";
-        String OTHER = "Other";
-    }
+public class Expense implements ExtendedExpense, Parcelable {
 
     @DatabaseField(columnName = EXPENSE_ID, generatedId = true)
     private long expenseId;
 
     @DatabaseField(columnName = NAME)
     private String name;
-
-    @DatabaseField(columnName = DISCOUNT, dataType = DataType.FLOAT)
-    private float discount;
 
     @DatabaseField(columnName = VALUE)
     private long value;
@@ -53,16 +38,24 @@ public class Expense implements IExpense, Parcelable {
     @DatabaseField(columnName = TYPE)
     private String type;
 
-    @DatabaseField(columnName = TYPE_ID)
-    private long typeId;
+    @DatabaseField(columnName = DISCOUNT, dataType = DataType.FLOAT)
+    private float discount;
 
-    @DatabaseField(columnName = PARENT_ID)
-    private String parentId;
+    // region external Ids
+    @DatabaseField(columnName = JOB_ID)
+    private String jobId;
 
-    private String typedValue;
+    @DatabaseField(columnName = MATERIAL_ID)
+    private String materialId;
+
+    @DatabaseField(columnName = WORK_TYPE_ID)
+    private String workTypeId;
+    // endregion
+
+    private String valueWithUnit;
 
     // region Create new expense
-    public static Expense create(Expense ex) {
+    public static Expense copy(Expense ex) {
         Expense expense = new Expense();
         if (ex != null) {
             expense.setName(ex.getName());
@@ -70,9 +63,11 @@ public class Expense implements IExpense, Parcelable {
             expense.setUnitName(ex.getUnitName());
             expense.setCreationDate(new Date());
             expense.setType(ex.getType());
-            expense.setTypeId(ex.getTypeId());
-            expense.setParentId(ex.getParentId());
             expense.setDiscount(ex.getDiscount());
+            expense.setJobId(ex.getJobId());
+            ex.setJobId(ex.getJobId());
+            ex.setMaterialId(ex.getMaterialId());
+            ex.setWorkTypeId(ex.getWorkTypeId());
         }
         return expense;
     }
@@ -82,17 +77,17 @@ public class Expense implements IExpense, Parcelable {
         Expense expense = new Expense();
         expense.setType(Expense.Type.TIME);
         expense.setName(name);
-        expense.setParentId(jobId);
+        expense.setJobId(jobId);
         expense.setCreationDate(new Date());
         expense.setValue(total);
         return expense;
     }
 
-    public static Expense createMaterialExpense(String jobId, String materialName, long materialId, int countOfMaterials) {
+    public static Expense createMaterialExpense(String jobId, String materialName, String materialId, int countOfMaterials) {
         Expense expense = new Expense();
-        expense.setParentId(jobId);
+        expense.setJobId(jobId);
         expense.setName(materialName);
-        expense.setTypeId(materialId);
+        expense.setMaterialId(materialId);
         expense.setType(Expense.Type.MATERIAL);
         expense.setCreationDate(new Date());
         expense.setValue(countOfMaterials);
@@ -104,28 +99,32 @@ public class Expense implements IExpense, Parcelable {
     protected Expense(Parcel in) {
         expenseId = in.readLong();
         name = in.readString();
-        discount = in.readFloat();
         value = in.readLong();
         unitName = in.readString();
         creationDate = in.readLong();
         type = in.readString();
-        typeId = in.readLong();
-        parentId = in.readString();
-        typedValue = in.readString();
+        discount = in.readFloat();
+        jobId = in.readString();
+        materialId = in.readString();
+        workTypeId = in.readString();
+
+        valueWithUnit = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(expenseId);
         dest.writeString(name);
-        dest.writeFloat(discount);
         dest.writeLong(value);
         dest.writeString(unitName);
         dest.writeLong(creationDate);
         dest.writeString(type);
-        dest.writeLong(typeId);
-        dest.writeString(parentId);
-        dest.writeString(typedValue);
+        dest.writeFloat(discount);
+        dest.writeString(jobId);
+        dest.writeString(materialId);
+        dest.writeString(workTypeId);
+
+        dest.writeString(valueWithUnit);
     }
 
     @Override
@@ -217,26 +216,6 @@ public class Expense implements IExpense, Parcelable {
     }
 
     @Override
-    public void setTypeId(long id) {
-        typeId = id;
-    }
-
-    @Override
-    public long getTypeId() {
-        return 0;
-    }
-
-    @Override
-    public String getParentId() {
-        return parentId;
-    }
-
-    @Override
-    public void setParentId(String id) {
-        parentId = id;
-    }
-
-    @Override
     public float getDiscount() {
         return discount;
     }
@@ -245,4 +224,36 @@ public class Expense implements IExpense, Parcelable {
     public void setDiscount(float discount) {
         this.discount = discount;
     }
+
+    @Override
+    public String getJobId() {
+        return jobId;
+    }
+
+    @Override
+    public void setJobId(String id) {
+        jobId = id;
+    }
+
+    @Override
+    public String getMaterialId() {
+        return materialId;
+    }
+
+    @Override
+    public void setMaterialId(String id) {
+        materialId = id;
+    }
+
+    @Override
+    public String getWorkTypeId() {
+        return workTypeId;
+    }
+
+    @Override
+    public void setWorkTypeId(String id) {
+        workTypeId = id;
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package com.paralect.sqlite;
 
-import com.paralect.expences.IExpense;
+import com.paralect.core.BaseExpense;
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class Expense implements IExpense {
+public class Expense implements BaseExpense {
 
     @Override
     public long getId() {
@@ -73,26 +73,6 @@ public class Expense implements IExpense {
     @Override
     public String getType() {
         return null;
-    }
-
-    @Override
-    public void setTypeId(long id) {
-
-    }
-
-    @Override
-    public long getTypeId() {
-        return 0;
-    }
-
-    @Override
-    public String getParentId() {
-        return null;
-    }
-
-    @Override
-    public void setParentId(String id) {
-
     }
 
     @Override
