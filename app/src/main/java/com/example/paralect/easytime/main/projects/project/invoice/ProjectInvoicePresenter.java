@@ -8,7 +8,8 @@ import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.paralect.expense.ExpenseUnit;
 import com.paralect.expense.ExpenseUtil;
-import com.example.paralect.easytime.model.Expense;
+import com.paralect.expensesormlite.Expense;
+import com.paralect.expensesormlite.InvoiceCell;
 
 import java.util.ArrayList;
 import java.util.Collection;

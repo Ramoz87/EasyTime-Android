@@ -29,7 +29,7 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.paralect.expense.ExpenseUnit;
 import com.paralect.expense.ExpenseUtil;
-import com.example.paralect.easytime.model.Expense;
+import com.paralect.expensesormlite.Expense;
 import com.paralect.expense.ExtendedExpense;
 import com.paralect.expensesormlite.ORMLiteExpenseDataSource;
 
@@ -458,7 +458,7 @@ public final class EasyTimeManager {
     }
 
     public List<Expense> getDefaultExpenses(String jobId) {
-        return Expense.getDefaultExpenses(jobId);
+        return Expense.getDefaultExpenses(EasyTimeApplication.getContext(), jobId);
     }
 
     private List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {

@@ -1,10 +1,9 @@
-package com.example.paralect.easytime.model;
+package com.paralect.expensesormlite;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.paralect.easytime.EasyTimeApplication;
-import com.example.paralect.easytime.main.projects.project.invoice.InvoiceCell;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -375,19 +374,19 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
      * @param jobId is field of Job object
      * @return list of expenses
      */
-    public static List<Expense> getDefaultExpenses(String jobId) {
+    public static List<Expense> getDefaultExpenses(Context context, String jobId) {
         List<Expense> expenses = new ArrayList<>();
 
         // Driving
         Expense expense = new Expense();
-        expense.setName(EasyTimeApplication.getContext().getString(R.string.driving));
+        expense.setName(context.getString(R.string.driving));
         expense.setType(DRIVING);
         expense.setJobId(jobId);
         expenses.add(expense);
 
         // Other expenses
         expense = new Expense();
-        expense.setName(EasyTimeApplication.getContext().getString(R.string.other_expenses));
+        expense.setName(context.getString(R.string.other_expenses));
         expense.setType(OTHER);
         expense.setJobId(jobId);
         expenses.add(expense);

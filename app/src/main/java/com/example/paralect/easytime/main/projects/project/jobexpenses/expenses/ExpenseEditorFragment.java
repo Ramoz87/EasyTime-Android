@@ -23,7 +23,7 @@ import com.example.paralect.easytime.utils.MetricsUtils;
 import com.example.paralect.easytime.utils.ViewAnimationUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.gallery.ExpenseFilesView;
-import com.example.paralect.easytime.model.Expense;
+import com.paralect.expensesormlite.Expense;
 import com.paralect.expense.ExtendedExpense;
 
 import butterknife.BindView;
@@ -128,7 +128,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
         try {
             expense = EasyTimeManager.getInstance().saveExpense(expense);
             expenseFilesView.setupWithEntity(expense);
-            Logger.d(TAG, "Expense created");
+            Logger.d(TAG, "SQLiteExpense created");
         } catch (Throwable e) {
             Logger.e(e);
         }

@@ -42,7 +42,7 @@ import com.example.paralect.easytime.views.EmptyRecyclerView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.Label;
-import com.example.paralect.easytime.model.Expense;
+import com.paralect.expensesormlite.Expense;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.Logger;
-import com.example.paralect.easytime.model.Expense;
 import com.paralect.expense.ExtendedExpense;
 import com.squareup.picasso.Picasso;
 

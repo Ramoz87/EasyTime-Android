@@ -5,8 +5,8 @@ import com.example.paralect.easytime.EasyTimeApplication;
 import com.j256.ormlite.dao.Dao;
 import com.paralect.core.DataSource;
 import com.paralect.expense.ExpenseDataSource;
-import com.example.paralect.easytime.model.Expense;
-import com.paralect.sqlite.SQLiteNativeExpenseDataSource;
+import com.paralect.expensesormlite.Expense;
+import com.paralect.sqlite.SQLiteExpenseDataSource;
 import com.paralect.expensesormlite.ORMLiteExpenseDataSource;
 
 import java.sql.SQLException;
@@ -54,7 +54,7 @@ public class ExpenseFactory extends DataSource.Factory<ExpenseDataSource> {
     public ExpenseDataSource onCreateDataSource(int dataSourceType) {
         switch (dataSourceType) {
             case SQLITE_NATIVE:
-                return new SQLiteNativeExpenseDataSource();
+                return new SQLiteExpenseDataSource();
             case ORMLITE:
                 try {
                     Dao<Expense, Long> dao =

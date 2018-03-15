@@ -16,7 +16,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.model.Expense;
+import com.paralect.expensesormlite.Expense;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 

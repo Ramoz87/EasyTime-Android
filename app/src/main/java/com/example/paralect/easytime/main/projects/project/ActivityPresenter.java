@@ -15,7 +15,7 @@ import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.TextUtil;
-import com.example.paralect.easytime.model.Expense;
+import com.paralect.expensesormlite.Expense;
 
 import java.util.Calendar;
 import java.util.List;

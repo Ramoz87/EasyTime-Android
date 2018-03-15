@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
+import com.paralect.expensesormlite.InvoiceCell;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class Expense implements BaseExpense {
+public class SQLiteExpense implements BaseExpense {
 
     @Override
     public long getId() {
