@@ -108,7 +108,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         void bind(Expense expense, boolean editorModeEnabled) {
             this.expense = expense;
             expenseName.setText(expense.getName());
-            expenseValue.setText(expense.getValueWithUnit());
+            expenseValue.setText(expense.getValueWithUnitName());
             setEditorIconVisibility(editorModeEnabled);
         }
 

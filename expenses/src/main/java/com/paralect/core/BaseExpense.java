@@ -8,7 +8,7 @@ import java.util.Date;
 
 public interface BaseExpense extends Model {
 
-    String EXPENSE_TABLE_NAME = "expenses_table";
+    String EXPENSE_TABLE_NAME = "expenses";
     String EXPENSE_ID = "expenseId";
     String NAME = "name";
     String DISCOUNT = "discount";

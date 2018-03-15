@@ -177,6 +177,14 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
 
                                     newExpense = Expense.copy(lastExpense);
                                     newExpense.setValue(value);
+                                    final Expense finalLastExpense = lastExpense;
+                                    newExpense.setValueWithUnitName(new Expense.ExpenseValueWithUnit(totalValue[0]){
+                                        @Override
+                                        public String getMaterialUnit() {
+                                            return finalLastExpense.getValueWithUnitName();
+                                        }
+                                    });
+
                                 }
                                 return newExpense;
                             }

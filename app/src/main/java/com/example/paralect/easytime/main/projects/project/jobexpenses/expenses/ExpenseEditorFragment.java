@@ -83,7 +83,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
 
         } else {
 
-            unitTextView.setText(mExpense.getValueWithUnit());
+            unitTextView.setText(mExpense.getValueWithUnitName());
 
             expenseName.setText(mExpense.getName());
 

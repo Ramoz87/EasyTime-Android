@@ -38,8 +38,8 @@ public interface ExtendedExpense extends BaseExpense {
     /**
      * String which contains info about value and unit, for ex. 5 kg, $200
      */
-    String getValueWithUnit();
+    String getValueWithUnitName();
 
-    void setValueWithUnit(ExpenseUnit expenseUnitCallback);
+    void setValueWithUnitName(ExpenseUnit expenseUnitCallback);
 
 }

@@ -42,9 +42,6 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
     @DatabaseField(columnName = VALUE)
     private long value;
 
-    @DatabaseField(columnName = UNIT_NAME)
-    private String unitName;
-
     @DatabaseField(columnName = CREATION_DATE)
     private long creationDate;
 
@@ -66,7 +63,7 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
     private String workTypeId;
     // endregion
 
-    private String valueWithUnit;
+    private String valueWithUnitName;
 
     // region Create new expense
     public static Expense copy(Expense ex) {
@@ -114,7 +111,6 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
         expenseId = in.readLong();
         name = in.readString();
         value = in.readLong();
-        unitName = in.readString();
         creationDate = in.readLong();
         type = in.readString();
         discount = in.readFloat();
@@ -122,7 +118,7 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
         materialId = in.readString();
         workTypeId = in.readString();
 
-        valueWithUnit = in.readString();
+        valueWithUnitName = in.readString();
     }
 
     @Override
@@ -130,7 +126,6 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
         dest.writeLong(expenseId);
         dest.writeString(name);
         dest.writeLong(value);
-        dest.writeString(unitName);
         dest.writeLong(creationDate);
         dest.writeString(type);
         dest.writeFloat(discount);
@@ -138,7 +133,7 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
         dest.writeString(materialId);
         dest.writeString(workTypeId);
 
-        dest.writeString(valueWithUnit);
+        dest.writeString(valueWithUnitName);
     }
 
     @Override
@@ -196,12 +191,12 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
 
     @Override
     public String getUnitName() {
-        return unitName;
+        return "";
     }
 
     @Override
     public void setUnitName(String unitName) {
-        this.unitName = unitName;
+        // no need
     }
 
     @Override
@@ -276,13 +271,13 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
     }
 
     @Override
-    public String getValueWithUnit() {
-        return valueWithUnit;
+    public String getValueWithUnitName() {
+        return valueWithUnitName;
     }
 
     @Override
-    public void setValueWithUnit(ExpenseUnit expenseUnitCallback) {
-        valueWithUnit = ExpenseUtil.getUnit(type, expenseUnitCallback);
+    public void setValueWithUnitName(ExpenseUnit expenseUnitCallback) {
+        valueWithUnitName = ExpenseUtil.getUnit(type, expenseUnitCallback);
     }
     // endregion
 
@@ -294,7 +289,7 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
 
     @Override
     public String value() {
-        return getValueWithUnit();
+        return getValueWithUnitName();
     }
 
     @Override
