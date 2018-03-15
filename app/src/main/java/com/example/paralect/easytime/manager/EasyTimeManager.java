@@ -553,7 +553,7 @@ public final class EasyTimeManager {
      * @param materialDao
      */
     private void setValueWithUnit(@NonNull final Expense expense, final Dao<Material, String> materialDao) {
-        expense.setValueWithUnit(new Expense.ExpenseValueWithUnit() {
+        expense.setValueWithUnit(new Expense.ExpenseValueWithUnit(expense.getValue()) {
             @Override
             public String getMaterialUnit() {
                 try {
@@ -563,17 +563,17 @@ public final class EasyTimeManager {
                     if (material != null) {
                         com.example.paralect.easytime.model.Type t = getType(material.getUnitId());
                         if (t != null)
-                            return t.getName();
+                            return getValue() + " " + t.getName();
                     }
                 } catch (SQLException e) {
                     Logger.e(e);
                 }
                 return super.getMaterialUnit();
             }
-        }.setValue(expense.getValue()));
+        });
     }
 
-    public String getUnitName(@ExpenseUnit.Type String type, final Material material){
+    public String getUnitName(@ExpenseUnit.Type String type, final Material material) {
         return ExpenseUtil.getUnit(type, new Expense.ExpenseUnitName() {
             @Override
             public String getMaterialUnit() {

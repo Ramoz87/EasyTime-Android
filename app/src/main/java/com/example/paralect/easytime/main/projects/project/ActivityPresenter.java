@@ -12,6 +12,7 @@ import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
+import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.TextUtil;
 import com.example.paralect.easytime.model.Expense;
@@ -66,7 +67,7 @@ public class ActivityPresenter extends SearchViewPresenter<Pair<Integer, List<Ex
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        Logger.e(e);
                     }
 
                     @Override

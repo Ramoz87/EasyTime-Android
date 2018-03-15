@@ -190,7 +190,7 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
                                 if (CollectionUtil.isNotEmpty(cells) && !expenseType.equalsIgnoreCase(DRIVING)
                                         && !expenseType.equalsIgnoreCase(MATERIAL)) {
 
-                                    String value = ExpenseUtil.getUnit(expenseType, new Expense.ExpenseValueWithUnit().setValue(totalValue[0]));
+                                    String value = ExpenseUtil.getUnit(expenseType, new Expense.ExpenseValueWithUnit(totalValue[0]));
                                     Cell total = Cell.createTotal(value);
                                     cells.add(total);
                                 }

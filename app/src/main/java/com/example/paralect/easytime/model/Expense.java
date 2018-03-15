@@ -309,11 +309,22 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
      */
     public static class ExpenseValueWithUnit implements ExpenseUnit {
 
-        long value;
+        private long value;
+
+        public ExpenseValueWithUnit() {
+        }
+
+        public ExpenseValueWithUnit(long value) {
+            this.value = value;
+        }
 
         public ExpenseValueWithUnit setValue(long value) {
             this.value = value;
             return this;
+        }
+
+        public long getValue() {
+            return value;
         }
 
         @Override
