@@ -172,14 +172,15 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
                                     for (Expense expense : expenses) {
                                         value += expense.getValue();
                                         lastExpense = expense;
+                                        
                                     }
 
                                     totalValue[0] += value;
 
-                                    newExpense = Expense.copy(lastExpense);
-                                    newExpense.setValue(value);
                                     final Expense finalLastExpense = lastExpense;
-                                    newExpense.setValueWithUnitName(new Expense.ExpenseValueWithUnit(totalValue[0]){
+                                    newExpense = Expense.copy(finalLastExpense);
+                                    newExpense.setValue(value);
+                                    newExpense.setValueWithUnitName(new Expense.ExpenseValueWithUnit(value){
                                         @Override
                                         public String getMaterialUnit() {
                                             return finalLastExpense.getValueWithUnitName();

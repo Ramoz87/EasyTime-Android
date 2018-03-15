@@ -41,5 +41,7 @@ public interface ExtendedExpense extends BaseExpense {
     String getValueWithUnitName();
 
     void setValueWithUnitName(ExpenseUnit expenseUnitCallback);
+    
+    void setValueWithUnitName(String valueWithUnitName);
 
 }

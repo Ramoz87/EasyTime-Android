@@ -75,9 +75,9 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
             expense.setType(ex.getType());
             expense.setDiscount(ex.getDiscount());
             expense.setJobId(ex.getJobId());
-            ex.setJobId(ex.getJobId());
-            ex.setMaterialId(ex.getMaterialId());
-            ex.setWorkTypeId(ex.getWorkTypeId());
+            expense.setMaterialId(ex.getMaterialId());
+            expense.setWorkTypeId(ex.getWorkTypeId());
+            expense.setValueWithUnitName(ex.getValueWithUnitName());
         }
         return expense;
     }
@@ -277,6 +277,11 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
     @Override
     public void setValueWithUnitName(ExpenseUnit expenseUnitCallback) {
         valueWithUnitName = ExpenseUtil.getUnit(type, expenseUnitCallback);
+    }
+
+    @Override
+    public void setValueWithUnitName(String valueWithUnitName) {
+        // no need
     }
     // endregion
 
