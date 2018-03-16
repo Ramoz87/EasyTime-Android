@@ -1,1 +1,1 @@
-include ':app', ':expenses', ':expensesormlite'
+include ':app', ':core', ':expensesormlite', ':expensesqlite'

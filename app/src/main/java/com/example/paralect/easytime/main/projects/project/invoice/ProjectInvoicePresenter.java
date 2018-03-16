@@ -6,8 +6,8 @@ import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.TextUtil;
-import com.paralect.expense.ExpenseUnit;
-import com.paralect.expense.ExpenseUtil;
+import com.paralect.expensesormlite.ExpenseUnit;
+import com.paralect.expensesormlite.ExpenseUtil;
 import com.paralect.expensesormlite.Expense;
 import com.paralect.expensesormlite.InvoiceCell;
 
@@ -26,10 +26,10 @@ import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.paralect.expense.ExpenseUnit.Type.DRIVING;
-import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
-import static com.paralect.expense.ExpenseUnit.Type.OTHER;
-import static com.paralect.expense.ExpenseUnit.Type.TIME;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.DRIVING;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.MATERIAL;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.OTHER;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.TIME;
 
 /**
  * Created by Oleg Tarashkevich on 31.01.2018.

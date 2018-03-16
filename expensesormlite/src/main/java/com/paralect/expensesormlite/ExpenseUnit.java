@@ -1,4 +1,4 @@
-package com.paralect.expense;
+package com.paralect.expensesormlite;
 
 import android.support.annotation.StringDef;
 

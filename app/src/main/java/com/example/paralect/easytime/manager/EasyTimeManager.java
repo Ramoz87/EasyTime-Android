@@ -27,10 +27,9 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.paralect.expense.ExpenseUnit;
-import com.paralect.expense.ExpenseUtil;
+import com.paralect.expensesormlite.ExpenseUnit;
+import com.paralect.expensesormlite.ExpenseUtil;
 import com.paralect.expensesormlite.Expense;
-import com.paralect.expense.ExtendedExpense;
 import com.paralect.expensesormlite.ORMLiteExpenseDataSource;
 
 import java.sql.SQLException;
@@ -41,9 +40,9 @@ import java.util.List;
 
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
 import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
-import static com.paralect.core.BaseExpense.EXPENSE_ID;
-import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
-import static com.paralect.expense.ExpenseUnit.Type.OTHER;
+import static com.paralect.expensesormlite.Expense.EXPENSE_ID;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.MATERIAL;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.OTHER;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -589,7 +588,7 @@ public final class EasyTimeManager {
         });
     }
 
-    public ExtendedExpense saveExpense(ExtendedExpense expense) throws SQLException {
+    public Expense saveExpense(Expense expense) throws SQLException {
         return expenseDS.saveAndGetModel(expense);
     }
 

@@ -1,4 +1,4 @@
-package com.paralect.expense;
+package com.paralect.expensesormlite;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -8,11 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import static com.paralect.expense.ExpenseUnit.Type.DRIVING;
-import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
-import static com.paralect.expense.ExpenseUnit.Type.OTHER;
-import static com.paralect.expense.ExpenseUnit.Type.TIME;
 
 /**
  * Created by Oleg Tarashkevich on 14/03/2018.
@@ -54,19 +49,19 @@ public class ExpenseUtil {
         if (!TextUtils.isEmpty(type)) {
 
             switch (type) {
-                case TIME:
+                case ExpenseUnit.Type.TIME:
                     text = callback.getTimeUnit();
                     break;
 
-                case DRIVING:
+                case ExpenseUnit.Type.DRIVING:
                     text = callback.getDrivingUnit();
                     break;
 
-                case OTHER:
+                case ExpenseUnit.Type.OTHER:
                     text = callback.getOtherUnit();
                     break;
 
-                case MATERIAL:
+                case ExpenseUnit.Type.MATERIAL:
                     text = callback.getMaterialUnit();
                     break;
 

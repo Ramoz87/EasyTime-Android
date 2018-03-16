@@ -78,6 +78,7 @@ dependencies {
         transitive = true
     }
 
-    implementation project(":expenses")
+    implementation project(':core')
     implementation project(":expensesormlite")
+    compile project(path: ':expensesqlite')
 }

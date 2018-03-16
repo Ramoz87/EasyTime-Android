@@ -24,7 +24,6 @@ import com.example.paralect.easytime.utils.ViewAnimationUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.gallery.ExpenseFilesView;
 import com.paralect.expensesormlite.Expense;
-import com.paralect.expense.ExtendedExpense;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -121,8 +120,8 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
             ViewAnimationUtils.shakeAnimation(expenseCount);
             return;
         }
-        
-        ExtendedExpense expense = Expense.copy(mExpense);
+
+        Expense expense = Expense.copy(mExpense);
         expense.setValue(value);
 
         try {

@@ -20,7 +20,6 @@ import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.StrangeNumberInputView;
 import com.paralect.expensesormlite.Expense;
-import com.paralect.expense.ExtendedExpense;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,7 +143,7 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
                     minutesView.errorAnimation();
 
                 } else {
-                    ExtendedExpense expense = Expense.createTimeExpense(job.getJobId(), type.getName(), hours, minutes);
+                    Expense expense = Expense.createTimeExpense(job.getJobId(), type.getName(), hours, minutes);
                     expense = EasyTimeManager.getInstance().saveExpense(expense);
                     Logger.d(TAG, "SQLiteExpense created");
 

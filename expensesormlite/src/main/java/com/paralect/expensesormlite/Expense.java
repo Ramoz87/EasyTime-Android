@@ -7,30 +7,43 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.paralect.expense.ExpenseUnit;
-import com.paralect.expense.ExpenseUtil;
-import com.paralect.expense.ExtendedExpense;
+import com.paralect.expense.BaseExpense;
 import com.prilaga.expensesormlite.R;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.paralect.core.BaseExpense.EXPENSE_TABLE_NAME;
-import static com.paralect.expense.ExpenseUnit.Type.DRIVING;
-import static com.paralect.expense.ExpenseUnit.Type.OTHER;
-import static com.paralect.expense.ExpenseUtil.UNITY_CURRENCY;
-import static com.paralect.expense.ExpenseUtil.UNITY_KM;
-import static com.paralect.expense.ExpenseUtil.UNITY_MIN;
-import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
-import static com.paralect.expense.ExpenseUnit.Type.TIME;
+import static com.paralect.expensesormlite.Expense.EXPENSE_TABLE_NAME;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.DRIVING;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.OTHER;
+import static com.paralect.expensesormlite.ExpenseUtil.UNITY_CURRENCY;
+import static com.paralect.expensesormlite.ExpenseUtil.UNITY_KM;
+import static com.paralect.expensesormlite.ExpenseUtil.UNITY_MIN;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.MATERIAL;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.TIME;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
 @DatabaseTable(tableName = EXPENSE_TABLE_NAME)
-public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
+public class Expense implements BaseExpense, Parcelable, InvoiceCell {
+
+    // TODO
+
+    public static final String EXPENSE_TABLE_NAME = "expenses";
+    public static final String EXPENSE_ID = "expenseId";
+    public static final String NAME = "name";
+    public static final String DISCOUNT = "discount";
+    public static final String VALUE = "value";
+    public static final String UNIT_NAME = "unitName";
+    public static final String CREATION_DATE = "creationDate";
+    public static final String TYPE = "type";
+
+    public static final String JOB_ID = "jobId";
+    public static final String MATERIAL_ID = "materialId";
+    public static final String WORK_TYPE_ID = "workTypeId";
 
     @DatabaseField(columnName = EXPENSE_ID, generatedId = true)
     private long expenseId;
@@ -70,14 +83,12 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
         if (ex != null) {
             expense.setName(ex.getName());
             expense.setValue(ex.getValue());
-            expense.setUnitName(ex.getUnitName());
             expense.setCreationDate(new Date());
             expense.setType(ex.getType());
             expense.setDiscount(ex.getDiscount());
             expense.setJobId(ex.getJobId());
             expense.setMaterialId(ex.getMaterialId());
             expense.setWorkTypeId(ex.getWorkTypeId());
-            expense.setValueWithUnitName(ex.getValueWithUnitName());
         }
         return expense;
     }
@@ -189,16 +200,6 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
     }
 
     @Override
-    public String getUnitName() {
-        return "";
-    }
-
-    @Override
-    public void setUnitName(String unitName) {
-        // no need
-    }
-
-    @Override
     public long getCreationDate() {
         return creationDate;
     }
@@ -214,74 +215,56 @@ public class Expense implements ExtendedExpense, Parcelable, InvoiceCell {
             creationDate = date.getTime();
     }
 
-    @Override
     public void setType(String type) {
         this.type = type;
     }
 
-    @Override
     public String getType() {
         return type;
     }
 
-    @Override
     public float getDiscount() {
         return discount;
     }
 
-    @Override
     public void setDiscount(float discount) {
         this.discount = discount;
     }
 
-    @Override
     public String getJobId() {
         return jobId;
     }
 
-    @Override
     public void setJobId(String id) {
         jobId = id;
     }
 
-    @Override
     public String getMaterialId() {
         return materialId;
     }
 
-    @Override
     public void setMaterialId(String id) {
         materialId = id;
     }
 
-    @Override
     public boolean isMaterialExpense() {
         return materialId != null;
     }
 
-    @Override
     public String getWorkTypeId() {
         return workTypeId;
     }
 
-    @Override
     public void setWorkTypeId(String id) {
         workTypeId = id;
     }
 
-    @Override
     public String getValueWithUnitName() {
         return valueWithUnitName;
     }
 
-    @Override
     public void setValueWithUnitName(ExpenseUnit expenseUnitCallback) {
         valueWithUnitName = ExpenseUtil.getUnit(type, expenseUnitCallback);
-    }
-
-    @Override
-    public void setValueWithUnitName(String valueWithUnitName) {
-        // no need
     }
     // endregion
 

@@ -20,7 +20,7 @@ import com.paralect.expensesormlite.Expense;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
-import static com.paralect.expense.ExpenseUnit.Type.OTHER;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.OTHER;
 
 /**
  * Created by alexei on 15.01.2018.

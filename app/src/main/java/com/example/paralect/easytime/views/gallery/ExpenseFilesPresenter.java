@@ -5,23 +5,23 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.expense.ExtendedExpense;
+import com.paralect.expensesormlite.Expense;
 
 /**
  * Created by Oleg Tarashkevich on 17/01/2018.
  */
 
-final class ExpenseFilesPresenter extends FilesPresenter<File, ExtendedExpense> {
+final class ExpenseFilesPresenter extends FilesPresenter<File, Expense> {
 
     private File file;
 
     @Override
-    public IDataPresenter<File, ExtendedExpense> setDataView(IDataView<File> view) {
+    public IDataPresenter<File, Expense> setDataView(IDataView<File> view) {
         return this;
     }
 
     @Override
-    public IDataPresenter<File, ExtendedExpense> requestData(final ExtendedExpense parameter) {
+    public IDataPresenter<File, Expense> requestData(final Expense parameter) {
         return this;
     }
 
@@ -47,7 +47,7 @@ final class ExpenseFilesPresenter extends FilesPresenter<File, ExtendedExpense> 
      *
      * @param expense
      */
-    void setExpense(ExtendedExpense expense) {
+    void setExpense(Expense expense) {
         try {
             if (file != null) {
                 file.setExpenseId(expense.getId());

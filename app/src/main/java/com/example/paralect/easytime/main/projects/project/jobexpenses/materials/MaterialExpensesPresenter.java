@@ -21,7 +21,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.paralect.expense.ExpenseUnit.Type.MATERIAL;
+import static com.paralect.expensesormlite.ExpenseUnit.Type.MATERIAL;
 
 /**
  * Created by alexei on 17.01.2018.
