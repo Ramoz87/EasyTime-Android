@@ -2,41 +2,45 @@ package com.paralect.core;
 
 import android.util.SparseArray;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class DataSource<M extends Model, P> {
+/**
+ * @param <M> type of model
+ * @param <P> type of parameter for query purposes
+ * @param <E> type of throwable (exception or error)
+ */
+public class DataSource<M extends Model, P, E extends Throwable> {
 
     // region Get
-    public M getModelById(long id) throws SQLException {
+    public M getModelById(long id) throws E {
         return null;
     }
 
-    public M getModel(P parameter) throws SQLException {
+    public M getModel(P parameter) throws E {
         return null;
     }
 
-    public List<M> getModels(P parameter) throws SQLException {
+    public List<M> getModels(P parameter) throws E {
         return null;
     }
 
-    public long getCount(P parameter) throws SQLException {
+    public long getCount(P parameter) throws E {
         return -1;
     }
     // endregion
 
     // region Save
-    public void saveModel(M model) throws SQLException {
+    public void saveModel(M model) throws E {
     }
 
-    public void saveModels(List<M> models) throws SQLException {
+    public void saveModels(List<M> models) throws E {
     }
 
-    public M saveAndGetModel(M model, P parameter) throws SQLException {
+    public M saveAndGetModel(M model, P parameter) throws E {
         // save
         saveModel(model);
         // retrieve
@@ -44,15 +48,16 @@ public class DataSource<M extends Model, P> {
     }
     // endregion
 
-    public long deleteModel(M model) throws SQLException {
+    public long deleteModel(M model) throws E {
         return -1;
     }
 
-    public long deleteModel(P parameter) throws SQLException {
+    public long deleteModel(P parameter) throws E {
         return -1;
     }
 
-    public void deleteModels(List<M> models) throws SQLException {}
+    public void deleteModels(List<M> models) throws E {
+    }
 
     public static abstract class Factory<DATA_SOURCE extends DataSource> {
 

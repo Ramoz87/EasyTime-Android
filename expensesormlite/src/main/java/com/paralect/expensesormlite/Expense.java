@@ -30,8 +30,7 @@ import static com.paralect.expensesormlite.ExpenseUnit.Type.TIME;
 @DatabaseTable(tableName = EXPENSE_TABLE_NAME)
 public class Expense implements BaseExpense, Parcelable, InvoiceCell {
 
-    // TODO
-
+    // region Fields constants
     public static final String EXPENSE_TABLE_NAME = "expenses";
     public static final String EXPENSE_ID = "expenseId";
     public static final String NAME = "name";
@@ -40,10 +39,10 @@ public class Expense implements BaseExpense, Parcelable, InvoiceCell {
     public static final String UNIT_NAME = "unitName";
     public static final String CREATION_DATE = "creationDate";
     public static final String TYPE = "type";
-
     public static final String JOB_ID = "jobId";
     public static final String MATERIAL_ID = "materialId";
     public static final String WORK_TYPE_ID = "workTypeId";
+    // endregion
 
     @DatabaseField(columnName = EXPENSE_ID, generatedId = true)
     private long expenseId;
@@ -286,6 +285,7 @@ public class Expense implements BaseExpense, Parcelable, InvoiceCell {
 
     // endregion
 
+    // region Additional classes and methods
     /**
      * Returns value and unit
      */
@@ -381,4 +381,5 @@ public class Expense implements BaseExpense, Parcelable, InvoiceCell {
 
         return expenses;
     }
+    // endregion
 }

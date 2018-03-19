@@ -1,10 +1,8 @@
 package com.paralect.expensesormlite;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.paralect.core.DataSource;
@@ -24,7 +22,7 @@ import static com.paralect.expensesormlite.Expense.TYPE;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<Expense, Long>> {
+public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<Expense, Long>, SQLException> {
 
     private Dao<Expense, Long> dao;
 
@@ -59,11 +57,9 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<E
         dao.delete(expense);
         return id;
     }
-
     // endregion
 
     // region Additional methods
-
     /**
      * Save and retrieve last Expense from the table
      *
@@ -75,7 +71,6 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<E
                 .orderBy(EXPENSE_ID, false)
                 .limit(1L);
         return saveAndGetModel(expense, query);
-
     }
 
     /**
@@ -112,6 +107,8 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<E
     /**
      * Using for query expenses by searching name and expense type
      *
+     * Doesn't work in case of case sensitive: qb.distinct().selectColumns("name");
+     *
      * @param jobId       is field of Job object
      * @param searchQuery for searching in name field
      * @param expenseType
@@ -120,9 +117,6 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<E
     public List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
         QueryBuilder<Expense, Long> qb = dao.queryBuilder();
 
-//            // Doesn't work in case of case sensitive
-//            qb.distinct().selectColumns("name");
-
         Where where = qb.where().eq(JOB_ID, jobId);
 
         if (!TextUtils.isEmpty(searchQuery))
@@ -130,7 +124,7 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<E
 
         if (!TextUtils.isEmpty(expenseType))
             where.and().eq(TYPE, expenseType);
-//        String query = qb.prepareStatementString();
+
         return getModels(qb);
     }
 
@@ -140,8 +134,7 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<E
      */
     public long getTotalExpensesCount(String jobId) throws SQLException {
         Where where = dao.queryBuilder().where().eq(JOB_ID, jobId);
-        long totalCount = where.countOf();
-        return totalCount;
+        return where.countOf();
     }
     // endregion
 }
