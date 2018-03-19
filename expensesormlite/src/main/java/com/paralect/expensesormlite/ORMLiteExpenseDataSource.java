@@ -24,34 +24,33 @@ import static com.paralect.expensesormlite.Expense.TYPE;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class ORMLiteExpenseDataSource extends DataSource<Expense> {
+public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<Expense, Long>> {
 
-    private Context context;
     private Dao<Expense, Long> dao;
 
-
-    public ORMLiteExpenseDataSource(Context context, Dao<Expense, Long> expenseDao) {
-        this.context = context;
+    public ORMLiteExpenseDataSource(Dao<Expense, Long> expenseDao) {
         dao = expenseDao;
     }
 
     // region Basic methods
     @Override
-    public void saveModel(Expense expense) throws SQLException {
-        dao.createOrUpdate(expense);
+    public Expense getModel(QueryBuilder<Expense, Long> parameter) throws SQLException {
+        return dao.query(parameter.prepare()).get(0);
     }
 
     @Override
-    public Expense saveAndGetModel(Expense expense) throws SQLException {
-        // save
-        saveModel(expense);
-        // retrieve
-        PreparedQuery<Expense> query = dao.queryBuilder()
-                .orderBy(EXPENSE_ID, false)
-                .limit(1L)
-                .prepare();
-        Expense ex = dao.query(query).get(0);
-        return ex;
+    public Expense getModelById(long id) throws SQLException {
+        return dao.queryForId(id);
+    }
+
+    @Override
+    public List<Expense> getModels(QueryBuilder<Expense, Long> qb) throws SQLException {
+        return qb.query();
+    }
+
+    @Override
+    public void saveModel(Expense expense) throws SQLException {
+        dao.createOrUpdate(expense);
     }
 
     @Override
@@ -61,18 +60,23 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense> {
         return id;
     }
 
-    @Override
-    public Expense getModelById(long id) throws SQLException {
-        return dao.queryForId(id);
-    }
-
-    @Override
-    public List<Expense> getModels() {
-        return null;
-    }
     // endregion
 
     // region Additional methods
+
+    /**
+     * Save and retrieve last Expense from the table
+     *
+     * @param expense that will be saved
+     * @return saved Expense
+     */
+    public Expense saveAndGetExpense(Expense expense) throws SQLException {
+        QueryBuilder<Expense, Long> query = dao.queryBuilder()
+                .orderBy(EXPENSE_ID, false)
+                .limit(1L);
+        return saveAndGetModel(expense, query);
+
+    }
 
     /**
      * Using for query expenses by date and jobId
@@ -102,8 +106,7 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense> {
 
         }
         qb.orderBy(CREATION_DATE, false);
-        List<Expense> expenses = qb.query();
-        return expenses;
+        return getModels(qb);
     }
 
     /**
@@ -128,8 +131,7 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense> {
         if (!TextUtils.isEmpty(expenseType))
             where.and().eq(TYPE, expenseType);
 //        String query = qb.prepareStatementString();
-        List<Expense> expenses = qb.query();
-        return expenses;
+        return getModels(qb);
     }
 
     /**

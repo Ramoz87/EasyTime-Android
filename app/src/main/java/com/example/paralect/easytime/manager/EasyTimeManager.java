@@ -73,12 +73,11 @@ public final class EasyTimeManager {
     }
 
     private EasyTimeManager() {
-        Context context = EasyTimeApplication.getContext();
         if (helper == null)
-            helper = new DatabaseHelper(context);
+            helper = new DatabaseHelper(EasyTimeApplication.getContext());
         if (expenseDS == null)
             try {
-                expenseDS = new ORMLiteExpenseDataSource(context, helper.getExpenseDao());
+                expenseDS = new ORMLiteExpenseDataSource(helper.getExpenseDao());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -589,7 +588,7 @@ public final class EasyTimeManager {
     }
 
     public Expense saveExpense(Expense expense) throws SQLException {
-        return expenseDS.saveAndGetModel(expense);
+        return expenseDS.saveAndGetExpense(expense);
     }
 
     public List<Object> getObjects(String[] ids) {

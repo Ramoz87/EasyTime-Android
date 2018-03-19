@@ -9,17 +9,50 @@ import java.util.List;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public abstract class DataSource<MODEL extends Model> {
+public class DataSource<M extends Model, P> {
 
-    public abstract void saveModel(MODEL model) throws SQLException;
+    // region Get
+    public M getModelById(long id) throws SQLException {
+        return null;
+    }
 
-    public abstract MODEL saveAndGetModel(MODEL model) throws SQLException;
+    public M getModel(P parameter) throws SQLException {
+        return null;
+    }
 
-    public abstract long deleteModel(MODEL model) throws SQLException;
+    public List<M> getModels(P parameter) throws SQLException {
+        return null;
+    }
 
-    public abstract MODEL getModelById(long id) throws SQLException;
+    public long getCount(P parameter) throws SQLException {
+        return -1;
+    }
+    // endregion
 
-    public abstract List<MODEL> getModels() throws SQLException;
+    // region Save
+    public void saveModel(M model) throws SQLException {
+    }
+
+    public void saveModels(List<M> models) throws SQLException {
+    }
+
+    public M saveAndGetModel(M model, P parameter) throws SQLException {
+        // save
+        saveModel(model);
+        // retrieve
+        return getModel(parameter);
+    }
+    // endregion
+
+    public long deleteModel(M model) throws SQLException {
+        return -1;
+    }
+
+    public long deleteModel(P parameter) throws SQLException {
+        return -1;
+    }
+
+    public void deleteModels(List<M> models) throws SQLException {}
 
     public static abstract class Factory<DATA_SOURCE extends DataSource> {
 
@@ -29,7 +62,7 @@ public abstract class DataSource<MODEL extends Model> {
          * Populates a {@link DataSource} instance.
          */
 
-        public Factory<DATA_SOURCE> init(){
+        public Factory<DATA_SOURCE> init() {
             int count = getDataSourceCount();
             for (int i = 0; i < count; i++) {
                 int dataSourceType = getDataSourceType(i);
