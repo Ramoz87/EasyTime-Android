@@ -22,7 +22,7 @@ import static com.paralect.expensesormlite.Expense.TYPE;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<Expense, Long>, SQLException> {
+public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<Expense, Long>> {
 
     private Dao<Expense, Long> dao;
 
@@ -52,14 +52,13 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<E
     }
 
     @Override
-    public long deleteModel(Expense expense) throws SQLException {
-        long id = expense.getId();
+    public void deleteModel(Expense expense) throws SQLException {
         dao.delete(expense);
-        return id;
     }
     // endregion
 
     // region Additional methods
+
     /**
      * Save and retrieve last Expense from the table
      *
@@ -70,7 +69,8 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<E
         QueryBuilder<Expense, Long> query = dao.queryBuilder()
                 .orderBy(EXPENSE_ID, false)
                 .limit(1L);
-        return saveAndGetModel(expense, query);
+        saveModel(expense);
+        return getModel(query);
     }
 
     /**
@@ -106,7 +106,7 @@ public class ORMLiteExpenseDataSource extends DataSource<Expense, QueryBuilder<E
 
     /**
      * Using for query expenses by searching name and expense type
-     *
+     * <p>
      * Doesn't work in case of case sensitive: qb.distinct().selectColumns("name");
      *
      * @param jobId       is field of Job object

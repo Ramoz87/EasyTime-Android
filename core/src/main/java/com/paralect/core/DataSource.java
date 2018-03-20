@@ -11,52 +11,25 @@ import java.util.List;
 /**
  * @param <M> type of model
  * @param <P> type of parameter for query purposes
- * @param <E> type of throwable (exception or error)
  */
-public class DataSource<M extends Model, P, E extends Throwable> {
+public class DataSource<M extends Model, P> {
 
-    // region Get
-    public M getModelById(long id) throws E {
+    public M getModelById(long id) throws Throwable {
         return null;
     }
 
-    public M getModel(P parameter) throws E {
+    public M getModel(P parameter) throws Throwable {
         return null;
     }
 
-    public List<M> getModels(P parameter) throws E {
+    public List<M> getModels(P parameter) throws Throwable {
         return null;
     }
 
-    public long getCount(P parameter) throws E {
-        return -1;
-    }
-    // endregion
-
-    // region Save
-    public void saveModel(M model) throws E {
+    public void saveModel(M model) throws Throwable {
     }
 
-    public void saveModels(List<M> models) throws E {
-    }
-
-    public M saveAndGetModel(M model, P parameter) throws E {
-        // save
-        saveModel(model);
-        // retrieve
-        return getModel(parameter);
-    }
-    // endregion
-
-    public long deleteModel(M model) throws E {
-        return -1;
-    }
-
-    public long deleteModel(P parameter) throws E {
-        return -1;
-    }
-
-    public void deleteModels(List<M> models) throws E {
+    public void deleteModel(M model) throws Throwable {
     }
 
     public static abstract class Factory<DATA_SOURCE extends DataSource> {
