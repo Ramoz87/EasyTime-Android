@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.manager;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -30,17 +29,21 @@ import com.j256.ormlite.stmt.Where;
 import com.paralect.expensesormlite.ExpenseUnit;
 import com.paralect.expensesormlite.ExpenseUtil;
 import com.paralect.expensesormlite.Expense;
-import com.paralect.expensesormlite.ORMLiteExpenseDataSource;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
 import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
+import static com.paralect.expensesormlite.Expense.CREATION_DATE;
 import static com.paralect.expensesormlite.Expense.EXPENSE_ID;
+import static com.paralect.expensesormlite.Expense.JOB_ID;
+import static com.paralect.expensesormlite.Expense.NAME;
+import static com.paralect.expensesormlite.Expense.TYPE;
 import static com.paralect.expensesormlite.ExpenseUnit.Type.MATERIAL;
 import static com.paralect.expensesormlite.ExpenseUnit.Type.OTHER;
 
@@ -53,7 +56,7 @@ public final class EasyTimeManager {
 
     private volatile static EasyTimeManager instance;
     private DatabaseHelper helper;
-    private ORMLiteExpenseDataSource expenseDS;
+    private ORMLiteDataSourceDev expenseDS;
 
     /**
      * Returns singleton class instance
@@ -75,12 +78,14 @@ public final class EasyTimeManager {
     private EasyTimeManager() {
         if (helper == null)
             helper = new DatabaseHelper(EasyTimeApplication.getContext());
-        if (expenseDS == null)
+        if (expenseDS == null) {
             try {
-                expenseDS = new ORMLiteExpenseDataSource(helper.getExpenseDao());
+                Dao<Expense, Long> dao = expenseDS.getDao(Expense.class);
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
+            expenseDS = new ORMLiteDataSourceDev(EasyTimeApplication.getContext());
+        }
     }
 
     public DatabaseHelper getHelper() {
@@ -459,8 +464,29 @@ public final class EasyTimeManager {
         return Expense.getDefaultExpenses(EasyTimeApplication.getContext(), jobId);
     }
 
+    /**
+     * Using for query expenses by searching name and expense type
+     * <p>
+     * Doesn't work in case of case sensitive: qb.distinct().selectColumns("name");
+     *
+     * @param jobId       is field of Job object
+     * @param searchQuery for searching in name field
+     * @param expenseType
+     * @return list of expenses
+     */
     private List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
-        List<Expense> expenses = expenseDS.getExpenses(jobId, searchQuery, expenseType);
+
+        QueryBuilder<Expense, Long> qb = helper.getExpenseDao().queryBuilder();
+
+        Where where = qb.where().eq(JOB_ID, jobId);
+
+        if (!TextUtils.isEmpty(searchQuery))
+            where.and().like(NAME, "%" + searchQuery + "%");
+
+        if (!TextUtils.isEmpty(expenseType))
+            where.and().eq(TYPE, expenseType);
+
+        List<Expense> expenses = expenseDS.getModels(qb);
         final Dao<Material, String> materialDao = helper.getMaterialDao();
 
         for (final Expense exp : expenses)
@@ -479,7 +505,7 @@ public final class EasyTimeManager {
 
     public long getTotalExpensesCount(String jobId) {
         try {
-            long totalCount = expenseDS.getTotalExpensesCount(jobId);
+            long totalCount = countExpenses(jobId);
 
             Dao<Project, String> projectDao = helper.getProjectDao();
             Project project = projectDao.queryForId(jobId);
@@ -505,10 +531,26 @@ public final class EasyTimeManager {
         }
     }
 
+    /**
+     * @param jobId is field of Job object
+     * @return total count of expenses for Job object with jobId field
+     */
+    public <P> long countExpenses(P jobId) throws SQLException {
+        Where where = helper.getExpenseDao().queryBuilder().where().eq(JOB_ID, jobId);
+        return where.countOf();
+    }
+
     public List<Expense> getAllExpenses(String jobId) {
         return getAllExpenses(jobId, null);
     }
 
+    /**
+     * Using for query expenses by date and jobId
+     *
+     * @param jobId is field of Job object
+     * @param date  should be in "yyyy-MM-dd" format
+     * @return list of expenses
+     */
     public List<Expense> getAllExpenses(String jobId, String date) {
         List<Expense> allExpenses = new ArrayList<>();
         try {
@@ -530,7 +572,7 @@ public final class EasyTimeManager {
 
             for (String id : ids) {
 
-                List<Expense> foundExpense = expenseDS.getExpenses(id, date);
+                List<Expense> foundExpense = getExpenses(id, date);
                 Logger.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
 
                 for (final Expense exp : foundExpense)
@@ -542,6 +584,30 @@ public final class EasyTimeManager {
             Logger.e(exc);
         }
         return allExpenses;
+    }
+
+    public List<Expense> getExpenses(String jobId, String date) throws SQLException {
+        boolean hasDate = !TextUtils.isEmpty(date);
+        QueryBuilder<Expense, Long> qb = helper.getExpenseDao().queryBuilder();
+        Where where = qb.where().eq(JOB_ID, jobId);
+        if (hasDate) {
+
+            Date time = ExpenseUtil.dateFromString(date, ExpenseUtil.SHORT_DATE_FORMAT);
+
+            Calendar yesterday = Calendar.getInstance();
+            yesterday.setTime(time);
+
+            Calendar tomorrow = Calendar.getInstance();
+            tomorrow.setTime(time);
+            tomorrow.add(Calendar.DATE, 1);
+
+            long beforeTime = yesterday.getTimeInMillis();
+            long afterTime = tomorrow.getTimeInMillis();
+            where.and().between(CREATION_DATE, beforeTime, afterTime);
+
+        }
+        qb.orderBy(CREATION_DATE, false);
+        return expenseDS.getModels(qb);
     }
 
     /**
@@ -587,8 +653,18 @@ public final class EasyTimeManager {
         });
     }
 
+    /**
+     * Save and retrieve last Expense from the table
+     *
+     * @param expense that will be saved
+     * @return saved Expense
+     */
     public Expense saveExpense(Expense expense) throws SQLException {
-        return expenseDS.saveAndGetExpense(expense);
+        QueryBuilder<Expense, Long> query = helper.getExpenseDao().queryBuilder()
+                .orderBy(EXPENSE_ID, false)
+                .limit(1L);
+        expenseDS.saveModel(expense);
+        return expenseDS.getModel(query);
     }
 
     public List<Object> getObjects(String[] ids) {
