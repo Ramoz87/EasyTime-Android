@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.paralect.core.Model;
 
 import java.lang.*;
 
@@ -14,7 +15,7 @@ import java.lang.*;
  */
 
 @DatabaseTable(tableName = "materials")
-public class Material implements Parcelable {
+public class Material implements Parcelable, Model<String> {
 
     @DatabaseField(columnName = "currency")
     private String currency;
@@ -106,11 +107,11 @@ public class Material implements Parcelable {
         this.currency = currency;
     }
 
-    public String getMaterialId() {
+    public String getId() {
         return materialId;
     }
 
-    public void setMaterialId(String materialId) {
+    public void setId(String materialId) {
         this.materialId = materialId;
     }
 
@@ -179,6 +180,7 @@ public class Material implements Parcelable {
     public boolean equals(java.lang.Object object) {
         if (object == null || !(object instanceof Material)) return false;
 
-        return materialId.equals(((Material) object).getMaterialId());
+        return materialId.equals(((Material) object).getId());
     }
+
 }

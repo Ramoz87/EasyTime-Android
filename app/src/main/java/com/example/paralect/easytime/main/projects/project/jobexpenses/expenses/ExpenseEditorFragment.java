@@ -125,7 +125,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
         expense.setValue(value);
 
         try {
-            expense = EasyTimeManager.getInstance().saveExpense(expense);
+            expense = EasyTimeManager.getInstance().saveAndGetExpense(expense);
             expenseFilesView.setupWithEntity(expense);
             Logger.d(TAG, "SQLiteExpense created");
         } catch (Throwable e) {

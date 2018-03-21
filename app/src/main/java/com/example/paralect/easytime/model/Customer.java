@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.paralect.core.Model;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 
 @DatabaseTable(tableName = "customers")
-public class Customer implements Parcelable {
+public class Customer implements Parcelable, Model<String> {
 
     @DatabaseField(columnName = "companyName")
     private String companyName;
@@ -84,11 +85,11 @@ public class Customer implements Parcelable {
         this.companyName = companyName;
     }
 
-    public String getCustomerId() {
+    public String getId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setId(String customerId) {
         this.customerId = customerId;
     }
 

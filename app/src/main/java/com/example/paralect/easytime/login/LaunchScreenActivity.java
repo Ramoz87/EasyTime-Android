@@ -206,13 +206,13 @@ public class LaunchScreenActivity extends Activity {
 
             Customer createCustomer(String[] fields) {
                 Customer customer = new Customer();
-                customer.setCustomerId(fields[21]);
+                customer.setId(fields[21]);
                 customer.setCompanyName(fields[38]);
                 customer.setFirstName(fields[53]);
                 customer.setLastName(fields[38]);
 
                 Contact c = new Contact();
-                c.setCustomerId(customer.getCustomerId());
+                c.setCustomerId(customer.getId());
                 c.setFirstName(customer.getFirstName());
                 c.setLastName(customer.getLastName());
                 c.setEmail(fields[23]);
@@ -220,14 +220,14 @@ public class LaunchScreenActivity extends Activity {
                 c.setPhone(fields[47]);
 
                 Contact c1 = new Contact();
-                c1.setCustomerId(customer.getCustomerId());
+                c1.setCustomerId(customer.getId());
                 c1.setFirstName(fields[57]);
                 c1.setLastName(fields[58]);
                 c1.setEmail(getValidString(fields[55]));
                 c1.setPhone(getValidString(fields[54]));
 
                 Contact c2 = new Contact();
-                c2.setCustomerId(customer.getCustomerId());
+                c2.setCustomerId(customer.getId());
                 c2.setFirstName(fields[62]);
                 c2.setLastName(fields[63]);
                 c2.setEmail(getValidString(fields[60]));
@@ -249,7 +249,7 @@ public class LaunchScreenActivity extends Activity {
 
             Material createMaterial(String[] fields) {
                 Material material = new Material();
-                material.setMaterialId(fields[0]);
+                material.setId(fields[0]);
                 material.setCurrency(fields[1]);
                 material.setMaterialNr(Integer.valueOf(fields[2]));
                 material.setName(fields[3]);

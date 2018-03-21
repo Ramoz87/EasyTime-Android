@@ -87,7 +87,7 @@ class MaterialExpensesPresenter extends SearchViewPresenter<List<MaterialExpense
                         EasyTimeManager manager = EasyTimeManager.getInstance();
                         for (MaterialExpense expense : materialExpenses) {
                             if (expense.isAdded) {
-                                manager.saveExpense(job.getId(), expense.material, expense.count);
+                                manager.saveAndGetExpense(job.getId(), expense.material, expense.count);
                             }
                         }
                         emitter.onNext(materialExpenses);

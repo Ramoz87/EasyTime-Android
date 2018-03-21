@@ -144,7 +144,7 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
 
                 } else {
                     Expense expense = Expense.createTimeExpense(job.getId(), type.getName(), hours, minutes);
-                    expense = EasyTimeManager.getInstance().saveExpense(expense);
+                    expense = EasyTimeManager.getInstance().saveAndGetExpense(expense);
                     Logger.d(TAG, "SQLiteExpense created");
 
                     if (keypadEditorView.isExpanded())

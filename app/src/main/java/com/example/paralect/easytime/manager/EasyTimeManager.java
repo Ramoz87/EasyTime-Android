@@ -141,7 +141,7 @@ public final class EasyTimeManager {
     public List<Contact> getContacts(Customer customer) {
         try {
             Dao<Contact, Long> dao = dataSource.getContactDao();
-            return dao.queryForEq("customerId", customer.getCustomerId());
+            return dao.queryForEq("customerId", customer.getId());
         } catch (SQLException exc) {
             Logger.e(exc);
             return new ArrayList<>();
@@ -228,7 +228,7 @@ public final class EasyTimeManager {
     public List<Integer> getJobTypes(Customer customer) {
         List<Integer> types = new ArrayList<>();
         try {
-            String id = customer.getCustomerId();
+            String id = customer.getId();
             if (dataSource.getObjectDao().queryBuilder().where().eq("customerId", id).countOf() != 0)
                 types.add(ProjectType.Type.TYPE_OBJECT);
             if (dataSource.getOrderDao().queryBuilder().where().eq("customerId", id).countOf() != 0)
@@ -249,7 +249,7 @@ public final class EasyTimeManager {
             else if (projectType == ProjectType.Type.TYPE_PROJECT) dao = dataSource.getProjectDao();
             else if (projectType == ProjectType.Type.TYPE_ORDER) dao = dataSource.getOrderDao();
             else return 0L;
-            return dao.queryBuilder().where().eq("customerId", customer.getCustomerId()).countOf();
+            return dao.queryBuilder().where().eq("customerId", customer.getId()).countOf();
         } catch (SQLException exc) {
             Logger.e(exc);
             return 0L;
@@ -258,7 +258,7 @@ public final class EasyTimeManager {
 
     public <T extends Job> List<T> getJobs(Dao<T, String> dao, Customer customer, String query, String date) throws SQLException {
 
-        String customerId = customer == null ? "" : customer.getCustomerId();
+        String customerId = customer == null ? "" : customer.getId();
         List<T> jobs = getList(dao, customerId, query, date);
 
         if (customer == null) {
@@ -294,7 +294,7 @@ public final class EasyTimeManager {
             Dao<Order, String> orderDao = dataSource.getOrderDao();
             Dao<Project, String> projectDao = dataSource.getProjectDao();
 
-            String customerId = customer == null ? "" : customer.getCustomerId();
+            String customerId = customer == null ? "" : customer.getId();
 
             List<Object> objects = getList(objectDao, customerId, query, date);
             List<Order> orders = getList(orderDao, customerId, query, date);
@@ -401,7 +401,7 @@ public final class EasyTimeManager {
             else {
                 QueryBuilder<Customer, String> qb = dao.queryBuilder();
                 qb.where().like("companyName", "%" + query + "%");
-                customers = qb.query();
+                customers = dataSource.getList(Customer.class, qb);
             }
         } catch (SQLException exc) {
             Logger.e(exc);
@@ -411,8 +411,7 @@ public final class EasyTimeManager {
 
     public void updateMaterial(Material material) {
         try {
-            Dao<Material, String> dao = dataSource.getMaterialDao();
-            dao.update(material);
+            dataSource.update(Material.class, material);
         } catch (SQLException exc) {
             Logger.e(exc);
         }
@@ -650,7 +649,7 @@ public final class EasyTimeManager {
      * @param expense that will be saved
      * @return saved Expense
      */
-    public Expense saveExpense(Expense expense) throws SQLException {
+    public Expense saveAndGetExpense(Expense expense) throws SQLException {
         QueryBuilder<Expense, Long> query = dataSource.getExpenseDao().queryBuilder()
                 .orderBy(EXPENSE_ID, false)
                 .limit(1L);
@@ -703,13 +702,13 @@ public final class EasyTimeManager {
         }
     }
 
-    public void saveExpense(String jobId, Material material, int countOfMaterials) throws SQLException {
+    public void saveAndGetExpense(String jobId, Material material, int countOfMaterials) throws SQLException {
         Dao<Material, String> materialDao = dataSource.getMaterialDao();
-        Expense expense = Expense.createMaterialExpense(jobId, material.getName(), material.getMaterialId(), countOfMaterials);
+        Expense expense = Expense.createMaterialExpense(jobId, material.getName(), material.getId(), countOfMaterials);
         material.setStockQuantity(material.getStockQuantity() - countOfMaterials);
         // TODO Should we count the price right here ???
         dataSource.save(Expense.class, expense);
-        materialDao.update(material);
+        dataSource.update(Material.class, material);
     }
 
     // region File
@@ -743,7 +742,7 @@ public final class EasyTimeManager {
     }
 
     public void deleteFile(File file) throws SQLException {
-        dataSource.getFileDao().delete(file);
+        dataSource.delete(File.class, file);
     }
     // endregion
 

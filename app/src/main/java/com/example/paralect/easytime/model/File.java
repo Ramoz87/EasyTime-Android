@@ -1,6 +1,7 @@
 package com.example.paralect.easytime.model;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.paralect.core.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by alexei on 26.12.2017.
  */
 
-public class File {
+public class File implements Model<Long> {
 
     @DatabaseField(columnName = "fileId", generatedId = true)
     private long fileId;
@@ -30,11 +31,11 @@ public class File {
 
     }
 
-    public long getFileId() {
+    public Long getId() {
         return fileId;
     }
 
-    public void setFileId(long fileId) {
+    public void setId(Long fileId) {
         this.fileId = fileId;
     }
 
@@ -79,7 +80,7 @@ public class File {
     }
 
     public boolean isSaved(){
-        return getFileId() != 0;
+        return getId() != 0;
     }
 
     public static List<File> mockList(){
@@ -92,7 +93,7 @@ public class File {
         List<File> files = new ArrayList<>();
         for (int i = 0; i < pictures.length; i++){
             File file = new File();
-            file.setFileId(i);
+            file.setId((long) i);
             file.setFileUrl(pictures[i]);
             file.setName("Name_" + i);
             files.add(file);
