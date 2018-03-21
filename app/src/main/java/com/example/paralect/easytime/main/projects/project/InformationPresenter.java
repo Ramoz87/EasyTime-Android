@@ -8,14 +8,12 @@ import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.ObjectCollection;
-import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.RxBus;
 
 import java.util.List;
-import java.util.SortedMap;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -49,7 +47,7 @@ class InformationPresenter extends RxBus.Watcher<String> implements IDataPresent
                 try {
                     if (!emitter.isDisposed()) {
                         Logger.d(TAG, "performing request");
-                        int count = (int) EasyTimeManager.getInstance().getTotalExpensesCount(parameter.getJobId());
+                        int count = (int) EasyTimeManager.getInstance().getTotalExpensesCount(parameter.getId());
                         List<Type> types = EasyTimeManager.getInstance().getStatuses();
                         emitter.onNext(new Pair<>(count, types));
                         emitter.onComplete();

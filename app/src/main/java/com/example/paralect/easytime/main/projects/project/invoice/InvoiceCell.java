@@ -1,4 +1,4 @@
-package com.paralect.expensesormlite;
+package com.example.paralect.easytime.main.projects.project.invoice;
 
 import android.support.annotation.IntDef;
 

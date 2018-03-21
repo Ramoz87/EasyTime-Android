@@ -16,11 +16,11 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AbsStickyFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.model.Job;
-import com.paralect.expensesormlite.Expense;
+import com.example.paralect.easytime.model.Expense;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
-import static com.paralect.expensesormlite.ExpenseUnit.Type.OTHER;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
 
 /**
  * Created by alexei on 15.01.2018.
@@ -56,7 +56,7 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
         SearchView searchView = (SearchView) menu.findItem(R.id.item_search).getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
-        presenter.setJobId(job.getJobId())
+        presenter.setJobId(job.getId())
                 .setDataView(this)
                 .setupQuerySearch((SearchView) menu.findItem(R.id.item_search).getActionView())
                 .requestData(new String[] {""});
@@ -100,7 +100,7 @@ public class ExpensesFragment extends AbsStickyFragment implements ExpenseCreato
         Expense expense = new Expense();
         expense.setName(expenseName);
         expense.setType(OTHER);
-        expense.setJobId(job.getJobId());
+        expense.setJobId(job.getId());
         ExpenseEditorFragment fragment = ExpenseEditorFragment.newInstance(expense);
         getMainActivity().getFragmentNavigator().pushFragment(fragment);
     }

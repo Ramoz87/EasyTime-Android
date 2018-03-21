@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.projects.project.jobexpenses.materials;
 
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +20,6 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.MetricsUtils;
 import com.example.paralect.easytime.views.EmptyRecyclerView;
@@ -102,7 +100,7 @@ public class MaterialExpensesFragment extends BaseFragment implements
         restoreState();
 
         presenter.setDataView(this)
-                .requestData(new String[]{job.getJobId()});
+                .requestData(new String[]{job.getId()});
     }
 
     @Override

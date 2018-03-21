@@ -4,12 +4,12 @@ package com.paralect.core;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public interface Model {
+public interface Model<ID> {
 
     /**
      * Unique Id of the object
      */
-    long getId();
+    ID getId();
 
-    void setId(long id);
+    void setId(ID id);
 }

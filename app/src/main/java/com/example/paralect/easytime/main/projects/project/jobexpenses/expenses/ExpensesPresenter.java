@@ -2,7 +2,7 @@ package com.example.paralect.easytime.main.projects.project.jobexpenses.expenses
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
-import com.paralect.expensesormlite.Expense;
+import com.example.paralect.easytime.model.Expense;
 
 import java.util.List;
 

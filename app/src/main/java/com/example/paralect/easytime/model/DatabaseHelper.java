@@ -6,9 +6,9 @@ import android.support.annotation.NonNull;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.paralect.expensesormlite.Expense;
 
 import java.sql.SQLException;
 
@@ -20,18 +20,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "easy_time_db";
     private static final int DATABASE_VERSION = 1;
-
-    private Dao<Address, Long> addressDao = null;
-    private Dao<User, String> userDao = null;
-    private Dao<Type, String> typeDao = null;
-    private Dao<Customer, String> customerDao = null;
-    private Dao<Material, String> materialDao = null;
-    private Dao<Object, String> objectDao = null;
-    private Dao<Order, String> orderDao = null;
-    private Dao<Project, String> projectDao = null;
-    private Dao<File, Long> fileDao = null;
-    private Dao<Expense, Long> expenseDao = null;
-    private Dao<Contact, Long> contactDao = null;
 
     public DatabaseHelper(@NonNull Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -78,97 +66,53 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public Dao<Address, Long> getAddressDao() throws SQLException {
-        if (addressDao == null) {
-            addressDao = getDao(Address.class);
-        }
-        return addressDao;
-    }
-
-    public Dao<User, String> getUserDao() throws SQLException {
-        if (userDao == null) {
-            userDao = getDao(User.class);
-        }
-        return userDao;
-    }
-
-    public Dao<Type, String> getTypeDao() throws SQLException {
-        if (typeDao == null) {
-            typeDao = getDao(Type.class);
-        }
-        return typeDao;
-    }
-
-    public Dao<Expense, Long> getExpenseDao() throws SQLException {
-        if (expenseDao == null) {
-            expenseDao = getDao(Expense.class);
-        }
-        return expenseDao;
-    }
-
     @Override
     public void close() {
-        addressDao = null;
-        userDao = null;
-        customerDao = null;
-        typeDao = null;
-        materialDao = null;
-        orderDao = null;
-        objectDao = null;
-        projectDao = null;
-        fileDao = null;
-        expenseDao = null;
-        contactDao = null;
-
+        DaoManager.clearCache();
         super.close();
     }
 
+    public Dao<Address, Long> getAddressDao() throws SQLException {
+        return getDao(Address.class);
+    }
+
+    public Dao<User, String> getUserDao() throws SQLException {
+        return getDao(User.class);
+    }
+
+    public Dao<Type, String> getTypeDao() throws SQLException {
+        return getDao(Type.class);
+    }
+
+    public Dao<Expense, Long> getExpenseDao() throws SQLException {
+        return getDao(Expense.class);
+    }
+
     public Dao<Customer, String> getCustomerDao() throws SQLException {
-        if (customerDao == null) {
-            customerDao = getDao(Customer.class);
-        }
-        return customerDao;
+        return getDao(Customer.class);
     }
 
     public Dao<Material, String> getMaterialDao() throws SQLException {
-        if (materialDao == null) {
-            materialDao = getDao(Material.class);
-        }
-        return materialDao;
+        return getDao(Material.class);
     }
 
     public Dao<Object, String> getObjectDao() throws SQLException {
-        if (objectDao == null) {
-            objectDao = getDao(Object.class);
-        }
-        return objectDao;
+        return getDao(Object.class);
     }
 
     public Dao<Order, String> getOrderDao() throws SQLException {
-        if (orderDao == null) {
-            orderDao = getDao(Order.class);
-        }
-        return orderDao;
+        return getDao(Order.class);
     }
 
     public Dao<Project, String> getProjectDao() throws SQLException {
-        if (projectDao == null) {
-            projectDao = getDao(Project.class);
-        }
-        return projectDao;
+        return getDao(Project.class);
     }
 
     public Dao<File, Long> getFileDao() throws SQLException {
-        if (fileDao == null) {
-            fileDao = getDao(File.class);
-        }
-        return fileDao;
+        return getDao(File.class);
     }
 
     public Dao<Contact, Long> getContactDao() throws SQLException {
-        if (contactDao == null) {
-            contactDao = getDao(Contact.class);
-        }
-        return contactDao;
+        return getDao(Contact.class);
     }
 }

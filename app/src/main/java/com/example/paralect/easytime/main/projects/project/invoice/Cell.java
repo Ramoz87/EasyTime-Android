@@ -1,7 +1,5 @@
 package com.example.paralect.easytime.main.projects.project.invoice;
 
-import com.paralect.expensesormlite.InvoiceCell;
-
 /**
  * Created by Oleg Tarashkevich on 30/01/2018.
  */

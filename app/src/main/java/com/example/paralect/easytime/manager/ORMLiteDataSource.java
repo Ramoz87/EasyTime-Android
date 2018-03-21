@@ -18,31 +18,37 @@ import java.util.Map;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public class ORMLiteDataSourceDev extends DatabaseHelper implements DataSource<QueryBuilder<?, ?>> {
+public class ORMLiteDataSource extends DatabaseHelper implements DataSource<QueryBuilder<?, ?>> {
 
-    public ORMLiteDataSourceDev(@NonNull Context context) {
+    public ORMLiteDataSource(@NonNull Context context) {
         super(context);
     }
 
     @Override
-    public <M extends Model> M getModel(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
+    public <M extends Model> M get(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
         Dao<M, ?> dao = getDao(type);
         QueryBuilder<M, ?> param = (QueryBuilder<M, ?>) parameter;
         return dao.query(param.prepare()).get(0);
     }
 
     @Override
-    public <M extends Model> List<M> getModels(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
+    public <M extends Model> List<M> getList(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
         QueryBuilder<M, ?> param = (QueryBuilder<M, ?>) parameter;
         return param.query();
     }
 
-    public <M extends Model> void saveModel(Class<M> type, M model) throws SQLException {
+    public <M extends Model> void save(Class<M> type, M model) throws SQLException {
         Dao<M, ?> dao = getDao(type);
         dao.createOrUpdate(model);
     }
 
-    public <M extends Model> void deleteModel(Class<M> type, M model) throws SQLException {
+    @Override
+    public <M extends Model> void update(Class<M> type, M model) throws SQLException {
+        Dao<M, ?> dao = getDao(type);
+        dao.update(model);
+    }
+
+    public <M extends Model> void delete(Class<M> type, M model) throws SQLException {
         Dao<M, ?> dao = getDao(type);
         dao.delete(model);
     }

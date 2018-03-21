@@ -36,7 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.paralect.expensesormlite.ExpenseUnit.Type.MATERIAL;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
 
 /**
  * Created by alexei on 15.01.2018.

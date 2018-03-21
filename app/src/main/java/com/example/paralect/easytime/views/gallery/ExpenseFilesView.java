@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.expensesormlite.Expense;
+import com.example.paralect.easytime.model.Expense;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;

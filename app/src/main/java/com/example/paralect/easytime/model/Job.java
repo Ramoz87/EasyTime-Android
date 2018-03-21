@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.paralect.core.Model;
 
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by alexei on 26.12.2017.
  */
 
-public class Job implements Parcelable, ProjectType {
+public class Job implements Parcelable, ProjectType, Model<String> {
 
     public static final String TAG = Job.class.getSimpleName();
 
@@ -162,11 +163,11 @@ public class Job implements Parcelable, ProjectType {
         this.information = information;
     }
 
-    public String getJobId() {
+    public String getId() {
         return jobId;
     }
 
-    public void setJobId(String jobId) {
+    public void setId(String jobId) {
         this.jobId = jobId;
     }
 
@@ -270,4 +271,5 @@ public class Job implements Parcelable, ProjectType {
     public void setMembers(List<User> members) {
         this.members = members;
     }
+
 }

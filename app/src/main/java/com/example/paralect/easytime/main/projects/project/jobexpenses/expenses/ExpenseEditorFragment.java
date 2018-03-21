@@ -23,7 +23,7 @@ import com.example.paralect.easytime.utils.MetricsUtils;
 import com.example.paralect.easytime.utils.ViewAnimationUtils;
 import com.example.paralect.easytime.views.KeypadEditorView;
 import com.example.paralect.easytime.views.gallery.ExpenseFilesView;
-import com.paralect.expensesormlite.Expense;
+import com.example.paralect.easytime.model.Expense;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

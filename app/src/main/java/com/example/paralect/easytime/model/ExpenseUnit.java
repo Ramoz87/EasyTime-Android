@@ -1,4 +1,4 @@
-package com.paralect.expensesormlite;
+package com.example.paralect.easytime.model;
 
 import android.support.annotation.StringDef;
 

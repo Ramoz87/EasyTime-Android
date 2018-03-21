@@ -9,9 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.CollectionUtil;
@@ -71,7 +69,7 @@ public class ProjectStickyAdapter extends BaseAdapter implements StickyListHeade
 
     @Override
     public long getItemId(int i) {
-        return getItem(i).getJobId().hashCode();
+        return getItem(i).getId().hashCode();
     }
 
     @Override

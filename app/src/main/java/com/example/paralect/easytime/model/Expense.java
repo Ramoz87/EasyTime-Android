@@ -1,34 +1,36 @@
-package com.paralect.expensesormlite;
+package com.example.paralect.easytime.model;
 
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.paralect.easytime.R;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.paralect.expense.BaseExpense;
-import com.prilaga.expensesormlite.R;
+import com.example.paralect.easytime.utils.ExpenseUtil;
+import com.example.paralect.easytime.main.projects.project.invoice.InvoiceCell;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.paralect.expensesormlite.Expense.EXPENSE_TABLE_NAME;
-import static com.paralect.expensesormlite.ExpenseUnit.Type.DRIVING;
-import static com.paralect.expensesormlite.ExpenseUnit.Type.OTHER;
-import static com.paralect.expensesormlite.ExpenseUtil.UNITY_CURRENCY;
-import static com.paralect.expensesormlite.ExpenseUtil.UNITY_KM;
-import static com.paralect.expensesormlite.ExpenseUtil.UNITY_MIN;
-import static com.paralect.expensesormlite.ExpenseUnit.Type.MATERIAL;
-import static com.paralect.expensesormlite.ExpenseUnit.Type.TIME;
+import static com.example.paralect.easytime.model.Expense.EXPENSE_TABLE_NAME;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.DRIVING;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
+import static com.example.paralect.easytime.utils.ExpenseUtil.UNITY_CURRENCY;
+import static com.example.paralect.easytime.utils.ExpenseUtil.UNITY_KM;
+import static com.example.paralect.easytime.utils.ExpenseUtil.UNITY_MIN;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.TIME;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
 @DatabaseTable(tableName = EXPENSE_TABLE_NAME)
-public class Expense implements BaseExpense, Parcelable, InvoiceCell {
+public class Expense implements BaseExpense<Long>, Parcelable, InvoiceCell {
 
     // region Fields constants
     public static final String EXPENSE_TABLE_NAME = "expenses";
@@ -168,15 +170,7 @@ public class Expense implements BaseExpense, Parcelable, InvoiceCell {
 
     }
 
-    @Override
-    public long getId() {
-        return expenseId;
-    }
 
-    @Override
-    public void setId(long id) {
-        // no need
-    }
 
     @Override
     public String getName() {
@@ -281,6 +275,16 @@ public class Expense implements BaseExpense, Parcelable, InvoiceCell {
     @Override
     public int invoiceCellType() {
         return InvoiceCell.Type.CELL;
+    }
+
+    @Override
+    public Long getId() {
+        return expenseId;
+    }
+
+    @Override
+    public void setId(Long aLong) {
+
     }
 
     // endregion

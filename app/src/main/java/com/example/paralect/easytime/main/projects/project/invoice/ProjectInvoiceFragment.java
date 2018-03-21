@@ -40,7 +40,6 @@ import com.example.paralect.easytime.views.SignatureView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.Label;
-import com.paralect.expensesormlite.InvoiceCell;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 

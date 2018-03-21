@@ -6,10 +6,9 @@ import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.TextUtil;
-import com.paralect.expensesormlite.ExpenseUnit;
-import com.paralect.expensesormlite.ExpenseUtil;
-import com.paralect.expensesormlite.Expense;
-import com.paralect.expensesormlite.InvoiceCell;
+import com.example.paralect.easytime.model.ExpenseUnit;
+import com.example.paralect.easytime.utils.ExpenseUtil;
+import com.example.paralect.easytime.model.Expense;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,10 +25,10 @@ import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.paralect.expensesormlite.ExpenseUnit.Type.DRIVING;
-import static com.paralect.expensesormlite.ExpenseUnit.Type.MATERIAL;
-import static com.paralect.expensesormlite.ExpenseUnit.Type.OTHER;
-import static com.paralect.expensesormlite.ExpenseUnit.Type.TIME;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.DRIVING;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.TIME;
 
 /**
  * Created by Oleg Tarashkevich on 31.01.2018.
@@ -51,7 +50,7 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
             public void subscribe(ObservableEmitter<List<InvoiceCell>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        List<InvoiceCell> invoices = getInvoices(mJob.getJobId());
+                        List<InvoiceCell> invoices = getInvoices(mJob.getId());
                         emitter.onNext(invoices);
                         emitter.onComplete();
                     }

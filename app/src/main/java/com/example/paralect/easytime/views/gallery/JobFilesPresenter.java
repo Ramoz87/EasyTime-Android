@@ -61,7 +61,7 @@ final class JobFilesPresenter extends FilesPresenter<List<File>, Job> {
                 File file = new File();
                 file.setName("name");
                 file.setFileUrl(filePath);
-                file.setJobId(mJob.getJobId());
+                file.setJobId(mJob.getId());
 
                 EasyTimeManager.getInstance().saveFile(file);
 

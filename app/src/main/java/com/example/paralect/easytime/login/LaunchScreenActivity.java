@@ -310,7 +310,7 @@ public class LaunchScreenActivity extends Activity {
 
             void fillJob(Job job, String[] fields) {
                 job.setEntityType(fields[0]);
-                job.setJobId(fields[1]);
+                job.setId(fields[1]);
                 job.setCustomerId(fields[2]);
                 job.setStatusId(fields[3]);
                 job.setTypeId(fields[4]);

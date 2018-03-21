@@ -15,7 +15,7 @@ import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.RxBus;
 import com.example.paralect.easytime.utils.TextUtil;
-import com.paralect.expensesormlite.Expense;
+import com.example.paralect.easytime.model.Expense;
 
 import java.util.Calendar;
 import java.util.List;
@@ -43,9 +43,9 @@ public class ActivityPresenter extends SearchViewPresenter<Pair<Integer, List<Ex
                 try {
                     if (!emitter.isDisposed()) {
                         final String date = parameters[1];
-                        List<Expense> expenses = getExpenses(mJob.getJobId(), date);
+                        List<Expense> expenses = getExpenses(mJob.getId(), date);
 
-                        int count = (int) EasyTimeManager.getInstance().getTotalExpensesCount(mJob.getJobId());
+                        int count = (int) EasyTimeManager.getInstance().getTotalExpensesCount(mJob.getId());
                         emitter.onNext(new Pair<>(count, expenses));
                         emitter.onComplete();
                     }

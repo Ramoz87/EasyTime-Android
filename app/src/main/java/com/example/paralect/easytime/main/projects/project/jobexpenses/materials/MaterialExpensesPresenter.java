@@ -21,7 +21,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.paralect.expensesormlite.ExpenseUnit.Type.MATERIAL;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
 
 /**
  * Created by alexei on 17.01.2018.
@@ -87,7 +87,7 @@ class MaterialExpensesPresenter extends SearchViewPresenter<List<MaterialExpense
                         EasyTimeManager manager = EasyTimeManager.getInstance();
                         for (MaterialExpense expense : materialExpenses) {
                             if (expense.isAdded) {
-                                manager.saveExpense(job.getJobId(), expense.material, expense.count);
+                                manager.saveExpense(job.getId(), expense.material, expense.count);
                             }
                         }
                         emitter.onNext(materialExpenses);

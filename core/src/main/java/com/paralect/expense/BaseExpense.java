@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by Oleg Tarashkevich on 05/03/2018.
  */
 
-public interface BaseExpense extends Model {
+public interface BaseExpense<ID> extends Model<ID> {
 
     /**
      * The name of this expense

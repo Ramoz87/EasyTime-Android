@@ -1,7 +1,9 @@
-package com.paralect.expensesormlite;
+package com.example.paralect.easytime.utils;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import com.example.paralect.easytime.model.ExpenseUnit;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

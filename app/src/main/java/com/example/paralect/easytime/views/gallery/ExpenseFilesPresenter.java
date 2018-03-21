@@ -5,7 +5,7 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.expensesormlite.Expense;
+import com.example.paralect.easytime.model.Expense;
 
 /**
  * Created by Oleg Tarashkevich on 17/01/2018.
