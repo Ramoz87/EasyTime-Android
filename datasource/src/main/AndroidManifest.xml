@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.paralect.core.rx">
+          package="com.paralect.datasource">
 
-    <application/>
-
+    <application
+        />
 </manifest>

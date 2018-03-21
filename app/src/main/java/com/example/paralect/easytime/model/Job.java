@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
-import com.paralect.core.Model;
+import com.paralect.datasource.core.Model;
 
 import java.util.Date;
 import java.util.List;

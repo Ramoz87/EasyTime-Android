@@ -78,6 +78,6 @@ dependencies {
         transitive = true
     }
 
-    implementation project(':core')
-    implementation project(':corerx')
+    implementation project(':datasource')
+    implementation project(':datasourcerx')
 }

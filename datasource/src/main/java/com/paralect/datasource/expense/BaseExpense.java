@@ -1,6 +1,6 @@
-package com.paralect.expense;
+package com.paralect.datasource.expense;
 
-import com.paralect.core.Model;
+import com.paralect.datasource.core.Model;
 
 import java.util.Date;
 

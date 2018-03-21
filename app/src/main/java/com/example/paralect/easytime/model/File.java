@@ -1,7 +1,7 @@
 package com.example.paralect.easytime.model;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.paralect.core.Model;
+import com.paralect.datasource.core.Model;
 
 import java.util.ArrayList;
 import java.util.List;

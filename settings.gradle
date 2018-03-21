@@ -1,1 +1,1 @@
-include ':app', ':core', ':corerx'
+include ':app', ':datasource', ':datasourcerx'

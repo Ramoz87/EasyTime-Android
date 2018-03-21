@@ -2,7 +2,7 @@ package com.example.paralect.easytime.utils;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.paralect.core.Model;
+import com.paralect.datasource.core.Model;
 
 import java.util.List;
 

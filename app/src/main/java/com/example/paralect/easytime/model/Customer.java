@@ -3,10 +3,9 @@ package com.example.paralect.easytime.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.paralect.core.Model;
+import com.paralect.datasource.core.Model;
 
 import java.util.List;
 

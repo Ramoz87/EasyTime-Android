@@ -8,7 +8,7 @@ import com.example.paralect.easytime.R;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.paralect.expense.BaseExpense;
+import com.paralect.datasource.expense.BaseExpense;
 import com.example.paralect.easytime.utils.ExpenseUtil;
 import com.example.paralect.easytime.main.projects.project.invoice.InvoiceCell;
 

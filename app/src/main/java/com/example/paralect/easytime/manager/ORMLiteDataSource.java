@@ -6,9 +6,9 @@ import android.support.annotation.NonNull;
 import com.example.paralect.easytime.model.DatabaseHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.paralect.core.DataSource;
-import com.paralect.core.Model;
-import com.paralect.core.rx.DataSourceRx;
+import com.paralect.datasource.core.DataSource;
+import com.paralect.datasource.core.Model;
+import com.paralect.datasource.rx.DataSourceRx;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -61,8 +61,6 @@ public class ORMLiteDataSource extends DatabaseHelper implements
     // endregion
 
     // region Synchronous
-    public static final Object NOTHING = new Object();
-
     @Override
     public <M extends Model> Single<M> getAsync(final Class<M> type, final QueryBuilder<?, ?> parameter) {
         return Single.create(new SingleOnSubscribe<M>() {

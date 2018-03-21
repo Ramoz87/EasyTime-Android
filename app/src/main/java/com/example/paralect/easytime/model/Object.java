@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.paralect.core.Model;
+import com.paralect.datasource.core.Model;
 
 /**
  * Created by alexei on 26.12.2017.

@@ -1,4 +1,4 @@
-package com.paralect.core;
+package com.paralect.datasource.core;
 
 import android.util.SparseArray;
 

@@ -1,13 +1,10 @@
-package com.paralect.core.rx;
+package com.paralect.datasource.rx;
 
-import com.paralect.core.DataSource;
-import com.paralect.core.Model;
+import com.paralect.datasource.core.Model;
 
 import java.util.List;
 
 import io.reactivex.Single;
-import io.reactivex.SingleEmitter;
-import io.reactivex.SingleOnSubscribe;
 
 /**
  * Created by Oleg Tarashkevich on 21/03/2018.
