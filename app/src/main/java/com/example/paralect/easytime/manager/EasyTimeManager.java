@@ -56,7 +56,7 @@ public final class EasyTimeManager {
 
     private volatile static EasyTimeManager instance;
     private DatabaseHelper helper;
-    private ORMLiteDataSourceDev expenseDS;
+    private ORMLiteDataSourceDev ds;
 
     /**
      * Returns singleton class instance
@@ -76,16 +76,24 @@ public final class EasyTimeManager {
     }
 
     private EasyTimeManager() {
+
+        if (ds == null)
+            ds = new ORMLiteDataSourceDev(EasyTimeApplication.getContext());
+
+
+        try {
+            Dao<Expense, Long> dao = ds.getDao(Expense.class);
+            QueryBuilder<Expense, Long> qb = dao.queryBuilder();
+            Expense expense = ds.getModel(Expense.class, qb);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
         if (helper == null)
             helper = new DatabaseHelper(EasyTimeApplication.getContext());
-        if (expenseDS == null) {
-            try {
-                Dao<Expense, Long> dao = expenseDS.getDao(Expense.class);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            expenseDS = new ORMLiteDataSourceDev(EasyTimeApplication.getContext());
-        }
     }
 
     public DatabaseHelper getHelper() {
@@ -486,7 +494,7 @@ public final class EasyTimeManager {
         if (!TextUtils.isEmpty(expenseType))
             where.and().eq(TYPE, expenseType);
 
-        List<Expense> expenses = expenseDS.getModels(qb);
+        List<Expense> expenses = ds.getModels(qb);
         final Dao<Material, String> materialDao = helper.getMaterialDao();
 
         for (final Expense exp : expenses)
@@ -607,7 +615,7 @@ public final class EasyTimeManager {
 
         }
         qb.orderBy(CREATION_DATE, false);
-        return expenseDS.getModels(qb);
+        return ds.getModels(qb);
     }
 
     /**
@@ -663,8 +671,8 @@ public final class EasyTimeManager {
         QueryBuilder<Expense, Long> query = helper.getExpenseDao().queryBuilder()
                 .orderBy(EXPENSE_ID, false)
                 .limit(1L);
-        expenseDS.saveModel(expense);
-        return expenseDS.getModel(query);
+        ds.saveModel(expense);
+        return ds.getModel(query);
     }
 
     public List<Object> getObjects(String[] ids) {
@@ -705,7 +713,7 @@ public final class EasyTimeManager {
                 boolean isDeleted = imageFile.delete();
                 Logger.d("file deleted = " + isDeleted);
             }
-            expenseDS.deleteModel(expense);
+            ds.deleteModel(expense);
         } catch (SQLException exc) {
             Logger.e(exc);
             exc.printStackTrace();
@@ -717,7 +725,7 @@ public final class EasyTimeManager {
         Expense expense = Expense.createMaterialExpense(jobId, material.getName(), material.getMaterialId(), countOfMaterials);
         material.setStockQuantity(material.getStockQuantity() - countOfMaterials);
         // TODO Should we count the price right here ???
-        expenseDS.saveModel(expense);
+        ds.saveModel(expense);
         materialDao.update(material);
     }
 
