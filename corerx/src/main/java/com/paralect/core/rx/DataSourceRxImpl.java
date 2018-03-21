@@ -1,16 +1,8 @@
-package com.example.paralect.easytime.manager;
+package com.paralect.core.rx;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-
-import com.example.paralect.easytime.model.DatabaseHelper;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.paralect.core.DataSource;
 import com.paralect.core.Model;
-import com.paralect.core.rx.DataSourceRx;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -18,53 +10,14 @@ import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 
 /**
- * Created by Oleg Tarashkevich on 06/03/2018.
+ * Created by Oleg Tarashkevich on 21/03/2018.
  */
 
-public class ORMLiteDataSource extends DatabaseHelper implements
-        DataSource<QueryBuilder<?, ?>>,
-        DataSourceRx<QueryBuilder<?, ?>> {
-
-    public ORMLiteDataSource(@NonNull Context context) {
-        super(context);
-    }
-
-    // region Non synchronous
-    @Override
-    public <M extends Model> M get(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
-        Dao<M, ?> dao = getDao(type);
-        QueryBuilder<M, ?> param = (QueryBuilder<M, ?>) parameter;
-        return dao.query(param.prepare()).get(0);
-    }
-
-    @Override
-    public <M extends Model> List<M> getList(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
-        QueryBuilder<M, ?> param = (QueryBuilder<M, ?>) parameter;
-        return param.query();
-    }
-
-    public <M extends Model> void save(Class<M> type, M model) throws SQLException {
-        Dao<M, ?> dao = getDao(type);
-        dao.createOrUpdate(model);
-    }
-
-    @Override
-    public <M extends Model> void update(Class<M> type, M model) throws SQLException {
-        Dao<M, ?> dao = getDao(type);
-        dao.update(model);
-    }
-
-    public <M extends Model> void delete(Class<M> type, M model) throws SQLException {
-        Dao<M, ?> dao = getDao(type);
-        dao.delete(model);
-    }
-    // endregion
+public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx<P>{
 
     // region Synchronous
-    public static final Object NOTHING = new Object();
-
     @Override
-    public <M extends Model> Single<M> getAsync(final Class<M> type, final QueryBuilder<?, ?> parameter) {
+    public <M extends Model> Single<M> getAsync(final Class<M> type, final P parameter) {
         return Single.create(new SingleOnSubscribe<M>() {
             @Override
             public void subscribe(SingleEmitter<M> emitter) throws Exception {
@@ -81,7 +34,7 @@ public class ORMLiteDataSource extends DatabaseHelper implements
     }
 
     @Override
-    public <M extends Model> Single<List<M>> getListAsync(final Class<M> type, final QueryBuilder<?, ?> parameter) {
+    public <M extends Model> Single<List<M>> getListAsync(final Class<M> type, final P parameter) {
         return Single.create(new SingleOnSubscribe<List<M>>() {
             @Override
             public void subscribe(SingleEmitter<List<M>> emitter) throws Exception {
