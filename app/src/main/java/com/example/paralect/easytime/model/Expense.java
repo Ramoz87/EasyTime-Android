@@ -19,11 +19,12 @@ import java.util.List;
 import static com.example.paralect.easytime.model.Expense.EXPENSE_TABLE_NAME;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.DRIVING;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.TIME;
 import static com.example.paralect.easytime.utils.ExpenseUtil.UNITY_CURRENCY;
 import static com.example.paralect.easytime.utils.ExpenseUtil.UNITY_KM;
 import static com.example.paralect.easytime.utils.ExpenseUtil.UNITY_MIN;
-import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
-import static com.example.paralect.easytime.model.ExpenseUnit.Type.TIME;
+
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
@@ -171,7 +172,6 @@ public class Expense implements BaseExpense<Long>, Parcelable, InvoiceCell {
     }
 
 
-
     @Override
     public String getName() {
         return name;
@@ -290,6 +290,7 @@ public class Expense implements BaseExpense<Long>, Parcelable, InvoiceCell {
     // endregion
 
     // region Additional classes and methods
+
     /**
      * Returns value and unit
      */

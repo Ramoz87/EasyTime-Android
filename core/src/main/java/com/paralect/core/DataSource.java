@@ -7,7 +7,7 @@ import java.util.List;
  */
 
 /**
- * @param <M> type of model
+ *  param <M> type of model
  * @param <P> type of parameter for query purposes
  */
 public interface DataSource<P> {
