@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.paralect.datasource.core.Model;
+import com.paralect.datasource.core.Entity;
 
 import java.lang.*;
 
@@ -15,7 +15,7 @@ import java.lang.*;
  */
 
 @DatabaseTable(tableName = "materials")
-public class Material implements Parcelable, Model<String> {
+public class Material implements Parcelable, Entity<String> {
 
     @DatabaseField(columnName = "currency")
     private String currency;

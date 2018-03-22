@@ -1,7 +1,7 @@
 package com.example.paralect.easytime.model;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.paralect.datasource.core.Model;
+import com.paralect.datasource.core.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by alexei on 26.12.2017.
  */
 
-public class File implements Model<Long> {
+public class File implements Entity<Long> {
 
     @DatabaseField(columnName = "fileId", generatedId = true)
     private long fileId;

@@ -7,7 +7,7 @@ import com.example.paralect.easytime.model.DatabaseHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.paralect.datasource.core.DataSource;
-import com.paralect.datasource.core.Model;
+import com.paralect.datasource.core.Entity;
 import com.paralect.datasource.rx.DataSourceRx;
 
 import java.sql.SQLException;
@@ -31,30 +31,30 @@ public class ORMLiteDataSource extends DatabaseHelper implements
 
     // region Non synchronous
     @Override
-    public <M extends Model> M get(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
+    public <M extends Entity> M get(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
         Dao<M, ?> dao = getDao(type);
         QueryBuilder<M, ?> param = (QueryBuilder<M, ?>) parameter;
         return dao.query(param.prepare()).get(0);
     }
 
     @Override
-    public <M extends Model> List<M> getList(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
+    public <M extends Entity> List<M> getList(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
         QueryBuilder<M, ?> param = (QueryBuilder<M, ?>) parameter;
         return param.query();
     }
 
-    public <M extends Model> void save(Class<M> type, M model) throws SQLException {
+    public <M extends Entity> void save(Class<M> type, M model) throws SQLException {
         Dao<M, ?> dao = getDao(type);
         dao.createOrUpdate(model);
     }
 
     @Override
-    public <M extends Model> void update(Class<M> type, M model) throws SQLException {
+    public <M extends Entity> void update(Class<M> type, M model) throws SQLException {
         Dao<M, ?> dao = getDao(type);
         dao.update(model);
     }
 
-    public <M extends Model> void delete(Class<M> type, M model) throws SQLException {
+    public <M extends Entity> void delete(Class<M> type, M model) throws SQLException {
         Dao<M, ?> dao = getDao(type);
         dao.delete(model);
     }
@@ -62,7 +62,7 @@ public class ORMLiteDataSource extends DatabaseHelper implements
 
     // region Synchronous
     @Override
-    public <M extends Model> Single<M> getAsync(final Class<M> type, final QueryBuilder<?, ?> parameter) {
+    public <M extends Entity> Single<M> getAsync(final Class<M> type, final QueryBuilder<?, ?> parameter) {
         return Single.create(new SingleOnSubscribe<M>() {
             @Override
             public void subscribe(SingleEmitter<M> emitter) throws Exception {
@@ -79,7 +79,7 @@ public class ORMLiteDataSource extends DatabaseHelper implements
     }
 
     @Override
-    public <M extends Model> Single<List<M>> getListAsync(final Class<M> type, final QueryBuilder<?, ?> parameter) {
+    public <M extends Entity> Single<List<M>> getListAsync(final Class<M> type, final QueryBuilder<?, ?> parameter) {
         return Single.create(new SingleOnSubscribe<List<M>>() {
             @Override
             public void subscribe(SingleEmitter<List<M>> emitter) throws Exception {
@@ -96,7 +96,7 @@ public class ORMLiteDataSource extends DatabaseHelper implements
     }
 
     @Override
-    public <M extends Model> Single<Object> saveAsync(final Class<M> type, final M model) {
+    public <M extends Entity> Single<Object> saveAsync(final Class<M> type, final M model) {
         return Single.create(new SingleOnSubscribe<Object>() {
             @Override
             public void subscribe(SingleEmitter<Object> emitter) throws Exception {
@@ -113,7 +113,7 @@ public class ORMLiteDataSource extends DatabaseHelper implements
     }
 
     @Override
-    public <M extends Model> Single<Object> updateAsync(final Class<M> type, final M model) {
+    public <M extends Entity> Single<Object> updateAsync(final Class<M> type, final M model) {
         return Single.create(new SingleOnSubscribe<Object>() {
             @Override
             public void subscribe(SingleEmitter<Object> emitter) throws Exception {
@@ -130,7 +130,7 @@ public class ORMLiteDataSource extends DatabaseHelper implements
     }
 
     @Override
-    public <M extends Model> Single<Object> deleteAsync(final Class<M> type, final M model) {
+    public <M extends Entity> Single<Object> deleteAsync(final Class<M> type, final M model) {
         return Single.create(new SingleOnSubscribe<Object>() {
             @Override
             public void subscribe(SingleEmitter<Object> emitter) throws Exception {

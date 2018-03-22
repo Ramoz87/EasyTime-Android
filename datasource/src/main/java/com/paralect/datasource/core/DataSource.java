@@ -12,14 +12,14 @@ import java.util.List;
  */
 public interface DataSource<P> {
 
-    <M extends Model> M get(Class<M> type, P parameter) throws Throwable;
+    <M extends Entity> M get(Class<M> type, P parameter) throws Throwable;
 
-    <M extends Model> List<M> getList(Class<M> type, P parameter) throws Throwable;
+    <M extends Entity> List<M> getList(Class<M> type, P parameter) throws Throwable;
 
-    <M extends Model> void save(Class<M> type, M model) throws Throwable;
+    <M extends Entity> void save(Class<M> type, M model) throws Throwable;
 
-    <M extends Model> void update(Class<M> type, M model) throws Throwable;
+    <M extends Entity> void update(Class<M> type, M model) throws Throwable;
 
-    <M extends Model> void delete(Class<M> type, M model) throws Throwable;
+    <M extends Entity> void delete(Class<M> type, M model) throws Throwable;
 
 }

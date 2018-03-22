@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.paralect.datasource.core.Model;
+import com.paralect.datasource.core.Entity;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @DatabaseTable(tableName = "customers")
-public class Customer implements Parcelable, Model<String> {
+public class Customer implements Parcelable, Entity<String> {
 
     @DatabaseField(columnName = "companyName")
     private String companyName;

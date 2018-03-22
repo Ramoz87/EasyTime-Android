@@ -1,6 +1,6 @@
 package com.paralect.datasource.rx;
 
-import com.paralect.datasource.core.Model;
+import com.paralect.datasource.core.Entity;
 
 import java.util.List;
 
@@ -14,14 +14,14 @@ public interface DataSourceRx<P> {
 
     Object NOTHING = new Object();
 
-    <M extends Model> Single<M> getAsync(final Class<M> type, final P parameter);
+    <M extends Entity> Single<M> getAsync(final Class<M> type, final P parameter);
 
-    <M extends Model> Single<List<M>> getListAsync(final Class<M> type, final P parameter);
+    <M extends Entity> Single<List<M>> getListAsync(final Class<M> type, final P parameter);
 
-    <M extends Model> Single<Object> saveAsync(final Class<M> type, final M model);
+    <M extends Entity> Single<Object> saveAsync(final Class<M> type, final M model);
 
-    <M extends Model> Single<Object> updateAsync(final Class<M> type, final M model);
+    <M extends Entity> Single<Object> updateAsync(final Class<M> type, final M model);
 
-    <M extends Model> Single<Object> deleteAsync(final Class<M> type, final M model);
+    <M extends Entity> Single<Object> deleteAsync(final Class<M> type, final M model);
 
 }

@@ -1,6 +1,6 @@
 package com.paralect.datasource.expense;
 
-import com.paralect.datasource.core.Model;
+import com.paralect.datasource.core.Entity;
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by Oleg Tarashkevich on 05/03/2018.
  */
 
-public interface BaseExpense<ID> extends Model<ID> {
+public interface BaseExpense<ID> extends Entity<ID> {
 
     /**
      * The name of this expense

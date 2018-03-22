@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
-import com.paralect.datasource.core.Model;
+import com.paralect.datasource.core.Entity;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by alexei on 26.12.2017.
  */
 
-public class Job implements Parcelable, ProjectType, Model<String> {
+public class Job implements Parcelable, ProjectType, Entity<String> {
 
     public static final String TAG = Job.class.getSimpleName();
 

@@ -1,7 +1,7 @@
 package com.paralect.datasource.rx;
 
 import com.paralect.datasource.core.DataSource;
-import com.paralect.datasource.core.Model;
+import com.paralect.datasource.core.Entity;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx
 
     // region Synchronous
     @Override
-    public <M extends Model> Single<M> getAsync(final Class<M> type, final P parameter) {
+    public <M extends Entity> Single<M> getAsync(final Class<M> type, final P parameter) {
         return Single.create(new SingleOnSubscribe<M>() {
             @Override
             public void subscribe(SingleEmitter<M> emitter) throws Exception {
@@ -34,7 +34,7 @@ public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx
     }
 
     @Override
-    public <M extends Model> Single<List<M>> getListAsync(final Class<M> type, final P parameter) {
+    public <M extends Entity> Single<List<M>> getListAsync(final Class<M> type, final P parameter) {
         return Single.create(new SingleOnSubscribe<List<M>>() {
             @Override
             public void subscribe(SingleEmitter<List<M>> emitter) throws Exception {
@@ -51,7 +51,7 @@ public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx
     }
 
     @Override
-    public <M extends Model> Single<Object> saveAsync(final Class<M> type, final M model) {
+    public <M extends Entity> Single<Object> saveAsync(final Class<M> type, final M model) {
         return Single.create(new SingleOnSubscribe<Object>() {
             @Override
             public void subscribe(SingleEmitter<Object> emitter) throws Exception {
@@ -68,7 +68,7 @@ public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx
     }
 
     @Override
-    public <M extends Model> Single<Object> updateAsync(final Class<M> type, final M model) {
+    public <M extends Entity> Single<Object> updateAsync(final Class<M> type, final M model) {
         return Single.create(new SingleOnSubscribe<Object>() {
             @Override
             public void subscribe(SingleEmitter<Object> emitter) throws Exception {
@@ -85,7 +85,7 @@ public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx
     }
 
     @Override
-    public <M extends Model> Single<Object> deleteAsync(final Class<M> type, final M model) {
+    public <M extends Entity> Single<Object> deleteAsync(final Class<M> type, final M model) {
         return Single.create(new SingleOnSubscribe<Object>() {
             @Override
             public void subscribe(SingleEmitter<Object> emitter) throws Exception {
