@@ -1,4 +1,4 @@
-package com.example.paralect.easytime.manager;
+package com.paralect.easytimedataormlite.request;
 
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.ExpenseUnit;

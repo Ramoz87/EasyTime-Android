@@ -29,6 +29,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
+import com.paralect.easytimedataormlite.request.ExpenseConverter;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
