@@ -38,7 +38,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Project.class);
             TableUtils.createTableIfNotExists(connectionSource, File.class);
             TableUtils.createTableIfNotExists(connectionSource, Expense.class);
-            TableUtils.createTableIfNotExists(connectionSource, Expense.class);
             TableUtils.createTableIfNotExists(connectionSource, Contact.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -57,7 +56,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Order.class, true);
             TableUtils.dropTable(connectionSource, Project.class, true);
             TableUtils.dropTable(connectionSource, File.class, true);
-            TableUtils.dropTable(connectionSource, Expense.class, true);
             TableUtils.dropTable(connectionSource, Expense.class, true);
             TableUtils.dropTable(connectionSource, Contact.class, true);
             onCreate(database, connectionSource);

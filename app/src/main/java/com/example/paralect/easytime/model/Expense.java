@@ -287,7 +287,6 @@ public class Expense implements BaseExpense<Long>, Parcelable, InvoiceCell {
     public void setId(Long aLong) {
 
     }
-
     // endregion
 
     // region Additional classes and methods

@@ -8,6 +8,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.paralect.datasource.core.DataSource;
 import com.paralect.datasource.core.Entity;
+import com.paralect.datasource.core.EntityConverter;
 import com.paralect.datasource.rx.DataSourceRx;
 
 import java.sql.SQLException;
@@ -59,6 +60,14 @@ public class ORMLiteDataSource extends DatabaseHelper implements
         dao.delete(model);
     }
     // endregion
+
+
+    public <IN, EX, C extends EntityConverter<IN, EX, QueryBuilder<IN, ?>>> IN get(C converter) throws SQLException {
+        Dao<IN, ?> dao = getDao(converter.getClazz());
+        QueryBuilder<IN, ?> param = converter.getParameter();
+        IN entity = dao.query(param.prepare()).get(0);
+        return (IN) converter.unwrap(entity);
+    }
 
     // region Synchronous
     @Override

@@ -654,6 +654,10 @@ public final class EasyTimeManager {
                 .orderBy(EXPENSE_ID, false)
                 .limit(1L);
         dataSource.save(Expense.class, expense);
+
+        ExpenseConverter converter = new ExpenseConverter();
+        Expense ex = dataSource.get(converter);
+
         return dataSource.get(Expense.class, query);
     }
 
