@@ -99,8 +99,8 @@ public class SignatureView extends RelativeLayout {
 
         try {
                 //create a file to write bitmap data
-//                File f = new File(getContext().getCacheDir(), "signature.png");
-                File f = new File(getContext().getExternalFilesDir("photos"), "signature.png");
+//                FileEntity f = new FileEntity(getContext().getCacheDir(), "signature.png");
+                FileEntity f = new FileEntity(getContext().getExternalFilesDir("photos"), "signature.png");
                 f.createNewFile();
 
 //Convert bitmap to byte array

@@ -43,7 +43,7 @@ final class ExpenseFilesPresenter extends FilesPresenter<File, Expense> {
     }
 
     /**
-     * Set expenseId to File
+     * Set expenseId to FileEntity
      *
      * @param expense
      */

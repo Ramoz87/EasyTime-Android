@@ -1,1 +1,1 @@
-include ':app', ':datasource', ':datasourcerx', ':datasourceormlite', ':easytimedataormlite'
+include ':app', ':datasource', ':datasourcerx', ':datasourceormlite', ':easytimedataormlite', ':easytimemodel'

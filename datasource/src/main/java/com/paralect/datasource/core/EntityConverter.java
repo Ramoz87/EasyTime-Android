@@ -17,6 +17,8 @@ public interface EntityConverter<IN, EX, P> {
 
     P getParameter();
 
-    Class<IN> getClazz();
+    Class<IN> getInnerClazz();
+
+    Class<EX> getExternalClazz();
 
 }

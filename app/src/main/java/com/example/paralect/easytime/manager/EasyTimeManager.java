@@ -29,7 +29,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
-import com.paralect.easytimedataormlite.request.ExpenseConverter;
+import com.paralect.easytimedataormlite.request.ExpenseRequest;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,11 +38,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.paralect.easytime.model.Expense.CREATION_DATE;
-import static com.example.paralect.easytime.model.Expense.EXPENSE_ID;
-import static com.example.paralect.easytime.model.Expense.JOB_ID;
-import static com.example.paralect.easytime.model.Expense.NAME;
-import static com.example.paralect.easytime.model.Expense.TYPE;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
@@ -99,7 +94,7 @@ public final class EasyTimeManager {
         }
     }
 
-    // region Type
+    // region TypeEntity
     public Type getType(String typeId) {
         Type type = null;
         try {
@@ -460,7 +455,7 @@ public final class EasyTimeManager {
      * <p>
      * Doesn't work in case of case sensitive: qb.distinct().selectColumns("name");
      *
-     * @param jobId       is field of Job object
+     * @param jobId       is field of JobEntity object
      * @param searchQuery for searching in name field
      * @param expenseType
      * @return list of expenses
@@ -469,16 +464,14 @@ public final class EasyTimeManager {
 
         QueryBuilder<Expense, Long> qb = dataSource.getExpenseDao().queryBuilder();
 
-        Where where = qb.where().eq(JOB_ID, jobId);
-
-        if (!TextUtils.isEmpty(searchQuery))
-            where.and().like(NAME, "%" + searchQuery + "%");
-
-        if (!TextUtils.isEmpty(expenseType))
-            where.and().eq(TYPE, expenseType);
 
         List<Expense> expenses = dataSource.getList(Expense.class, qb);
-        final Dao<Material, String> materialDao = dataSource.getMaterialDao();
+
+        ExpenseRequest request = new ExpenseRequest();
+
+        Expense ex = dataSource.get(request);
+
+        return dataSource.get(Expense.class, query);
 
         for (final Expense exp : expenses)
             setValueWithUnit(exp, materialDao);
@@ -523,8 +516,8 @@ public final class EasyTimeManager {
     }
 
     /**
-     * @param jobId is field of Job object
-     * @return total count of expenses for Job object with jobId field
+     * @param jobId is field of JobEntity object
+     * @return total count of expenses for JobEntity object with jobId field
      */
     public <P> long countExpenses(P jobId) throws SQLException {
         Where where = dataSource.getExpenseDao().queryBuilder().where().eq(JOB_ID, jobId);
@@ -538,7 +531,7 @@ public final class EasyTimeManager {
     /**
      * Using for query expenses by date and jobId
      *
-     * @param jobId is field of Job object
+     * @param jobId is field of JobEntity object
      * @param date  should be in "yyyy-MM-dd" format
      * @return list of expenses
      */
@@ -645,10 +638,10 @@ public final class EasyTimeManager {
     }
 
     /**
-     * Save and retrieve last Expense from the table
+     * Save and retrieve last ExpenseEntity from the table
      *
      * @param expense that will be saved
-     * @return saved Expense
+     * @return saved ExpenseEntity
      */
     public Expense saveAndGetExpense(Expense expense) throws SQLException {
         QueryBuilder<Expense, Long> query = dataSource.getExpenseDao().queryBuilder()
@@ -656,7 +649,7 @@ public final class EasyTimeManager {
                 .limit(1L);
         dataSource.save(Expense.class, expense);
 
-        ExpenseConverter converter = new ExpenseConverter();
+        ExpenseRequest converter = new ExpenseRequest();
         Expense ex = dataSource.get(converter);
 
         return dataSource.get(Expense.class, query);
@@ -716,7 +709,7 @@ public final class EasyTimeManager {
         dataSource.update(Material.class, material);
     }
 
-    // region File
+    // region FileEntity
     public File getFile(Expense expense) throws SQLException {
         return dataSource.getFileDao().queryBuilder()
                 .where()

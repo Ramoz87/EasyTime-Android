@@ -4,16 +4,16 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import com.paralect.easytimedataormlite.model.Address;
-import com.paralect.easytimedataormlite.model.Contact;
-import com.paralect.easytimedataormlite.model.Customer;
-import com.paralect.easytimedataormlite.model.Expense;
-import com.paralect.easytimedataormlite.model.File;
-import com.paralect.easytimedataormlite.model.Material;
-import com.paralect.easytimedataormlite.model.Order;
-import com.paralect.easytimedataormlite.model.Project;
-import com.paralect.easytimedataormlite.model.Type;
-import com.paralect.easytimedataormlite.model.User;
+import com.paralect.easytimedataormlite.model.AddressEntity;
+import com.paralect.easytimedataormlite.model.ContactEntity;
+import com.paralect.easytimedataormlite.model.CustomerEntity;
+import com.paralect.easytimedataormlite.model.ExpenseEntity;
+import com.paralect.easytimedataormlite.model.FileEntity;
+import com.paralect.easytimedataormlite.model.MaterialEntity;
+import com.paralect.easytimedataormlite.model.OrderEntity;
+import com.paralect.easytimedataormlite.model.ProjectEntity;
+import com.paralect.easytimedataormlite.model.TypeEntity;
+import com.paralect.easytimedataormlite.model.UserEntity;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
@@ -38,17 +38,17 @@ public class DatabaseHelperORMLite extends ORMLiteDataSource {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTableIfNotExists(connectionSource, Address.class);
-            TableUtils.createTableIfNotExists(connectionSource, User.class);
-            TableUtils.createTableIfNotExists(connectionSource, Type.class);
-            TableUtils.createTableIfNotExists(connectionSource, Customer.class);
-            TableUtils.createTableIfNotExists(connectionSource, Material.class);
+            TableUtils.createTableIfNotExists(connectionSource, AddressEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, UserEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, TypeEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, CustomerEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, MaterialEntity.class);
             TableUtils.createTableIfNotExists(connectionSource, Object.class);
-            TableUtils.createTableIfNotExists(connectionSource, Order.class);
-            TableUtils.createTableIfNotExists(connectionSource, Project.class);
-            TableUtils.createTableIfNotExists(connectionSource, File.class);
-            TableUtils.createTableIfNotExists(connectionSource, Expense.class);
-            TableUtils.createTableIfNotExists(connectionSource, Contact.class);
+            TableUtils.createTableIfNotExists(connectionSource, OrderEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, ProjectEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, FileEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, ExpenseEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, ContactEntity.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -57,17 +57,17 @@ public class DatabaseHelperORMLite extends ORMLiteDataSource {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, Address.class, true);
-            TableUtils.dropTable(connectionSource, User.class, true);
-            TableUtils.dropTable(connectionSource, Type.class, true);
-            TableUtils.dropTable(connectionSource, Customer.class, true);
-            TableUtils.dropTable(connectionSource, Material.class, true);
+            TableUtils.dropTable(connectionSource, AddressEntity.class, true);
+            TableUtils.dropTable(connectionSource, UserEntity.class, true);
+            TableUtils.dropTable(connectionSource, TypeEntity.class, true);
+            TableUtils.dropTable(connectionSource, CustomerEntity.class, true);
+            TableUtils.dropTable(connectionSource, MaterialEntity.class, true);
             TableUtils.dropTable(connectionSource, Object.class, true);
-            TableUtils.dropTable(connectionSource, Order.class, true);
-            TableUtils.dropTable(connectionSource, Project.class, true);
-            TableUtils.dropTable(connectionSource, File.class, true);
-            TableUtils.dropTable(connectionSource, Expense.class, true);
-            TableUtils.dropTable(connectionSource, Contact.class, true);
+            TableUtils.dropTable(connectionSource, OrderEntity.class, true);
+            TableUtils.dropTable(connectionSource, ProjectEntity.class, true);
+            TableUtils.dropTable(connectionSource, FileEntity.class, true);
+            TableUtils.dropTable(connectionSource, ExpenseEntity.class, true);
+            TableUtils.dropTable(connectionSource, ContactEntity.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,47 +80,47 @@ public class DatabaseHelperORMLite extends ORMLiteDataSource {
         super.close();
     }
 
-    public Dao<Address, Long> getAddressDao() throws SQLException {
-        return getDao(Address.class);
+    public Dao<AddressEntity, Long> getAddressDao() throws SQLException {
+        return getDao(AddressEntity.class);
     }
 
-    public Dao<User, String> getUserDao() throws SQLException {
-        return getDao(User.class);
+    public Dao<UserEntity, String> getUserDao() throws SQLException {
+        return getDao(UserEntity.class);
     }
 
-    public Dao<Type, String> getTypeDao() throws SQLException {
-        return getDao(Type.class);
+    public Dao<TypeEntity, String> getTypeDao() throws SQLException {
+        return getDao(TypeEntity.class);
     }
 
-    public Dao<Expense, Long> getExpenseDao() throws SQLException {
-        return getDao(Expense.class);
+    public Dao<ExpenseEntity, Long> getExpenseDao() throws SQLException {
+        return getDao(ExpenseEntity.class);
     }
 
-    public Dao<Customer, String> getCustomerDao() throws SQLException {
-        return getDao(Customer.class);
+    public Dao<CustomerEntity, String> getCustomerDao() throws SQLException {
+        return getDao(CustomerEntity.class);
     }
 
-    public Dao<Material, String> getMaterialDao() throws SQLException {
-        return getDao(Material.class);
+    public Dao<MaterialEntity, String> getMaterialDao() throws SQLException {
+        return getDao(MaterialEntity.class);
     }
 
     public Dao<Object, String> getObjectDao() throws SQLException {
         return getDao(Object.class);
     }
 
-    public Dao<Order, String> getOrderDao() throws SQLException {
-        return getDao(Order.class);
+    public Dao<OrderEntity, String> getOrderDao() throws SQLException {
+        return getDao(OrderEntity.class);
     }
 
-    public Dao<Project, String> getProjectDao() throws SQLException {
-        return getDao(Project.class);
+    public Dao<ProjectEntity, String> getProjectDao() throws SQLException {
+        return getDao(ProjectEntity.class);
     }
 
-    public Dao<File, Long> getFileDao() throws SQLException {
-        return getDao(File.class);
+    public Dao<FileEntity, Long> getFileDao() throws SQLException {
+        return getDao(FileEntity.class);
     }
 
-    public Dao<Contact, Long> getContactDao() throws SQLException {
-        return getDao(Contact.class);
+    public Dao<ContactEntity, Long> getContactDao() throws SQLException {
+        return getDao(ContactEntity.class);
     }
 }

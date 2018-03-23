@@ -25,7 +25,7 @@ final class CustomerPresenter implements IDataPresenter<Pair<Customer, List<Inte
 
     private IDataView<Pair<Customer, List<Integer>>> customerDataView;
 
-    // region Refresh Customer
+    // region Refresh CustomerEntity
     @Override
     public IDataPresenter<Pair<Customer, List<Integer>>, Customer> setDataView(IDataView<Pair<Customer, List<Integer>>> view) {
         customerDataView = view;

@@ -147,7 +147,7 @@ public class LaunchScreenActivity extends Activity {
                     Customer customer = (Customer) item;
                     List<Contact> contacts = customer.getContacts();
                     for (Contact contact : contacts) {
-                        Log.d(TAG, "Contact: " + contact);
+                        Log.d(TAG, "ContactEntity: " + contact);
                         contactDao.create(contact);
                     }
                     Address address = customer.getAddress();

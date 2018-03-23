@@ -184,7 +184,7 @@ public class CameraActivity extends AppCompatActivity {
 
 
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//        File mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+//        FileEntity mediaFile = new FileEntity(mediaStorageDir.getPath() + FileEntity.separator + "IMG_" + timeStamp + ".jpg");
 
         // Saving the bitmap
         try {

@@ -77,9 +77,10 @@ dependencies {
     implementation(deps.crashlytics) {
         transitive = true
     }
-
+    
+    implementation project(':easytimemodel')
+    
     implementation project(':datasource')
-    implementation project(':datasourcerx')
     implementation project(':datasourceormlite')
     implementation project(':easytimedataormlite')
 }

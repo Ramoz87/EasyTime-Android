@@ -99,7 +99,7 @@
     <string name="change_filter_params">Nothing here…\nPlease change filter params</string>
     <string name="nothing_here">Nothing here…\nThe client doesn\'t have active jobs</string>
 
-    <!--Project details-->
+    ProjectEntityject details-->
     <string name="project_detail_send">Send</string>
     <string name="save">Save</string>
     <string name="project_detail_sign">Add signature</string>
@@ -134,8 +134,6 @@
     <string name="basic">Basic</string>
     <string name="often_used">Often used</string>
     <string name="expenses">Expenses</string>
-    <string name="driving">Driving</string>
-    <string name="other_expenses">Other expenses</string>
     <string name="expenses_skip">Skip</string>
 
     <!--expense creator dialog-->

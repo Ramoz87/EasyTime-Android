@@ -140,7 +140,7 @@ public class InformationFragment extends BaseFragment implements InformationView
         if (date == null) date = "no dateTextView";
         jobTerm.setText(date);
 
-        // Address
+        // AddressEntity
         if (job.getProjectType() == ProjectType.Type.TYPE_OBJECT) {
             Object object = (Object) job;
             String fullAddress = object.getFullAddress();
