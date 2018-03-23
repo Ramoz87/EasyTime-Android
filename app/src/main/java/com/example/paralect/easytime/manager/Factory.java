@@ -1,6 +1,8 @@
-package com.paralect.datasource.core;
+package com.example.paralect.easytime.manager;
 
 import android.util.SparseArray;
+
+import com.paralect.datasource.core.DataSource;
 
 /**
  * Created by Oleg Tarashkevich on 20/03/2018.

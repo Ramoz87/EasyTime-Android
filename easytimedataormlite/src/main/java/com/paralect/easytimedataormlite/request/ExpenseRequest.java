@@ -112,5 +112,13 @@ public class ExpenseRequest implements EntityRequest<Expense, ExpenseEntity, Que
 
         return this;
     }
+
+    public ExpenseRequest getLast(OrmLiteSqliteOpenHelper helper)throws SQLException{
+        Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
+        parameter = dao.queryBuilder()
+                .orderBy(EXPENSE_ID, false)
+                .limit(1L);
+        return this;
+    }
     // endregion
 }

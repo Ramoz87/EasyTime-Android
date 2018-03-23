@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.text.SpannableString;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ImageView;
@@ -74,7 +75,8 @@ public class ContactView extends LinearLayout {
 
         boolean hasAddress = mAddress != null && mAddress.hasAnyAddress();
         if (hasAddress) {
-            addressTextView.setText(mAddress.getFullAddressSpannable());
+            SpannableString ss = TextUtil.getSpannableDateString(getContext(), mAddress.getFullAddress(), R.drawable.ic_checkpoint);
+            addressTextView.setText(ss);
         }
         Drawable d3 = setTint(mapButton.getDrawable(), hasAddress ? white : disabled);
         mapButton.setImageDrawable(d3);

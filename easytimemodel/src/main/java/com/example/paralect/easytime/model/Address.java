@@ -2,35 +2,19 @@ package com.example.paralect.easytime.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.SpannableString;
 import android.text.TextUtils;
-
-import com.example.paralect.easytime.EasyTimeApplication;
-import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.utils.TextUtil;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by alexei on 26.12.2017.
  */
 
-@DatabaseTable(tableName = "Addresses")
 public class Address implements Parcelable {
 
-    @DatabaseField(columnName = "addressId", generatedId = true)
     private long addressId;
-
-    @DatabaseField(columnName = "city")
     private String city;
-    @DatabaseField(columnName = "country")
     private String country;
-    @DatabaseField(columnName = "street")
     private String street;
-    @DatabaseField(columnName = "zip")
     private String zip; // index ?
-
-    @DatabaseField(columnName = "customerId")
     private String customerId;
 
     private Customer customer;
@@ -150,21 +134,21 @@ public class Address implements Parcelable {
     public String getFullAddress() {
         StringBuilder sb = new StringBuilder();
         boolean hasItem = false;
-        if (TextUtil.isNotEmpty(country)) {
+        if (!TextUtils.isEmpty(country)) {
             sb.append(country);
             hasItem = true;
         }
-        if (TextUtil.isNotEmpty(city)) {
+        if (!TextUtils.isEmpty(city)) {
             if (hasItem) sb.append(", ");
             sb.append(city);
             hasItem = true;
         }
-        if (TextUtil.isNotEmpty(street)) {
+        if (!TextUtils.isEmpty(street)) {
             if (hasItem) sb.append(", ");
             sb.append(street);
             hasItem = true;
         }
-        if (TextUtil.isNotEmpty(zip)) {
+        if (!TextUtils.isEmpty(zip)) {
             if (hasItem) sb.append(", ");
             sb.append(zip);
             hasItem = true;
@@ -172,26 +156,21 @@ public class Address implements Parcelable {
         return sb.toString();
     }
 
-    public SpannableString getFullAddressSpannable() {
-        String params = getFullAddress();
-        return TextUtil.getSpannableDateString(EasyTimeApplication.getContext(), params, R.drawable.ic_checkpoint);
-    }
-
     public String getQueryAddress() {
         StringBuilder builder = new StringBuilder();
         String street = this.street.replaceAll("[0-9]", "").trim();
         builder.append("geo:0,0?q=");
-        if (TextUtil.isNotEmpty(country))
+        if (!TextUtils.isEmpty(country))
             builder.append("+").append(country);
-        if (TextUtil.isNotEmpty(city))
+        if (!TextUtils.isEmpty(city))
             builder.append("+").append(city);
-        if (TextUtil.isNotEmpty(street))
+        if (!TextUtils.isEmpty(street))
             builder.append("+").append(street);
         return builder.toString();
     }
 
     public boolean hasAnyAddress(){
-        return TextUtil.isNotEmpty(country) || TextUtil.isNotEmpty(city) || TextUtil.isNotEmpty(street);
+        return !TextUtils.isEmpty(country) || !TextUtils.isEmpty(city) || !TextUtils.isEmpty(street);
     }
 
     public static Address mock() {

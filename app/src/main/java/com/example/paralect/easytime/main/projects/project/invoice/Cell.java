@@ -1,5 +1,7 @@
 package com.example.paralect.easytime.main.projects.project.invoice;
 
+import com.example.paralect.easytime.model.InvoiceCell;
+
 /**
  * Created by Oleg Tarashkevich on 30/01/2018.
  */
