@@ -1,14 +1,24 @@
-package com.example.paralect.easytime.model;
+package com.paralect.easytimedataormlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.paralect.easytimedataormlite.model.Address;
+import com.paralect.easytimedataormlite.model.Contact;
+import com.paralect.easytimedataormlite.model.Customer;
+import com.paralect.easytimedataormlite.model.Expense;
+import com.paralect.easytimedataormlite.model.File;
+import com.paralect.easytimedataormlite.model.Material;
+import com.paralect.easytimedataormlite.model.Order;
+import com.paralect.easytimedataormlite.model.Project;
+import com.paralect.easytimedataormlite.model.Type;
+import com.paralect.easytimedataormlite.model.User;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.paralect.datasource.ormlite.ORMLiteDataSource;
 
 import java.sql.SQLException;
 
@@ -16,12 +26,12 @@ import java.sql.SQLException;
  * Created by alexei on 03.01.2018.
  */
 
-public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
+public class DatabaseHelperORMLite extends ORMLiteDataSource {
 
     private static final String DATABASE_NAME = "easy_time_db";
     private static final int DATABASE_VERSION = 1;
 
-    public DatabaseHelper(@NonNull Context context) {
+    public DatabaseHelperORMLite(@NonNull Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

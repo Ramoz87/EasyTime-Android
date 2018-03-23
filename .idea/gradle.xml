@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/datasource" />
             <option value="$PROJECT_DIR$/datasourceormlite" />
             <option value="$PROJECT_DIR$/datasourcerx" />
+            <option value="$PROJECT_DIR$/easytimedataormlite" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

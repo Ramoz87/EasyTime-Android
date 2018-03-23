@@ -34,8 +34,6 @@ public class ExpenseConverter implements EntityConverter<ExpenseConverter.Expens
     public static final String WORK_TYPE_ID = "workTypeId";
     // endregion
 
-
-
     @Override
     public ExpenseScheme wrap(Expense ex) {
         ExpenseScheme in = new ExpenseScheme();

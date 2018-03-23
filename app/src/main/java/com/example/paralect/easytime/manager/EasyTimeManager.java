@@ -7,7 +7,6 @@ import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.DatabaseHelper;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.ExpenseUnit;
 import com.example.paralect.easytime.model.File;
@@ -29,6 +28,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public final class EasyTimeManager {
     private static final String TAG = EasyTimeManager.class.getSimpleName();
 
     private volatile static EasyTimeManager instance;
-    private ORMLiteDataSource dataSource;
+    private DatabaseHelperORMLite dataSource;
 
     /**
      * Returns singleton class instance
@@ -76,10 +76,10 @@ public final class EasyTimeManager {
 
     private EasyTimeManager() {
         if (dataSource == null)
-            dataSource = new ORMLiteDataSource(EasyTimeApplication.getContext());
+            dataSource = new DatabaseHelperORMLite(EasyTimeApplication.getContext());
     }
 
-    public DatabaseHelper getHelper() {
+    public DatabaseHelperORMLite getHelper() {
         return dataSource;
     }
 
