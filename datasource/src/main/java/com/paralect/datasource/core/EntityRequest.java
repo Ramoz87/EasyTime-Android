@@ -9,7 +9,7 @@ package com.paralect.datasource.core;
  * @param <EX> External class of application
  * @param <P>  Parameter for communication with datasource
  */
-public interface EntityConverter<IN, EX, P> {
+public interface EntityRequest<IN, EX, P> {
 
     IN wrap(EX externalObject);
 

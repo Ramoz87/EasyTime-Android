@@ -4,21 +4,20 @@ import android.text.TextUtils;
 
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.ExpenseUnit;
-import com.example.paralect.easytime.model.Material;
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.paralect.datasource.core.EntityConverter;
+import com.paralect.datasource.core.EntityRequest;
 import com.paralect.easytimedataormlite.model.ExpenseEntity;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class ExpenseRequest implements EntityConverter<Expense, ExpenseEntity, QueryBuilder<ExpenseEntity, Long>> {
+public class ExpenseRequest implements EntityRequest<Expense, ExpenseEntity, QueryBuilder<ExpenseEntity, ?>> {
 
     // region Fields constants
     public static final String EXPENSE_TABLE_NAME = "expenses";
@@ -33,6 +32,8 @@ public class ExpenseRequest implements EntityConverter<Expense, ExpenseEntity, Q
     public static final String MATERIAL_ID = "materialId";
     public static final String WORK_TYPE_ID = "workTypeId";
     // endregion
+
+    private QueryBuilder<ExpenseEntity, ?> parameter = null;
 
     @Override
     public Expense wrap(ExpenseEntity ex) {
@@ -71,8 +72,8 @@ public class ExpenseRequest implements EntityConverter<Expense, ExpenseEntity, Q
     }
 
     @Override
-    public QueryBuilder<ExpenseEntity, Long> getParameter() {
-        return null;
+    public QueryBuilder<ExpenseEntity, ?> getParameter() {
+        return parameter;
     }
 
     @Override
@@ -96,11 +97,12 @@ public class ExpenseRequest implements EntityConverter<Expense, ExpenseEntity, Q
      * @param expenseType
      * @return list of expenses
      */
-    private QueryBuilder<ExpenseEntity, Long> get(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
+    public ExpenseRequest setup(OrmLiteSqliteOpenHelper helper, String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
 
-        QueryBuilder<Expense, Long> qb = dataSource.getExpenseDao().queryBuilder();
+        Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
+        parameter = dao.queryBuilder();
 
-        Where where = qb.where().eq(JOB_ID, jobId);
+        Where where = parameter.where().eq(JOB_ID, jobId);
 
         if (!TextUtils.isEmpty(searchQuery))
             where.and().like(NAME, "%" + searchQuery + "%");
@@ -108,7 +110,7 @@ public class ExpenseRequest implements EntityConverter<Expense, ExpenseEntity, Q
         if (!TextUtils.isEmpty(expenseType))
             where.and().eq(TYPE, expenseType);
 
-        return qb;
+        return this;
     }
     // endregion
 }

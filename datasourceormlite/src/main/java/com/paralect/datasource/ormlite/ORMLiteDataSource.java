@@ -8,11 +8,12 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.paralect.datasource.core.DataSource;
 import com.paralect.datasource.core.Entity;
-import com.paralect.datasource.core.EntityConverter;
+import com.paralect.datasource.core.EntityRequest;
 
 import java.io.File;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,11 +72,23 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
     // endregion
 
 
-    public <IN, EX, C extends EntityConverter<IN, EX, QueryBuilder<IN, ?>>> IN get(C converter) throws SQLException {
-        Dao<IN, ?> dao = getDao(converter.getClazz());
-        QueryBuilder<IN, ?> param = converter.getParameter();
-        IN entity = dao.query(param.prepare()).get(0);
-        return (IN) converter.unwrap(entity);
+    public <IN, EX> IN get(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
+        Dao<EX, ?> dao = getDao(request.getExternalClazz());
+        QueryBuilder<EX, ?> param = request.getParameter();
+        EX entity = dao.query(param.prepare()).get(0);
+        IN result = request.wrap(entity);
+        return result;
+    }
+
+    public <IN, EX> List<IN> getList(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
+        QueryBuilder<EX, ?> param = request.getParameter();
+        List<EX> entities = param.query();
+        List<IN> list = new ArrayList<>();
+        for (EX entity : entities) {
+            IN result = request.wrap(entity);
+            list.add(result);
+        }
+        return list;
     }
 
 }

@@ -28,6 +28,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.paralect.datasource.core.EntityRequest;
 import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
 import com.paralect.easytimedataormlite.request.ExpenseRequest;
 
@@ -462,16 +463,11 @@ public final class EasyTimeManager {
      */
     private List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
 
-        QueryBuilder<Expense, Long> qb = dataSource.getExpenseDao().queryBuilder();
-
-
-        List<Expense> expenses = dataSource.getList(Expense.class, qb);
-
         ExpenseRequest request = new ExpenseRequest();
+        request.setup(dataSource, jobId, searchQuery, expenseType);
 
-        Expense ex = dataSource.get(request);
+        List<Expense> expenses = dataSource.getList(request);
 
-        return dataSource.get(Expense.class, query);
 
         for (final Expense exp : expenses)
             setValueWithUnit(exp, materialDao);
