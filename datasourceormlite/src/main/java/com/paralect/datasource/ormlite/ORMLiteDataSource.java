@@ -7,12 +7,10 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.paralect.datasource.core.DataSource;
-import com.paralect.datasource.core.Entity;
 import com.paralect.datasource.core.EntityRequest;
 
 import java.io.File;
 import java.io.InputStream;
-import java.lang.reflect.ParameterizedType;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

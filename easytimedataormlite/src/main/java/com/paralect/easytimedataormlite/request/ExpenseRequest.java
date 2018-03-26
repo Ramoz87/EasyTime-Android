@@ -8,6 +8,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.paralect.datasource.core.EntityRequestImpl;
 import com.paralect.easytimedataormlite.model.ExpenseEntity;
 
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ import static com.paralect.easytimedataormlite.model.ExpenseEntity.TYPE;
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class ExpenseRequest extends BaseRequest<Expense, ExpenseEntity, QueryBuilder<?, ?>> {
+public class ExpenseRequest extends EntityRequestImpl<Expense, ExpenseEntity, QueryBuilder<?, ?>> {
 
     @Override
     public Expense toInner(ExpenseEntity ex) {

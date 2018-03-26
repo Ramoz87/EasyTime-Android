@@ -1,12 +1,10 @@
-package com.paralect.easytimedataormlite.request;
-
-import com.paralect.datasource.core.EntityRequest;
+package com.paralect.datasource.core;
 
 /**
  * Created by Oleg Tarashkevich on 23/03/2018.
  */
 
-public abstract class BaseRequest<IN, EX, P> implements EntityRequest<IN, EX, P> {
+public abstract class EntityRequestImpl<IN, EX, P> implements EntityRequest<IN, EX, P> {
 
     private P mParameter;
     private IN mInternalEntity;

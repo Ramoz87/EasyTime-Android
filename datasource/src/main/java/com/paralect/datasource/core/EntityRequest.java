@@ -11,14 +11,19 @@ package com.paralect.datasource.core;
  */
 public interface EntityRequest<IN, EX, P> {
 
+    // region Conversion
     IN toInner(EX externalEntity);
 
     EX toExternal(IN innerEntity);
+    // endregion
 
+    // region Classes
     Class<IN> getInnerEntityClazz();
 
     Class<EX> getExternalEntityClazz();
+    // endregion
 
+    // region Getters & Setters
     void setParameter(P parameter);
 
     P getParameter();
@@ -30,7 +35,6 @@ public interface EntityRequest<IN, EX, P> {
     void setExternalEntity(EX externalEntity);
 
     EX getExternalEntity();
-
-
+    // endregion
 
 }
