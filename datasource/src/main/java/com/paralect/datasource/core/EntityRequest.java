@@ -11,14 +11,26 @@ package com.paralect.datasource.core;
  */
 public interface EntityRequest<IN, EX, P> {
 
-    IN wrap(EX externalObject);
+    IN toInner(EX externalEntity);
 
-    EX unwrap(IN innerObject);
+    EX toExternal(IN innerEntity);
+
+    Class<IN> getInnerEntityClazz();
+
+    Class<EX> getExternalEntityClazz();
+
+    void setParameter(P parameter);
 
     P getParameter();
 
-    Class<IN> getInnerClazz();
+    void setInternalEntity(IN innerEntity);
 
-    Class<EX> getExternalClazz();
+    IN getInternalEntity();
+
+    void setExternalEntity(EX externalEntity);
+
+    EX getExternalEntity();
+
+
 
 }

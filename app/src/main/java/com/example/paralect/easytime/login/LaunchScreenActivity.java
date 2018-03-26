@@ -126,41 +126,41 @@ public class LaunchScreenActivity extends Activity {
 
 
     private <E> void fillData(FakeCreator fakeCreator, String csvPath, Class<E> clazz) {
-        try {
-            List<E> items = fakeCreator.parse(csvPath, clazz);
-            Dao<E, String> dao = EasyTimeManager.getInstance().getHelper().getDao(clazz);
-            Log.d(TAG, String.format("===// %s //===", clazz.getSimpleName()));
-
-            Dao<Address, Long> addressDao = EasyTimeManager.getInstance().getHelper().getAddressDao();
-            for (E item : items) {
-                Log.d(TAG, item.toString());
-
-                if (item instanceof JobWithAddress) {
-                    JobWithAddress job = (JobWithAddress) item;
-                    Address address = job.getAddress();
-                    addressDao.create(address);
-                    job.setAddressId(address.getAddressId());
-                }
-
-                if (item instanceof Customer) {
-                    Dao<Contact, Long> contactDao = EasyTimeManager.getInstance().getHelper().getContactDao();
-                    Customer customer = (Customer) item;
-                    List<Contact> contacts = customer.getContacts();
-                    for (Contact contact : contacts) {
-                        Log.d(TAG, "ContactEntity: " + contact);
-                        contactDao.create(contact);
-                    }
-                    Address address = customer.getAddress();
-                    addressDao.create(address);
-                    customer.setAddressId(address.getAddressId());
-                }
-                dao.createOrUpdate(item);
-            }
-            Log.d(TAG, "filled " + clazz.getSimpleName() + " class");
-        } catch (IOException | SQLException e) {
-            Logger.e(TAG, e.getMessage());
-            throw new RuntimeException(e);
-        }
+//        try {
+//            List<E> items = fakeCreator.parse(csvPath, clazz);
+//            Dao<E, String> dao = EasyTimeManager.getInstance().getHelper().getDao(clazz);
+//            Log.d(TAG, String.format("===// %s //===", clazz.getSimpleName()));
+//
+//            Dao<Address, Long> addressDao = EasyTimeManager.getInstance().getHelper().getAddressDao();
+//            for (E item : items) {
+//                Log.d(TAG, item.toString());
+//
+//                if (item instanceof JobWithAddress) {
+//                    JobWithAddress job = (JobWithAddress) item;
+//                    Address address = job.getAddress();
+//                    addressDao.create(address);
+//                    job.setAddressId(address.getAddressId());
+//                }
+//
+//                if (item instanceof Customer) {
+//                    Dao<Contact, Long> contactDao = EasyTimeManager.getInstance().getHelper().getContactDao();
+//                    Customer customer = (Customer) item;
+//                    List<Contact> contacts = customer.getContacts();
+//                    for (Contact contact : contacts) {
+//                        Log.d(TAG, "ContactEntity: " + contact);
+//                        contactDao.create(contact);
+//                    }
+//                    Address address = customer.getAddress();
+//                    addressDao.create(address);
+//                    customer.setAddressId(address.getAddressId());
+//                }
+//                dao.createOrUpdate(item);
+//            }
+//            Log.d(TAG, "filled " + clazz.getSimpleName() + " class");
+//        } catch (IOException | SQLException e) {
+//            Logger.e(TAG, e.getMessage());
+//            throw new RuntimeException(e);
+//        }
     }
 
     private FakeCreator getDefaultFakeCreator() {

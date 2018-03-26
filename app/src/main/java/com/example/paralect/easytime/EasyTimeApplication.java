@@ -6,9 +6,16 @@ import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.utils.Logger;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import io.fabric.sdk.android.Fabric;
+
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.TIME;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -33,6 +40,14 @@ public class EasyTimeApplication extends Application {
 
         Logger.setEnabled(debug);
 
+        try {
+            Expense expense = Expense.createTimeExpense("123", "time-exp", 2, 15);
+            Expense saved = EasyTimeManager.getInstance().saveAndGetExpense(expense);
+            List<Expense> expenses = EasyTimeManager.getInstance().getTimeExpenses("123");
+            Logger.separator();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Context getContext() {

@@ -12,6 +12,7 @@ import com.paralect.datasource.core.EntityRequest;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.ParameterizedType;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,11 +73,12 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
     // endregion
 
 
+
     public <IN, EX> IN get(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
-        Dao<EX, ?> dao = getDao(request.getExternalClazz());
+        Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
         QueryBuilder<EX, ?> param = request.getParameter();
         EX entity = dao.query(param.prepare()).get(0);
-        IN result = request.wrap(entity);
+        IN result = request.toInner(entity);
         return result;
     }
 
@@ -85,10 +87,28 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
         List<EX> entities = param.query();
         List<IN> list = new ArrayList<>();
         for (EX entity : entities) {
-            IN result = request.wrap(entity);
+            IN result = request.toInner(entity);
             list.add(result);
         }
         return list;
+    }
+
+    public <IN, EX> void save(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
+        Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
+        EX entity = request.toExternal(request.getInternalEntity());
+        dao.createOrUpdate(entity);
+    }
+
+    public <IN, EX> void update(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
+        Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
+        EX entity = request.toExternal(request.getInternalEntity());
+        dao.update(entity);
+    }
+
+    public <IN, EX> void delete(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
+        Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
+        EX entity = request.toExternal(request.getInternalEntity());
+        dao.delete(entity);
     }
 
 }

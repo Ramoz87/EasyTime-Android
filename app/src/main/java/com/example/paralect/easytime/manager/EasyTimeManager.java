@@ -11,7 +11,6 @@ import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.ExpenseUnit;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.model.JobWithAddress;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
@@ -20,31 +19,25 @@ import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.CalendarUtils;
-import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.ExpenseUtil;
 import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.paralect.datasource.core.EntityRequest;
 import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
 import com.paralect.easytimedataormlite.request.ExpenseRequest;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
+import static com.example.paralect.easytime.model.ExpenseUnit.Type.TIME;
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
 import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
-import static com.paralect.easytimedataormlite.request.ExpenseRequest.EXPENSE_ID;
-import static com.paralect.easytimedataormlite.request.ExpenseRequest.JOB_ID;
+import static com.paralect.easytimedataormlite.model.ExpenseEntity.JOB_ID;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -99,13 +92,6 @@ public final class EasyTimeManager {
 
     // region TypeEntity
     public Type getType(String typeId) {
-//        Type type = null;
-//        try {
-//            Dao<Type, String> dao = dataSource.getTypeDao();
-//            type = dao.queryForId(typeId);
-//        } catch (SQLException exc) {
-//            Logger.e(exc);
-//        }
         return new Type();
     }
 
@@ -123,7 +109,7 @@ public final class EasyTimeManager {
     // endregion
 
     public List<Contact> getContacts(Customer customer) {
-       return new ArrayList<>();
+        return new ArrayList<>();
     }
 
     public Address getAddress(Customer customer) {
@@ -136,21 +122,19 @@ public final class EasyTimeManager {
 
     // region Jobs
     public List<Job> getAllJobs() {
-        List<Job> jobs = new ArrayList<>();
-
-        return jobs;
+        return new ArrayList<>();
     }
 
     public List<Object> getObjects(Customer customer) throws SQLException {
-        return getJobs(null, customer, null, null);
+        return new ArrayList<>();
     }
 
     public List<Order> getOrders(Customer customer) throws SQLException {
-        return getJobs(null, customer, null, null);
+        return new ArrayList<>();
     }
 
     public List<Project> getProjects(Customer customer) throws SQLException {
-        return getJobs(null, customer, null, null);
+        return new ArrayList<>();
     }
 
     public List<Integer> getJobTypes(Customer customer) {
@@ -186,16 +170,11 @@ public final class EasyTimeManager {
 
     public <T extends Job> List<T> getJobs(Dao<T, String> dao, Customer customer, String query, String date) throws SQLException {
 
-        String customerId = customer == null ? "" : customer.getId();
-        List<T> jobs = getList(dao, customerId, query, date);
-
-        return jobs;
+        return new ArrayList<>();
     }
 
     public List<Job> getJobs(Customer customer, String query, String date) {
-        List<Job> jobs = new ArrayList<>();
-
-        return jobs;
+        return new ArrayList<>();
     }
 
     private <JOB extends Job> List<JOB> getList(Dao<JOB, String> dao, String customerId, String query, String date) throws SQLException {
@@ -235,23 +214,16 @@ public final class EasyTimeManager {
     }
 
     public List<User> getMembers(Job job) throws SQLException {
-        String[] ids = job.getMemberIds();
-        if (ids == null || ids.length == 0) return null;
-        List<User> users = new ArrayList<>();
-
-        return users;
+        return new ArrayList<>();
     }
     // endregion
 
     public List<Material> getMaterials(String query) throws SQLException {
-
         return new ArrayList<>();
     }
 
     public List<Customer> getCustomers(String query) {
-        List<Customer> customers = new ArrayList<>();
-
-        return customers;
+        return new ArrayList<>();
     }
 
     public void updateMaterial(Material material) {
@@ -259,9 +231,7 @@ public final class EasyTimeManager {
     }
 
     public List<Material> getMyMaterials() {
-        List<Material> materials = new ArrayList<>();
-
-        return materials;
+        return new ArrayList<>();
     }
 
     public void deleteMyMaterials() {
@@ -283,15 +253,8 @@ public final class EasyTimeManager {
      * @return list of expenses
      */
     private List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
-
-        ExpenseRequest request = new ExpenseRequest();
-        request.setup(dataSource, jobId, searchQuery, expenseType);
-
-        List<Expense> expenses = dataSource.getList(request);
-
-
-
-        return expenses;
+        ExpenseRequest request = new ExpenseRequest().listExpenseRequest(dataSource, jobId, searchQuery, expenseType);
+        return dataSource.getList(request);
     }
 
     public List<Expense> getOtherExpenses(String jobId, String searchQuery) throws SQLException {
@@ -302,16 +265,12 @@ public final class EasyTimeManager {
         return getExpenses(jobId, null, MATERIAL);
     }
 
+    public List<Expense> getTimeExpenses(String jobId) throws SQLException {
+        return getExpenses(jobId, null, TIME);
+    }
+
     public long getTotalExpensesCount(String jobId) {
-        try {
-            long totalCount = countExpenses(jobId);
-
-
-            return totalCount;
-        } catch (SQLException e) {
-            Logger.e(e);
-            return 0;
-        }
+        return 1;
     }
 
     /**
@@ -335,13 +294,10 @@ public final class EasyTimeManager {
      * @return list of expenses
      */
     public List<Expense> getAllExpenses(String jobId, String date) {
-        List<Expense> allExpenses = new ArrayList<>();
-
-        return allExpenses;
+        return new ArrayList<>();
     }
 
     public List<Expense> getExpenses(String jobId, String date) throws SQLException {
-
         return new ArrayList<>();
     }
 
@@ -379,8 +335,7 @@ public final class EasyTimeManager {
             @Override
             public String getMaterialUnit() {
                 String unitName = super.getMaterialUnit();
-                com.example.paralect.easytime.model.Type t =
-                        EasyTimeManager.getInstance().getType(material.getUnitId());
+                com.example.paralect.easytime.model.Type t = getType(material.getUnitId());
                 if (t != null)
                     unitName = t.getName();
                 return unitName;
@@ -395,16 +350,16 @@ public final class EasyTimeManager {
      * @return saved ExpenseEntity
      */
     public Expense saveAndGetExpense(Expense expense) throws SQLException {
-        ExpenseRequest converter = new ExpenseRequest();
-        converter.getLast(dataSource);
-        Expense ex = dataSource.get(converter);
-        return ex;
+        ExpenseRequest saveRequest = new ExpenseRequest();
+        saveRequest.setInternalEntity(expense);
+        dataSource.save(saveRequest);
+
+        ExpenseRequest getRequest = new ExpenseRequest().getExpenseRequest(dataSource);
+        return dataSource.get(getRequest);
     }
 
     public List<Object> getObjects(String[] ids) {
-        List<Object> objects = new ArrayList<>();
-
-        return objects;
+        return new ArrayList<>();
     }
 
     public void deleteExpense(Expense expense) {
@@ -429,12 +384,10 @@ public final class EasyTimeManager {
     }
 
     public void saveFile(File file) throws SQLException {
-        
+
     }
 
     public File saveFileAndGet(File file) throws SQLException {
-        saveFile(file);
-        // retrieve
         return new File();
     }
 
@@ -448,6 +401,6 @@ public final class EasyTimeManager {
     }
 
     public User getRandomUser() {
-       return new User();
+        return new User();
     }
 }

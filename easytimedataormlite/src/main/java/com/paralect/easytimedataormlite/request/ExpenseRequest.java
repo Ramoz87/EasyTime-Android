@@ -8,35 +8,23 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.paralect.datasource.core.EntityRequest;
 import com.paralect.easytimedataormlite.model.ExpenseEntity;
 
 import java.sql.SQLException;
+
+import static com.paralect.easytimedataormlite.model.ExpenseEntity.EXPENSE_ID;
+import static com.paralect.easytimedataormlite.model.ExpenseEntity.JOB_ID;
+import static com.paralect.easytimedataormlite.model.ExpenseEntity.NAME;
+import static com.paralect.easytimedataormlite.model.ExpenseEntity.TYPE;
 
 /**
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class ExpenseRequest implements EntityRequest<Expense, ExpenseEntity, QueryBuilder<ExpenseEntity, ?>> {
-
-    // region Fields constants
-    public static final String EXPENSE_TABLE_NAME = "expenses";
-    public static final String EXPENSE_ID = "expenseId";
-    public static final String NAME = "name";
-    public static final String DISCOUNT = "discount";
-    public static final String VALUE = "value";
-    public static final String UNIT_NAME = "unitName";
-    public static final String CREATION_DATE = "creationDate";
-    public static final String TYPE = "type";
-    public static final String JOB_ID = "jobId";
-    public static final String MATERIAL_ID = "materialId";
-    public static final String WORK_TYPE_ID = "workTypeId";
-    // endregion
-
-    private QueryBuilder<ExpenseEntity, ?> parameter = null;
+public class ExpenseRequest extends BaseRequest<Expense, ExpenseEntity, QueryBuilder<ExpenseEntity, ?>> {
 
     @Override
-    public Expense wrap(ExpenseEntity ex) {
+    public Expense toInner(ExpenseEntity ex) {
         Expense in = null;
         if (ex != null) {
             in = new Expense();
@@ -54,7 +42,7 @@ public class ExpenseRequest implements EntityRequest<Expense, ExpenseEntity, Que
     }
 
     @Override
-    public ExpenseEntity unwrap(Expense in) {
+    public ExpenseEntity toExternal(Expense in) {
         ExpenseEntity ex = null;
         if (in != null) {
             ex = new ExpenseEntity();
@@ -72,21 +60,25 @@ public class ExpenseRequest implements EntityRequest<Expense, ExpenseEntity, Que
     }
 
     @Override
-    public QueryBuilder<ExpenseEntity, ?> getParameter() {
-        return parameter;
-    }
-
-    @Override
-    public Class<Expense> getInnerClazz() {
+    public Class<Expense> getInnerEntityClazz() {
         return Expense.class;
     }
 
     @Override
-    public Class<ExpenseEntity> getExternalClazz() {
+    public Class<ExpenseEntity> getExternalEntityClazz() {
         return ExpenseEntity.class;
     }
 
     // region Requests
+    public ExpenseRequest getExpenseRequest(OrmLiteSqliteOpenHelper helper) throws SQLException {
+        Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
+        QueryBuilder<ExpenseEntity, ?> query = dao.queryBuilder()
+                .orderBy(EXPENSE_ID, false)
+                .limit(1L);
+        setParameter(query);
+        return this;
+    }
+
     /**
      * Using for query expenses by searching name and expense type
      * <p>
@@ -97,10 +89,10 @@ public class ExpenseRequest implements EntityRequest<Expense, ExpenseEntity, Que
      * @param expenseType
      * @return list of expenses
      */
-    public ExpenseRequest setup(OrmLiteSqliteOpenHelper helper, String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
+    public ExpenseRequest listExpenseRequest(OrmLiteSqliteOpenHelper helper, String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
 
         Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
-        parameter = dao.queryBuilder();
+        QueryBuilder<ExpenseEntity, ?> parameter = dao.queryBuilder();
 
         Where where = parameter.where().eq(JOB_ID, jobId);
 
@@ -110,14 +102,16 @@ public class ExpenseRequest implements EntityRequest<Expense, ExpenseEntity, Que
         if (!TextUtils.isEmpty(expenseType))
             where.and().eq(TYPE, expenseType);
 
+        setParameter(parameter);
         return this;
     }
 
-    public ExpenseRequest getLast(OrmLiteSqliteOpenHelper helper)throws SQLException{
+    public ExpenseRequest lastExpenseRequest(OrmLiteSqliteOpenHelper helper) throws SQLException {
         Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
-        parameter = dao.queryBuilder()
+        QueryBuilder<ExpenseEntity, ?> parameter = dao.queryBuilder()
                 .orderBy(EXPENSE_ID, false)
                 .limit(1L);
+        setParameter(parameter);
         return this;
     }
     // endregion
