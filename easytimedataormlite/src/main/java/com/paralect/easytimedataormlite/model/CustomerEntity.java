@@ -2,7 +2,6 @@ package com.paralect.easytimedataormlite.model;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.paralect.datasource.core.Entity;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  */
 
 @DatabaseTable(tableName = "customers")
-public class CustomerEntity implements Entity<String> {
+public class CustomerEntity {
 
     @DatabaseField(columnName = "companyName")
     private String companyName;

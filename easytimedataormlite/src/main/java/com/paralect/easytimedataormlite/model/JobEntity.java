@@ -2,13 +2,12 @@ package com.paralect.easytimedataormlite.model;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
-import com.paralect.datasource.core.Entity;
 
 /**
  * Created by alexei on 26.12.2017.
  */
 
-public class JobEntity implements Entity<String> {
+public class JobEntity {
 
     public static final String TAG = JobEntity.class.getSimpleName();
 

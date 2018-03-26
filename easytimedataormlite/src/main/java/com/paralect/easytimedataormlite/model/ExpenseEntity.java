@@ -15,7 +15,7 @@ import static com.paralect.easytimedataormlite.model.ExpenseEntity.EXPENSE_TABLE
  */
 
 @DatabaseTable(tableName = EXPENSE_TABLE_NAME)
-public class ExpenseEntity implements BaseExpense<Long> {
+public class ExpenseEntity implements BaseExpense {
 
     // region Fields constants
     public static final String EXPENSE_TABLE_NAME = "expenses";
@@ -146,12 +146,12 @@ public class ExpenseEntity implements BaseExpense<Long> {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return expenseId;
     }
 
     @Override
-    public void setId(Long aLong) {
-
+    public void setId(long id) {
+        expenseId = id;
     }
 }

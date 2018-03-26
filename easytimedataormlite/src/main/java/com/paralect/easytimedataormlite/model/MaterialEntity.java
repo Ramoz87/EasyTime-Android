@@ -3,14 +3,13 @@ package com.paralect.easytimedataormlite.model;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.paralect.datasource.core.Entity;
 
 /**
  * Created by alexei on 26.12.2017.
  */
 
 @DatabaseTable(tableName = "materials")
-public class MaterialEntity implements Entity<String> {
+public class MaterialEntity {
 
     @DatabaseField(columnName = "currency")
     private String currency;

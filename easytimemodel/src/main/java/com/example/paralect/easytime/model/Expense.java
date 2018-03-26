@@ -228,12 +228,12 @@ public class Expense implements Parcelable, InvoiceCell {
         return InvoiceCell.Type.CELL;
     }
 
-    public Long getId() {
+    public long getId() {
         return expenseId;
     }
 
-    public void setId(Long aLong) {
-
+    public void setId(long id) {
+        expenseId = id;
     }
     // endregion
 

@@ -1,14 +1,19 @@
 package com.paralect.datasource.expense;
 
-import com.paralect.datasource.core.Entity;
-
 import java.util.Date;
 
 /**
  * Created by Oleg Tarashkevich on 05/03/2018.
  */
 
-public interface BaseExpense<ID> extends Entity<ID> {
+public interface BaseExpense {
+
+    /**
+     * Unique Id of the object
+     */
+    long getId();
+
+    void setId(long id);
 
     /**
      * The name of this expense

@@ -2,6 +2,7 @@ package com.paralect.datasource.rx;
 
 import com.paralect.datasource.core.DataSource;
 import com.paralect.datasource.core.Entity;
+import com.paralect.datasource.core.EntityRequest;
 
 import java.util.List;
 
@@ -15,15 +16,15 @@ import io.reactivex.SingleOnSubscribe;
 
 public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx<P>{
 
-    // region Synchronous
+    // region Asynchronous
     @Override
-    public <M extends Entity> Single<M> getAsync(final Class<M> type, final P parameter) {
-        return Single.create(new SingleOnSubscribe<M>() {
+    public <IN, EX> Single<IN> getAsync(final EntityRequest<IN, EX, P> request) {
+        return Single.create(new SingleOnSubscribe<IN>() {
             @Override
-            public void subscribe(SingleEmitter<M> emitter) throws Exception {
+            public void subscribe(SingleEmitter<IN> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        M model = get(type, parameter);
+                        IN model = get(request);
                         emitter.onSuccess(model);
                     }
                 } catch (Throwable throwable) {
@@ -34,13 +35,13 @@ public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx
     }
 
     @Override
-    public <M extends Entity> Single<List<M>> getListAsync(final Class<M> type, final P parameter) {
-        return Single.create(new SingleOnSubscribe<List<M>>() {
+    public <IN, EX> Single<List<IN>> getListAsync(final EntityRequest<IN, EX, P> request) {
+        return Single.create(new SingleOnSubscribe<List<IN>>() {
             @Override
-            public void subscribe(SingleEmitter<List<M>> emitter) throws Exception {
+            public void subscribe(SingleEmitter<List<IN>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        List<M> list = getList(type, parameter);
+                        List<IN> list = getList(request);
                         emitter.onSuccess(list);
                     }
                 } catch (Throwable throwable) {
@@ -51,13 +52,13 @@ public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx
     }
 
     @Override
-    public <M extends Entity> Single<Object> saveAsync(final Class<M> type, final M model) {
+    public <IN, EX> Single<Object> saveAsync(final EntityRequest<IN, EX, P> request) {
         return Single.create(new SingleOnSubscribe<Object>() {
             @Override
             public void subscribe(SingleEmitter<Object> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        save(type, model);
+                        save(request);
                         emitter.onSuccess(NOTHING);
                     }
                 } catch (Throwable throwable) {
@@ -68,13 +69,13 @@ public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx
     }
 
     @Override
-    public <M extends Entity> Single<Object> updateAsync(final Class<M> type, final M model) {
+    public <IN, EX> Single<Object> updateAsync(final EntityRequest<IN, EX, P> request) {
         return Single.create(new SingleOnSubscribe<Object>() {
             @Override
             public void subscribe(SingleEmitter<Object> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        update(type, model);
+                        update(request);
                         emitter.onSuccess(NOTHING);
                     }
                 } catch (Throwable throwable) {
@@ -85,13 +86,13 @@ public abstract class DataSourceRxImpl<P> implements DataSource<P>, DataSourceRx
     }
 
     @Override
-    public <M extends Entity> Single<Object> deleteAsync(final Class<M> type, final M model) {
+    public <IN, EX> Single<Object> deleteAsync(final EntityRequest<IN, EX, P> request) {
         return Single.create(new SingleOnSubscribe<Object>() {
             @Override
             public void subscribe(SingleEmitter<Object> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        delete(type, model);
+                        delete(request);
                         emitter.onSuccess(NOTHING);
                     }
                 } catch (Throwable throwable) {

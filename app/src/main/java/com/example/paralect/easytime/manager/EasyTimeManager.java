@@ -362,8 +362,16 @@ public final class EasyTimeManager {
         return new ArrayList<>();
     }
 
-    public void deleteExpense(Expense expense) {
+    public void deleteExpense(Expense expense) throws SQLException {
+        ExpenseRequest saveRequest = new ExpenseRequest();
+        saveRequest.setInternalEntity(expense);
+        dataSource.delete(saveRequest);
+    }
 
+    public void updateExpense(Expense expense) throws SQLException {
+        ExpenseRequest saveRequest = new ExpenseRequest();
+        saveRequest.setInternalEntity(expense);
+        dataSource.update(saveRequest);
     }
 
     public void saveAndGetExpense(String jobId, Material material, int countOfMaterials) throws SQLException {

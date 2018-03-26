@@ -7,19 +7,21 @@ import java.util.List;
  */
 
 /**
- *  param <M> type of model
- * @param <P> type of parameter for query purposes
+ * param <IN> Internal, entity of data source
+ * param <EX> External, entity of application
+ *
+ * @param <P> Parameter for communication with data source
  */
+
 public interface DataSource<P> {
 
-    <M extends Entity> M get(Class<M> type, P parameter) throws Throwable;
+    <IN, EX> IN get(EntityRequest<IN, EX, P> request) throws Throwable;
 
-    <M extends Entity> List<M> getList(Class<M> type, P parameter) throws Throwable;
+    <IN, EX> List<IN> getList(EntityRequest<IN, EX, P> request) throws Throwable;
 
-    <M extends Entity> void save(Class<M> type, M model) throws Throwable;
+    <IN, EX> void save(EntityRequest<IN, EX, P> request) throws Throwable;
 
-    <M extends Entity> void update(Class<M> type, M model) throws Throwable;
+    <IN, EX> void update(EntityRequest<IN, EX, P> request) throws Throwable;
 
-    <M extends Entity> void delete(Class<M> type, M model) throws Throwable;
-
+    <IN, EX> void delete(EntityRequest<IN, EX, P> request) throws Throwable;
 }

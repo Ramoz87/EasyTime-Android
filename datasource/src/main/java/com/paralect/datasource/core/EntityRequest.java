@@ -5,9 +5,9 @@ package com.paralect.datasource.core;
  */
 
 /**
- * @param <IN> Inner class of datasource
+ * @param <IN> Internal class of data source
  * @param <EX> External class of application
- * @param <P>  Parameter for communication with datasource
+ * @param <P>  Parameter for communication with data source
  */
 public interface EntityRequest<IN, EX, P> {
 

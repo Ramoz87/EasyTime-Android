@@ -1,13 +1,12 @@
 package com.paralect.easytimedataormlite.model;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.paralect.datasource.core.Entity;
 
 /**
  * Created by alexei on 26.12.2017.
  */
 
-public class FileEntity implements Entity<Long> {
+public class FileEntity {
 
     @DatabaseField(columnName = "fileId", generatedId = true)
     private long fileId;
@@ -44,8 +43,8 @@ public class FileEntity implements Entity<Long> {
         return "file://" + fileUrl;
     }
 
-    public java.io.File getImageFile(){
-       return new java.io.File(fileUrl);
+    public java.io.File getImageFile() {
+        return new java.io.File(fileUrl);
     }
 
     public void setFileUrl(String fileUrl) {
@@ -76,7 +75,7 @@ public class FileEntity implements Entity<Long> {
         this.jobId = jobId;
     }
 
-    public boolean isSaved(){
+    public boolean isSaved() {
         return getId() != 0;
     }
 }

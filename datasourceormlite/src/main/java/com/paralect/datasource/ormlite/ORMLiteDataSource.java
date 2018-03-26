@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implements DataSource<QueryBuilder<?, ?>>{
+public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implements DataSource<QueryBuilder<?, ?>> {
 
     // region Constructors
     public ORMLiteDataSource(Context context, String databaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion) {
@@ -41,49 +41,19 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
     }
     // endregion
 
-    // region Non synchronous
+    // region Synchronous access
     @Override
-    public <M extends Entity> M get(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
-        Dao<M, ?> dao = getDao(type);
-        QueryBuilder<M, ?> param = (QueryBuilder<M, ?>) parameter;
-        return dao.query(param.prepare()).get(0);
-    }
-
-    @Override
-    public <M extends Entity> List<M> getList(Class<M> type, QueryBuilder<?, ?> parameter) throws SQLException {
-        QueryBuilder<M, ?> param = (QueryBuilder<M, ?>) parameter;
-        return param.query();
-    }
-
-    public <M extends Entity> void save(Class<M> type, M model) throws SQLException {
-        Dao<M, ?> dao = getDao(type);
-        dao.createOrUpdate(model);
-    }
-
-    @Override
-    public <M extends Entity> void update(Class<M> type, M model) throws SQLException {
-        Dao<M, ?> dao = getDao(type);
-        dao.update(model);
-    }
-
-    public <M extends Entity> void delete(Class<M> type, M model) throws SQLException {
-        Dao<M, ?> dao = getDao(type);
-        dao.delete(model);
-    }
-    // endregion
-
-
-
-    public <IN, EX> IN get(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
+    public <IN, EX> IN get(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
         Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
-        QueryBuilder<EX, ?> param = request.getParameter();
+        QueryBuilder<EX, ?> param = (QueryBuilder<EX, ?>) request.getParameter();
         EX entity = dao.query(param.prepare()).get(0);
         IN result = request.toInner(entity);
         return result;
     }
 
-    public <IN, EX> List<IN> getList(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
-        QueryBuilder<EX, ?> param = request.getParameter();
+    @Override
+    public <IN, EX> List<IN> getList(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
+        QueryBuilder<EX, ?> param = (QueryBuilder<EX, ?>) request.getParameter();
         List<EX> entities = param.query();
         List<IN> list = new ArrayList<>();
         for (EX entity : entities) {
@@ -93,22 +63,26 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
         return list;
     }
 
-    public <IN, EX> void save(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
+    @Override
+    public <IN, EX> void save(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
         Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
         EX entity = request.toExternal(request.getInternalEntity());
         dao.createOrUpdate(entity);
     }
 
-    public <IN, EX> void update(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
+    @Override
+    public <IN, EX> void update(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
         Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
         EX entity = request.toExternal(request.getInternalEntity());
         dao.update(entity);
     }
 
-    public <IN, EX> void delete(EntityRequest<IN, EX, QueryBuilder<EX, ?>> request) throws SQLException {
+    @Override
+    public <IN, EX> void delete(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
         Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
         EX entity = request.toExternal(request.getInternalEntity());
         dao.delete(entity);
     }
+    // endregion
 
 }

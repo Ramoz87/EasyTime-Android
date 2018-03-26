@@ -21,7 +21,7 @@ import static com.paralect.easytimedataormlite.model.ExpenseEntity.TYPE;
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class ExpenseRequest extends BaseRequest<Expense, ExpenseEntity, QueryBuilder<ExpenseEntity, ?>> {
+public class ExpenseRequest extends BaseRequest<Expense, ExpenseEntity, QueryBuilder<?, ?>> {
 
     @Override
     public Expense toInner(ExpenseEntity ex) {

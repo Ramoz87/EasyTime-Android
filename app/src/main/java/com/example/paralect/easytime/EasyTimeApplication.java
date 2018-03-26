@@ -44,7 +44,14 @@ public class EasyTimeApplication extends Application {
             Expense expense = Expense.createTimeExpense("123", "time-exp", 2, 15);
             Expense saved = EasyTimeManager.getInstance().saveAndGetExpense(expense);
             List<Expense> expenses = EasyTimeManager.getInstance().getTimeExpenses("123");
+
+            expense.setId(21);
+//            expense.setName("HFHLKSLK");
+//            EasyTimeManager.getInstance().updateExpense(expense);
+            EasyTimeManager.getInstance().deleteExpense(expense);
+            expenses = EasyTimeManager.getInstance().getTimeExpenses("123");
             Logger.separator();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
