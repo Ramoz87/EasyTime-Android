@@ -28,6 +28,10 @@ public class ObjectRequest extends EntityRequestImpl<Object, ObjectEntity, Query
             in.setDiscount(ex.getDiscount());
             in.setMemberIds(ex.getMemberIds());
 
+            in.setAddressString(ex.getAddressString());
+            in.setCityString(ex.getCityString());
+            in.setZipString(ex.getZipString());
+
             in.setDateEnd(ex.getDateEnd());
             in.setDateStart(ex.getDateStart());
             in.setProjectId(ex.getProjectId());
@@ -51,6 +55,10 @@ public class ObjectRequest extends EntityRequestImpl<Object, ObjectEntity, Query
             ex.setTypeId(in.getTypeId());
             ex.setDiscount(in.getDiscount());
             ex.setMemberIds(in.getMemberIds());
+
+            ex.setAddressString(in.getAddressString());
+            ex.setCityString(in.getCityString());
+            ex.setZipString(in.getZipString());
 
             ex.setDateEnd(in.getDateEnd());
             ex.setDateStart(in.getDateStart());

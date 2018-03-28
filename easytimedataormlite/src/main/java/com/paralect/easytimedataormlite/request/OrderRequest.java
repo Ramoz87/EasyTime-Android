@@ -56,6 +56,10 @@ public class OrderRequest extends EntityRequestImpl<Order, OrderEntity, QueryBui
             ex.setDiscount(in.getDiscount());
             ex.setMemberIds(in.getMemberIds());
 
+            ex.setAddressString(in.getAddressString());
+            ex.setCityString(in.getCityString());
+            ex.setZipString(in.getZipString());
+
             ex.setContact(in.getContact());
             ex.setDeliveryTime(in.getDeliveryTime());
             ex.setObjectIds(in.getObjectIds());

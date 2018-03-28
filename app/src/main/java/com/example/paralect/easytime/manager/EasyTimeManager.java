@@ -29,9 +29,11 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.paralect.datasource.core.EntityRequest;
 import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
 import com.paralect.easytimedataormlite.request.ExpenseRequest;
 import com.paralect.easytimedataormlite.request.ObjectRequest;
+import com.paralect.easytimedataormlite.request.OrderRequest;
 import com.paralect.easytimedataormlite.request.ProjectRequest;
 
 import java.sql.SQLException;
@@ -95,7 +97,9 @@ public final class EasyTimeManager {
                 request.setEntity((Project)job);
                 dataSource.update(request);
             } else if (projectType == ProjectType.Type.TYPE_ORDER) {
-                dataSource.update(Order.class, (Order)job);
+                OrderRequest request = new OrderRequest();
+                request.setEntity((Order)job);
+                dataSource.update(request);
             }
         } catch (SQLException e) {
             Logger.e(TAG, e.getMessage());
