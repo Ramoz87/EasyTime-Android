@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.example.paralect.easytime.model.Constants.SHORT_DATE_PATTERN;
+import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
+import static com.example.paralect.easytime.utils.CalendarUtils.stringFromDate;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -246,11 +248,5 @@ public class Job implements Parcelable, ProjectType {
 
     public void setMembers(List<User> members) {
         this.members = members;
-    }
-
-    // TODO Temporary, should be moved to separated module/class
-    public static final SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat(SHORT_DATE_PATTERN, Locale.US);
-    public static String stringFromDate(Date date, SimpleDateFormat format) {
-        return format.format(date);
     }
 }

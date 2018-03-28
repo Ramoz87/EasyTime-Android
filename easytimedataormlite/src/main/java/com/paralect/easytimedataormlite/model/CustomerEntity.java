@@ -12,10 +12,13 @@ import java.util.List;
 @DatabaseTable(tableName = "customers")
 public class CustomerEntity {
 
-    @DatabaseField(columnName = "companyName")
+    public static final String ID = "customerId";
+    public static final String COMPANY_NAME = "companyName";
+
+    @DatabaseField(columnName = COMPANY_NAME)
     private String companyName;
 
-    @DatabaseField(columnName = "customerId", id = true)
+    @DatabaseField(columnName = ID, id = true)
     private String customerId;
 
     @DatabaseField(columnName = "firstName")
@@ -25,7 +28,7 @@ public class CustomerEntity {
     private String lastName;
 
     @DatabaseField(columnName = "addressId")
-    private long addressId;
+    private String addressId;
 
     private AddressEntity address;
     private List<ContactEntity> contacts;
@@ -87,11 +90,11 @@ public class CustomerEntity {
         return firstName + " " + lastName;
     }
 
-    public long getAddressId() {
+    public String getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(long addressId) {
+    public void setAddressId(String addressId) {
         this.addressId = addressId;
     }
 }

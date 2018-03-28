@@ -1,6 +1,5 @@
 package com.example.paralect.easytime.main.projects.project;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -18,9 +17,7 @@ import android.view.animation.AnimationUtils;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.utils.IntentUtils;
 import com.example.paralect.easytime.utils.Logger;
-import com.example.paralect.easytime.utils.ViewUtils;
 import com.example.paralect.easytime.utils.anim.AnimUtils;
 import com.github.clans.fab.FloatingActionMenu;
 

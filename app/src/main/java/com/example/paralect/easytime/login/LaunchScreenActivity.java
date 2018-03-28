@@ -15,7 +15,6 @@ import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.model.JobWithAddress;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
@@ -26,10 +25,7 @@ import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.FakeCreator;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TinyDB;
-import com.j256.ormlite.dao.Dao;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -249,7 +245,7 @@ public class LaunchScreenActivity extends Activity {
 
             Material createMaterial(String[] fields) {
                 Material material = new Material();
-                material.setId(fields[0]);
+                material.setMaterialId(fields[0]);
                 material.setCurrency(fields[1]);
                 material.setMaterialNr(Integer.valueOf(fields[2]));
                 material.setName(fields[3]);

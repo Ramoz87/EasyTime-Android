@@ -10,8 +10,11 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "contacts")
 public class ContactEntity {
 
-    @DatabaseField(columnName = "contactId", generatedId = true)
-    private long contactId;
+    public static final String ID = "contactId";
+    public static final String CUSTOMER_ID = "customerId";
+
+    @DatabaseField(columnName = ID, generatedId = true)
+    private String contactId;
 
     @DatabaseField(columnName = "email")
     private String email;
@@ -35,8 +38,12 @@ public class ContactEntity {
 
     }
 
-    public long getContactId() {
+    public String getContactId() {
         return contactId;
+    }
+
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
     }
 
     public String getEmail() {
@@ -55,14 +62,6 @@ public class ContactEntity {
         this.fax = fax;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -79,8 +78,16 @@ public class ContactEntity {
         this.lastName = lastName;
     }
 
-    public String getFullName(){
-        return firstName + " " + lastName;
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCustomerId() {
+        return customerId;
     }
 
     public void setCustomerId(String customerId) {

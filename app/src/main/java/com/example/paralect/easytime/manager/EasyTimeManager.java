@@ -7,7 +7,6 @@ import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.DatabaseHelper;
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.ExpenseUnit;
 import com.example.paralect.easytime.model.File;
@@ -25,33 +24,36 @@ import com.example.paralect.easytime.utils.CollectionUtil;
 import com.example.paralect.easytime.utils.ExpenseUtil;
 import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.paralect.datasource.core.EntityRequest;
 import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
+import com.paralect.easytimedataormlite.model.FileEntity;
+import com.paralect.easytimedataormlite.model.JobEntity;
+import com.paralect.easytimedataormlite.request.AddressRequest;
+import com.paralect.easytimedataormlite.request.ContactRequest;
+import com.paralect.easytimedataormlite.request.CustomerRequest;
 import com.paralect.easytimedataormlite.request.ExpenseRequest;
+import com.paralect.easytimedataormlite.request.FileRequest;
+import com.paralect.easytimedataormlite.request.MaterialRequest;
 import com.paralect.easytimedataormlite.request.ObjectRequest;
 import com.paralect.easytimedataormlite.request.OrderRequest;
 import com.paralect.easytimedataormlite.request.ProjectRequest;
+import com.paralect.easytimedataormlite.request.TypeRequest;
+import com.paralect.easytimedataormlite.request.UserRequest;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.paralect.easytime.model.Expense.CREATION_DATE;
-import static com.example.paralect.easytime.model.Expense.EXPENSE_ID;
-import static com.example.paralect.easytime.model.Expense.JOB_ID;
-import static com.example.paralect.easytime.model.Expense.NAME;
-import static com.example.paralect.easytime.model.Expense.TYPE;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
 import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
+import static com.paralect.easytimedataormlite.model.ExpenseEntity.EXPENSE_ID;
+import static com.paralect.easytimedataormlite.model.ExpenseEntity.JOB_ID;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -90,15 +92,15 @@ public final class EasyTimeManager {
             @ProjectType.Type int projectType = job.getProjectType();
             if (projectType == ProjectType.Type.TYPE_OBJECT) {
                 ObjectRequest request = new ObjectRequest();
-                request.setEntity((Object)job);
+                request.setEntity((Object) job);
                 dataSource.update(request);
             } else if (projectType == ProjectType.Type.TYPE_PROJECT) {
                 ProjectRequest request = new ProjectRequest();
-                request.setEntity((Project)job);
+                request.setEntity((Project) job);
                 dataSource.update(request);
             } else if (projectType == ProjectType.Type.TYPE_ORDER) {
                 OrderRequest request = new OrderRequest();
-                request.setEntity((Order)job);
+                request.setEntity((Order) job);
                 dataSource.update(request);
             }
         } catch (SQLException e) {
@@ -110,8 +112,9 @@ public final class EasyTimeManager {
     public Type getType(String typeId) {
         Type type = null;
         try {
-            Dao<Type, String> dao = dataSource.getTypeDao();
-            type = dao.queryForId(typeId);
+            TypeRequest typeRequest = new TypeRequest();
+            typeRequest.queryForId(dataSource, typeId);
+            type = dataSource.get(typeRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
         }
@@ -128,17 +131,10 @@ public final class EasyTimeManager {
 
     public List<Type> getTypes(@Type.TypeName String type, String searchName) {
         try {
-            Dao<Type, String> dao = dataSource.getTypeDao();
-            if (!TextUtils.isEmpty(type)) {
-                return dao.query(dao.queryBuilder()
-                        .where()
-                        .eq("type", type)
-                        .and()
-                        .like("name", "%" + searchName + "%")
-                        .prepare());
-            } else {
-                return dao.queryForAll();
-            }
+            TypeRequest typeRequest = new TypeRequest();
+            typeRequest.queryForList(dataSource, type, searchName);
+            List<Type> list = dataSource.getList(typeRequest);
+            return list;
         } catch (SQLException exc) {
             Logger.e(exc);
             return null;
@@ -148,8 +144,9 @@ public final class EasyTimeManager {
 
     public List<Contact> getContacts(Customer customer) {
         try {
-            Dao<Contact, Long> dao = dataSource.getContactDao();
-            return dao.queryForEq("customerId", customer.getId());
+            ContactRequest contactRequest = new ContactRequest();
+            contactRequest.queryForEq(dataSource, customer.getId());
+            return dataSource.getList(contactRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
             return new ArrayList<>();
@@ -158,61 +155,71 @@ public final class EasyTimeManager {
 
     public Address getAddress(Customer customer) {
         try {
-            Dao<Address, Long> dao = dataSource.getAddressDao();
-            return dao.queryForId(customer.getAddressId());
+            AddressRequest addressRequest = new AddressRequest();
+            addressRequest.queryForId(dataSource, customer.getAddressId());
+            return dataSource.get(addressRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
             return null;
         }
     }
 
-    public Type getStatus(Job job) {
-        try {
-            Dao<Type, String> dao = dataSource.getTypeDao();
-            List<Type> results = dao.queryBuilder().where().idEq(job.getStatusId()).query();
-            if (!CollectionUtil.isEmpty(results)) return results.get(0);
-            else return null;
-        } catch (SQLException exc) {
-            Logger.e(exc);
-            return null;
-        }
-    }
+//    public Type getStatus(Job job) {
+//        try {
+//            Dao<Type, String> dao = dataSource.getTypeDao();
+//            List<Type> results = dao.queryBuilder().where().idEq(job.getStatusId()).query();
+//            if (!CollectionUtil.isEmpty(results)) return results.get(0);
+//            else return null;
+//        } catch (SQLException exc) {
+//            Logger.e(exc);
+//            return null;
+//        }
+//    }
 
     // region Jobs
     public List<Job> getAllJobs() {
         List<Job> jobs = new ArrayList<>();
         try {
-            Dao<Object, String> objectDao = dataSource.getObjectDao();
-            Dao<Order, String> orderDao = dataSource.getOrderDao();
-            Dao<Project, String> projectDao = dataSource.getProjectDao();
 
-            List<Object> objects = getList(objectDao, null, null, null);
-            List<Order> orders = getList(orderDao, null, null, null);
-            List<Project> projects = getList(projectDao, null, null, null);
+            ObjectRequest objectRequest = new ObjectRequest();
+            OrderRequest orderRequest = new OrderRequest();
+            ProjectRequest projectRequest = new ProjectRequest();
+
+            objectRequest.queryForList(dataSource, null, null, null);
+            orderRequest.queryForList(dataSource, null, null, null);
+            projectRequest.queryForList(dataSource, null, null, null);
+
+            List<Object> objects = dataSource.getList(objectRequest);
+            List<Order> orders = dataSource.getList(orderRequest);
+            List<Project> projects = dataSource.getList(projectRequest);
 
             jobs.addAll(objects);
             jobs.addAll(orders);
             jobs.addAll(projects);
 
-            Dao<Customer, String> customerDao = dataSource.getCustomerDao();
+            CustomerRequest customerRequest = new CustomerRequest();
             for (Job job : jobs) {
                 String customerId = job.getCustomerId();
-                Customer customer = customerDao.queryForId(customerId);
+                customerRequest.queryForId(dataSource, customerId);
+                Customer customer = dataSource.get(customerRequest);
                 job.setCustomer(customer);
             }
 
-            Dao<Address, Long> addressDao = dataSource.getAddressDao();
+            AddressRequest addressRequest = new AddressRequest();
             for (Job job : jobs) {
                 if (job instanceof JobWithAddress) {
                     JobWithAddress jobWithAddress = (JobWithAddress) job;
-                    jobWithAddress.setAddress(addressDao.queryForId(jobWithAddress.getAddressId()));
+                    addressRequest.queryForId(dataSource, jobWithAddress.getAddressId());
+                    Address address = dataSource.get(addressRequest);
+                    jobWithAddress.setAddress(address);
                 }
             }
 
-            Dao<Type, String> typeDao = dataSource.getTypeDao();
+            TypeRequest typeRequest = new TypeRequest();
             for (Job job : jobs) {
                 String statusId = job.getStatusId();
-                Type status = typeDao.queryForId(statusId);
+                typeRequest.queryForId(dataSource, statusId);
+                Type status = dataSource.get(typeRequest);
                 job.setStatus(status);
             }
         } catch (SQLException exc) {
@@ -269,27 +276,31 @@ public final class EasyTimeManager {
         String customerId = customer == null ? "" : customer.getId();
         List<T> jobs = getList(dao, customerId, query, date);
 
+
         if (customer == null) {
+            CustomerRequest customerRequest = new CustomerRequest();
             for (Job job : jobs) {
                 customerId = job.getCustomerId();
-                Dao<Customer, String> customerDao = dataSource.getCustomerDao();
-                customer = customerDao.queryForId(customerId);
+                customerRequest.queryForId(dataSource, customerId);
+                customer = dataSource.get(customerRequest);
                 job.setCustomer(customer);
             }
         }
 
-        Dao<Address, Long> addressDao = dataSource.getAddressDao();
+        AddressRequest addressRequest = new AddressRequest();
         for (Job job : jobs) {
             if (job instanceof JobWithAddress) {
                 JobWithAddress jobWithAddress = (JobWithAddress) job;
-                jobWithAddress.setAddress(addressDao.queryForId(jobWithAddress.getAddressId()));
+                addressRequest.queryForId(dataSource, jobWithAddress.getAddressId());
+                Address address = dataSource.get(addressRequest);
+                jobWithAddress.setAddress(address);
             }
         }
 
-        Dao<Type, String> typeDao = dataSource.getTypeDao();
+        TypeRequest typeRequest = new TypeRequest();
         for (Job job : jobs) {
-            String statusId = job.getStatusId();
-            Type status = typeDao.queryForId(statusId);
+            typeRequest.queryForId(dataSource, job.getStatusId());
+            Type status = dataSource.get(typeRequest);
             job.setStatus(status);
         }
         return jobs;
@@ -298,41 +309,49 @@ public final class EasyTimeManager {
     public List<Job> getJobs(Customer customer, String query, String date) {
         List<Job> jobs = new ArrayList<>();
         try {
-            Dao<Object, String> objectDao = dataSource.getObjectDao();
-            Dao<Order, String> orderDao = dataSource.getOrderDao();
-            Dao<Project, String> projectDao = dataSource.getProjectDao();
 
             String customerId = customer == null ? "" : customer.getId();
 
-            List<Object> objects = getList(objectDao, customerId, query, date);
-            List<Order> orders = getList(orderDao, customerId, query, date);
-            List<Project> projects = getList(projectDao, customerId, query, date);
+            ObjectRequest objectRequest = new ObjectRequest();
+            OrderRequest orderRequest = new OrderRequest();
+            ProjectRequest projectRequest = new ProjectRequest();
+
+            objectRequest.queryForList(dataSource, customerId, query, date);
+            orderRequest.queryForList(dataSource, customerId, query, date);
+            projectRequest.queryForList(dataSource, customerId, query, date);
+
+            List<Object> objects = dataSource.getList(objectRequest);
+            List<Order> orders = dataSource.getList(orderRequest);
+            List<Project> projects = dataSource.getList(projectRequest);
 
             jobs.addAll(objects);
             jobs.addAll(orders);
             jobs.addAll(projects);
 
             if (customer == null) {
+                CustomerRequest customerRequest = new CustomerRequest();
                 for (Job job : jobs) {
                     customerId = job.getCustomerId();
-                    Dao<Customer, String> customerDao = dataSource.getCustomerDao();
-                    customer = customerDao.queryForId(customerId);
+                    customerRequest.queryForId(dataSource, customerId);
+                    customer = dataSource.get(customerRequest);
                     job.setCustomer(customer);
                 }
             }
 
-            Dao<Address, Long> addressDao = dataSource.getAddressDao();
+            AddressRequest addressRequest = new AddressRequest();
             for (Job job : jobs) {
                 if (job instanceof JobWithAddress) {
                     JobWithAddress jobWithAddress = (JobWithAddress) job;
-                    jobWithAddress.setAddress(addressDao.queryForId(jobWithAddress.getAddressId()));
+                    addressRequest.queryForId(dataSource, jobWithAddress.getAddressId());
+                    Address address = dataSource.get(addressRequest);
+                    jobWithAddress.setAddress(address);
                 }
             }
 
-            Dao<Type, String> typeDao = dataSource.getTypeDao();
+            TypeRequest typeRequest = new TypeRequest();
             for (Job job : jobs) {
-                String statusId = job.getStatusId();
-                Type status = typeDao.queryForId(statusId);
+                typeRequest.queryForId(dataSource, job.getStatusId());
+                Type status = dataSource.get(typeRequest);
                 job.setStatus(status);
             }
         } catch (SQLException exc) {
@@ -381,35 +400,34 @@ public final class EasyTimeManager {
         String[] ids = job.getMemberIds();
         if (ids == null || ids.length == 0) return null;
         List<User> users = new ArrayList<>();
-        Dao<User, String> dao = dataSource.getUserDao();
-        if (ids != null) {
-            for (String id : ids) {
-                User user = dao.queryForId(id);
-                users.add(user);
-            }
+        UserRequest userRequest = new UserRequest();
+
+        for (String id : ids) {
+            userRequest.queryForId(dataSource, id);
+            User user = dataSource.get(userRequest);
+            users.add(user);
         }
         return users;
     }
     // endregion
 
     public List<Material> getMaterials(String query) throws SQLException {
-        Dao<Material, String> dao = dataSource.getMaterialDao();
-        QueryBuilder<Material, String> qb = dao.queryBuilder();
-        qb.where().like("name", "%" + query + "%");
-        return qb.query();
+        MaterialRequest materialRequest = new MaterialRequest();
+        materialRequest.queryForSearch(dataSource, query);
+        return dataSource.getList(materialRequest);
     }
 
     public List<Customer> getCustomers(String query) {
         List<Customer> customers = new ArrayList<>();
         try {
-            Dao<Customer, String> dao = dataSource.getCustomerDao();
+
+            CustomerRequest customerRequest = new CustomerRequest();
+            customerRequest.queryForSearch(dataSource, query);
 
             if (TextUtils.isEmpty(query))
                 customers.addAll(dao.queryForAll());
             else {
-                QueryBuilder<Customer, String> qb = dao.queryBuilder();
-                qb.where().like("companyName", "%" + query + "%");
-                customers = dataSource.getList(Customer.class, qb);
+                customers = dataSource.getList(customerRequest);
             }
         } catch (SQLException exc) {
             Logger.e(exc);
@@ -419,7 +437,9 @@ public final class EasyTimeManager {
 
     public void updateMaterial(Material material) {
         try {
-            dataSource.update(Material.class, material);
+            MaterialRequest materialRequest = new MaterialRequest();
+            materialRequest.setEntity(material);
+            dataSource.update(materialRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
         }
@@ -428,15 +448,9 @@ public final class EasyTimeManager {
     public List<Material> getMyMaterials() {
         List<Material> materials = new ArrayList<>();
         try {
-            Dao<Material, String> dao = dataSource.getMaterialDao();
-            QueryBuilder<Material, String> qb = dao.queryBuilder();
-            // Where where = null;
-            qb.where().like("isAdded", true);
-            List<Material> myMaterials = qb
-                    .orderByRaw("stockQuantity IS 0 ASC")
-                    .orderBy("name", true)
-                    .query();
-
+            MaterialRequest materialRequest = new MaterialRequest();
+            materialRequest.queryForAdded(dataSource);
+            List<Material> myMaterials = dataSource.getList(materialRequest);
             materials.addAll(myMaterials);
         } catch (SQLException exc) {
             Logger.e(exc);
@@ -459,34 +473,11 @@ public final class EasyTimeManager {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void updateExpense(Expense expense) throws SQLException {
         ExpenseRequest saveRequest = new ExpenseRequest();
         saveRequest.setEntity(expense);
         dataSource.update(saveRequest);
     }
-
-
-
-
-
-
-
-
-
 
 
     public List<Expense> getDefaultExpenses(String jobId) {
@@ -520,16 +511,21 @@ public final class EasyTimeManager {
         try {
             long totalCount = countExpenses(jobId);
 
-            Dao<Project, String> projectDao = dataSource.getProjectDao();
-            Project project = projectDao.queryForId(jobId);
+            ProjectRequest projectRequest = new ProjectRequest();
+            projectRequest.queryForId(dataSource, jobId);
+            Project project = dataSource.get(projectRequest);
+
             if (project != null) {
                 List<Object> objects = getObjects(project.getObjectIds());
                 for (Object o : objects) {
                     totalCount += getTotalExpensesCount(o.getId());
                 }
             } else {
-                Dao<Order, String> orderDao = dataSource.getOrderDao();
-                Order order = orderDao.queryForId(jobId);
+
+                OrderRequest orderRequest = new OrderRequest();
+                orderRequest.queryForId(dataSource, jobId);
+                Order order = dataSource.get(orderRequest);
+
                 if (order != null) {
                     List<Object> objects = getObjects(order.getObjectIds());
                     for (Object o : objects) {
@@ -569,27 +565,37 @@ public final class EasyTimeManager {
         try {
             List<String> ids = new ArrayList<>();
             ids.add(jobId);
-            Dao<Project, String> projectDao = dataSource.getProjectDao();
-            Project project = projectDao.queryForId(jobId);
+
+            ProjectRequest projectRequest = new ProjectRequest();
+            projectRequest.queryForId(dataSource, jobId);
+            Project project = dataSource.get(projectRequest);
+
             if (project != null) {
                 Logger.d(TAG, "its a project, query should be also performed for all objects");
                 ids.addAll(Arrays.asList(project.getObjectIds()));
             }
-            Dao<Order, String> orderDao = dataSource.getOrderDao();
-            Order order = orderDao.queryForId(jobId);
+
+            OrderRequest orderRequest = new OrderRequest();
+            orderRequest.queryForId(dataSource, jobId);
+            Order order = dataSource.get(orderRequest);
+
             if (order != null) {
                 Logger.d(TAG, "its an order, query should be also performed for all objects");
                 ids.addAll(Arrays.asList(order.getObjectIds()));
             }
-            final Dao<Material, String> materialDao = dataSource.getMaterialDao();
+
+            ExpenseRequest expenseRequest = new ExpenseRequest();
+            MaterialRequest materialRequest = new MaterialRequest();
 
             for (String id : ids) {
 
-                List<Expense> foundExpense = getExpenses(id, date);
+                expenseRequest.queryForListExpense(dataSource, jobId, date);
+                List<Expense> foundExpense = dataSource.getList(expenseRequest);
+
                 Logger.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
 
                 for (final Expense exp : foundExpense)
-                    setValueWithUnit(exp, materialDao);
+                    setValueWithUnit(exp, materialRequest);
 
                 allExpenses.addAll(foundExpense);
             }
@@ -599,45 +605,22 @@ public final class EasyTimeManager {
         return allExpenses;
     }
 
-    public List<Expense> getExpenses(String jobId, String date) throws SQLException {
-        boolean hasDate = !TextUtils.isEmpty(date);
-        QueryBuilder<Expense, Long> qb = dataSource.getExpenseDao().queryBuilder();
-        Where where = qb.where().eq(JOB_ID, jobId);
-        if (hasDate) {
-
-            Date time = ExpenseUtil.dateFromString(date, ExpenseUtil.SHORT_DATE_FORMAT);
-
-            Calendar yesterday = Calendar.getInstance();
-            yesterday.setTime(time);
-
-            Calendar tomorrow = Calendar.getInstance();
-            tomorrow.setTime(time);
-            tomorrow.add(Calendar.DATE, 1);
-
-            long beforeTime = yesterday.getTimeInMillis();
-            long afterTime = tomorrow.getTimeInMillis();
-            where.and().between(CREATION_DATE, beforeTime, afterTime);
-
-        }
-        qb.orderBy(CREATION_DATE, false);
-        return dataSource.getList(Expense.class, qb);
-    }
-
     /**
      * Create value with unit description
      *
      * @param expense
-     * @param materialDao
+     * @param materialRequest
      */
-    private void setValueWithUnit(@NonNull final Expense expense, final Dao<Material, String> materialDao) {
+    private void setValueWithUnit(@NonNull final Expense expense, final MaterialRequest materialRequest) {
         expense.setValueWithUnitName(new Expense.ExpenseValueWithUnit(expense.getValue()) {
             @Override
             public String getMaterialUnit() {
                 try {
-                    if (expense != null && materialDao != null) {
+                    if (expense != null && materialRequest != null) {
                         String materialId = expense.getMaterialId();
                         Logger.d(TAG, String.format("material id for curr expense = %s", materialId));
-                        Material material = materialDao.queryForId(materialId);
+                        materialRequest.queryForId(dataSource, materialId);
+                        Material material = dataSource.get(materialRequest);
                         if (material != null) {
                             com.example.paralect.easytime.model.Type t = getType(material.getUnitId());
                             if (t != null)
@@ -657,8 +640,7 @@ public final class EasyTimeManager {
             @Override
             public String getMaterialUnit() {
                 String unitName = super.getMaterialUnit();
-                com.example.paralect.easytime.model.Type t =
-                        EasyTimeManager.getInstance().getType(material.getUnitId());
+                com.example.paralect.easytime.model.Type t = getType(material.getUnitId());
                 if (t != null)
                     unitName = t.getName();
                 return unitName;
@@ -677,28 +659,34 @@ public final class EasyTimeManager {
         saveRequest.setEntity(expense);
         dataSource.save(saveRequest);
 
-        ExpenseRequest getRequest = new ExpenseRequest().queryForLastExpense(dataSource);
+        ExpenseRequest getRequest = new ExpenseRequest();
+        getRequest.queryForLast(dataSource);
         return dataSource.get(getRequest);
     }
 
     public List<Object> getObjects(String[] ids) {
         List<Object> objects = new ArrayList<>();
         try {
-            Dao<Object, String> dao = dataSource.getObjectDao();
-            Dao<Customer, String> customerDao = dataSource.getCustomerDao();
-            Dao<Address, Long> addressDao = dataSource.getAddressDao();
-            Dao<Type, String> typeDao = dataSource.getTypeDao();
+            ObjectRequest objectRequest = new ObjectRequest();
+            AddressRequest addressRequest = new AddressRequest();
+            CustomerRequest customerRequest = new CustomerRequest();
+            TypeRequest typeRequest = new TypeRequest();
+
             if (ids != null) {
                 for (String id : ids) {
-                    Object o = dao.queryForId(id);
+                    objectRequest.queryForId(dataSource, id);
+                    Object o = dataSource.get(objectRequest);
                     if (o != null) {
-                        Address address = addressDao.queryForId(o.getAddressId());
+                        addressRequest.queryForId(dataSource, o.getAddressId());
+                        Address address = dataSource.get(addressRequest);
                         o.setAddress(address);
 
-                        Customer customer = customerDao.queryForId(o.getCustomerId());
+                        customerRequest.queryForId(dataSource, o.getCustomerId());
+                        Customer customer = dataSource.get(customerRequest);
                         o.setCustomer(customer);
 
-                        Type status = typeDao.queryForId(o.getStatusId());
+                        typeRequest.queryForId(dataSource, o.getStatusId());
+                        Type status = dataSource.get(typeRequest);
                         o.setStatus(status);
 
                         objects.add(o);
@@ -731,53 +719,65 @@ public final class EasyTimeManager {
     }
 
     public void saveAndGetExpense(String jobId, Material material, int countOfMaterials) throws SQLException {
-        Dao<Material, String> materialDao = dataSource.getMaterialDao();
-        Expense expense = Expense.createMaterialExpense(jobId, material.getName(), material.getId(), countOfMaterials);
+
+        Expense expense = Expense.createMaterialExpense(jobId, material.getName(), material.getMaterialId(), countOfMaterials);
         material.setStockQuantity(material.getStockQuantity() - countOfMaterials);
+
         // TODO Should we count the price right here ???
-        dataSource.save(Expense.class, expense);
-        dataSource.update(Material.class, material);
+        ExpenseRequest expenseRequest = new ExpenseRequest();
+        expenseRequest.setEntity(expense);
+        dataSource.save(expenseRequest);
+
+        MaterialRequest materialRequest = new MaterialRequest();
+        materialRequest.setEntity(material);
+        dataSource.update(materialRequest);
     }
 
     // region File
     public File getFile(Expense expense) throws SQLException {
-        return dataSource.getFileDao().queryBuilder()
-                .where()
-                .eq(EXPENSE_ID, expense.getId())
-                .queryForFirst();
+        FileRequest fileRequest = new FileRequest();
+        fileRequest.queryForFirst(dataSource, EXPENSE_ID);
+        return dataSource.get(fileRequest);
     }
 
-    public List<File> getFilesByExpenseId(Long expenseId) throws SQLException {
-        return dataSource.getFileDao().queryForEq(EXPENSE_ID, expenseId);
+    public List<File> getFilesByExpenseId(String expenseId) throws SQLException {
+        FileRequest fileRequest = new FileRequest();
+        fileRequest.queryWhere(dataSource, FileEntity.ID, expenseId);
+        return dataSource.getList(fileRequest);
     }
 
     public List<File> getFiles(Job job) throws SQLException {
-        return dataSource.getFileDao().queryForEq("jobId", job.getId());
+        FileRequest fileRequest = new FileRequest();
+        fileRequest.queryWhere(dataSource, JobEntity.ID, job.getId());
+        return dataSource.getList(fileRequest);
     }
 
     public void saveFile(File file) throws SQLException {
-        dataSource.getFileDao().create(file);
+        FileRequest fileRequest = new FileRequest();
+        fileRequest.setEntity(file);
+        dataSource.save(fileRequest);
     }
 
     public File saveFileAndGet(File file) throws SQLException {
         saveFile(file);
         // retrieve
-        PreparedQuery<File> query = dataSource.getFileDao().queryBuilder()
-                .orderBy("fileId", false)
-                .limit(1L)
-                .prepare();
-        return dataSource.getFileDao().query(query).get(0);
+        FileRequest fileRequest = new FileRequest();
+        fileRequest.queryForLast(dataSource);
+        return dataSource.get(fileRequest);
     }
 
     public void deleteFile(File file) throws SQLException {
-        dataSource.delete(File.class, file);
+        FileRequest fileRequest = new FileRequest();
+        fileRequest.setEntity(file);
+        dataSource.delete(fileRequest);
     }
     // endregion
 
     public User getUser(String userId) {
         try {
-            Dao<User, String> dao = dataSource.getUserDao();
-            return dao.queryForId(userId);
+            UserRequest userRequest = new UserRequest();
+            userRequest.queryForId(dataSource, userId);
+            return dataSource.get(userRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
             return null;
@@ -786,8 +786,9 @@ public final class EasyTimeManager {
 
     public User getRandomUser() {
         try {
-            Dao<User, String> dao = dataSource.getUserDao();
-            return dao.queryForId("0be618c9-e68b-435a-bdf4-d7f4ee6b6ba4");
+            UserRequest userRequest = new UserRequest();
+            userRequest.queryForId(dataSource, "0be618c9-e68b-435a-bdf4-d7f4ee6b6ba4");
+            return dataSource.get(userRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
             return null;

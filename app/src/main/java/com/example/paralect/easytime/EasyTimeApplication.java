@@ -15,8 +15,6 @@ import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 
-import static com.example.paralect.easytime.model.ExpenseUnit.Type.TIME;
-
 /**
  * Created by alexei on 26.12.2017.
  */

@@ -10,13 +10,15 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "types")
 public class TypeEntity {
 
+    public static final String ID = "typeId";
+
     @DatabaseField(columnName = "name")
     private String name;
 
     @DatabaseField(columnName = "type")
     private String type;
 
-    @DatabaseField(columnName = "typeId", id = true)
+    @DatabaseField(columnName = ID, id = true)
     private String typeId;
 
     public TypeEntity() {

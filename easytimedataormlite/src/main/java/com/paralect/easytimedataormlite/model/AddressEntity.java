@@ -10,8 +10,10 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "Addresses")
 public class AddressEntity {
 
-    @DatabaseField(columnName = "addressId", generatedId = true)
-    private long addressId;
+    public static final String ID = "addressId";
+
+    @DatabaseField(columnName = ID, generatedId = true)
+    private String addressId;
     @DatabaseField(columnName = "city")
     private String city;
     @DatabaseField(columnName = "country")
@@ -23,12 +25,16 @@ public class AddressEntity {
     @DatabaseField(columnName = "customerId")
     private String customerId;
 
-    private CustomerEntity customer;
-    private ObjectEntity object;
-    private OrderEntity order;
-
     public AddressEntity() {
 
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 
     public String getCity() {
@@ -63,35 +69,11 @@ public class AddressEntity {
         this.zip = zip;
     }
 
-    public long getAddressId() {
-        return addressId;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setAddressId(long addressId) {
-        this.addressId = addressId;
-    }
-
-    public CustomerEntity getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(CustomerEntity customer) {
-        this.customer = customer;
-    }
-
-    public ObjectEntity getObject() {
-        return object;
-    }
-
-    public void setObject(ObjectEntity object) {
-        this.object = object;
-    }
-
-    public OrderEntity getOrder() {
-        return order;
-    }
-
-    public void setOrder(OrderEntity order) {
-        this.order = order;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }

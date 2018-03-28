@@ -9,7 +9,7 @@ import com.j256.ormlite.field.DatabaseField;
 
 public class JobEntity {
 
-    public static final String TAG = JobEntity.class.getSimpleName();
+    public static final String ID = "jobId";
 
     @DatabaseField(columnName = "currency")
     private String currency;
@@ -26,7 +26,7 @@ public class JobEntity {
     @DatabaseField(columnName = "information")
     private String information;
 
-    @DatabaseField(columnName = "jobId", id = true)
+    @DatabaseField(columnName = ID, id = true)
     private String jobId;
 
     @DatabaseField(columnName = "name")

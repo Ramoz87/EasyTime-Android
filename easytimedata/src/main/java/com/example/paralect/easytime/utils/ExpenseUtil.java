@@ -1,4 +1,4 @@
-package com.example.paralect.easytime;
+package com.example.paralect.easytime.utils;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -22,8 +22,6 @@ public class ExpenseUtil {
     public static final String UNITY_HOUR = "h";
     public static final String UNITY_MIN = "min";
     public static final String UNITY_CURRENCY = "CHF";
-
-    public static final SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     public static String timeToString(long minutes) {
         String timeString = "";

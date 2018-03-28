@@ -84,11 +84,11 @@ public class Material implements Parcelable{
         this.currency = currency;
     }
 
-    public String getId() {
+    public String getMaterialId() {
         return materialId;
     }
 
-    public void setId(String materialId) {
+    public void setMaterialId(String materialId) {
         this.materialId = materialId;
     }
 
@@ -157,7 +157,7 @@ public class Material implements Parcelable{
     public boolean equals(java.lang.Object object) {
         if (object == null || !(object instanceof Material)) return false;
 
-        return materialId.equals(((Material) object).getId());
+        return materialId.equals(((Material) object).getMaterialId());
     }
 
 }

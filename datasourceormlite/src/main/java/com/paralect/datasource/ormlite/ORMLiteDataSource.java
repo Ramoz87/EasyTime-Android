@@ -45,7 +45,7 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
         Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
         QueryBuilder<EX, ?> param = (QueryBuilder<EX, ?>) request.getParameter();
         EX entity = dao.query(param.prepare()).get(0);
-        IN result = request.toInnerEntity(entity);
+        IN result = request.toInternalEntity(entity);
         return result;
     }
 
@@ -55,7 +55,7 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
         List<EX> entities = param.query();
         List<IN> list = new ArrayList<>();
         for (EX entity : entities) {
-            IN result = request.toInnerEntity(entity);
+            IN result = request.toInternalEntity(entity);
             list.add(result);
         }
         return list;

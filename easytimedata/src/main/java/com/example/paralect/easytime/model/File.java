@@ -1,7 +1,10 @@
 package com.example.paralect.easytime.model;
 
+import com.example.paralect.easytime.utils.TextUtil;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -9,21 +12,21 @@ import java.util.List;
 
 public class File {
 
-    private long fileId;
+    private String fileId;
     private String fileUrl;
     private String name;
-    private long expenseId;
+    private String expenseId;
     private String jobId;
 
     public File() {
 
     }
 
-    public Long getId() {
+    public String getFileId() {
         return fileId;
     }
 
-    public void setId(Long fileId) {
+    public void setFileId(String fileId) {
         this.fileId = fileId;
     }
 
@@ -51,11 +54,11 @@ public class File {
         this.name = name;
     }
 
-    public long getExpenseId() {
+    public String getExpenseId() {
         return expenseId;
     }
 
-    public void setExpenseId(long expenseId) {
+    public void setExpenseId(String expenseId) {
         this.expenseId = expenseId;
     }
 
@@ -68,7 +71,7 @@ public class File {
     }
 
     public boolean isSaved(){
-        return getId() != 0;
+        return TextUtil.isNotEmpty(getFileId());
     }
 
     public static List<File> mockList(){
@@ -81,7 +84,7 @@ public class File {
         List<File> files = new ArrayList<>();
         for (int i = 0; i < pictures.length; i++){
             File file = new File();
-            file.setId((long) i);
+            file.setFileId((UUID.randomUUID().toString()));
             file.setFileUrl(pictures[i]);
             file.setName("Name_" + i);
             files.add(file);

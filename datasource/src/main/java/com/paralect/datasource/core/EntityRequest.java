@@ -12,7 +12,7 @@ package com.paralect.datasource.core;
 public interface EntityRequest<IN, EX, P> {
 
     // region Conversion
-    IN toInnerEntity(EX ex);
+    IN toInternalEntity(EX ex);
 
     EX toExternalEntity(IN in);
     // endregion

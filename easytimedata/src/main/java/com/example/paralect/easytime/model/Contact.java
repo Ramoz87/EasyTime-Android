@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class Contact implements Parcelable {
 
-    private long contactId;
+    private String contactId;
     private String email;
     private String fax;
     private String firstName;
@@ -25,7 +26,7 @@ public class Contact implements Parcelable {
     }
 
     protected Contact(Parcel in) {
-        contactId = in.readLong();
+        contactId = in.readString();
         email = in.readString();
         fax = in.readString();
         firstName = in.readString();
@@ -36,7 +37,7 @@ public class Contact implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(contactId);
+        dest.writeString(contactId);
         dest.writeString(email);
         dest.writeString(fax);
         dest.writeString(firstName);
@@ -62,7 +63,11 @@ public class Contact implements Parcelable {
         }
     };
 
-    public long getContactId() {
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
+    }
+
+    public String getContactId() {
         return contactId;
     }
 
@@ -115,7 +120,7 @@ public class Contact implements Parcelable {
 
         for (int i = 0; i < size; i++) {
             Contact contact = new Contact();
-            contact.contactId = i;
+            contact.contactId = UUID.randomUUID().toString();
             contact.email = "mock_" + i + "@gmail.com";
             contact.fax = "+375 456 5464 4654";
             contact.firstName = "Brad";
@@ -134,5 +139,9 @@ public class Contact implements Parcelable {
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public String getCustomerId() {
+        return customerId;
     }
 }

@@ -4,15 +4,19 @@ import android.text.TextUtils;
 
 import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.ExpenseUnit;
+import com.example.paralect.easytime.utils.ExpenseUtil;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
-import com.paralect.datasource.core.EntityRequestImpl;
 import com.paralect.easytimedataormlite.model.ExpenseEntity;
 
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
 
+import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
+import static com.paralect.easytimedataormlite.model.ExpenseEntity.CREATION_DATE;
 import static com.paralect.easytimedataormlite.model.ExpenseEntity.EXPENSE_ID;
 import static com.paralect.easytimedataormlite.model.ExpenseEntity.JOB_ID;
 import static com.paralect.easytimedataormlite.model.ExpenseEntity.NAME;
@@ -22,10 +26,10 @@ import static com.paralect.easytimedataormlite.model.ExpenseEntity.TYPE;
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class ExpenseRequest extends EntityRequestImpl<Expense, ExpenseEntity, QueryBuilder<?, ?>> {
+public class ExpenseRequest extends BaseRequest<Expense, ExpenseEntity> {
 
     @Override
-    public Expense toInnerEntity(ExpenseEntity ex) {
+    public Expense toInternalEntity(ExpenseEntity ex) {
         Expense in = new Expense();
         if (ex != null) {
             in.setId(ex.getId());
@@ -69,13 +73,8 @@ public class ExpenseRequest extends EntityRequestImpl<Expense, ExpenseEntity, Qu
     }
 
     // region Requests
-    public ExpenseRequest queryForLastExpense(OrmLiteSqliteOpenHelper helper) throws SQLException {
-        Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
-        QueryBuilder<ExpenseEntity, ?> query = dao.queryBuilder()
-                .orderBy(EXPENSE_ID, false)
-                .limit(1L);
-        setParameter(query);
-        return this;
+    public void queryForLast(OrmLiteSqliteOpenHelper helper) throws SQLException {
+        queryForLast(helper, EXPENSE_ID);
     }
 
     /**
@@ -104,6 +103,32 @@ public class ExpenseRequest extends EntityRequestImpl<Expense, ExpenseEntity, Qu
         setParameter(parameter);
         return this;
     }
-    
+
+    public void queryForListExpense(OrmLiteSqliteOpenHelper helper, String jobId, String date) throws SQLException {
+        boolean hasDate = !TextUtils.isEmpty(date);
+
+        Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
+        QueryBuilder<ExpenseEntity, ?> qb = dao.queryBuilder();
+
+        Where where = qb.where().eq(JOB_ID, jobId);
+        if (hasDate) {
+
+            Date time = ExpenseUtil.dateFromString(date, SHORT_DATE_FORMAT);
+
+            Calendar yesterday = Calendar.getInstance();
+            yesterday.setTime(time);
+
+            Calendar tomorrow = Calendar.getInstance();
+            tomorrow.setTime(time);
+            tomorrow.add(Calendar.DATE, 1);
+
+            long beforeTime = yesterday.getTimeInMillis();
+            long afterTime = tomorrow.getTimeInMillis();
+            where.and().between(CREATION_DATE, beforeTime, afterTime);
+
+        }
+        qb.orderBy(CREATION_DATE, false);
+        setParameter(qb);
+    }
     // endregion
 }

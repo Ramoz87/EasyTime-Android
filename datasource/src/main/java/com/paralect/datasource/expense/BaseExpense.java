@@ -11,9 +11,9 @@ public interface BaseExpense {
     /**
      * Unique Id of the object
      */
-    long getId();
+    String getId();
 
-    void setId(long id);
+    void setId(String id);
 
     /**
      * The name of this expense

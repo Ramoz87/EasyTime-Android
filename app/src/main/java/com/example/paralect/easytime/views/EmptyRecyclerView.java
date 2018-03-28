@@ -6,12 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 
 import com.example.paralect.easytime.utils.DefAdapterDataObserver;
-import com.example.paralect.easytime.utils.anim.AnimUtils;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by alexei on 26.12.2017.

@@ -10,6 +10,8 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "users")
 public class UserEntity {
 
+    public static final String ID = "userId";
+
     @DatabaseField(columnName = "firstName")
     private String firstName;
     @DatabaseField(columnName = "lastName")
@@ -17,7 +19,7 @@ public class UserEntity {
     @DatabaseField(columnName = "password")
     private String password;
 
-    @DatabaseField(columnName = "userId", id = true)
+    @DatabaseField(columnName = ID, id = true)
     private String userId;
     @DatabaseField(columnName = "username")
     private String userName;

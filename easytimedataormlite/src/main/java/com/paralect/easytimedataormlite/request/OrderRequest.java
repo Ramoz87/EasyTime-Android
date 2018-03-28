@@ -9,24 +9,13 @@ import com.paralect.easytimedataormlite.model.OrderEntity;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class OrderRequest extends EntityRequestImpl<Order, OrderEntity, QueryBuilder<?, ?>> {
+public class OrderRequest extends BaseJobRequest<Order, OrderEntity> {
 
     @Override
-    public Order toInnerEntity(OrderEntity ex) {
+    public Order toInternalEntity(OrderEntity ex) {
         Order in = new Order();
         if (ex != null) {
-            in.setCurrency(ex.getCurrency());
-            in.setCustomerId(ex.getCustomerId());
-            in.setDate(ex.getDate());
-            in.setEntityType(ex.getEntityType());
-            in.setInformation(ex.getInformation());
-            in.setId(ex.getId());
-            in.setName(ex.getName());
-            in.setNumber(ex.getNumber());
-            in.setStatusId(ex.getStatusId());
-            in.setTypeId(ex.getTypeId());
-            in.setDiscount(ex.getDiscount());
-            in.setMemberIds(ex.getMemberIds());
+            populateInternalEntity(in, ex);
 
             in.setAddressString(ex.getAddressString());
             in.setCityString(ex.getCityString());
@@ -43,18 +32,7 @@ public class OrderRequest extends EntityRequestImpl<Order, OrderEntity, QueryBui
     public OrderEntity toExternalEntity(Order in) {
         OrderEntity ex = new OrderEntity();
         if (in != null) {
-            ex.setCurrency(in.getCurrency());
-            ex.setCustomerId(in.getCustomerId());
-            ex.setDate(in.getDate());
-            ex.setEntityType(in.getEntityType());
-            ex.setInformation(in.getInformation());
-            ex.setId(in.getId());
-            ex.setName(in.getName());
-            ex.setNumber(in.getNumber());
-            ex.setStatusId(in.getStatusId());
-            ex.setTypeId(in.getTypeId());
-            ex.setDiscount(in.getDiscount());
-            ex.setMemberIds(in.getMemberIds());
+            populateExternalEntity(in, ex);
 
             ex.setAddressString(in.getAddressString());
             ex.setCityString(in.getCityString());

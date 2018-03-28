@@ -12,7 +12,7 @@ import com.paralect.easytimedataormlite.model.JobEntity;
 public class JobRequest extends EntityRequestImpl<Job, JobEntity, QueryBuilder<?, ?>> {
 
     @Override
-    public Job toInnerEntity(JobEntity ex) {
+    public Job toInternalEntity(JobEntity ex) {
         Job in = new Job();
         if (ex != null) {
             in.setCurrency(ex.getCurrency());

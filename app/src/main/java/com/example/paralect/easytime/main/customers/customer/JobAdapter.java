@@ -2,7 +2,6 @@ package com.example.paralect.easytime.main.customers.customer;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,6 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.model.Object;
-import com.example.paralect.easytime.model.Order;
-import com.example.paralect.easytime.model.Project;
-import com.example.paralect.easytime.model.ProjectType;
-import com.example.paralect.easytime.model.Type;
-import com.example.paralect.easytime.utils.TextUtil;
 
 import java.util.List;
 

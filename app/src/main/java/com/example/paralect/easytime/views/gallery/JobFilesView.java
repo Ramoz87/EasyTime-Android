@@ -1,9 +1,7 @@
 package com.example.paralect.easytime.views.gallery;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -15,11 +13,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.main.camera.CameraActivity;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CollectionUtil;
-import com.example.paralect.easytime.utils.IntentUtils;
 import com.rd.PageIndicatorView;
 import com.squareup.picasso.Picasso;
 
@@ -29,8 +25,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CAMERA;
 
 /**
  * Created by Oleg Tarashkevich on 17/01/2018.

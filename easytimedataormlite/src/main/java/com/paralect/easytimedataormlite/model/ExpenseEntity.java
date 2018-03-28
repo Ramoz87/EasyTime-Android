@@ -32,7 +32,7 @@ public class ExpenseEntity implements BaseExpense {
     // endregion
 
     @DatabaseField(columnName = EXPENSE_ID, generatedId = true)
-    private long expenseId;
+    private String expenseId;
 
     @DatabaseField(columnName = NAME)
     private String name;
@@ -146,12 +146,12 @@ public class ExpenseEntity implements BaseExpense {
     }
 
     @Override
-    public long getId() {
+    public String getId() {
         return expenseId;
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(String id) {
         expenseId = id;
     }
 }

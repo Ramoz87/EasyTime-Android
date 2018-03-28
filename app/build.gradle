@@ -78,7 +78,7 @@ dependencies {
         transitive = true
     }
     
-    implementation project(':easytimemodel')
+    implementation project(':easytimedata')
     
     implementation project(':datasource')
     implementation project(':datasourceormlite')

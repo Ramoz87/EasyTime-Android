@@ -4,13 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import java.util.UUID;
+
 /**
  * Created by alexei on 26.12.2017.
  */
 
 public class Address implements Parcelable {
 
-    private long addressId;
+    private String addressId;
     private String city;
     private String country;
     private String street;
@@ -26,7 +28,7 @@ public class Address implements Parcelable {
     }
 
     protected Address(Parcel in) {
-        addressId = in.readLong();
+        addressId = in.readString();
         city = in.readString();
         country = in.readString();
         street = in.readString();
@@ -39,7 +41,7 @@ public class Address implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(addressId);
+        dest.writeString(addressId);
         dest.writeString(city);
         dest.writeString(country);
         dest.writeString(street);
@@ -99,11 +101,11 @@ public class Address implements Parcelable {
         this.zip = zip;
     }
 
-    public long getAddressId() {
+    public String getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(long addressId) {
+    public void setAddressId(String addressId) {
         this.addressId = addressId;
     }
 
@@ -175,7 +177,7 @@ public class Address implements Parcelable {
 
     public static Address mock() {
         Address address = new Address();
-        address.addressId = 456;
+        address.addressId = UUID.randomUUID().toString();
         address.country = "Belarus";
         address.city = "Minsk";
         address.street = "Nekrasova";

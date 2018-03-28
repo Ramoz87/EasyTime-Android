@@ -25,7 +25,7 @@ import static com.example.paralect.easytime.utils.ExpenseUtil.UNITY_MIN;
 
 public class Expense implements Parcelable, InvoiceCell {
 
-    private long expenseId;
+    private String expenseId;
     private String name;
     private long value;
     private long creationDate;
@@ -82,7 +82,7 @@ public class Expense implements Parcelable, InvoiceCell {
 
     // region Parcel
     protected Expense(Parcel in) {
-        expenseId = in.readLong();
+        expenseId = in.readString();
         name = in.readString();
         value = in.readLong();
         creationDate = in.readLong();
@@ -97,7 +97,7 @@ public class Expense implements Parcelable, InvoiceCell {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(expenseId);
+        dest.writeString(expenseId);
         dest.writeString(name);
         dest.writeLong(value);
         dest.writeLong(creationDate);
@@ -228,11 +228,11 @@ public class Expense implements Parcelable, InvoiceCell {
         return InvoiceCell.Type.CELL;
     }
 
-    public long getId() {
+    public String getId() {
         return expenseId;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         expenseId = id;
     }
     // endregion

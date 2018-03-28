@@ -11,16 +11,21 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "materials")
 public class MaterialEntity {
 
+    public static final String ID = "materialId";
+    public static final String NAME = "name";
+    public static final String IS_ADDED = "isAdded";
+    public static final String STOCK_ENTITY = "stockQuantity";
+
     @DatabaseField(columnName = "currency")
     private String currency;
 
-    @DatabaseField(columnName = "materialId", id = true)
+    @DatabaseField(columnName = ID, id = true)
     private String materialId;
 
     @DatabaseField(columnName = "materialNr")
     private int materialNr;
 
-    @DatabaseField(columnName = "name")
+    @DatabaseField(columnName = NAME)
     private String name;
 
     @DatabaseField(columnName = "pricePerUnit")
@@ -32,7 +37,7 @@ public class MaterialEntity {
     @DatabaseField(columnName = "unitId")
     private String unitId;
 
-    @DatabaseField(columnName = "isAdded", dataType = DataType.BOOLEAN)
+    @DatabaseField(columnName = IS_ADDED, dataType = DataType.BOOLEAN)
     private boolean isAdded = false;
 
     @DatabaseField(columnName = "stockQuantity")
@@ -50,11 +55,11 @@ public class MaterialEntity {
         this.currency = currency;
     }
 
-    public String getId() {
+    public String getMaterialId() {
         return materialId;
     }
 
-    public void setId(String materialId) {
+    public void setMaterialId(String materialId) {
         this.materialId = materialId;
     }
 
@@ -98,11 +103,6 @@ public class MaterialEntity {
         this.unitId = unitId;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
-
     public boolean isAdded() {
         return isAdded;
     }
@@ -115,8 +115,13 @@ public class MaterialEntity {
         return stockQuantity;
     }
 
-    public void setStockQuantity(int count) {
-        this.stockQuantity = count;
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
 }
