@@ -7,8 +7,7 @@ package com.paralect.datasource.core;
 public abstract class EntityRequestImpl<IN, EX, P> implements EntityRequest<IN, EX, P> {
 
     private P mParameter;
-    private IN mInternalEntity;
-    private EX mExternalEntity;
+    private IN mEntity;
 
     @Override
     public void setParameter(P parameter) {
@@ -21,23 +20,13 @@ public abstract class EntityRequestImpl<IN, EX, P> implements EntityRequest<IN, 
     }
 
     @Override
-    public void setInternalEntity(IN internalEntity) {
-        mInternalEntity = internalEntity;
+    public void setEntity(IN internalEntity) {
+        mEntity = internalEntity;
     }
 
     @Override
-    public IN getInternalEntity() {
-        return mInternalEntity;
-    }
-
-    @Override
-    public void setExternalEntity(EX externalEntity) {
-        mExternalEntity = externalEntity;
-    }
-
-    @Override
-    public EX getExternalEntity() {
-        return mExternalEntity;
+    public IN getEntity() {
+        return mEntity;
     }
 
 }

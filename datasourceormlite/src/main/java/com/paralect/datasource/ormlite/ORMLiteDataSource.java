@@ -45,7 +45,7 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
         Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
         QueryBuilder<EX, ?> param = (QueryBuilder<EX, ?>) request.getParameter();
         EX entity = dao.query(param.prepare()).get(0);
-        IN result = request.toInner(entity);
+        IN result = request.toInnerEntity(entity);
         return result;
     }
 
@@ -55,7 +55,7 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
         List<EX> entities = param.query();
         List<IN> list = new ArrayList<>();
         for (EX entity : entities) {
-            IN result = request.toInner(entity);
+            IN result = request.toInnerEntity(entity);
             list.add(result);
         }
         return list;
@@ -64,21 +64,21 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
     @Override
     public <IN, EX> void save(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
         Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
-        EX entity = request.toExternal(request.getInternalEntity());
+        EX entity = request.toExternalEntity(request.getEntity());
         dao.createOrUpdate(entity);
     }
 
     @Override
     public <IN, EX> void update(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
         Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
-        EX entity = request.toExternal(request.getInternalEntity());
+        EX entity = request.toExternalEntity(request.getEntity());
         dao.update(entity);
     }
 
     @Override
     public <IN, EX> void delete(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
         Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
-        EX entity = request.toExternal(request.getInternalEntity());
+        EX entity = request.toExternalEntity(request.getEntity());
         dao.delete(entity);
     }
     // endregion
