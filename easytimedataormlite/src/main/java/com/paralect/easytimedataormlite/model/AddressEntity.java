@@ -13,7 +13,7 @@ public class AddressEntity {
     public static final String ID = "addressId";
 
     @DatabaseField(columnName = ID, generatedId = true)
-    private String addressId;
+    private long addressId;
     @DatabaseField(columnName = "city")
     private String city;
     @DatabaseField(columnName = "country")
@@ -29,11 +29,11 @@ public class AddressEntity {
 
     }
 
-    public String getAddressId() {
+    public long getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(String addressId) {
+    public void setAddressId(long addressId) {
         this.addressId = addressId;
     }
 

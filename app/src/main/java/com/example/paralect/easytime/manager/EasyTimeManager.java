@@ -86,6 +86,10 @@ public final class EasyTimeManager {
             dataSource = new DatabaseHelperORMLite(EasyTimeApplication.getContext());
     }
 
+    public DatabaseHelperORMLite getDataSource() {
+        return dataSource;
+    }
+
     public void updateJob(Job job) {
         try {
             @ProjectType.Type int projectType = job.getProjectType();

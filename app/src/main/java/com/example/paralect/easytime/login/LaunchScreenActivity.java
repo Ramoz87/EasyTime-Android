@@ -15,6 +15,7 @@ import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.JobWithAddress;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.Order;
@@ -25,7 +26,20 @@ import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.FakeCreator;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TinyDB;
+import com.j256.ormlite.dao.Dao;
+import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
+import com.paralect.easytimedataormlite.model.CustomerEntity;
+import com.paralect.easytimedataormlite.model.MaterialEntity;
+import com.paralect.easytimedataormlite.model.ObjectEntity;
+import com.paralect.easytimedataormlite.model.OrderEntity;
+import com.paralect.easytimedataormlite.model.ProjectEntity;
+import com.paralect.easytimedataormlite.model.TypeEntity;
+import com.paralect.easytimedataormlite.model.UserEntity;
+import com.paralect.easytimedataormlite.request.AddressRequest;
+import com.paralect.easytimedataormlite.request.ContactRequest;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -111,52 +125,57 @@ public class LaunchScreenActivity extends Activity {
         final String orderCSVPath = "db/orders.csv";
         final String projectCSVPath = "db/projects.csv";
 
-        fillData(fakeCreator, userCSVPath, User.class);
-        fillData(fakeCreator, typeCSVPath, Type.class);
-        fillData(fakeCreator, customerCSVPath, Customer.class);
-        fillData(fakeCreator, materialCSVPath, Material.class);
-        fillData(fakeCreator, objectCSVPath, Object.class);
-        fillData(fakeCreator, orderCSVPath, Order.class);
-        fillData(fakeCreator, projectCSVPath, Project.class);
+        fillData(fakeCreator, userCSVPath, UserEntity.class);
+        fillData(fakeCreator, typeCSVPath, TypeEntity.class);
+        fillData(fakeCreator, customerCSVPath, CustomerEntity.class);
+        fillData(fakeCreator, materialCSVPath, MaterialEntity.class);
+        fillData(fakeCreator, objectCSVPath, ObjectEntity.class);
+        fillData(fakeCreator, orderCSVPath, OrderEntity.class);
+        fillData(fakeCreator, projectCSVPath, ProjectEntity.class);
     }
 
 
     private <E> void fillData(FakeCreator fakeCreator, String csvPath, Class<E> clazz) {
-//        try {
-//            List<E> items = fakeCreator.parse(csvPath, clazz);
-//            Dao<E, String> dao = EasyTimeManager.getInstance().getHelper().getDao(clazz);
-//            Log.d(TAG, String.format("===// %s //===", clazz.getSimpleName()));
-//
-//            Dao<Address, Long> addressDao = EasyTimeManager.getInstance().getHelper().getAddressDao();
-//            for (E item : items) {
-//                Log.d(TAG, item.toString());
-//
-//                if (item instanceof JobWithAddress) {
-//                    JobWithAddress job = (JobWithAddress) item;
-//                    Address address = job.getAddress();
-//                    addressDao.create(address);
-//                    job.setAddressId(address.getAddressId());
-//                }
-//
-//                if (item instanceof Customer) {
-//                    Dao<Contact, Long> contactDao = EasyTimeManager.getInstance().getHelper().getContactDao();
-//                    Customer customer = (Customer) item;
-//                    List<Contact> contacts = customer.getContacts();
-//                    for (Contact contact : contacts) {
-//                        Log.d(TAG, "ContactEntity: " + contact);
-//                        contactDao.create(contact);
-//                    }
-//                    Address address = customer.getAddress();
-//                    addressDao.create(address);
-//                    customer.setAddressId(address.getAddressId());
-//                }
-//                dao.createOrUpdate(item);
-//            }
-//            Log.d(TAG, "filled " + clazz.getSimpleName() + " class");
-//        } catch (IOException | SQLException e) {
-//            Logger.e(TAG, e.getMessage());
-//            throw new RuntimeException(e);
-//        }
+        try {
+            DatabaseHelperORMLite helper = EasyTimeManager.getInstance().getDataSource();
+            List<E> items = fakeCreator.parse(csvPath, clazz);
+            Dao<E, String> dao = helper.getDao(clazz);
+            Log.d(TAG, String.format("===// %s //===", clazz.getSimpleName()));
+
+            AddressRequest addressRequest = new AddressRequest();
+            for (E item : items) {
+                Log.d(TAG, item.toString());
+
+                if (item instanceof JobWithAddress) {
+                    JobWithAddress job = (JobWithAddress) item;
+                    Address address = job.getAddress();
+                    addressRequest.setEntity(address);
+                    helper.save(addressRequest);
+                    job.setAddressId(address.getAddressId());
+                }
+
+                if (item instanceof Customer) {
+
+                    ContactRequest contactRequest = new ContactRequest();
+                    Customer customer = (Customer) item;
+                    List<Contact> contacts = customer.getContacts();
+                    for (Contact contact : contacts) {
+                        Log.d(TAG, "ContactEntity: " + contact);
+                        contactRequest.setEntity(contact);
+                        helper.save(contactRequest);
+                    }
+                    Address address = customer.getAddress();
+                    addressRequest.setEntity(address);
+                    helper.save(addressRequest);
+                    customer.setAddressId(address.getAddressId());
+                }
+                dao.createOrUpdate(item);
+            }
+            Log.d(TAG, "filled " + clazz.getSimpleName() + " class");
+        } catch (IOException | SQLException e) {
+            Logger.e(TAG, e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     private FakeCreator getDefaultFakeCreator() {
