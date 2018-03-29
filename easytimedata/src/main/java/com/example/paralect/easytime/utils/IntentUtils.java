@@ -11,8 +11,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import static com.example.paralect.easytime.EasyTimeApplication.getContext;
-
 /**
  * Created by Oleg Tarashkevich on 12/01/2018.
  */

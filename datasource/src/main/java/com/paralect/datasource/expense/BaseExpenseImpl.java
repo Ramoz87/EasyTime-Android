@@ -8,18 +8,18 @@ import java.util.Date;
 
 public class BaseExpenseImpl implements BaseExpense {
 
-    protected long id;
+    protected String id;
     protected String name;
     protected long value;
     protected long creationDate;
 
     @Override
-    public long getId() {
+    public String getId() {
         return id;
     }
 
     @Override
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

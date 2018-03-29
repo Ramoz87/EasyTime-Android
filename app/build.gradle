@@ -67,7 +67,6 @@ dependencies {
     annotationProcessor deps.butterKnifeCompiler
 
     implementation deps.gson
-    implementation deps.opencsv
     implementation deps.ormlite
 
     implementation deps.rxJava

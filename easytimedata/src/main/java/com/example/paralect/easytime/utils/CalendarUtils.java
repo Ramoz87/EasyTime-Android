@@ -4,12 +4,14 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
 
-import com.example.paralect.easytime.R;
+import com.paralect.easytimemodel.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,9 +20,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
-import io.reactivex.annotations.NonNull;
-import io.reactivex.annotations.Nullable;
 
 import static com.example.paralect.easytime.model.Constants.EUROPE_DATE_PATTERN;
 import static com.example.paralect.easytime.model.Constants.LONG_DATE_PATTERN;
@@ -55,7 +54,7 @@ public final class CalendarUtils {
     }
 
     public static SpannableString getSpannableDateString(@NonNull Context context, Calendar calendar) {
-        return getSpannableDateString(context, calendar, R.color.white);
+        return getSpannableDateString(context, calendar, android.R.color.white);
     }
 
     public static SpannableString getSpannableDateString(@NonNull Context context, Calendar calendar, @ColorRes int colorId) {
