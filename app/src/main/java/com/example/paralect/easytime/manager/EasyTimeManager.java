@@ -21,11 +21,6 @@ import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.ExpenseUtil;
 import com.example.paralect.easytime.utils.Logger;
-//import com.j256.ormlite.dao.Dao;
-//import com.j256.ormlite.stmt.QueryBuilder;
-//import com.j256.ormlite.stmt.UpdateBuilder;
-//import com.j256.ormlite.stmt.Where;
-import com.paralect.datasource.core.EntityRequest;
 import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
 import com.paralect.easytimedataormlite.model.FileEntity;
 import com.paralect.easytimedataormlite.model.JobEntity;
@@ -45,13 +40,11 @@ import com.paralect.easytimedataormlite.request.UserRequest;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
-import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
 import static com.paralect.easytimedataormlite.model.ExpenseEntity.EXPENSE_ID;
 
 /**
@@ -166,18 +159,6 @@ public final class EasyTimeManager {
             return null;
         }
     }
-
-//    public Type getStatus(Job job) {
-//        try {
-//            Dao<Type, String> dao = dataSource.getTypeDao();
-//            List<Type> results = dao.queryBuilder().where().idEq(job.getStatusId()).query();
-//            if (!CollectionUtil.isEmpty(results)) return results.get(0);
-//            else return null;
-//        } catch (SQLException exc) {
-//            Logger.e(exc);
-//            return null;
-//        }
-//    }
 
     // region Jobs
     public List<Job> getAllJobs() {
