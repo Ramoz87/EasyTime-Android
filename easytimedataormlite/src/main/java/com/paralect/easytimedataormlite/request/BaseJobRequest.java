@@ -8,6 +8,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.paralect.easytimedataormlite.model.CustomerEntity;
 import com.paralect.easytimedataormlite.model.JobEntity;
 
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMA
  * Created by Oleg Tarashkevich on 27/03/2018.
  */
 
-abstract class BaseJobRequest<IN extends Job, EX extends JobEntity> extends BaseRequest<IN, EX> {
+public abstract class BaseJobRequest<IN extends Job, EX extends JobEntity> extends BaseRequest<IN, EX> {
 
     void populateInternalEntity(Job in, JobEntity ex) {
         if (in != null && ex != null) {
@@ -69,7 +70,7 @@ abstract class BaseJobRequest<IN extends Job, EX extends JobEntity> extends Base
 
         Where where = null;
         if (hasCustomerId) {
-            where = qb.where().eq("customerId", customerId);
+            where = qb.where().eq(CustomerEntity.ID, customerId);
         }
 
         if (hasQuery) {
@@ -87,6 +88,13 @@ abstract class BaseJobRequest<IN extends Job, EX extends JobEntity> extends Base
 
             where.le("date", time.getTime());
         }
+        setParameter(qb);
+    }
+
+    public void queryCountForCustomers(OrmLiteSqliteOpenHelper helper, String customerId) throws SQLException {
+        Dao<IN, ?> dao = helper.getDao(getInnerEntityClazz());
+        QueryBuilder<IN, ?> qb = dao.queryBuilder();
+        qb.where().eq(CustomerEntity.ID, customerId);
         setParameter(qb);
     }
 }

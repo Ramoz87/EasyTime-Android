@@ -80,47 +80,47 @@ public class DatabaseHelperORMLite extends ORMLiteDataSource {
         super.close();
     }
 
-    public Dao<AddressEntity, Long> getAddressDao() throws SQLException {
-        return getDao(AddressEntity.class);
-    }
-
-    public Dao<UserEntity, String> getUserDao() throws SQLException {
-        return getDao(UserEntity.class);
-    }
-
-    public Dao<TypeEntity, String> getTypeDao() throws SQLException {
-        return getDao(TypeEntity.class);
-    }
-
-    public Dao<ExpenseEntity, Long> getExpenseDao() throws SQLException {
-        return getDao(ExpenseEntity.class);
-    }
-
-    public Dao<CustomerEntity, String> getCustomerDao() throws SQLException {
-        return getDao(CustomerEntity.class);
-    }
-
-    public Dao<MaterialEntity, String> getMaterialDao() throws SQLException {
-        return getDao(MaterialEntity.class);
-    }
-
-    public Dao<Object, String> getObjectDao() throws SQLException {
-        return getDao(Object.class);
-    }
-
-    public Dao<OrderEntity, String> getOrderDao() throws SQLException {
-        return getDao(OrderEntity.class);
-    }
-
-    public Dao<ProjectEntity, String> getProjectDao() throws SQLException {
-        return getDao(ProjectEntity.class);
-    }
-
-    public Dao<FileEntity, Long> getFileDao() throws SQLException {
-        return getDao(FileEntity.class);
-    }
-
-    public Dao<ContactEntity, Long> getContactDao() throws SQLException {
-        return getDao(ContactEntity.class);
-    }
+//    public Dao<AddressEntity, Long> getAddressDao() throws SQLException {
+//        return getDao(AddressEntity.class);
+//    }
+//
+//    public Dao<UserEntity, String> getUserDao() throws SQLException {
+//        return getDao(UserEntity.class);
+//    }
+//
+//    public Dao<TypeEntity, String> getTypeDao() throws SQLException {
+//        return getDao(TypeEntity.class);
+//    }
+//
+//    public Dao<ExpenseEntity, Long> getExpenseDao() throws SQLException {
+//        return getDao(ExpenseEntity.class);
+//    }
+//
+//    public Dao<CustomerEntity, String> getCustomerDao() throws SQLException {
+//        return getDao(CustomerEntity.class);
+//    }
+//
+//    public Dao<MaterialEntity, String> getMaterialDao() throws SQLException {
+//        return getDao(MaterialEntity.class);
+//    }
+//
+//    public Dao<Object, String> getObjectDao() throws SQLException {
+//        return getDao(Object.class);
+//    }
+//
+//    public Dao<OrderEntity, String> getOrderDao() throws SQLException {
+//        return getDao(OrderEntity.class);
+//    }
+//
+//    public Dao<ProjectEntity, String> getProjectDao() throws SQLException {
+//        return getDao(ProjectEntity.class);
+//    }
+//
+//    public Dao<FileEntity, Long> getFileDao() throws SQLException {
+//        return getDao(FileEntity.class);
+//    }
+//
+//    public Dao<ContactEntity, Long> getContactDao() throws SQLException {
+//        return getDao(ContactEntity.class);
+//    }
 }

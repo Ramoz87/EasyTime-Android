@@ -81,6 +81,13 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
         EX entity = request.toExternalEntity(request.getEntity());
         dao.delete(entity);
     }
+
+    public <IN, EX> long count(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
+        QueryBuilder<EX, ?> param = (QueryBuilder<EX, ?>) request.getParameter();
+        param.setCountOf(true);
+        Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
+        return dao.countOf(param.prepare());
+    }
     // endregion
 
 }

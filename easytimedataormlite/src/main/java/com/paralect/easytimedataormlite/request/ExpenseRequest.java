@@ -16,11 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
-import static com.paralect.easytimedataormlite.model.ExpenseEntity.CREATION_DATE;
-import static com.paralect.easytimedataormlite.model.ExpenseEntity.EXPENSE_ID;
-import static com.paralect.easytimedataormlite.model.ExpenseEntity.JOB_ID;
-import static com.paralect.easytimedataormlite.model.ExpenseEntity.NAME;
-import static com.paralect.easytimedataormlite.model.ExpenseEntity.TYPE;
 
 /**
  * Created by Oleg Tarashkevich on 22/03/2018.
@@ -74,7 +69,7 @@ public class ExpenseRequest extends BaseRequest<Expense, ExpenseEntity> {
 
     // region Requests
     public void queryForLast(OrmLiteSqliteOpenHelper helper) throws SQLException {
-        queryForLast(helper, EXPENSE_ID);
+        queryForLast(helper, ExpenseEntity.EXPENSE_ID);
     }
 
     /**
@@ -92,13 +87,13 @@ public class ExpenseRequest extends BaseRequest<Expense, ExpenseEntity> {
         Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
         QueryBuilder<ExpenseEntity, ?> parameter = dao.queryBuilder();
 
-        Where where = parameter.where().eq(JOB_ID, jobId);
+        Where where = parameter.where().eq(ExpenseEntity.JOB_ID, jobId);
 
         if (!TextUtils.isEmpty(searchQuery))
-            where.and().like(NAME, "%" + searchQuery + "%");
+            where.and().like(ExpenseEntity.NAME, "%" + searchQuery + "%");
 
         if (!TextUtils.isEmpty(expenseType))
-            where.and().eq(TYPE, expenseType);
+            where.and().eq(ExpenseEntity.TYPE, expenseType);
 
         setParameter(parameter);
         return this;
@@ -110,7 +105,7 @@ public class ExpenseRequest extends BaseRequest<Expense, ExpenseEntity> {
         Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
         QueryBuilder<ExpenseEntity, ?> qb = dao.queryBuilder();
 
-        Where where = qb.where().eq(JOB_ID, jobId);
+        Where where = qb.where().eq(ExpenseEntity.JOB_ID, jobId);
         if (hasDate) {
 
             Date time = ExpenseUtil.dateFromString(date, SHORT_DATE_FORMAT);
@@ -124,10 +119,17 @@ public class ExpenseRequest extends BaseRequest<Expense, ExpenseEntity> {
 
             long beforeTime = yesterday.getTimeInMillis();
             long afterTime = tomorrow.getTimeInMillis();
-            where.and().between(CREATION_DATE, beforeTime, afterTime);
+            where.and().between(ExpenseEntity.CREATION_DATE, beforeTime, afterTime);
 
         }
-        qb.orderBy(CREATION_DATE, false);
+        qb.orderBy(ExpenseEntity.CREATION_DATE, false);
+        setParameter(qb);
+    }
+
+    public void queryCountForJobs(OrmLiteSqliteOpenHelper helper, String jobId) throws SQLException {
+        Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
+        QueryBuilder<ExpenseEntity, ?> qb = dao.queryBuilder();
+        qb.where().eq(ExpenseEntity.JOB_ID, jobId);
         setParameter(qb);
     }
     // endregion

@@ -24,18 +24,24 @@ public abstract class BaseRequest<IN, EX> extends EntityRequestImpl<IN, EX, Quer
 
     public void queryForLast(OrmLiteSqliteOpenHelper helper, String orderByFieldName) throws SQLException {
         Dao<EX, ?> dao = helper.getDao(getExternalEntityClazz());
-        QueryBuilder<EX, ?> query = dao.queryBuilder()
+        QueryBuilder<EX, ?> qb = dao.queryBuilder()
                 .orderBy(orderByFieldName, false)
                 .limit(1L);
-        setParameter(query);
+        setParameter(qb);
     }
 
     public void queryForFirst(OrmLiteSqliteOpenHelper helper, String orderByFieldName) throws SQLException {
         Dao<EX, ?> dao = helper.getDao(getExternalEntityClazz());
-        QueryBuilder<EX, ?> query = dao.queryBuilder()
+        QueryBuilder<EX, ?> qb = dao.queryBuilder()
                 .orderBy(orderByFieldName, true)
                 .limit(1L);
-        setParameter(query);
+        setParameter(qb);
+    }
+
+    public void queryForAll(OrmLiteSqliteOpenHelper helper)throws SQLException{
+        Dao<EX, ?> dao = helper.getDao(getExternalEntityClazz());
+        QueryBuilder<EX, ?> qb = dao.queryBuilder();
+        setParameter(qb);
     }
 
 //    public void deleteWhere(OrmLiteSqliteOpenHelper helper, String name, String value) throws SQLException {

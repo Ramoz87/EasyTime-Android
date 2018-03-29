@@ -14,7 +14,7 @@ public class JobEntity {
     @DatabaseField(columnName = "currency")
     private String currency;
 
-    @DatabaseField(columnName = "customerId")
+    @DatabaseField(columnName = CustomerEntity.ID)
     private String customerId;
 
     @DatabaseField(columnName = "date")
