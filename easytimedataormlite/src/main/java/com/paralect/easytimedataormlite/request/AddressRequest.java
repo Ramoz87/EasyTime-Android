@@ -2,6 +2,7 @@ package com.paralect.easytimedataormlite.request;
 
 import com.example.paralect.easytime.model.Address;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.paralect.datasource.ormlite.ORMLiteRequest;
 import com.paralect.easytimedataormlite.model.AddressEntity;
 
 import java.sql.SQLException;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class AddressRequest extends BaseRequest<AddressEntity, Address> {
+public class AddressRequest extends ORMLiteRequest<AddressEntity, Address> {
 
     @Override
     public Address toAppEntity(AddressEntity ex) {

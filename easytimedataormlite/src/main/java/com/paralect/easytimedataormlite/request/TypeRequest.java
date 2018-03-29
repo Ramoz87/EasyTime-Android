@@ -6,6 +6,7 @@ import com.example.paralect.easytime.model.Type;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.paralect.datasource.ormlite.ORMLiteRequest;
 import com.paralect.easytimedataormlite.model.TypeEntity;
 
 import java.sql.SQLException;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class TypeRequest extends BaseRequest<TypeEntity, Type> {
+public class TypeRequest extends ORMLiteRequest<TypeEntity, Type> {
 
     @Override
     public Type toAppEntity(TypeEntity ex) {

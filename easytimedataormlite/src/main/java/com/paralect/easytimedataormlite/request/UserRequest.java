@@ -2,6 +2,7 @@ package com.paralect.easytimedataormlite.request;
 
 import com.example.paralect.easytime.model.User;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.paralect.datasource.ormlite.ORMLiteRequest;
 import com.paralect.easytimedataormlite.model.UserEntity;
 
 import java.sql.SQLException;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class UserRequest extends BaseRequest<UserEntity, User> {
+public class UserRequest extends ORMLiteRequest<UserEntity, User> {
 
     @Override
     public User toAppEntity(UserEntity ex) {

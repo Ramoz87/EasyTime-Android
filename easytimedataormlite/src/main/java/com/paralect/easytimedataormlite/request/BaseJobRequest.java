@@ -8,6 +8,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.paralect.datasource.ormlite.ORMLiteRequest;
 import com.paralect.easytimedataormlite.model.CustomerEntity;
 import com.paralect.easytimedataormlite.model.JobEntity;
 
@@ -20,7 +21,7 @@ import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMA
  * Created by Oleg Tarashkevich on 27/03/2018.
  */
 
-public abstract class BaseJobRequest<DS extends JobEntity, AP extends Job> extends BaseRequest<DS, AP> {
+public abstract class BaseJobRequest<DS extends JobEntity, AP extends Job> extends ORMLiteRequest<DS, AP> {
 
     void populateInternalEntity(Job in, JobEntity ex) {
         if (in != null && ex != null) {

@@ -9,6 +9,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import com.paralect.datasource.ormlite.ORMLiteRequest;
 import com.paralect.easytimedataormlite.model.ExpenseEntity;
 
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMA
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class ExpenseRequest extends BaseRequest<ExpenseEntity, Expense> {
+public class ExpenseRequest extends ORMLiteRequest<ExpenseEntity, Expense> {
 
     @Override
     public Expense toAppEntity(ExpenseEntity ex) {

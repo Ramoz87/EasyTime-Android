@@ -4,6 +4,7 @@ import com.example.paralect.easytime.model.Customer;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.paralect.datasource.ormlite.ORMLiteRequest;
 import com.paralect.easytimedataormlite.model.CustomerEntity;
 
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class CustomerRequest extends BaseRequest<CustomerEntity, Customer> {
+public class CustomerRequest extends ORMLiteRequest<CustomerEntity, Customer> {
 
     @Override
     public Customer toAppEntity(CustomerEntity ex) {

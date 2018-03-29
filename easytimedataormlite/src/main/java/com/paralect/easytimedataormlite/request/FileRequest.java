@@ -2,6 +2,7 @@ package com.paralect.easytimedataormlite.request;
 
 import com.example.paralect.easytime.model.File;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.paralect.datasource.ormlite.ORMLiteRequest;
 import com.paralect.easytimedataormlite.model.FileEntity;
 
 import java.sql.SQLException;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class FileRequest extends BaseRequest<FileEntity, File> {
+public class FileRequest extends ORMLiteRequest<FileEntity, File> {
 
     @Override
     public File toAppEntity(FileEntity ex) {

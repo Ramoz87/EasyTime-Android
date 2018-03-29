@@ -1,11 +1,11 @@
 package com.paralect.easytimedataormlite.request;
 
 import com.example.paralect.easytime.model.Material;
-import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
+import com.paralect.datasource.ormlite.ORMLiteRequest;
 import com.paralect.easytimedataormlite.model.MaterialEntity;
 
 import java.sql.SQLException;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class MaterialRequest extends BaseRequest<MaterialEntity, Material> {
+public class MaterialRequest extends ORMLiteRequest<MaterialEntity, Material> {
 
     @Override
     public Material toAppEntity(MaterialEntity ex) {

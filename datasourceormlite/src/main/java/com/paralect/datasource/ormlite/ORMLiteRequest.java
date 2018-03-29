@@ -1,4 +1,4 @@
-package com.paralect.easytimedataormlite.request;
+package com.paralect.datasource.ormlite;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 27/03/2018.
  */
 
-public abstract class BaseRequest<DS, AP> extends EntityRequestImpl<DS, AP, PreparedStmt<?>> {
+public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, PreparedStmt<?>> {
 
     public <ID> void  queryWhere(OrmLiteSqliteOpenHelper helper, String name, ID value) throws SQLException {
         Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
