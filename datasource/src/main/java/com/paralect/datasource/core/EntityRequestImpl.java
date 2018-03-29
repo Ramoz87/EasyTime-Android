@@ -4,10 +4,10 @@ package com.paralect.datasource.core;
  * Created by Oleg Tarashkevich on 23/03/2018.
  */
 
-public abstract class EntityRequestImpl<IN, EX, P> implements EntityRequest<IN, EX, P> {
+public abstract class EntityRequestImpl<DS, AP, P> implements EntityRequest<DS, AP, P> {
 
     private P mParameter;
-    private IN mEntity;
+    private AP mEntity;
 
     @Override
     public void setParameter(P parameter) {
@@ -20,13 +20,12 @@ public abstract class EntityRequestImpl<IN, EX, P> implements EntityRequest<IN, 
     }
 
     @Override
-    public void setEntity(IN internalEntity) {
-        mEntity = internalEntity;
+    public void setEntity(AP dsEntity) {
+        mEntity = dsEntity;
     }
 
     @Override
-    public IN getEntity() {
+    public AP getEntity() {
         return mEntity;
     }
-
 }

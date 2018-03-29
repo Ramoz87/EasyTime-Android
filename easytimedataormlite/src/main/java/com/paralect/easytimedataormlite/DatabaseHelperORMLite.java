@@ -10,6 +10,7 @@ import com.paralect.easytimedataormlite.model.CustomerEntity;
 import com.paralect.easytimedataormlite.model.ExpenseEntity;
 import com.paralect.easytimedataormlite.model.FileEntity;
 import com.paralect.easytimedataormlite.model.MaterialEntity;
+import com.paralect.easytimedataormlite.model.ObjectEntity;
 import com.paralect.easytimedataormlite.model.OrderEntity;
 import com.paralect.easytimedataormlite.model.ProjectEntity;
 import com.paralect.easytimedataormlite.model.TypeEntity;
@@ -43,7 +44,7 @@ public class DatabaseHelperORMLite extends ORMLiteDataSource {
             TableUtils.createTableIfNotExists(connectionSource, TypeEntity.class);
             TableUtils.createTableIfNotExists(connectionSource, CustomerEntity.class);
             TableUtils.createTableIfNotExists(connectionSource, MaterialEntity.class);
-            TableUtils.createTableIfNotExists(connectionSource, Object.class);
+            TableUtils.createTableIfNotExists(connectionSource, ObjectEntity.class);
             TableUtils.createTableIfNotExists(connectionSource, OrderEntity.class);
             TableUtils.createTableIfNotExists(connectionSource, ProjectEntity.class);
             TableUtils.createTableIfNotExists(connectionSource, FileEntity.class);
@@ -62,7 +63,7 @@ public class DatabaseHelperORMLite extends ORMLiteDataSource {
             TableUtils.dropTable(connectionSource, TypeEntity.class, true);
             TableUtils.dropTable(connectionSource, CustomerEntity.class, true);
             TableUtils.dropTable(connectionSource, MaterialEntity.class, true);
-            TableUtils.dropTable(connectionSource, Object.class, true);
+            TableUtils.dropTable(connectionSource, ObjectEntity.class, true);
             TableUtils.dropTable(connectionSource, OrderEntity.class, true);
             TableUtils.dropTable(connectionSource, ProjectEntity.class, true);
             TableUtils.dropTable(connectionSource, FileEntity.class, true);

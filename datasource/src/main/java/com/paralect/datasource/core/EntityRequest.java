@@ -5,22 +5,22 @@ package com.paralect.datasource.core;
  */
 
 /**
- * @param <IN> Internal, entity of data source
- * @param <EX> External, entity of application
+ * @param <DS> Entity of data source
+ * @param <AP> Entity of application
  * @param <P>  Parameter for communication with data source
  */
-public interface EntityRequest<IN, EX, P> {
+public interface EntityRequest<DS, AP, P> {
 
     // region Conversion
-    IN toInternalEntity(EX ex);
+    AP toAppEntity(DS ds);
 
-    EX toExternalEntity(IN in);
+    DS toDataSourceEntity(AP ap);
     // endregion
 
     // region Classes
-    Class<IN> getInnerEntityClazz();
+    Class<DS> getDataSourceEntityClazz();
 
-    Class<EX> getExternalEntityClazz();
+    Class<AP> getAppEntityClazz();
     // endregion
 
     // region Getters & Setters
@@ -28,9 +28,9 @@ public interface EntityRequest<IN, EX, P> {
 
     P getParameter();
 
-    void setEntity(IN innerEntity);
+    void setEntity(AP dsEntity);
 
-    IN getEntity();
+    AP getEntity();
     // endregion
 
 }

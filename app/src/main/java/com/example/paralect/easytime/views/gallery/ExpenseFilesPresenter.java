@@ -50,7 +50,7 @@ final class ExpenseFilesPresenter extends FilesPresenter<File, Expense> {
     void setExpense(Expense expense) {
         try {
             if (file != null) {
-                file.setExpenseId(expense.getId());
+                file.setExpenseId(expense.getExpenseId());
                 file = EasyTimeManager.getInstance().saveFileAndGet(file);
             }
             Logger.d("file saved");

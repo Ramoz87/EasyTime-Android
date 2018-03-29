@@ -21,50 +21,48 @@ import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMA
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class ExpenseRequest extends BaseRequest<Expense, ExpenseEntity> {
+public class ExpenseRequest extends BaseRequest<ExpenseEntity, Expense> {
 
     @Override
-    public Expense toInternalEntity(ExpenseEntity ex) {
+    public Expense toAppEntity(ExpenseEntity ex) {
+        if (ex == null) return null;
         Expense in = new Expense();
-        if (ex != null) {
-            in.setId(ex.getId());
-            in.setName(ex.getName());
-            in.setValue(ex.getValue());
-            in.setCreationDate(ex.getCreationDate());
-            in.setType(ex.getType());
-            in.setDiscount(ex.getDiscount());
-            in.setJobId(ex.getJobId());
-            in.setMaterialId(ex.getMaterialId());
-            in.setWorkTypeId(ex.getWorkTypeId());
-        }
+        in.setExpenseId(ex.getExpenseId());
+        in.setName(ex.getName());
+        in.setValue(ex.getValue());
+        in.setCreationDate(ex.getCreationDate());
+        in.setType(ex.getType());
+        in.setDiscount(ex.getDiscount());
+        in.setJobId(ex.getJobId());
+        in.setMaterialId(ex.getMaterialId());
+        in.setWorkTypeId(ex.getWorkTypeId());
         return in;
     }
 
     @Override
-    public ExpenseEntity toExternalEntity(Expense in) {
+    public ExpenseEntity toDataSourceEntity(Expense in) {
+        if (in == null) return null;
         ExpenseEntity ex = new ExpenseEntity();
-        if (in != null) {
-            ex.setId(in.getId());
-            ex.setName(in.getName());
-            ex.setValue(in.getValue());
-            ex.setCreationDate(in.getCreationDate());
-            ex.setType(in.getType());
-            ex.setDiscount(in.getDiscount());
-            ex.setJobId(in.getJobId());
-            ex.setMaterialId(in.getMaterialId());
-            ex.setWorkTypeId(in.getWorkTypeId());
-        }
+        ex.setExpenseId(in.getExpenseId());
+        ex.setName(in.getName());
+        ex.setValue(in.getValue());
+        ex.setCreationDate(in.getCreationDate());
+        ex.setType(in.getType());
+        ex.setDiscount(in.getDiscount());
+        ex.setJobId(in.getJobId());
+        ex.setMaterialId(in.getMaterialId());
+        ex.setWorkTypeId(in.getWorkTypeId());
         return ex;
     }
 
     @Override
-    public Class<Expense> getInnerEntityClazz() {
-        return Expense.class;
+    public Class<ExpenseEntity> getDataSourceEntityClazz() {
+        return ExpenseEntity.class;
     }
 
     @Override
-    public Class<ExpenseEntity> getExternalEntityClazz() {
-        return ExpenseEntity.class;
+    public Class<Expense> getAppEntityClazz() {
+        return Expense.class;
     }
 
     // region Requests

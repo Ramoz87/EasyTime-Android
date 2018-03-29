@@ -15,7 +15,7 @@ public class Customer implements Parcelable {
     private String customerId;
     private String firstName;
     private String lastName;
-    private String addressId;
+    private long addressId;
 
     private Address address;
     private List<Contact> contacts;
@@ -29,7 +29,7 @@ public class Customer implements Parcelable {
         customerId = in.readString();
         firstName = in.readString();
         lastName = in.readString();
-        addressId = in.readString();
+        addressId = in.readLong();
         address = in.readParcelable(Address.class.getClassLoader());
         contacts = in.createTypedArrayList(Contact.CREATOR);
     }
@@ -40,7 +40,7 @@ public class Customer implements Parcelable {
         dest.writeString(customerId);
         dest.writeString(firstName);
         dest.writeString(lastName);
-        dest.writeString(addressId);
+        dest.writeLong(addressId);
         dest.writeParcelable(address, flags);
         dest.writeTypedList(contacts);
     }
@@ -115,11 +115,11 @@ public class Customer implements Parcelable {
         return firstName + " " + lastName;
     }
 
-    public String getAddressId() {
+    public long getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(String addressId) {
+    public void setAddressId(long addressId) {
         this.addressId = addressId;
     }
 }

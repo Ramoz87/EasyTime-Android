@@ -12,7 +12,7 @@ public class JobWithAddress extends Job implements Parcelable {
     private String addressString;
     private String cityString;
     private String zipString;
-    private String addressId;
+    private long addressId;
 
     private Address address;
 
@@ -26,7 +26,7 @@ public class JobWithAddress extends Job implements Parcelable {
         cityString = in.readString();
         zipString = in.readString();
         address = in.readParcelable(Address.class.getClassLoader());
-        addressId = in.readString();
+        addressId = in.readLong();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class JobWithAddress extends Job implements Parcelable {
         parcel.writeString(cityString);
         parcel.writeString(zipString);
         parcel.writeParcelable(address, i);
-        parcel.writeString(addressId);
+        parcel.writeLong(addressId);
     }
 
     public static final Creator<JobWithAddress> CREATOR = new Creator<JobWithAddress>() {
@@ -94,11 +94,11 @@ public class JobWithAddress extends Job implements Parcelable {
         else return super.toString() + " | " + cityString + " " + addressString;
     }
 
-    public String getAddressId() {
+    public long getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(String addressId) {
+    public void setAddressId(long addressId) {
         this.addressId = addressId;
     }
 }

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class Contact implements Parcelable {
 
-    private String contactId;
+    private long contactId;
     private String email;
     private String fax;
     private String firstName;
@@ -26,7 +26,7 @@ public class Contact implements Parcelable {
     }
 
     protected Contact(Parcel in) {
-        contactId = in.readString();
+        contactId = in.readLong();
         email = in.readString();
         fax = in.readString();
         firstName = in.readString();
@@ -37,7 +37,7 @@ public class Contact implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(contactId);
+        dest.writeLong(contactId);
         dest.writeString(email);
         dest.writeString(fax);
         dest.writeString(firstName);
@@ -63,11 +63,11 @@ public class Contact implements Parcelable {
         }
     };
 
-    public void setContactId(String contactId) {
+    public void setContactId(long contactId) {
         this.contactId = contactId;
     }
 
-    public String getContactId() {
+    public long getContactId() {
         return contactId;
     }
 
@@ -120,7 +120,7 @@ public class Contact implements Parcelable {
 
         for (int i = 0; i < size; i++) {
             Contact contact = new Contact();
-            contact.contactId = UUID.randomUUID().toString();
+            contact.contactId = i;
             contact.email = "mock_" + i + "@gmail.com";
             contact.fax = "+375 456 5464 4654";
             contact.firstName = "Brad";

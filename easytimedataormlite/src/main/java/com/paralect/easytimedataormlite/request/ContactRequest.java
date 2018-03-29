@@ -10,46 +10,44 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class ContactRequest extends BaseRequest<Contact, ContactEntity> {
+public class ContactRequest extends BaseRequest<ContactEntity, Contact> {
 
     @Override
-    public Contact toInternalEntity(ContactEntity ex) {
+    public Contact toAppEntity(ContactEntity ex) {
+        if (ex == null) return null;
         Contact in = new Contact();
-        if (ex != null) {
-            in.setContactId(ex.getContactId());
-            in.setEmail(ex.getEmail());
-            in.setFax(ex.getFax());
-            in.setFirstName(ex.getFirstName());
-            in.setLastName(ex.getLastName());
-            in.setPhone(ex.getPhone());
-            in.setCustomerId(ex.getCustomerId());
-        }
+        in.setContactId(ex.getContactId());
+        in.setEmail(ex.getEmail());
+        in.setFax(ex.getFax());
+        in.setFirstName(ex.getFirstName());
+        in.setLastName(ex.getLastName());
+        in.setPhone(ex.getPhone());
+        in.setCustomerId(ex.getCustomerId());
         return in;
     }
 
     @Override
-    public ContactEntity toExternalEntity(Contact in) {
+    public ContactEntity toDataSourceEntity(Contact in) {
+        if (in == null) return null;
         ContactEntity ex = new ContactEntity();
-        if (in != null) {
-            ex.setContactId(in.getContactId());
-            ex.setEmail(in.getEmail());
-            ex.setFax(in.getFax());
-            ex.setFirstName(in.getFirstName());
-            ex.setLastName(in.getLastName());
-            ex.setPhone(in.getPhone());
-            ex.setCustomerId(in.getCustomerId());
-        }
+        ex.setContactId(in.getContactId());
+        ex.setEmail(in.getEmail());
+        ex.setFax(in.getFax());
+        ex.setFirstName(in.getFirstName());
+        ex.setLastName(in.getLastName());
+        ex.setPhone(in.getPhone());
+        ex.setCustomerId(in.getCustomerId());
         return ex;
     }
 
     @Override
-    public Class<Contact> getInnerEntityClazz() {
-        return Contact.class;
+    public Class<ContactEntity> getDataSourceEntityClazz() {
+        return ContactEntity.class;
     }
 
     @Override
-    public Class<ContactEntity> getExternalEntityClazz() {
-        return ContactEntity.class;
+    public Class<Contact> getAppEntityClazz() {
+        return Contact.class;
     }
 
     public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {

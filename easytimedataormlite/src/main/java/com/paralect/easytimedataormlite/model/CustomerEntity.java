@@ -28,7 +28,7 @@ public class CustomerEntity {
     private String lastName;
 
     @DatabaseField(columnName = "addressId")
-    private String addressId;
+    private long addressId;
 
     private AddressEntity address;
     private List<ContactEntity> contacts;
@@ -90,11 +90,11 @@ public class CustomerEntity {
         return firstName + " " + lastName;
     }
 
-    public String getAddressId() {
+    public long getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(String addressId) {
+    public void setAddressId(long addressId) {
         this.addressId = addressId;
     }
 }

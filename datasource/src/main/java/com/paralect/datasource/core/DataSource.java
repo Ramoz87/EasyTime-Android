@@ -7,21 +7,21 @@ import java.util.List;
  */
 
 /**
- * param <IN> Internal, entity of data source
- * param <EX> External, entity of application
+ * param <DS> Entity of data source
+ * param <AP> Entity of application
  *
  * @param <P> Parameter for communication with data source
  */
 
 public interface DataSource<P> {
 
-    <IN, EX> IN get(EntityRequest<IN, EX, P> request) throws Throwable;
+    <DS, AP> AP get(EntityRequest<DS, AP, P> request) throws Throwable;
 
-    <IN, EX> List<IN> getList(EntityRequest<IN, EX, P> request) throws Throwable;
+    <DS, AP> List<AP> getList(EntityRequest<DS, AP, P> request) throws Throwable;
 
-    <IN, EX> void save(EntityRequest<IN, EX, P> request) throws Throwable;
+    <DS, AP> void save(EntityRequest<DS, AP, P> request) throws Throwable;
 
-    <IN, EX> void update(EntityRequest<IN, EX, P> request) throws Throwable;
+    <DS, AP> void update(EntityRequest<DS, AP, P> request) throws Throwable;
 
-    <IN, EX> void delete(EntityRequest<IN, EX, P> request) throws Throwable;
+    <DS, AP> void delete(EntityRequest<DS, AP, P> request) throws Throwable;
 }

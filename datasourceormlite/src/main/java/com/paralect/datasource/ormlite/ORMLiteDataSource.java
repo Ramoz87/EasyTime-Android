@@ -2,6 +2,7 @@ package com.paralect.datasource.ormlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
@@ -41,52 +43,56 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
 
     // region Synchronous access
     @Override
-    public <IN, EX> IN get(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
-        Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
-        QueryBuilder<EX, ?> param = (QueryBuilder<EX, ?>) request.getParameter();
-        EX entity = dao.query(param.prepare()).get(0);
-        IN result = request.toInternalEntity(entity);
+    public <DS, AP> AP get(EntityRequest<DS, AP, QueryBuilder<?, ?>> request) throws SQLException {
+        Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
+        QueryBuilder<DS, ?> param = (QueryBuilder<DS, ?>) request.getParameter();
+        DS entity = dao.queryForFirst(param.prepare());
+        AP result = request.toAppEntity(entity);
         return result;
     }
 
     @Override
-    public <IN, EX> List<IN> getList(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
-        QueryBuilder<EX, ?> param = (QueryBuilder<EX, ?>) request.getParameter();
-        List<EX> entities = param.query();
-        List<IN> list = new ArrayList<>();
-        for (EX entity : entities) {
-            IN result = request.toInternalEntity(entity);
+    public <DS, AP> List<AP> getList(EntityRequest<DS, AP, QueryBuilder<?, ?>> request) throws SQLException {
+        QueryBuilder<DS, ?> param = (QueryBuilder<DS, ?>) request.getParameter();
+        List<DS> entities = param.query();
+        List<AP> list = new ArrayList<>();
+        for (DS entity : entities) {
+            AP result = request.toAppEntity(entity);
             list.add(result);
         }
         return list;
     }
 
     @Override
-    public <IN, EX> void save(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
-        Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
-        EX entity = request.toExternalEntity(request.getEntity());
-        dao.createOrUpdate(entity);
+    public <DS, AP> void save(EntityRequest<DS, AP, QueryBuilder<?, ?>> request) throws SQLException {
+        Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
+        DS entity = request.toDataSourceEntity(request.getEntity());
+        Dao.CreateOrUpdateStatus status = dao.createOrUpdate(entity);
+        Log.d("", "");
     }
 
     @Override
-    public <IN, EX> void update(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
-        Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
-        EX entity = request.toExternalEntity(request.getEntity());
-        dao.update(entity);
+    public <DS, AP> void update(EntityRequest<DS, AP, QueryBuilder<?, ?>> request) throws SQLException {
+        Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
+        DS entity = request.toDataSourceEntity(request.getEntity());
+        int status = dao.update(entity);
+        Log.d("", "");
     }
 
     @Override
-    public <IN, EX> void delete(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
-        Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
-        EX entity = request.toExternalEntity(request.getEntity());
-        dao.delete(entity);
+    public <DS, AP> void delete(EntityRequest<DS, AP, QueryBuilder<?, ?>> request) throws SQLException {
+        Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
+        DS entity = request.toDataSourceEntity(request.getEntity());
+        int status = dao.delete(entity);
+        Log.d("", "");
     }
 
-    public <IN, EX> long count(EntityRequest<IN, EX, QueryBuilder<?, ?>> request) throws SQLException {
-        QueryBuilder<EX, ?> param = (QueryBuilder<EX, ?>) request.getParameter();
+    public <DS, AP> long count(EntityRequest<DS, AP, QueryBuilder<?, ?>> request) throws SQLException {
+        QueryBuilder<DS, ?> param = (QueryBuilder<DS, ?>) request.getParameter();
         param.setCountOf(true);
-        Dao<EX, ?> dao = getDao(request.getExternalEntityClazz());
-        return dao.countOf(param.prepare());
+        Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
+        long count = dao.countOf(param.prepare());
+        return count;
     }
     // endregion
 

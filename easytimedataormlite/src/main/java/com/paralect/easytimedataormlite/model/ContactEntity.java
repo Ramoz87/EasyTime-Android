@@ -14,7 +14,7 @@ public class ContactEntity {
     public static final String CUSTOMER_ID = "customerId";
 
     @DatabaseField(columnName = ID, generatedId = true)
-    private String contactId;
+    private long contactId;
 
     @DatabaseField(columnName = "email")
     private String email;
@@ -38,11 +38,11 @@ public class ContactEntity {
 
     }
 
-    public String getContactId() {
+    public long getContactId() {
         return contactId;
     }
 
-    public void setContactId(String contactId) {
+    public void setContactId(long contactId) {
         this.contactId = contactId;
     }
 

@@ -9,49 +9,49 @@ import com.paralect.easytimedataormlite.model.ObjectEntity;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class ObjectRequest extends BaseJobRequest<Object, ObjectEntity> {
+public class ObjectRequest extends BaseJobRequest<ObjectEntity, Object> {
 
     @Override
-    public Object toInternalEntity(ObjectEntity ex) {
+    public Object toAppEntity(ObjectEntity ex) {
+        if (ex == null) return null;
+
         Object in = new Object();
-        if (ex != null) {
-            populateInternalEntity(in, ex);
+        populateInternalEntity(in, ex);
 
-            in.setAddressString(ex.getAddressString());
-            in.setCityString(ex.getCityString());
-            in.setZipString(ex.getZipString());
+        in.setAddressString(ex.getAddressString());
+        in.setCityString(ex.getCityString());
+        in.setZipString(ex.getZipString());
 
-            in.setDateEnd(ex.getDateEnd());
-            in.setDateStart(ex.getDateStart());
-            in.setProjectId(ex.getProjectId());
-        }
+        in.setDateEnd(ex.getDateEnd());
+        in.setDateStart(ex.getDateStart());
+        in.setProjectId(ex.getProjectId());
         return in;
     }
 
     @Override
-    public ObjectEntity toExternalEntity(Object in) {
+    public ObjectEntity toDataSourceEntity(Object in) {
+        if (in == null) return null;
+
         ObjectEntity ex = new ObjectEntity();
-        if (in != null) {
-            populateExternalEntity(in, ex);
+        populateExternalEntity(in, ex);
 
-            ex.setAddressString(in.getAddressString());
-            ex.setCityString(in.getCityString());
-            ex.setZipString(in.getZipString());
+        ex.setAddressString(in.getAddressString());
+        ex.setCityString(in.getCityString());
+        ex.setZipString(in.getZipString());
 
-            ex.setDateEnd(in.getDateEnd());
-            ex.setDateStart(in.getDateStart());
-            ex.setProjectId(in.getProjectId());
-        }
+        ex.setDateEnd(in.getDateEnd());
+        ex.setDateStart(in.getDateStart());
+        ex.setProjectId(in.getProjectId());
         return ex;
     }
 
     @Override
-    public Class<Object> getInnerEntityClazz() {
-        return Object.class;
+    public Class<ObjectEntity> getDataSourceEntityClazz() {
+        return ObjectEntity.class;
     }
 
     @Override
-    public Class<ObjectEntity> getExternalEntityClazz() {
-        return ObjectEntity.class;
+    public Class<Object> getAppEntityClazz() {
+        return Object.class;
     }
 }

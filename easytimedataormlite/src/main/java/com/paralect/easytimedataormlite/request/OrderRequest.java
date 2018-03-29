@@ -9,49 +9,49 @@ import com.paralect.easytimedataormlite.model.OrderEntity;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class OrderRequest extends BaseJobRequest<Order, OrderEntity> {
+public class OrderRequest extends BaseJobRequest<OrderEntity, Order> {
 
     @Override
-    public Order toInternalEntity(OrderEntity ex) {
+    public Order toAppEntity(OrderEntity ex) {
+        if (ex == null) return null;
+
         Order in = new Order();
-        if (ex != null) {
-            populateInternalEntity(in, ex);
+        populateInternalEntity(in, ex);
 
-            in.setAddressString(ex.getAddressString());
-            in.setCityString(ex.getCityString());
-            in.setZipString(ex.getZipString());
+        in.setAddressString(ex.getAddressString());
+        in.setCityString(ex.getCityString());
+        in.setZipString(ex.getZipString());
 
-            in.setContact(ex.getContact());
-            in.setDeliveryTime(ex.getDeliveryTime());
-            in.setObjectIds(ex.getObjectIds());
-        }
+        in.setContact(ex.getContact());
+        in.setDeliveryTime(ex.getDeliveryTime());
+        in.setObjectIds(ex.getObjectIds());
         return in;
     }
 
     @Override
-    public OrderEntity toExternalEntity(Order in) {
+    public OrderEntity toDataSourceEntity(Order in) {
+        if (in == null) return null;
+
         OrderEntity ex = new OrderEntity();
-        if (in != null) {
-            populateExternalEntity(in, ex);
+        populateExternalEntity(in, ex);
 
-            ex.setAddressString(in.getAddressString());
-            ex.setCityString(in.getCityString());
-            ex.setZipString(in.getZipString());
+        ex.setAddressString(in.getAddressString());
+        ex.setCityString(in.getCityString());
+        ex.setZipString(in.getZipString());
 
-            ex.setContact(in.getContact());
-            ex.setDeliveryTime(in.getDeliveryTime());
-            ex.setObjectIds(in.getObjectIds());
-        }
+        ex.setContact(in.getContact());
+        ex.setDeliveryTime(in.getDeliveryTime());
+        ex.setObjectIds(in.getObjectIds());
         return ex;
     }
 
     @Override
-    public Class<Order> getInnerEntityClazz() {
-        return Order.class;
+    public Class<OrderEntity> getDataSourceEntityClazz() {
+        return OrderEntity.class;
     }
 
     @Override
-    public Class<OrderEntity> getExternalEntityClazz() {
-        return OrderEntity.class;
+    public Class<Order> getAppEntityClazz() {
+        return Order.class;
     }
 }

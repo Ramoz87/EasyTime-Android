@@ -20,7 +20,7 @@ import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMA
  * Created by Oleg Tarashkevich on 27/03/2018.
  */
 
-public abstract class BaseJobRequest<IN extends Job, EX extends JobEntity> extends BaseRequest<IN, EX> {
+public abstract class BaseJobRequest<DS extends JobEntity, AP extends Job> extends BaseRequest<DS, AP> {
 
     void populateInternalEntity(Job in, JobEntity ex) {
         if (in != null && ex != null) {
@@ -61,8 +61,8 @@ public abstract class BaseJobRequest<IN extends Job, EX extends JobEntity> exten
     }
 
     public void queryForList(OrmLiteSqliteOpenHelper helper, String customerId, String query, String date) throws SQLException {
-        Dao<IN, String> dao = helper.getDao(getInnerEntityClazz());
-        QueryBuilder<IN, String> qb = dao.queryBuilder();
+        Dao<DS, String> dao = helper.getDao(getDataSourceEntityClazz());
+        QueryBuilder<DS, String> qb = dao.queryBuilder();
 
         boolean hasCustomerId = !TextUtils.isEmpty(customerId);
         boolean hasQuery = !TextUtils.isEmpty(query);
@@ -92,8 +92,8 @@ public abstract class BaseJobRequest<IN extends Job, EX extends JobEntity> exten
     }
 
     public void queryCountForCustomers(OrmLiteSqliteOpenHelper helper, String customerId) throws SQLException {
-        Dao<IN, ?> dao = helper.getDao(getInnerEntityClazz());
-        QueryBuilder<IN, ?> qb = dao.queryBuilder();
+        Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
+        QueryBuilder<DS, ?> qb = dao.queryBuilder();
         qb.where().eq(CustomerEntity.ID, customerId);
         setParameter(qb);
     }

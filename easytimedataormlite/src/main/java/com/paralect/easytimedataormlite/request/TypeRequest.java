@@ -14,38 +14,38 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class TypeRequest extends BaseRequest<Type, TypeEntity> {
+public class TypeRequest extends BaseRequest<TypeEntity, Type> {
 
     @Override
-    public Type toInternalEntity(TypeEntity ex) {
+    public Type toAppEntity(TypeEntity ex) {
+        if (ex == null) return null;
+
         Type in = new Type();
-        if (ex != null) {
-            in.setName(ex.getName());
-            in.setType(ex.getType());
-            in.setTypeId(ex.getTypeId());
-        }
+        in.setName(ex.getName());
+        in.setType(ex.getType());
+        in.setTypeId(ex.getTypeId());
         return in;
     }
 
     @Override
-    public TypeEntity toExternalEntity(Type in) {
+    public TypeEntity toDataSourceEntity(Type in) {
+        if (in == null) return null;
+
         TypeEntity ex = new TypeEntity();
-        if (in != null) {
-            ex.setName(in.getName());
-            ex.setType(in.getType());
-            ex.setTypeId(in.getTypeId());
-        }
+        ex.setName(in.getName());
+        ex.setType(in.getType());
+        ex.setTypeId(in.getTypeId());
         return ex;
     }
 
     @Override
-    public Class<Type> getInnerEntityClazz() {
-        return Type.class;
+    public Class<TypeEntity> getDataSourceEntityClazz() {
+        return TypeEntity.class;
     }
 
     @Override
-    public Class<TypeEntity> getExternalEntityClazz() {
-        return TypeEntity.class;
+    public Class<Type> getAppEntityClazz() {
+        return Type.class;
     }
 
     public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
@@ -53,7 +53,7 @@ public class TypeRequest extends BaseRequest<Type, TypeEntity> {
     }
 
     public void queryForList(OrmLiteSqliteOpenHelper helper, @Type.TypeName String type, String searchName) throws SQLException {
-        Dao<TypeEntity, ?> dao = helper.getDao(getExternalEntityClazz());
+        Dao<TypeEntity, ?> dao = helper.getDao(getDataSourceEntityClazz());
         QueryBuilder<TypeEntity, ?> qb = dao.queryBuilder();
         if (!TextUtils.isEmpty(type)) {
             qb.where()

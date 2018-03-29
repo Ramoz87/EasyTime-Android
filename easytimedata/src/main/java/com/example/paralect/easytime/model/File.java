@@ -12,21 +12,21 @@ import java.util.UUID;
 
 public class File {
 
-    private String fileId;
+    private long fileId;
     private String fileUrl;
     private String name;
-    private String expenseId;
+    private long expenseId;
     private String jobId;
 
     public File() {
 
     }
 
-    public String getFileId() {
+    public long getFileId() {
         return fileId;
     }
 
-    public void setFileId(String fileId) {
+    public void setFileId(long fileId) {
         this.fileId = fileId;
     }
 
@@ -54,11 +54,11 @@ public class File {
         this.name = name;
     }
 
-    public String getExpenseId() {
+    public long getExpenseId() {
         return expenseId;
     }
 
-    public void setExpenseId(String expenseId) {
+    public void setExpenseId(long expenseId) {
         this.expenseId = expenseId;
     }
 
@@ -71,7 +71,7 @@ public class File {
     }
 
     public boolean isSaved(){
-        return TextUtil.isNotEmpty(getFileId());
+        return getFileId() != 0;
     }
 
     public static List<File> mockList(){
@@ -84,7 +84,7 @@ public class File {
         List<File> files = new ArrayList<>();
         for (int i = 0; i < pictures.length; i++){
             File file = new File();
-            file.setFileId((UUID.randomUUID().toString()));
+            file.setFileId(i);
             file.setFileUrl(pictures[i]);
             file.setName("Name_" + i);
             files.add(file);

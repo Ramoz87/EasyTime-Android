@@ -26,17 +26,17 @@ import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.FakeCreator;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TinyDB;
-import com.j256.ormlite.dao.Dao;
+import com.paralect.datasource.core.EntityRequest;
 import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
-import com.paralect.easytimedataormlite.model.CustomerEntity;
-import com.paralect.easytimedataormlite.model.MaterialEntity;
-import com.paralect.easytimedataormlite.model.ObjectEntity;
-import com.paralect.easytimedataormlite.model.OrderEntity;
-import com.paralect.easytimedataormlite.model.ProjectEntity;
-import com.paralect.easytimedataormlite.model.TypeEntity;
-import com.paralect.easytimedataormlite.model.UserEntity;
 import com.paralect.easytimedataormlite.request.AddressRequest;
 import com.paralect.easytimedataormlite.request.ContactRequest;
+import com.paralect.easytimedataormlite.request.CustomerRequest;
+import com.paralect.easytimedataormlite.request.MaterialRequest;
+import com.paralect.easytimedataormlite.request.ObjectRequest;
+import com.paralect.easytimedataormlite.request.OrderRequest;
+import com.paralect.easytimedataormlite.request.ProjectRequest;
+import com.paralect.easytimedataormlite.request.TypeRequest;
+import com.paralect.easytimedataormlite.request.UserRequest;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -125,21 +125,20 @@ public class LaunchScreenActivity extends Activity {
         final String orderCSVPath = "db/orders.csv";
         final String projectCSVPath = "db/projects.csv";
 
-        fillData(fakeCreator, userCSVPath, UserEntity.class);
-        fillData(fakeCreator, typeCSVPath, TypeEntity.class);
-        fillData(fakeCreator, customerCSVPath, CustomerEntity.class);
-        fillData(fakeCreator, materialCSVPath, MaterialEntity.class);
-        fillData(fakeCreator, objectCSVPath, ObjectEntity.class);
-        fillData(fakeCreator, orderCSVPath, OrderEntity.class);
-        fillData(fakeCreator, projectCSVPath, ProjectEntity.class);
+        fillData(fakeCreator, userCSVPath, User.class, new UserRequest());
+        fillData(fakeCreator, typeCSVPath, Type.class, new TypeRequest());
+        fillData(fakeCreator, customerCSVPath, Customer.class, new CustomerRequest());
+        fillData(fakeCreator, materialCSVPath, Material.class, new MaterialRequest());
+        fillData(fakeCreator, objectCSVPath, Object.class, new ObjectRequest());
+        fillData(fakeCreator, orderCSVPath, Order.class, new OrderRequest());
+        fillData(fakeCreator, projectCSVPath, Project.class, new ProjectRequest());
     }
 
 
-    private <E> void fillData(FakeCreator fakeCreator, String csvPath, Class<E> clazz) {
+    private <E> void fillData(FakeCreator fakeCreator, String csvPath, Class<E> clazz, EntityRequest entityRequest) {
         try {
             DatabaseHelperORMLite helper = EasyTimeManager.getInstance().getDataSource();
             List<E> items = fakeCreator.parse(csvPath, clazz);
-            Dao<E, String> dao = helper.getDao(clazz);
             Log.d(TAG, String.format("===// %s //===", clazz.getSimpleName()));
 
             AddressRequest addressRequest = new AddressRequest();
@@ -169,7 +168,8 @@ public class LaunchScreenActivity extends Activity {
                     helper.save(addressRequest);
                     customer.setAddressId(address.getAddressId());
                 }
-                dao.createOrUpdate(item);
+                entityRequest.setEntity(item);
+                helper.save(entityRequest);
             }
             Log.d(TAG, "filled " + clazz.getSimpleName() + " class");
         } catch (IOException | SQLException e) {

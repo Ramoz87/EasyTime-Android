@@ -44,7 +44,7 @@ public class EasyTimeApplication extends Application {
 //            Expense saved = EasyTimeManager.getInstance().saveAndGetExpense(expense);
 //            List<Expense> expenses = EasyTimeManager.getInstance().getTimeExpenses("123");
 //
-//            expense.setId(21);
+//            expense.setExpenseId(21);
 ////            expense.setName("HFHLKSLK");
 ////            EasyTimeManager.getInstance().updateExpense(expense);
 //            EasyTimeManager.getInstance().deleteExpense(expense);

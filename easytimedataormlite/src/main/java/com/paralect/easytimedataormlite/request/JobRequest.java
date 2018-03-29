@@ -9,55 +9,53 @@ import com.paralect.easytimedataormlite.model.JobEntity;
  * Created by Oleg Tarashkevich on 27/03/2018.
  */
 
-public class JobRequest extends EntityRequestImpl<Job, JobEntity, QueryBuilder<?, ?>> {
+public class JobRequest extends EntityRequestImpl<JobEntity, Job, QueryBuilder<?, ?>> {
 
     @Override
-    public Job toInternalEntity(JobEntity ex) {
+    public Job toAppEntity(JobEntity ex) {
+        if (ex == null) return null;
         Job in = new Job();
-        if (ex != null) {
-            in.setCurrency(ex.getCurrency());
-            in.setCustomerId(ex.getCustomerId());
-            in.setDate(ex.getDate());
-            in.setEntityType(ex.getEntityType());
-            in.setInformation(ex.getInformation());
-            in.setId(ex.getId());
-            in.setName(ex.getName());
-            in.setNumber(ex.getNumber());
-            in.setStatusId(ex.getStatusId());
-            in.setTypeId(ex.getTypeId());
-            in.setDiscount(ex.getDiscount());
-            in.setMemberIds(ex.getMemberIds());
-        }
+        in.setCurrency(ex.getCurrency());
+        in.setCustomerId(ex.getCustomerId());
+        in.setDate(ex.getDate());
+        in.setEntityType(ex.getEntityType());
+        in.setInformation(ex.getInformation());
+        in.setId(ex.getId());
+        in.setName(ex.getName());
+        in.setNumber(ex.getNumber());
+        in.setStatusId(ex.getStatusId());
+        in.setTypeId(ex.getTypeId());
+        in.setDiscount(ex.getDiscount());
+        in.setMemberIds(ex.getMemberIds());
         return in;
     }
 
     @Override
-    public JobEntity toExternalEntity(Job in) {
+    public JobEntity toDataSourceEntity(Job in) {
+        if (in == null) return null;
         JobEntity ex = new JobEntity();
-        if (in != null) {
-            ex.setCurrency(in.getCurrency());
-            ex.setCustomerId(in.getCustomerId());
-            ex.setDate(in.getDate());
-            ex.setEntityType(in.getEntityType());
-            ex.setInformation(in.getInformation());
-            ex.setId(in.getId());
-            ex.setName(in.getName());
-            ex.setNumber(in.getNumber());
-            ex.setStatusId(in.getStatusId());
-            ex.setTypeId(in.getTypeId());
-            ex.setDiscount(in.getDiscount());
-            ex.setMemberIds(in.getMemberIds());
-        }
+        ex.setCurrency(in.getCurrency());
+        ex.setCustomerId(in.getCustomerId());
+        ex.setDate(in.getDate());
+        ex.setEntityType(in.getEntityType());
+        ex.setInformation(in.getInformation());
+        ex.setId(in.getId());
+        ex.setName(in.getName());
+        ex.setNumber(in.getNumber());
+        ex.setStatusId(in.getStatusId());
+        ex.setTypeId(in.getTypeId());
+        ex.setDiscount(in.getDiscount());
+        ex.setMemberIds(in.getMemberIds());
         return ex;
     }
 
     @Override
-    public Class<Job> getInnerEntityClazz() {
-        return Job.class;
+    public Class<JobEntity> getDataSourceEntityClazz() {
+        return JobEntity.class;
     }
 
     @Override
-    public Class<JobEntity> getExternalEntityClazz() {
-        return JobEntity.class;
+    public Class<Job> getAppEntityClazz() {
+        return Job.class;
     }
 }

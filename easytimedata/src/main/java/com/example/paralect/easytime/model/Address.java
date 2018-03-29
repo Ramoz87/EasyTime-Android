@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class Address implements Parcelable {
 
-    private String addressId;
+    private long addressId;
     private String city;
     private String country;
     private String street;
@@ -28,7 +28,7 @@ public class Address implements Parcelable {
     }
 
     protected Address(Parcel in) {
-        addressId = in.readString();
+        addressId = in.readLong();
         city = in.readString();
         country = in.readString();
         street = in.readString();
@@ -41,7 +41,7 @@ public class Address implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(addressId);
+        dest.writeLong(addressId);
         dest.writeString(city);
         dest.writeString(country);
         dest.writeString(street);
@@ -101,11 +101,11 @@ public class Address implements Parcelable {
         this.zip = zip;
     }
 
-    public String getAddressId() {
+    public long getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(String addressId) {
+    public void setAddressId(long addressId) {
         this.addressId = addressId;
     }
 
@@ -177,7 +177,7 @@ public class Address implements Parcelable {
 
     public static Address mock() {
         Address address = new Address();
-        address.addressId = UUID.randomUUID().toString();
+        address.addressId = 123;
         address.country = "Belarus";
         address.city = "Minsk";
         address.street = "Nekrasova";

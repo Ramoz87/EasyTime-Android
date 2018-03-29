@@ -12,7 +12,7 @@ public class FileEntity {
     public static final String ID = "fileId";
 
     @DatabaseField(columnName = ID, generatedId = true)
-    private String fileId;
+    private long fileId;
 
     @DatabaseField(columnName = "fileUrl")
     private String fileUrl;
@@ -21,7 +21,7 @@ public class FileEntity {
     private String name;
 
     @DatabaseField(columnName = ExpenseEntity.EXPENSE_ID)
-    private String expenseId;
+    private long expenseId;
 
     @DatabaseField(columnName = JobEntity.ID)
     private String jobId;
@@ -30,11 +30,11 @@ public class FileEntity {
 
     }
 
-    public String getFileId() {
+    public long getFileId() {
         return fileId;
     }
 
-    public void setFileId(String fileId) {
+    public void setFileId(long fileId) {
         this.fileId = fileId;
     }
 
@@ -62,11 +62,11 @@ public class FileEntity {
         this.name = name;
     }
 
-    public String getExpenseId() {
+    public long getExpenseId() {
         return expenseId;
     }
 
-    public void setExpenseId(String expenseId) {
+    public void setExpenseId(long expenseId) {
         this.expenseId = expenseId;
     }
 
@@ -79,6 +79,6 @@ public class FileEntity {
     }
 
     public boolean isSaved() {
-        return TextUtil.isNotEmpty(getExpenseId());
+        return getExpenseId() != 0;
     }
 }

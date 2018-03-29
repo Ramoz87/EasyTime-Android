@@ -10,42 +10,40 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class FileRequest extends BaseRequest<File, FileEntity> {
+public class FileRequest extends BaseRequest<FileEntity, File> {
 
     @Override
-    public File toInternalEntity(FileEntity ex) {
+    public File toAppEntity(FileEntity ex) {
+        if (ex == null) return null;
         File in = new File();
-        if (ex != null) {
-            in.setFileId(ex.getFileId());
-            in.setFileUrl(ex.getFileUrl());
-            in.setName(ex.getName());
-            in.setExpenseId(ex.getExpenseId());
-            in.setJobId(ex.getJobId());
-        }
+        in.setFileId(ex.getFileId());
+        in.setFileUrl(ex.getFileUrl());
+        in.setName(ex.getName());
+        in.setExpenseId(ex.getExpenseId());
+        in.setJobId(ex.getJobId());
         return in;
     }
 
     @Override
-    public FileEntity toExternalEntity(File in) {
+    public FileEntity toDataSourceEntity(File in) {
+        if (in == null) return null;
         FileEntity ex = new FileEntity();
-        if (in != null) {
-            ex.setFileId(in.getFileId());
-            ex.setFileUrl(in.getFileUrl());
-            ex.setName(in.getName());
-            ex.setExpenseId(in.getExpenseId());
-            ex.setJobId(in.getJobId());
-        }
+        ex.setFileId(in.getFileId());
+        ex.setFileUrl(in.getFileUrl());
+        ex.setName(in.getName());
+        ex.setExpenseId(in.getExpenseId());
+        ex.setJobId(in.getJobId());
         return ex;
     }
 
     @Override
-    public Class<File> getInnerEntityClazz() {
-        return File.class;
+    public Class<FileEntity> getDataSourceEntityClazz() {
+        return FileEntity.class;
     }
 
     @Override
-    public Class<FileEntity> getExternalEntityClazz() {
-        return FileEntity.class;
+    public Class<File> getAppEntityClazz() {
+        return File.class;
     }
 
     public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {

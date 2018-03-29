@@ -12,42 +12,40 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class CustomerRequest extends BaseRequest<Customer, CustomerEntity> {
+public class CustomerRequest extends BaseRequest<CustomerEntity, Customer> {
 
     @Override
-    public Customer toInternalEntity(CustomerEntity ex) {
+    public Customer toAppEntity(CustomerEntity ex) {
+        if (ex == null) return null;
         Customer in = new Customer();
-        if (ex != null) {
-            in.setCompanyName(ex.getCompanyName());
-            in.setId(ex.getId());
-            in.setFirstName(ex.getFirstName());
-            in.setLastName(ex.getLastName());
-            in.setAddressId(ex.getAddressId());
-        }
+        in.setCompanyName(ex.getCompanyName());
+        in.setId(ex.getId());
+        in.setFirstName(ex.getFirstName());
+        in.setLastName(ex.getLastName());
+        in.setAddressId(ex.getAddressId());
         return in;
     }
 
     @Override
-    public CustomerEntity toExternalEntity(Customer in) {
+    public CustomerEntity toDataSourceEntity(Customer in) {
+        if (in == null) return null;
         CustomerEntity ex = new CustomerEntity();
-        if (in != null) {
-            ex.setCompanyName(in.getCompanyName());
-            ex.setId(in.getId());
-            ex.setFirstName(in.getFirstName());
-            ex.setLastName(in.getLastName());
-            ex.setAddressId(in.getAddressId());
-        }
+        ex.setCompanyName(in.getCompanyName());
+        ex.setId(in.getId());
+        ex.setFirstName(in.getFirstName());
+        ex.setLastName(in.getLastName());
+        ex.setAddressId(in.getAddressId());
         return ex;
     }
 
     @Override
-    public Class<Customer> getInnerEntityClazz() {
-        return Customer.class;
+    public Class<CustomerEntity> getDataSourceEntityClazz() {
+        return CustomerEntity.class;
     }
 
     @Override
-    public Class<CustomerEntity> getExternalEntityClazz() {
-        return CustomerEntity.class;
+    public Class<Customer> getAppEntityClazz() {
+        return Customer.class;
     }
 
     // region Requests

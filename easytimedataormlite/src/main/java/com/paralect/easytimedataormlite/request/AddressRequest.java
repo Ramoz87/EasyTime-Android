@@ -10,48 +10,46 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class AddressRequest extends BaseRequest<Address, AddressEntity> {
+public class AddressRequest extends BaseRequest<AddressEntity, Address> {
 
     @Override
-    public Address toInternalEntity(AddressEntity ex) {
+    public Address toAppEntity(AddressEntity ex) {
+        if (ex == null) return null;
         Address in = new Address();
-        if (ex != null) {
-            in.setAddressId(ex.getAddressId());
-            in.setCity(ex.getCity());
-            in.setCountry(ex.getCountry());
-            in.setStreet(ex.getStreet());
-            in.setZip(ex.getZip());
-            in.setCustomerId(ex.getCustomerId());
-        }
+        in.setAddressId(ex.getAddressId());
+        in.setCity(ex.getCity());
+        in.setCountry(ex.getCountry());
+        in.setStreet(ex.getStreet());
+        in.setZip(ex.getZip());
+        in.setCustomerId(ex.getCustomerId());
         return in;
     }
 
     @Override
-    public AddressEntity toExternalEntity(Address in) {
+    public AddressEntity toDataSourceEntity(Address in) {
+        if (in == null) return null;
         AddressEntity ex = new AddressEntity();
-        if (in != null) {
-            ex.setAddressId(in.getAddressId());
-            ex.setCity(in.getCity());
-            ex.setCountry(in.getCountry());
-            ex.setStreet(in.getStreet());
-            ex.setZip(in.getZip());
-            ex.setCustomerId(in.getCustomerId());
-        }
+        ex.setAddressId(in.getAddressId());
+        ex.setCity(in.getCity());
+        ex.setCountry(in.getCountry());
+        ex.setStreet(in.getStreet());
+        ex.setZip(in.getZip());
+        ex.setCustomerId(in.getCustomerId());
         return ex;
     }
 
     @Override
-    public Class<Address> getInnerEntityClazz() {
-        return Address.class;
-    }
-
-    @Override
-    public Class<AddressEntity> getExternalEntityClazz() {
+    public Class<AddressEntity> getDataSourceEntityClazz() {
         return AddressEntity.class;
     }
 
+    @Override
+    public Class<Address> getAppEntityClazz() {
+        return Address.class;
+    }
+
     // region Requests
-    public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
+    public void queryForId(OrmLiteSqliteOpenHelper helper, long id) throws SQLException {
         queryWhere(helper, AddressEntity.ID, id);
     }
     // endregion

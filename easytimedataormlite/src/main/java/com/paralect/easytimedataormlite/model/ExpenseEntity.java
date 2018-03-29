@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.paralect.datasource.expense.BaseExpense;
+import com.paralect.datasource.expense.BaseExpenseImpl;
 
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import static com.paralect.easytimedataormlite.model.ExpenseEntity.EXPENSE_TABLE
  */
 
 @DatabaseTable(tableName = EXPENSE_TABLE_NAME)
-public class ExpenseEntity implements BaseExpense {
+public class ExpenseEntity extends BaseExpenseImpl {
 
     // region Fields constants
     public static final String EXPENSE_TABLE_NAME = "expenses";
@@ -32,7 +33,7 @@ public class ExpenseEntity implements BaseExpense {
     // endregion
 
     @DatabaseField(columnName = EXPENSE_ID, generatedId = true)
-    private String expenseId;
+    private long expenseId;
 
     @DatabaseField(columnName = NAME)
     private String name;
@@ -145,13 +146,11 @@ public class ExpenseEntity implements BaseExpense {
         workTypeId = id;
     }
 
-    @Override
-    public String getId() {
+    public long getExpenseId() {
         return expenseId;
     }
 
-    @Override
-    public void setId(String id) {
-        expenseId = id;
+    public void setExpenseId(long expenseId) {
+        this.expenseId = expenseId;
     }
 }
