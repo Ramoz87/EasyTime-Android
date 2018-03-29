@@ -1,9 +1,11 @@
 package com.paralect.easytimedataormlite.request;
 
 import com.example.paralect.easytime.model.Material;
+import com.example.paralect.easytime.utils.Logger;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.paralect.easytimedataormlite.model.MaterialEntity;
 
 import java.sql.SQLException;
@@ -66,6 +68,7 @@ public class MaterialRequest extends BaseRequest<MaterialEntity, Material> {
         Dao<MaterialEntity, ?> dao = helper.getDao(getDataSourceEntityClazz());
         QueryBuilder<MaterialEntity, ?> qb = dao.queryBuilder();
         qb.where().like(MaterialEntity.NAME, "%" + query + "%");
+        setParameter(qb.prepare());
     }
 
     public void queryForAdded(OrmLiteSqliteOpenHelper helper) throws SQLException {
@@ -74,5 +77,17 @@ public class MaterialRequest extends BaseRequest<MaterialEntity, Material> {
         qb.where().like(MaterialEntity.IS_ADDED, true);
         qb.orderByRaw(MaterialEntity.STOCK_ENTITY + " IS 0 ASC")
                 .orderBy(MaterialEntity.NAME, true);
+        setParameter(qb.prepare());
     }
+
+    public void queryForResetMaterials(OrmLiteSqliteOpenHelper helper)throws SQLException{
+        Dao<MaterialEntity, ?> dao = helper.getDao(getDataSourceEntityClazz());
+        UpdateBuilder<MaterialEntity, ?> ub = dao.updateBuilder();
+        ub.where().eq("isAdded", true);
+        ub.updateColumnValue("isAdded", false);
+        ub.updateColumnValue("stockQuantity", 0);
+        ub.update();
+        setParameter(ub.prepare());
+    }
+
 }

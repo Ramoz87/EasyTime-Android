@@ -57,7 +57,7 @@ public class CustomerRequest extends BaseRequest<CustomerEntity, Customer> {
         Dao<CustomerEntity, ?> dao = helper.getDao(CustomerEntity.class);
         QueryBuilder<CustomerEntity, ?> qb = dao.queryBuilder();
         qb.where().like(CustomerEntity.COMPANY_NAME, "%" + query + "%");
-        setParameter(qb);
+        setParameter(qb.prepare());
     }
     // endregion
 }

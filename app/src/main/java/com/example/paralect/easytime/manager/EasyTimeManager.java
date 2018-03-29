@@ -452,17 +452,14 @@ public final class EasyTimeManager {
 
     // TODO: Have no idea how to add UpdateBuilder to requests
     public void deleteMyMaterials() {
-//        try {
-//            Dao<Material, String> dao = dataSource.getMaterialDao();
-//            UpdateBuilder<Material, String> ub = dao.updateBuilder();
-//            ub.where().eq("isAdded", true);
-//            ub.updateColumnValue("isAdded", false);
-//            ub.updateColumnValue("stockQuantity", 0);
-//            ub.update();
-//            Logger.d(TAG, "cleaned stock of my materials");
-//        } catch (SQLException exc) {
-//            Logger.e(exc);
-//        }
+        try {
+            MaterialRequest materialRequest = new MaterialRequest();
+            materialRequest.queryForResetMaterials(dataSource);
+            dataSource.update(materialRequest);
+            Logger.d(TAG, "cleaned stock of my materials");
+        } catch (SQLException exc) {
+            Logger.e(exc);
+        }
     }
 
 

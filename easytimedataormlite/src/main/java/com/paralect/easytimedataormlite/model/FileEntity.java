@@ -1,12 +1,13 @@
 package com.paralect.easytimedataormlite.model;
 
-import com.example.paralect.easytime.utils.TextUtil;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by alexei on 26.12.2017.
  */
 
+@DatabaseTable(tableName = "files")
 public class FileEntity {
 
     public static final String ID = "fileId";

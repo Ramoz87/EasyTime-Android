@@ -62,6 +62,6 @@ public class TypeRequest extends BaseRequest<TypeEntity, Type> {
                     .like("name", "%" + searchName + "%")
                     .prepare();
         }
-        setParameter(qb);
+        setParameter(qb.prepare());
     }
 }

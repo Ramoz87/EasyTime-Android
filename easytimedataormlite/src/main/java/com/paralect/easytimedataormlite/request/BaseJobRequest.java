@@ -88,13 +88,13 @@ public abstract class BaseJobRequest<DS extends JobEntity, AP extends Job> exten
 
             where.le("date", time.getTime());
         }
-        setParameter(qb);
+        setParameter(qb.prepare());
     }
 
     public void queryCountForCustomers(OrmLiteSqliteOpenHelper helper, String customerId) throws SQLException {
         Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
         QueryBuilder<DS, ?> qb = dao.queryBuilder();
         qb.where().eq(CustomerEntity.ID, customerId);
-        setParameter(qb);
+        setParameter(qb.prepare());
     }
 }

@@ -93,7 +93,7 @@ public class ExpenseRequest extends BaseRequest<ExpenseEntity, Expense> {
         if (!TextUtils.isEmpty(expenseType))
             where.and().eq(ExpenseEntity.TYPE, expenseType);
 
-        setParameter(parameter);
+        setParameter(parameter.prepare());
         return this;
     }
 
@@ -121,14 +121,14 @@ public class ExpenseRequest extends BaseRequest<ExpenseEntity, Expense> {
 
         }
         qb.orderBy(ExpenseEntity.CREATION_DATE, false);
-        setParameter(qb);
+        setParameter(qb.prepare());
     }
 
     public void queryCountForJobs(OrmLiteSqliteOpenHelper helper, String jobId) throws SQLException {
         Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
         QueryBuilder<ExpenseEntity, ?> qb = dao.queryBuilder();
         qb.where().eq(ExpenseEntity.JOB_ID, jobId);
-        setParameter(qb);
+        setParameter(qb.prepare());
     }
     // endregion
 }
