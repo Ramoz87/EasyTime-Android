@@ -101,10 +101,9 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
     }
 
     public <DS, AP> long count(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
-        QueryBuilder<DS, ?> param = (QueryBuilder<DS, ?>) request.getParameter();
-        param.setCountOf(true);
         Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
-        long count = dao.countOf(param.prepare());
+        PreparedQuery<DS> param = (PreparedQuery<DS>)request.getParameter();
+        long count = dao.countOf(param);
         return count;
     }
     // endregion

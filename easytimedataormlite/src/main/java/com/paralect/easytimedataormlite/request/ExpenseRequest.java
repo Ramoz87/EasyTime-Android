@@ -127,6 +127,7 @@ public class ExpenseRequest extends BaseRequest<ExpenseEntity, Expense> {
     public void queryCountForJobs(OrmLiteSqliteOpenHelper helper, String jobId) throws SQLException {
         Dao<ExpenseEntity, ?> dao = helper.getDao(ExpenseEntity.class);
         QueryBuilder<ExpenseEntity, ?> qb = dao.queryBuilder();
+        qb.setCountOf(true);
         qb.where().eq(ExpenseEntity.JOB_ID, jobId);
         setParameter(qb.prepare());
     }
