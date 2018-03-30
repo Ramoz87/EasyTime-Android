@@ -7,6 +7,7 @@ import com.paralect.datasource.core.EntityRequest;
 import com.paralect.datasource.rx.DataSourceRx;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public abstract class RetrofitDataSource implements DataSourceRx<String> {
+public abstract class RetrofitDataSource<P> implements DataSourceRx<P> {
 
     protected RetrofitService service;
     protected Gson gson;
@@ -34,21 +35,14 @@ public abstract class RetrofitDataSource implements DataSourceRx<String> {
 
     // region Asynchronous access
     @Override
-    public <DS, AP> Single<AP> getAsync(final EntityRequest<DS, AP, String> request) {
-        return service.get(request.getParameter())
-                .map(new Function<JsonElement, AP>() {
-                    @Override
-                    public AP apply(JsonElement jsonElement) throws Exception {
-                        DS ds = getGson().fromJson(jsonElement, request.getDataSourceEntityClazz());
-                        AP ap = request.toAppEntity(ds);
-                        return ap;
-                    }
-                });
+    public <DS, AP> Single<AP> getAsync(final EntityRequest<DS, AP, P> request) {
+        return service.get(request.getQuery())
+                .map(convertEntity(request));
     }
 
     @Override
-    public <DS, AP> Single<List<AP>> getList(final EntityRequest<DS, AP, String> request) {
-        return service.get(request.getParameter())
+    public <DS, AP> Single<List<AP>> getList(final EntityRequest<DS, AP, P> request) {
+        return service.get(request.getQuery())
                 .map(new Function<JsonElement, List<AP>>() {
                     @Override
                     public List<AP> apply(JsonElement jsonElement) throws Exception {
@@ -65,20 +59,34 @@ public abstract class RetrofitDataSource implements DataSourceRx<String> {
     }
 
     @Override
-    public <DS, AP> Single<Object> saveAsync(EntityRequest<DS, AP, String> request) {
-        return null;
+    public <DS, AP> Single<AP> saveAsync(final EntityRequest<DS, AP, P> request) {
+        return service.post(request.getQuery(), new HashMap<String, String>())
+                .map(convertEntity(request));
     }
 
     @Override
-    public <DS, AP> Single<Object> updateAsync(EntityRequest<DS, AP, String> request) {
-        return null;
+    public <DS, AP> Single<AP> updateAsync(EntityRequest<DS, AP, P> request) {
+        return service.put(request.getQuery())
+                .map(convertEntity(request));
     }
 
     @Override
-    public <DS, AP> Single<Object> deleteAsync(EntityRequest<DS, AP, String> request) {
-        return null;
+    public <DS, AP> Single<AP> deleteAsync(EntityRequest<DS, AP, P> request) {
+        return service.delete(request.getQuery())
+                .map(convertEntity(request));
     }
     // endregion
+
+    public <DS, AP> Function<JsonElement, AP> convertEntity(final EntityRequest<DS, AP, P> request) {
+        return new Function<JsonElement, AP>() {
+            @Override
+            public AP apply(JsonElement jsonElement) throws Exception {
+                DS ds = getGson().fromJson(jsonElement, request.getDataSourceEntityClazz());
+                AP ap = request.toAppEntity(ds);
+                return ap;
+            }
+        };
+    }
 
     protected RetrofitService createRetrofitService() {
         GsonConverterFactory factory = GsonConverterFactory.create(getGson());

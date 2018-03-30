@@ -20,6 +20,9 @@ import retrofit2.http.Url;
  * Created by Oleg Tarashkevich on 30/03/2018.
  */
 
+/**
+ * Basic REST methods
+ */
 public interface RetrofitService {
 
     @GET
@@ -36,14 +39,18 @@ public interface RetrofitService {
     Single<JsonElement> post(@Url String url, @FieldMap Map<String, String> fields);
 
     @PUT
-    <T> Single<Void> put(@Body T body);
+    <T> Single<JsonElement> put(@Body T body);
 
     @FormUrlEncoded
     @PUT
     Single<JsonElement> put(@Url String url, @FieldMap Map<String, String> fields);
 
     @PATCH
-    <T> Single<JsonElement> patch(@Url String url, @Body T parameter);
+    <T> Single<JsonElement> patch(@Url String url, @Body T body);
+
+    @FormUrlEncoded
+    @PUT
+    Single<JsonElement> patch(@Url String url, @FieldMap Map<String, String> fields);
 
     @DELETE
     Single<JsonElement> delete(@Url String url);

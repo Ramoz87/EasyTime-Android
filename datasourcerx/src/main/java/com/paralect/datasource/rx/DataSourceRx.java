@@ -25,9 +25,9 @@ public interface DataSourceRx<P> {
 
     <DS, AP> Single<List<AP>> getList(EntityRequest<DS, AP, P> request);
 
-    <DS, AP> Single<Object> saveAsync(EntityRequest<DS, AP, P> request);
+    <DS, AP> Single<AP> saveAsync(EntityRequest<DS, AP, P> request);
 
-    <DS, AP> Single<Object> updateAsync(EntityRequest<DS, AP, P> request);
+    <DS, AP> Single<AP> updateAsync(EntityRequest<DS, AP, P> request);
 
-    <DS, AP> Single<Object> deleteAsync(EntityRequest<DS, AP, P> request);
+    <DS, AP> Single<AP> deleteAsync(EntityRequest<DS, AP, P> request);
 }

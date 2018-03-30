@@ -4,10 +4,17 @@ package com.paralect.datasource.core;
  * Created by Oleg Tarashkevich on 23/03/2018.
  */
 
+/**
+ * @param <DS> Entity of data source
+ * @param <AP> Entity of application
+ * @param <P>  Parameter (Object) for communication with data source
+ *             Query (String) for communication with data source
+ */
 public abstract class EntityRequestImpl<DS, AP, P> implements EntityRequest<DS, AP, P> {
 
-    private P mParameter;
-    private AP mEntity;
+    protected P mParameter;
+    protected String mQuery;
+    protected AP mEntity;
 
     @Override
     public void setParameter(P parameter) {
@@ -17,6 +24,16 @@ public abstract class EntityRequestImpl<DS, AP, P> implements EntityRequest<DS, 
     @Override
     public P getParameter() {
         return mParameter;
+    }
+
+    @Override
+    public void setQuery(String query) {
+        mQuery = query;
+    }
+
+    @Override
+    public String getQuery() {
+        return mQuery;
     }
 
     @Override

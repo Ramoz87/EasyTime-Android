@@ -1,14 +1,14 @@
 package com.paralect.easytimedataretrofit.request;
 
 import com.example.paralect.easytime.model.User;
-import com.paralect.datasource.retrofit.RetrofitRequest;
+import com.paralect.datasource.core.EntityRequestImpl;
 import com.paralect.easytimedataretrofit.model.UserEntity;
 
 /**
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class UserNetRequest extends RetrofitRequest<UserEntity, User> {
+public class UserNetRequest<P> extends EntityRequestImpl<UserEntity, User, P> {
 
     @Override
     public User toAppEntity(UserEntity ex) {
@@ -38,6 +38,6 @@ public class UserNetRequest extends RetrofitRequest<UserEntity, User> {
     }
 
     public void queryGet() {
-        queryGet("/sun/?__a=1");
+        setQuery("/sun/?__a=1");
     }
 }

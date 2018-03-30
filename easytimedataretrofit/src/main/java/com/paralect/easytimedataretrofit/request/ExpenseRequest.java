@@ -1,26 +1,14 @@
 package com.paralect.easytimedataretrofit.request;
 
-import android.text.TextUtils;
-
 import com.example.paralect.easytime.model.Expense;
-import com.example.paralect.easytime.model.ExpenseUnit;
-import com.example.paralect.easytime.utils.ExpenseUtil;
-import com.paralect.datasource.core.EntityRequest;
 import com.paralect.datasource.core.EntityRequestImpl;
-import com.paralect.datasource.retrofit.RetrofitRequest;
 import com.paralect.easytimedataretrofit.model.ExpenseEntity;
-
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Date;
-
-import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
 
 /**
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class ExpenseRequest extends RetrofitRequest<ExpenseEntity, Expense> {
+public class ExpenseRequest<P> extends EntityRequestImpl<ExpenseEntity, Expense, P> {
 
     @Override
     public Expense toAppEntity(ExpenseEntity ex) {
@@ -65,8 +53,6 @@ public class ExpenseRequest extends RetrofitRequest<ExpenseEntity, Expense> {
     }
 
     // region Requests
-    public void queryGet() throws Throwable {
-        queryGet("/prilaga/?__a=1");
-    }
+  
     // endregion
 }

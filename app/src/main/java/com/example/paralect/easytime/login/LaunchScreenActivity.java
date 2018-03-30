@@ -6,22 +6,31 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.paralect.easytime.BuildConfig;
+import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.tutorial.TutorialActivity;
 import com.example.paralect.easytime.manager.ETPreferenceManager;
 import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Job;
+import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TinyDB;
+import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
+import com.paralect.easytimedataormlite.request.UserRequest;
+import com.paralect.easytimedataretrofit.NetworkHelperRetrofit;
+import com.paralect.easytimedataretrofit.request.UserNetRequest;
 
 import java.util.List;
 import java.util.concurrent.Callable;
 
 import io.reactivex.Completable;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.paralect.easytime.EasyTimeApplication.TAG;
@@ -38,8 +47,58 @@ public class LaunchScreenActivity extends Activity {
         setContentView(R.layout.activity_launch_screen);
 //        init();
 
-          EasyTimeManager.getInstance().getUser();
+        getAndSaveUser();
     }
+
+    // region Test
+    public void getAndSaveUser() {
+
+        final DatabaseHelperORMLite database = new DatabaseHelperORMLite(this);
+        final NetworkHelperRetrofit network = new NetworkHelperRetrofit();
+
+        final UserRequest userRequest = new UserRequest();
+        final UserNetRequest userNetRequest = new UserNetRequest();
+        userNetRequest.queryGet();
+
+        // get from network
+        network.getAsync(userNetRequest)
+                // save to database
+                .map(new Function<User, User>() {
+                    @Override
+                    public User apply(User user) throws Exception {
+                        userRequest.setEntity(user);
+                        database.save(userRequest);
+                        return user;
+                    }
+                })
+                // retrieve from database
+                .map(new Function<User, User>() {
+                    @Override
+                    public User apply(User user) throws Exception {
+                        userRequest.queryForId(database, user.getUserId());
+                        return database.get(userRequest);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<User>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(User user) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+    }
+    // ednregion
 
     private void init() {
         Completable completable = Completable.fromCallable(new Callable<Void>() {

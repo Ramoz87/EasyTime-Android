@@ -71,7 +71,6 @@ public final class EasyTimeManager {
 
     private volatile static EasyTimeManager instance;
     private DatabaseHelperORMLite dataSource;
-    private NetworkHelperRetrofit network;
 
     /**
      * Returns singleton class instance
@@ -93,53 +92,10 @@ public final class EasyTimeManager {
     private EasyTimeManager() {
         if (dataSource == null)
             dataSource = new DatabaseHelperORMLite(EasyTimeApplication.getContext());
-        if (network == null)
-            network = new NetworkHelperRetrofit();
     }
 
     public DatabaseHelperORMLite getDataSource() {
         return dataSource;
-    }
-
-    public void getUser(){
-        final UserRequest userRequest = new UserRequest();
-        final UserNetRequest userNetRequest = new UserNetRequest();
-        userNetRequest.queryGet();
-
-        network.getAsync(userNetRequest)
-                .map(new Function<User, User>() {
-                    @Override
-                    public User apply(User user) throws Exception {
-                        userRequest.setEntity(user);
-                        dataSource.save(userRequest);
-                        return user;
-                    }
-                })
-                .map(new Function<User, User>() {
-                    @Override
-                    public User apply(User user) throws Exception {
-                        userRequest.queryForId(dataSource, user.getUserId());
-                        return dataSource.get(userRequest);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<User>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(User user) {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
     }
 
     public void updateJob(Job job) {
