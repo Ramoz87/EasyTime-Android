@@ -2,9 +2,11 @@ package com.paralect.datasource.retrofit;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 import com.paralect.datasource.core.EntityRequest;
 import com.paralect.datasource.rx.DataSourceRx;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public abstract class RetrofitDataSource implements DataSourceRx<String> {
 
     protected RetrofitService service;
+    protected Gson gson;
 
     public RetrofitDataSource() {
         service = createRetrofitService();
@@ -32,21 +35,33 @@ public abstract class RetrofitDataSource implements DataSourceRx<String> {
     // region Asynchronous access
     @Override
     public <DS, AP> Single<AP> getAsync(final EntityRequest<DS, AP, String> request) {
-        Single<JsonElement> networkData = service.get(request.getParameter());
-        Single<AP> appData = networkData.map(new Function<JsonElement, AP>() {
-            @Override
-            public AP apply(JsonElement jsonElement) throws Exception {
-                DS ds = getGson().fromJson(jsonElement, request.getDataSourceEntityClazz());
-                AP ap = request.toAppEntity(ds);
-                return ap;
-            }
-        });
-        return appData;
+        return service.get(request.getParameter())
+                .map(new Function<JsonElement, AP>() {
+                    @Override
+                    public AP apply(JsonElement jsonElement) throws Exception {
+                        DS ds = getGson().fromJson(jsonElement, request.getDataSourceEntityClazz());
+                        AP ap = request.toAppEntity(ds);
+                        return ap;
+                    }
+                });
     }
 
     @Override
-    public <DS, AP> Single<List<AP>> getList(EntityRequest<DS, AP, String> request) {
-        return null;
+    public <DS, AP> Single<List<AP>> getList(final EntityRequest<DS, AP, String> request) {
+        return service.get(request.getParameter())
+                .map(new Function<JsonElement, List<AP>>() {
+                    @Override
+                    public List<AP> apply(JsonElement jsonElement) throws Exception {
+                        List<DS> dsList = gson.fromJson(jsonElement, new TypeToken<List<DS>>() {
+                        }.getType());
+                        List<AP> apList = new ArrayList<>();
+                        for (DS ds : dsList) {
+                            AP ap = request.toAppEntity(ds);
+                            apList.add(ap);
+                        }
+                        return apList;
+                    }
+                });
     }
 
     @Override
@@ -96,7 +111,9 @@ public abstract class RetrofitDataSource implements DataSourceRx<String> {
     }
 
     protected Gson getGson() {
-        return new Gson();
+        if (gson == null)
+            gson = new Gson();
+        return gson;
     }
 
     protected abstract String getBaseUrl();

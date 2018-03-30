@@ -54,6 +54,7 @@ import java.util.List;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
@@ -101,9 +102,26 @@ public final class EasyTimeManager {
     }
 
     public void getUser(){
-        UserNetRequest userNetRequest = new UserNetRequest();
+        final UserRequest userRequest = new UserRequest();
+        final UserNetRequest userNetRequest = new UserNetRequest();
         userNetRequest.queryGet();
+
         network.getAsync(userNetRequest)
+                .map(new Function<User, User>() {
+                    @Override
+                    public User apply(User user) throws Exception {
+                        userRequest.setEntity(user);
+                        dataSource.save(userRequest);
+                        return user;
+                    }
+                })
+                .map(new Function<User, User>() {
+                    @Override
+                    public User apply(User user) throws Exception {
+                        userRequest.queryForId(dataSource, user.getUserId());
+                        return dataSource.get(userRequest);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<User>() {

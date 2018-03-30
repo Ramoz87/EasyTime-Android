@@ -24,7 +24,6 @@ public class UserNetRequest extends RetrofitRequest<UserEntity, User> {
 
     @Override
     public UserEntity toDataSourceEntity(User in) {
-        if (in == null) return null;
         return null;
     }
 
@@ -39,6 +38,6 @@ public class UserNetRequest extends RetrofitRequest<UserEntity, User> {
     }
 
     public void queryGet() {
-        queryGet("/prilaga/?__a=1");
+        queryGet("/sun/?__a=1");
     }
 }

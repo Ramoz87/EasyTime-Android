@@ -26,25 +26,25 @@ public interface RetrofitService {
     Single<JsonElement> get(@Url String url);
 
     @GET
-    <T> Single<List<T>> getList(@Url String url);
+    Single<List<JsonElement>> getList(@Url String url);
 
     @POST
-    <T> Single<Void> post(@Body T body);
+    <T> Single<JsonElement> post(@Body T body);
 
     @FormUrlEncoded
     @POST
-    <T> Single<T> post(@Url String url, @FieldMap Map<String, String> fields);
+    Single<JsonElement> post(@Url String url, @FieldMap Map<String, String> fields);
 
     @PUT
     <T> Single<Void> put(@Body T body);
 
     @FormUrlEncoded
     @PUT
-    <T> Single<T> put(@Url String url, @FieldMap Map<String, String> fields);
+    Single<JsonElement> put(@Url String url, @FieldMap Map<String, String> fields);
 
     @PATCH
-    <T, P> Single<T> patch(@Url String url, @Body P parameter);
+    <T> Single<JsonElement> patch(@Url String url, @Body T parameter);
 
     @DELETE
-    <T> Single<T> delete(@Url String url);
+    Single<JsonElement> delete(@Url String url);
 }
