@@ -21,13 +21,13 @@ public interface DataSourceRx<P> {
 
     Object NOTHING = new Object();
 
-    <DS, AP> Single<AP> getAsync(EntityRequest<DS, AP, P> request) throws Throwable;
+    <DS, AP> Single<AP> getAsync(EntityRequest<DS, AP, P> request);
 
-    <DS, AP> Single<List<AP>> getList(EntityRequest<DS, AP, P> request) throws Throwable;
+    <DS, AP> Single<List<AP>> getList(EntityRequest<DS, AP, P> request);
 
-    <DS, AP> Single<Object> saveAsync(EntityRequest<DS, AP, P> request) throws Throwable;
+    <DS, AP> Single<Object> saveAsync(EntityRequest<DS, AP, P> request);
 
-    <DS, AP> Single<Object> updateAsync(EntityRequest<DS, AP, P> request) throws Throwable;
+    <DS, AP> Single<Object> updateAsync(EntityRequest<DS, AP, P> request);
 
-    <DS, AP> Single<Object> deleteAsync(EntityRequest<DS, AP, P> request) throws Throwable;
+    <DS, AP> Single<Object> deleteAsync(EntityRequest<DS, AP, P> request);
 }

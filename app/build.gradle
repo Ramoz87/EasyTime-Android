@@ -78,8 +78,13 @@ dependencies {
     }
     
     implementation project(':easytimedata')
-    
+
     implementation project(':datasource')
+    implementation project(':datasourcerx')
+
     implementation project(':datasourceormlite')
     implementation project(':easytimedataormlite')
+
+    implementation project(':datasourceretrofit')
+    implementation project(':easytimedataretrofit')
 }

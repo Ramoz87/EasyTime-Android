@@ -1,5 +1,7 @@
 package com.paralect.datasource.retrofit;
 
+import com.google.gson.JsonElement;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +23,7 @@ import retrofit2.http.Url;
 public interface RetrofitService {
 
     @GET
-    <T> Single<T> get(@Url String url);
+    Single<JsonElement> get(@Url String url);
 
     @GET
     <T> Single<List<T>> getList(@Url String url);

@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/datasourcerx" />
             <option value="$PROJECT_DIR$/easytimedata" />
             <option value="$PROJECT_DIR$/easytimedataormlite" />
+            <option value="$PROJECT_DIR$/easytimedataretrofit" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

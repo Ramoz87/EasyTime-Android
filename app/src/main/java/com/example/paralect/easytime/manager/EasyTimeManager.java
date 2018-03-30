@@ -41,6 +41,8 @@ import com.paralect.easytimedataormlite.request.OrderRequest;
 import com.paralect.easytimedataormlite.request.ProjectRequest;
 import com.paralect.easytimedataormlite.request.TypeRequest;
 import com.paralect.easytimedataormlite.request.UserRequest;
+import com.paralect.easytimedataretrofit.NetworkHelperRetrofit;
+import com.paralect.easytimedataretrofit.request.UserNetRequest;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -48,6 +50,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
@@ -63,6 +70,7 @@ public final class EasyTimeManager {
 
     private volatile static EasyTimeManager instance;
     private DatabaseHelperORMLite dataSource;
+    private NetworkHelperRetrofit network;
 
     /**
      * Returns singleton class instance
@@ -84,10 +92,36 @@ public final class EasyTimeManager {
     private EasyTimeManager() {
         if (dataSource == null)
             dataSource = new DatabaseHelperORMLite(EasyTimeApplication.getContext());
+        if (network == null)
+            network = new NetworkHelperRetrofit();
     }
 
     public DatabaseHelperORMLite getDataSource() {
         return dataSource;
+    }
+
+    public void getUser(){
+        UserNetRequest userNetRequest = new UserNetRequest();
+        userNetRequest.queryGet();
+        network.getAsync(userNetRequest)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<User>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(User user) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
     }
 
     public void updateJob(Job job) {
