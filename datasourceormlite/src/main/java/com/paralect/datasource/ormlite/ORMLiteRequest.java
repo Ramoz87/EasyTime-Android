@@ -2,6 +2,7 @@ package com.paralect.datasource.ormlite;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedStmt;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 
 public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, PreparedStmt<?>> {
 
-    public <ID> void  queryWhere(OrmLiteSqliteOpenHelper helper, String name, ID value) throws SQLException {
+    public <ID> void queryWhere(OrmLiteSqliteOpenHelper helper, String name, ID value) throws SQLException {
         Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
         QueryBuilder<DS, ?> query = dao.queryBuilder();
         Where where = query.where();
@@ -39,18 +40,18 @@ public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, P
         setParameter(qb.prepare());
     }
 
-    public void queryForAll(OrmLiteSqliteOpenHelper helper)throws SQLException{
+    public void queryForAll(OrmLiteSqliteOpenHelper helper) throws SQLException {
         Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
         QueryBuilder<DS, ?> qb = dao.queryBuilder();
         setParameter(qb.prepare());
     }
 
-//    public void deleteWhere(OrmLiteSqliteOpenHelper helper, String name, String value) throws SQLException {
-//        Dao<IN, ?> dao = helper.getDao(getDataSourceEntityClazz());
-//        DeleteBuilder<IN, ?> query = dao.deleteBuilder();
-//        query.where().eq(name, value);
-//        query.delete();
-//        setParameter(query);
-//    }
+    public void deleteWhere(OrmLiteSqliteOpenHelper helper, String name, String value) throws SQLException {
+        Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
+        DeleteBuilder<DS, ?> query = dao.deleteBuilder();
+        query.where().eq(name, value);
+        query.delete();
+        setParameter(query.prepare());
+    }
 
 }

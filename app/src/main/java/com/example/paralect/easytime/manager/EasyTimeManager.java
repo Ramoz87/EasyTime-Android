@@ -49,7 +49,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.paralect.easytime.EasyTimeApplication.TAG;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
@@ -243,9 +242,9 @@ public final class EasyTimeManager {
             OrderRequest orderRequest = new OrderRequest();
             ProjectRequest projectRequest = new ProjectRequest();
 
-            objectRequest.queryCountForCustomers(dataSource, id);
-            orderRequest.queryCountForCustomers(dataSource, id);
-            projectRequest.queryCountForCustomers(dataSource, id);
+            objectRequest.queryCountOfCustomers(dataSource, id);
+            orderRequest.queryCountOfCustomers(dataSource, id);
+            projectRequest.queryCountOfCustomers(dataSource, id);
 
             if (dataSource.count(objectRequest) != 0)
                 types.add(ProjectType.Type.TYPE_OBJECT);
@@ -268,17 +267,17 @@ public final class EasyTimeManager {
 
             if (projectType == ProjectType.Type.TYPE_OBJECT) {
                 ObjectRequest objectRequest = new ObjectRequest();
-                objectRequest.queryCountForCustomers(dataSource, id);
+                objectRequest.queryCountOfCustomers(dataSource, id);
                 return dataSource.count(objectRequest);
 
             } else if (projectType == ProjectType.Type.TYPE_PROJECT) {
                 OrderRequest orderRequest = new OrderRequest();
-                orderRequest.queryCountForCustomers(dataSource, id);
+                orderRequest.queryCountOfCustomers(dataSource, id);
                 return dataSource.count(orderRequest);
 
             } else if (projectType == ProjectType.Type.TYPE_ORDER) {
                 ProjectRequest projectRequest = new ProjectRequest();
-                projectRequest.queryCountForCustomers(dataSource, id);
+                projectRequest.queryCountOfCustomers(dataSource, id);
                 return dataSource.count(projectRequest);
             } else return 0L;
 
@@ -525,7 +524,7 @@ public final class EasyTimeManager {
      */
     public long countExpenses(String jobId) throws SQLException {
         ExpenseRequest expenseRequest = new ExpenseRequest();
-        expenseRequest.queryCountForJobs(dataSource, jobId);
+        expenseRequest.queryCountOfJobs(dataSource, jobId);
         return dataSource.count(expenseRequest);
     }
 

@@ -100,6 +100,7 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
         Log.d("", "");
     }
 
+    @Override
     public <DS, AP> long count(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
         Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
         PreparedQuery<DS> param = (PreparedQuery<DS>)request.getParameter();

@@ -28,4 +28,36 @@ public abstract class EntityRequestImpl<DS, AP, P> implements EntityRequest<DS, 
     public AP getEntity() {
         return mEntity;
     }
+
+
+    // region General methods
+    public <ID, H> void queryWhere(H helper, String name, ID value) throws Throwable {
+
+    }
+
+    public <H> void queryForId(H helper, String id) throws Throwable {
+
+    }
+
+    public <H> void queryForEqual(H helper, String id) throws Throwable {
+
+    }
+
+    public <H> void queryForLast(H helper, String orderByFieldName) throws Throwable {
+
+    }
+
+    public <H> void queryForFirst(H helper, String orderByFieldName) throws Throwable {
+
+    }
+
+    public <H> void queryForAll(H helper) throws Throwable {
+
+    }
+
+    public <H> void deleteWhere(H helper, String name, String value) throws Throwable {
+
+    }
+    // endregion
+
 }

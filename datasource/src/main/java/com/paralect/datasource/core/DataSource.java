@@ -24,4 +24,6 @@ public interface DataSource<P> {
     <DS, AP> void update(EntityRequest<DS, AP, P> request) throws Throwable;
 
     <DS, AP> void delete(EntityRequest<DS, AP, P> request) throws Throwable;
+
+    <DS, AP> long count(EntityRequest<DS, AP, P> request) throws Throwable;
 }
