@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="error_unreachable">Network is unreachable</string>
+    <string name="error_unknown">Woops! Something went wrong</string>
+    <string name="error_title">Error</string>
+
+</resources>
