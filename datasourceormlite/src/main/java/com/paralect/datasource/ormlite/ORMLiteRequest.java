@@ -14,48 +14,72 @@ import java.sql.SQLException;
  * Created by Oleg Tarashkevich on 27/03/2018.
  */
 
-public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, PreparedStmt<?>> {
+public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, QueryContainer> {
 
-    public <ID> void queryForId(OrmLiteSqliteOpenHelper helper, ID id) throws SQLException {
+//    public void queryForId(String id) throws SQLException {
+//
+//    }
+//
+//    public void queryForId(long id) throws SQLException {
+//
+//    }
 
+    public <ID> void queryWhere(final String name, final ID value) throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder();
+                Where where = qb.where();
+                where.eq(name, value);
+                return qb.prepare();
+            }
+        });
     }
 
-    public <ID> void queryWhere(OrmLiteSqliteOpenHelper helper, String name, ID value) throws SQLException {
-        Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
-        QueryBuilder<DS, ?> query = dao.queryBuilder();
-        Where where = query.where();
-        where.eq(name, value);
-        setParameter(query.prepare());
+    public void queryForLast(final String orderByFieldName) throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder()
+                        .orderBy(orderByFieldName, false)
+                        .limit(1L);
+                return qb.prepare();
+            }
+        });
     }
 
-    public void queryForLast(OrmLiteSqliteOpenHelper helper, String orderByFieldName) throws SQLException {
-        Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
-        QueryBuilder<DS, ?> qb = dao.queryBuilder()
-                .orderBy(orderByFieldName, false)
-                .limit(1L);
-        setParameter(qb.prepare());
+    public void queryForFirst(final String orderByFieldName) throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder()
+                        .orderBy(orderByFieldName, true)
+                        .limit(1L);
+                return qb.prepare();
+            }
+        });
     }
 
-    public void queryForFirst(OrmLiteSqliteOpenHelper helper, String orderByFieldName) throws SQLException {
-        Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
-        QueryBuilder<DS, ?> qb = dao.queryBuilder()
-                .orderBy(orderByFieldName, true)
-                .limit(1L);
-        setParameter(qb.prepare());
+    public void queryForAll() throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder();
+                return qb.prepare();
+            }
+        });
     }
 
-    public void queryForAll(OrmLiteSqliteOpenHelper helper) throws SQLException {
-        Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
-        QueryBuilder<DS, ?> qb = dao.queryBuilder();
-        setParameter(qb.prepare());
-    }
-
-    public void deleteWhere(OrmLiteSqliteOpenHelper helper, String name, String value) throws SQLException {
-        Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
-        DeleteBuilder<DS, ?> query = dao.deleteBuilder();
-        query.where().eq(name, value);
-        query.delete();
-        setParameter(query.prepare());
+    public void deleteWhere(final String name, final String value) throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                DeleteBuilder<T, ?> query = dao.deleteBuilder();
+                query.where().eq(name, value);
+                query.delete();
+                return query.prepare();
+            }
+        });
     }
 
 }

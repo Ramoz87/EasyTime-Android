@@ -54,11 +54,11 @@ public class ContactRequest extends ORMLiteRequest<ContactEntity, Contact> {
         return Contact.class;
     }
 
-    public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, CONTACT_ID, id);
+    public void queryForId(String id) throws SQLException {
+        queryWhere(CONTACT_ID, id);
     }
 
-    public void queryForEqual(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, CUSTOMER_ID, id);
+    public void queryForEqual(String id) throws SQLException {
+        queryWhere(CUSTOMER_ID, id);
     }
 }

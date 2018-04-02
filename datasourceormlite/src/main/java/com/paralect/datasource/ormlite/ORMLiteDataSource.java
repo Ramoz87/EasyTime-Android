@@ -9,7 +9,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.PreparedStmt;
 import com.j256.ormlite.stmt.PreparedUpdate;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.paralect.datasource.core.DataSource;
 import com.paralect.datasource.core.EntityRequest;
 
@@ -18,13 +17,12 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implements DataSource<PreparedStmt<?>> {
+public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implements DataSource<QueryContainer> {
 
     // region Constructors
     public ORMLiteDataSource(Context context, String databaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion) {
@@ -46,18 +44,18 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
 
     // region Synchronous access
     @Override
-    public <DS, AP> AP get(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
+    public <DS, AP> AP get(EntityRequest<DS, AP, QueryContainer> request) throws SQLException {
         Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
-        PreparedQuery<DS> param = (PreparedQuery<DS>)request.getParameter();
+        PreparedQuery<DS> param = (PreparedQuery<DS>) request.getParameter().getQuery(dao);
         DS entity = dao.queryForFirst(param);
         AP result = request.toAppEntity(entity);
         return result;
     }
 
     @Override
-    public <DS, AP> List<AP> getList(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
+    public <DS, AP> List<AP> getList(EntityRequest<DS, AP, QueryContainer> request) throws SQLException {
         Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
-        PreparedQuery<DS> param = (PreparedQuery<DS>)request.getParameter();
+        PreparedQuery<DS> param = (PreparedQuery<DS>) request.getParameter().getQuery(dao);
         List<DS> entities = dao.query(param);
         List<AP> list = new ArrayList<>();
         for (DS entity : entities) {
@@ -68,7 +66,7 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
     }
 
     @Override
-    public <DS, AP> void save(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
+    public <DS, AP> void save(EntityRequest<DS, AP, QueryContainer> request) throws SQLException {
         Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
         DS entity = request.toDataSourceEntity(request.getEntity());
         int status = dao.create(entity);
@@ -76,7 +74,7 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
     }
 
     @Override
-    public <DS, AP> void saveOrUpdate(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
+    public <DS, AP> void saveOrUpdate(EntityRequest<DS, AP, QueryContainer> request) throws SQLException {
         Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
         DS entity = request.toDataSourceEntity(request.getEntity());
         Dao.CreateOrUpdateStatus status = dao.createOrUpdate(entity);
@@ -84,24 +82,26 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
     }
 
     @Override
-    public <DS, AP> void update(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
+    public <DS, AP> void update(EntityRequest<DS, AP, QueryContainer> request) throws SQLException {
         Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
         AP appEntity = request.getEntity();
-        PreparedStmt<?> statement = request.getParameter();
+        QueryContainer container = request.getParameter();
 
         int status = -1;
         if (appEntity != null) {
             DS entity = request.toDataSourceEntity(request.getEntity());
             status = dao.update(entity);
-        } else if (statement != null && statement instanceof PreparedUpdate) {
-            status = dao.update((PreparedUpdate) statement);
+        } else if (container != null) {
+            PreparedStmt<?> statement = container.getQuery(dao);
+            if (statement instanceof PreparedUpdate)
+                status = dao.update((PreparedUpdate) statement);
         }
 
         Log.d("", "");
     }
 
     @Override
-    public <DS, AP> void delete(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
+    public <DS, AP> void delete(EntityRequest<DS, AP, QueryContainer> request) throws SQLException {
         Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
         DS entity = request.toDataSourceEntity(request.getEntity());
         int status = dao.delete(entity);
@@ -109,9 +109,9 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
     }
 
     @Override
-    public <DS, AP> long count(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
+    public <DS, AP> long count(EntityRequest<DS, AP, QueryContainer> request) throws SQLException {
         Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
-        PreparedQuery<DS> param = (PreparedQuery<DS>)request.getParameter();
+        PreparedQuery<DS> param = (PreparedQuery<DS>) request.getParameter().getQuery(dao);
         long count = dao.countOf(param);
         return count;
     }

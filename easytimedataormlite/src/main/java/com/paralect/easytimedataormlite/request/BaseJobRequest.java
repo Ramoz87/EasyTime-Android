@@ -6,9 +6,11 @@ import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedStmt;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.paralect.datasource.ormlite.ORMLiteRequest;
+import com.paralect.datasource.ormlite.QueryContainer;
 import com.paralect.easytimedataormlite.model.CustomerEntity;
 import com.paralect.easytimedataormlite.model.JobEntity;
 
@@ -59,46 +61,54 @@ public abstract class BaseJobRequest<DS extends JobEntity, AP extends Job> exten
         }
     }
 
-    public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, JOB_ID, id);
+    public void queryForId(String id) throws SQLException {
+        queryWhere(JOB_ID, id);
     }
 
-    public void queryForList(OrmLiteSqliteOpenHelper helper, String customerId, String query, String date) throws SQLException {
-        Dao<DS, String> dao = helper.getDao(getDataSourceEntityClazz());
-        QueryBuilder<DS, String> qb = dao.queryBuilder();
+    public void queryForList(final String customerId, final String query, final String date) throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder();
 
-        boolean hasCustomerId = !TextUtils.isEmpty(customerId);
-        boolean hasQuery = !TextUtils.isEmpty(query);
-        boolean hasDate = !TextUtils.isEmpty(date);
+                boolean hasCustomerId = !TextUtils.isEmpty(customerId);
+                boolean hasQuery = !TextUtils.isEmpty(query);
+                boolean hasDate = !TextUtils.isEmpty(date);
 
-        Where where = null;
-        if (hasCustomerId) {
-            where = qb.where().eq(CUSTOMER_ID, customerId);
-        }
+                Where where = null;
+                if (hasCustomerId) {
+                    where = qb.where().eq(CUSTOMER_ID, customerId);
+                }
 
-        if (hasQuery) {
-            if (where == null) where = qb.where();
-            else where.and();
+                if (hasQuery) {
+                    if (where == null) where = qb.where();
+                    else where.and();
 
-            where.like("name", "%" + query + "%")
-                    .or().raw("CAST(number AS TEXT) LIKE '%" + query + "%'");
-        }
+                    where.like("name", "%" + query + "%")
+                            .or().raw("CAST(number AS TEXT) LIKE '%" + query + "%'");
+                }
 
-        if (hasDate) {
-            Date time = CalendarUtils.dateFromString(date, SHORT_DATE_FORMAT);
-            if (where == null) where = qb.where();
-            else where.and();
+                if (hasDate) {
+                    Date time = CalendarUtils.dateFromString(date, SHORT_DATE_FORMAT);
+                    if (where == null) where = qb.where();
+                    else where.and();
 
-            where.le("date", time.getTime());
-        }
-        setParameter(qb.prepare());
+                    where.le("date", time.getTime());
+                }
+                return qb.prepare();
+            }
+        });
     }
 
-    public void queryCountOfCustomers(OrmLiteSqliteOpenHelper helper, String customerId) throws SQLException {
-        Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
-        QueryBuilder<DS, ?> qb = dao.queryBuilder();
-        qb.setCountOf(true);
-        qb.where().eq(CUSTOMER_ID, customerId);
-        setParameter(qb.prepare());
+    public void queryCountOfCustomers(final String customerId) throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder();
+                qb.setCountOf(true);
+                qb.where().eq(CUSTOMER_ID, customerId);
+                return qb.prepare();
+            }
+        });
     }
 }

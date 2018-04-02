@@ -116,7 +116,7 @@ public final class EasyTimeManager {
         Type type = null;
         try {
             TypeRequest typeRequest = new TypeRequest();
-            typeRequest.queryForId(dataSource, typeId);
+            typeRequest.queryForId(typeId);
             type = dataSource.get(typeRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
@@ -135,7 +135,7 @@ public final class EasyTimeManager {
     public List<Type> getTypes(@Type.TypeName String type, String searchName) {
         try {
             TypeRequest typeRequest = new TypeRequest();
-            typeRequest.queryForList(dataSource, type, searchName);
+            typeRequest.queryForList(type, searchName);
             List<Type> list = dataSource.getList(typeRequest);
             return list;
         } catch (SQLException exc) {
@@ -148,7 +148,7 @@ public final class EasyTimeManager {
     public List<Contact> getContacts(Customer customer) {
         try {
             ContactRequest contactRequest = new ContactRequest();
-            contactRequest.queryForEqual(dataSource, customer.getId());
+            contactRequest.queryForEqual(customer.getId());
             return dataSource.getList(contactRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
@@ -159,7 +159,7 @@ public final class EasyTimeManager {
     public Address getAddress(Customer customer) {
         try {
             AddressRequest addressRequest = new AddressRequest();
-            addressRequest.queryForId(dataSource, customer.getAddressId());
+            addressRequest.queryForId(customer.getAddressId());
             return dataSource.get(addressRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
@@ -176,9 +176,9 @@ public final class EasyTimeManager {
             OrderRequest orderRequest = new OrderRequest();
             ProjectRequest projectRequest = new ProjectRequest();
 
-            objectRequest.queryForList(dataSource, null, null, null);
-            orderRequest.queryForList(dataSource, null, null, null);
-            projectRequest.queryForList(dataSource, null, null, null);
+            objectRequest.queryForList(null, null, null);
+            orderRequest.queryForList(null, null, null);
+            projectRequest.queryForList(null, null, null);
 
             List<Object> objects = dataSource.getList(objectRequest);
             List<Order> orders = dataSource.getList(orderRequest);
@@ -191,7 +191,7 @@ public final class EasyTimeManager {
             CustomerRequest customerRequest = new CustomerRequest();
             for (Job job : jobs) {
                 String customerId = job.getCustomerId();
-                customerRequest.queryForId(dataSource, customerId);
+                customerRequest.queryForId(customerId);
                 Customer customer = dataSource.get(customerRequest);
                 job.setCustomer(customer);
             }
@@ -200,7 +200,7 @@ public final class EasyTimeManager {
             for (Job job : jobs) {
                 if (job instanceof JobWithAddress) {
                     JobWithAddress jobWithAddress = (JobWithAddress) job;
-                    addressRequest.queryForId(dataSource, jobWithAddress.getAddressId());
+                    addressRequest.queryForId(jobWithAddress.getAddressId());
                     Address address = dataSource.get(addressRequest);
                     jobWithAddress.setAddress(address);
                 }
@@ -209,7 +209,7 @@ public final class EasyTimeManager {
             TypeRequest typeRequest = new TypeRequest();
             for (Job job : jobs) {
                 String statusId = job.getStatusId();
-                typeRequest.queryForId(dataSource, statusId);
+                typeRequest.queryForId(statusId);
                 Type status = dataSource.get(typeRequest);
                 job.setStatus(status);
             }
@@ -242,9 +242,9 @@ public final class EasyTimeManager {
             OrderRequest orderRequest = new OrderRequest();
             ProjectRequest projectRequest = new ProjectRequest();
 
-            objectRequest.queryCountOfCustomers(dataSource, id);
-            orderRequest.queryCountOfCustomers(dataSource, id);
-            projectRequest.queryCountOfCustomers(dataSource, id);
+            objectRequest.queryCountOfCustomers(id);
+            orderRequest.queryCountOfCustomers(id);
+            projectRequest.queryCountOfCustomers(id);
 
             if (dataSource.count(objectRequest) != 0)
                 types.add(ProjectType.Type.TYPE_OBJECT);
@@ -267,17 +267,17 @@ public final class EasyTimeManager {
 
             if (projectType == ProjectType.Type.TYPE_OBJECT) {
                 ObjectRequest objectRequest = new ObjectRequest();
-                objectRequest.queryCountOfCustomers(dataSource, id);
+                objectRequest.queryCountOfCustomers(id);
                 return dataSource.count(objectRequest);
 
             } else if (projectType == ProjectType.Type.TYPE_PROJECT) {
                 OrderRequest orderRequest = new OrderRequest();
-                orderRequest.queryCountOfCustomers(dataSource, id);
+                orderRequest.queryCountOfCustomers(id);
                 return dataSource.count(orderRequest);
 
             } else if (projectType == ProjectType.Type.TYPE_ORDER) {
                 ProjectRequest projectRequest = new ProjectRequest();
-                projectRequest.queryCountOfCustomers(dataSource, id);
+                projectRequest.queryCountOfCustomers(id);
                 return dataSource.count(projectRequest);
             } else return 0L;
 
@@ -290,14 +290,14 @@ public final class EasyTimeManager {
     public <T extends Job> List<T> getJobs(BaseJobRequest request, Customer customer, String query, String date) throws SQLException {
 
         String customerId = customer == null ? "" : customer.getId();
-        request.queryForList(dataSource, customerId, query, date);
+        request.queryForList(customerId, query, date);
         List<T> jobs = dataSource.getList(request);
 
         if (customer == null) {
             CustomerRequest customerRequest = new CustomerRequest();
             for (Job job : jobs) {
                 customerId = job.getCustomerId();
-                customerRequest.queryForId(dataSource, customerId);
+                customerRequest.queryForId(customerId);
                 customer = dataSource.get(customerRequest);
                 job.setCustomer(customer);
             }
@@ -307,7 +307,7 @@ public final class EasyTimeManager {
         for (Job job : jobs) {
             if (job instanceof JobWithAddress) {
                 JobWithAddress jobWithAddress = (JobWithAddress) job;
-                addressRequest.queryForId(dataSource, jobWithAddress.getAddressId());
+                addressRequest.queryForId(jobWithAddress.getAddressId());
                 Address address = dataSource.get(addressRequest);
                 jobWithAddress.setAddress(address);
             }
@@ -315,7 +315,7 @@ public final class EasyTimeManager {
 
         TypeRequest typeRequest = new TypeRequest();
         for (Job job : jobs) {
-            typeRequest.queryForId(dataSource, job.getStatusId());
+            typeRequest.queryForId(job.getStatusId());
             Type status = dataSource.get(typeRequest);
             job.setStatus(status);
         }
@@ -332,9 +332,9 @@ public final class EasyTimeManager {
             OrderRequest orderRequest = new OrderRequest();
             ProjectRequest projectRequest = new ProjectRequest();
 
-            objectRequest.queryForList(dataSource, customerId, query, date);
-            orderRequest.queryForList(dataSource, customerId, query, date);
-            projectRequest.queryForList(dataSource, customerId, query, date);
+            objectRequest.queryForList(customerId, query, date);
+            orderRequest.queryForList(customerId, query, date);
+            projectRequest.queryForList(customerId, query, date);
 
             List<Object> objects = dataSource.getList(objectRequest);
             List<Order> orders = dataSource.getList(orderRequest);
@@ -348,7 +348,7 @@ public final class EasyTimeManager {
                 CustomerRequest customerRequest = new CustomerRequest();
                 for (Job job : jobs) {
                     customerId = job.getCustomerId();
-                    customerRequest.queryForId(dataSource, customerId);
+                    customerRequest.queryForId(customerId);
                     customer = dataSource.get(customerRequest);
                     job.setCustomer(customer);
                 }
@@ -358,7 +358,7 @@ public final class EasyTimeManager {
             for (Job job : jobs) {
                 if (job instanceof JobWithAddress) {
                     JobWithAddress jobWithAddress = (JobWithAddress) job;
-                    addressRequest.queryForId(dataSource, jobWithAddress.getAddressId());
+                    addressRequest.queryForId(jobWithAddress.getAddressId());
                     Address address = dataSource.get(addressRequest);
                     jobWithAddress.setAddress(address);
                 }
@@ -366,7 +366,7 @@ public final class EasyTimeManager {
 
             TypeRequest typeRequest = new TypeRequest();
             for (Job job : jobs) {
-                typeRequest.queryForId(dataSource, job.getStatusId());
+                typeRequest.queryForId(job.getStatusId());
                 Type status = dataSource.get(typeRequest);
                 job.setStatus(status);
             }
@@ -383,7 +383,7 @@ public final class EasyTimeManager {
         UserRequest userRequest = new UserRequest();
 
         for (String id : ids) {
-            userRequest.queryForId(dataSource, id);
+            userRequest.queryForId(id);
             User user = dataSource.get(userRequest);
             users.add(user);
         }
@@ -393,7 +393,7 @@ public final class EasyTimeManager {
 
     public List<Material> getMaterials(String query) throws SQLException {
         MaterialRequest materialRequest = new MaterialRequest();
-        materialRequest.queryForSearch(dataSource, query);
+        materialRequest.queryForSearch(query);
         return dataSource.getList(materialRequest);
     }
 
@@ -404,9 +404,9 @@ public final class EasyTimeManager {
             CustomerRequest customerRequest = new CustomerRequest();
 
             if (TextUtils.isEmpty(query))
-                customerRequest.queryForAll(dataSource);
+                customerRequest.queryForAll();
             else
-                customerRequest.queryForSearch(dataSource, query);
+                customerRequest.queryForSearch(query);
 
             customers = dataSource.getList(customerRequest);
         } catch (SQLException exc) {
@@ -429,7 +429,7 @@ public final class EasyTimeManager {
         List<Material> materials = new ArrayList<>();
         try {
             MaterialRequest materialRequest = new MaterialRequest();
-            materialRequest.queryForAdded(dataSource);
+            materialRequest.queryForAdded();
             List<Material> myMaterials = dataSource.getList(materialRequest);
             materials.addAll(myMaterials);
         } catch (SQLException exc) {
@@ -442,7 +442,7 @@ public final class EasyTimeManager {
     public void deleteMyMaterials() {
         try {
             MaterialRequest materialRequest = new MaterialRequest();
-            materialRequest.queryForResetMaterials(dataSource);
+            materialRequest.queryForResetMaterials();
             dataSource.update(materialRequest);
             Logger.d(TAG, "cleaned stock of my materials");
         } catch (SQLException exc) {
@@ -473,7 +473,8 @@ public final class EasyTimeManager {
      * @return list of expenses
      */
     private List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
-        ExpenseRequest request = new ExpenseRequest().queryForListExpense(dataSource, jobId, searchQuery, expenseType);
+        ExpenseRequest request = new ExpenseRequest();
+        request.queryForListExpense(jobId, searchQuery, expenseType);
         return dataSource.getList(request);
     }
 
@@ -490,7 +491,7 @@ public final class EasyTimeManager {
             long totalCount = countExpenses(jobId);
 
             ProjectRequest projectRequest = new ProjectRequest();
-            projectRequest.queryForId(dataSource, jobId);
+            projectRequest.queryForId(jobId);
             Project project = dataSource.get(projectRequest);
 
             if (project != null) {
@@ -501,7 +502,7 @@ public final class EasyTimeManager {
             } else {
 
                 OrderRequest orderRequest = new OrderRequest();
-                orderRequest.queryForId(dataSource, jobId);
+                orderRequest.queryForId(jobId);
                 Order order = dataSource.get(orderRequest);
 
                 if (order != null) {
@@ -524,7 +525,7 @@ public final class EasyTimeManager {
      */
     public long countExpenses(String jobId) throws SQLException {
         ExpenseRequest expenseRequest = new ExpenseRequest();
-        expenseRequest.queryCountOfJobs(dataSource, jobId);
+        expenseRequest.queryCountOfJobs(jobId);
         return dataSource.count(expenseRequest);
     }
 
@@ -546,7 +547,7 @@ public final class EasyTimeManager {
             ids.add(jobId);
 
             ProjectRequest projectRequest = new ProjectRequest();
-            projectRequest.queryForId(dataSource, jobId);
+            projectRequest.queryForId(jobId);
             Project project = dataSource.get(projectRequest);
 
             if (project != null) {
@@ -555,7 +556,7 @@ public final class EasyTimeManager {
             }
 
             OrderRequest orderRequest = new OrderRequest();
-            orderRequest.queryForId(dataSource, jobId);
+            orderRequest.queryForId(jobId);
             Order order = dataSource.get(orderRequest);
 
             if (order != null) {
@@ -568,7 +569,7 @@ public final class EasyTimeManager {
 
             for (String id : ids) {
 
-                expenseRequest.queryForListExpense(dataSource, jobId, date);
+                expenseRequest.queryForListExpense(jobId, date);
                 List<Expense> foundExpense = dataSource.getList(expenseRequest);
 
                 Logger.d(TAG, String.format("totally found %s expenses", foundExpense.size()));
@@ -598,7 +599,7 @@ public final class EasyTimeManager {
                     if (expense != null && materialRequest != null) {
                         String materialId = expense.getMaterialId();
                         Logger.d(TAG, String.format("material id for curr expense = %s", materialId));
-                        materialRequest.queryForId(dataSource, materialId);
+                        materialRequest.queryForId(materialId);
                         Material material = dataSource.get(materialRequest);
                         if (material != null) {
                             com.example.paralect.easytime.model.Type t = getType(material.getUnitId());
@@ -639,7 +640,7 @@ public final class EasyTimeManager {
         dataSource.saveOrUpdate(saveRequest);
 
         ExpenseRequest getRequest = new ExpenseRequest();
-        getRequest.queryForLast(dataSource);
+        getRequest.queryForLast();
         return dataSource.get(getRequest);
     }
 
@@ -653,18 +654,18 @@ public final class EasyTimeManager {
 
             if (ids != null) {
                 for (String id : ids) {
-                    objectRequest.queryForId(dataSource, id);
+                    objectRequest.queryForId(id);
                     Object o = dataSource.get(objectRequest);
                     if (o != null) {
-                        addressRequest.queryForId(dataSource, o.getAddressId());
+                        addressRequest.queryForId(o.getAddressId());
                         Address address = dataSource.get(addressRequest);
                         o.setAddress(address);
 
-                        customerRequest.queryForId(dataSource, o.getCustomerId());
+                        customerRequest.queryForId(o.getCustomerId());
                         Customer customer = dataSource.get(customerRequest);
                         o.setCustomer(customer);
 
-                        typeRequest.queryForId(dataSource, o.getStatusId());
+                        typeRequest.queryForId(o.getStatusId());
                         Type status = dataSource.get(typeRequest);
                         o.setStatus(status);
 
@@ -715,19 +716,19 @@ public final class EasyTimeManager {
     // region File
     public File getFile(Expense expense) throws SQLException {
         FileRequest fileRequest = new FileRequest();
-        fileRequest.queryForFirst(dataSource, EXPENSE_ID);
+        fileRequest.queryForFirst(EXPENSE_ID);
         return dataSource.get(fileRequest);
     }
 
     public List<File> getFilesByExpenseId(String expenseId) throws SQLException {
         FileRequest fileRequest = new FileRequest();
-        fileRequest.queryWhere(dataSource, FILE_ID, expenseId);
+        fileRequest.queryWhere(FILE_ID, expenseId);
         return dataSource.getList(fileRequest);
     }
 
     public List<File> getFiles(Job job) throws SQLException {
         FileRequest fileRequest = new FileRequest();
-        fileRequest.queryWhere(dataSource, JOB_ID, job.getId());
+        fileRequest.queryWhere(JOB_ID, job.getId());
         return dataSource.getList(fileRequest);
     }
 
@@ -741,7 +742,7 @@ public final class EasyTimeManager {
         saveFile(file);
         // retrieve
         FileRequest fileRequest = new FileRequest();
-        fileRequest.queryForLast(dataSource);
+        fileRequest.queryForLast();
         return dataSource.get(fileRequest);
     }
 
@@ -755,7 +756,7 @@ public final class EasyTimeManager {
     public User getUser(String userId) {
         try {
             UserRequest userRequest = new UserRequest();
-            userRequest.queryForId(dataSource, userId);
+            userRequest.queryForId(userId);
             return dataSource.get(userRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
@@ -766,7 +767,7 @@ public final class EasyTimeManager {
     public User getRandomUser() {
         try {
             UserRequest userRequest = new UserRequest();
-            userRequest.queryForId(dataSource, "0be618c9-e68b-435a-bdf4-d7f4ee6b6ba4");
+            userRequest.queryForId("0be618c9-e68b-435a-bdf4-d7f4ee6b6ba4");
             return dataSource.get(userRequest);
         } catch (SQLException exc) {
             Logger.e(exc);
@@ -776,7 +777,7 @@ public final class EasyTimeManager {
 
     // region Populate data base
 
-    public void populateData(@NonNull AssetManager am){
+    public void populateData(@NonNull AssetManager am) {
         FakeCreator fakeCreator = getDefaultFakeCreator(am);
         fillData(fakeCreator);
     }

@@ -3,9 +3,11 @@ package com.paralect.easytimedataormlite.request;
 import com.example.paralect.easytime.model.Material;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedStmt;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.paralect.datasource.ormlite.ORMLiteRequest;
+import com.paralect.datasource.ormlite.QueryContainer;
 import com.paralect.easytimedataormlite.model.MaterialEntity;
 
 import java.sql.SQLException;
@@ -65,34 +67,46 @@ public class MaterialRequest extends ORMLiteRequest<MaterialEntity, Material> {
         return Material.class;
     }
 
-    public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, MATERIAL_ID, id);
+    public void queryForId(String id) throws SQLException {
+        queryWhere(MATERIAL_ID, id);
     }
 
-    public void queryForSearch(OrmLiteSqliteOpenHelper helper, String query) throws SQLException {
-        Dao<MaterialEntity, ?> dao = helper.getDao(getDataSourceEntityClazz());
-        QueryBuilder<MaterialEntity, ?> qb = dao.queryBuilder();
-        qb.where().like(NAME, "%" + query + "%");
-        setParameter(qb.prepare());
+    public void queryForSearch(final String query) throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder();
+                qb.where().like(NAME, "%" + query + "%");
+                return qb.prepare();
+            }
+        });
     }
 
-    public void queryForAdded(OrmLiteSqliteOpenHelper helper) throws SQLException {
-        Dao<MaterialEntity, ?> dao = helper.getDao(getDataSourceEntityClazz());
-        QueryBuilder<MaterialEntity, ?> qb = dao.queryBuilder();
-        qb.where().like(IS_ADDED, true);
-        qb.orderByRaw(STOCK_ENTITY + " IS 0 ASC")
-                .orderBy(NAME, true);
-        setParameter(qb.prepare());
+    public void queryForAdded() throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder();
+                qb.where().like(IS_ADDED, true);
+                qb.orderByRaw(STOCK_ENTITY + " IS 0 ASC")
+                        .orderBy(NAME, true);
+                return qb.prepare();
+            }
+        });
     }
 
-    public void queryForResetMaterials(OrmLiteSqliteOpenHelper helper)throws SQLException{
-        Dao<MaterialEntity, ?> dao = helper.getDao(getDataSourceEntityClazz());
-        UpdateBuilder<MaterialEntity, ?> ub = dao.updateBuilder();
-        ub.where().eq(IS_ADDED, true);
-        ub.updateColumnValue(IS_ADDED, false);
-        ub.updateColumnValue(STOCK_ENTITY, 0);
-        ub.update();
-        setParameter(ub.prepare());
+    public void queryForResetMaterials()throws SQLException{
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                UpdateBuilder<T, ?> ub = dao.updateBuilder();
+                ub.where().eq(IS_ADDED, true);
+                ub.updateColumnValue(IS_ADDED, false);
+                ub.updateColumnValue(STOCK_ENTITY, 0);
+                ub.update();
+                return ub.prepare();
+            }
+        });
     }
 
 }

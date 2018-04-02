@@ -45,7 +45,7 @@ public class LaunchScreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_screen);
-//        init();
+        init();
 
         getAndSaveUser();
     }
@@ -75,7 +75,7 @@ public class LaunchScreenActivity extends Activity {
                 .map(new Function<User, User>() {
                     @Override
                     public User apply(User user) throws Exception {
-                        userRequest.queryForId(database, user.getUserId());
+                        userRequest.queryForId(user.getUserId());
                         return database.get(userRequest);
                     }
                 })

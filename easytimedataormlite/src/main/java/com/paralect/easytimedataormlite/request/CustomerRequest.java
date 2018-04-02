@@ -3,8 +3,10 @@ package com.paralect.easytimedataormlite.request;
 import com.example.paralect.easytime.model.Customer;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedStmt;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.paralect.datasource.ormlite.ORMLiteRequest;
+import com.paralect.datasource.ormlite.QueryContainer;
 import com.paralect.easytimedataormlite.model.CustomerEntity;
 
 import java.sql.SQLException;
@@ -53,15 +55,19 @@ public class CustomerRequest extends ORMLiteRequest<CustomerEntity, Customer> {
     }
 
     // region Requests
-    public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, CUSTOMER_ID, id);
+    public void queryForId(String id) throws SQLException {
+        queryWhere(CUSTOMER_ID, id);
     }
 
-    public void queryForSearch(OrmLiteSqliteOpenHelper helper, String query) throws SQLException {
-        Dao<CustomerEntity, ?> dao = helper.getDao(CustomerEntity.class);
-        QueryBuilder<CustomerEntity, ?> qb = dao.queryBuilder();
-        qb.where().like(COMPANY_NAME, "%" + query + "%");
-        setParameter(qb.prepare());
+    public void queryForSearch(final String query) throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder();
+                qb.where().like(COMPANY_NAME, "%" + query + "%");
+                return qb.prepare();
+            }
+        });
     }
     // endregion
 }

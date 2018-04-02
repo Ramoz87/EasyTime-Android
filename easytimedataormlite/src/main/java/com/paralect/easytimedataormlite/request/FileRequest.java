@@ -49,15 +49,15 @@ public class FileRequest extends ORMLiteRequest<FileEntity, File> {
         return File.class;
     }
 
-    public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, FILE_ID, id);
+    public void queryForId(String id) throws SQLException {
+        queryWhere(FILE_ID, id);
     }
 
-    public void queryForLast(OrmLiteSqliteOpenHelper helper) throws SQLException {
-        queryForLast(helper, FILE_ID);
+    public void queryForLast() throws SQLException {
+        queryForLast(FILE_ID);
     }
 
-    public void queryForFirst(OrmLiteSqliteOpenHelper helper) throws SQLException {
-        queryForFirst(helper, FILE_ID);
+    public void queryForFirst() throws SQLException {
+        queryForFirst(FILE_ID);
     }
 }

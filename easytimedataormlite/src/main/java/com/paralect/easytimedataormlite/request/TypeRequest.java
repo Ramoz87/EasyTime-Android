@@ -5,8 +5,10 @@ import android.text.TextUtils;
 import com.example.paralect.easytime.model.Type;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedStmt;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.paralect.datasource.ormlite.ORMLiteRequest;
+import com.paralect.datasource.ormlite.QueryContainer;
 import com.paralect.easytimedataormlite.model.TypeEntity;
 
 import java.sql.SQLException;
@@ -53,20 +55,24 @@ public class TypeRequest extends ORMLiteRequest<TypeEntity, Type> {
         return Type.class;
     }
 
-    public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, TYPE_ID, id);
+    public void queryForId(String id) throws SQLException {
+        queryWhere(TYPE_ID, id);
     }
 
-    public void queryForList(OrmLiteSqliteOpenHelper helper, @Type.TypeName String type, String searchName) throws SQLException {
-        Dao<TypeEntity, ?> dao = helper.getDao(getDataSourceEntityClazz());
-        QueryBuilder<TypeEntity, ?> qb = dao.queryBuilder();
-        if (!TextUtils.isEmpty(type)) {
-            qb.where()
-                    .eq(TYPE, type)
-                    .and()
-                    .like(NAME, "%" + searchName + "%")
-                    .prepare();
-        }
-        setParameter(qb.prepare());
+    public void queryForList(@Type.TypeName final String type, final String searchName) throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T>PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder();
+                if (!TextUtils.isEmpty(type)) {
+                    qb.where()
+                            .eq(TYPE, type)
+                            .and()
+                            .like(NAME, "%" + searchName + "%")
+                            .prepare();
+                }
+                return qb.prepare();
+            }
+        });
     }
 }
