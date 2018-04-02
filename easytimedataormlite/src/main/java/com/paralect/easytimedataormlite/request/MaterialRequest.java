@@ -71,6 +71,7 @@ public class MaterialRequest extends ORMLiteRequest<MaterialEntity, Material> {
         queryWhere(MATERIAL_ID, id);
     }
 
+    @Override
     public void queryForSearch(final String query) throws SQLException {
         setParameter(new QueryContainer() {
             @Override

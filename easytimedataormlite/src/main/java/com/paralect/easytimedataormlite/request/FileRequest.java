@@ -49,6 +49,7 @@ public class FileRequest extends ORMLiteRequest<FileEntity, File> {
         return File.class;
     }
 
+    @Override
     public void queryForId(String id) throws SQLException {
         queryWhere(FILE_ID, id);
     }

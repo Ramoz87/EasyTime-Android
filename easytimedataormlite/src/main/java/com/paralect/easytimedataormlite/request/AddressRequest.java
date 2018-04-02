@@ -52,6 +52,7 @@ public class AddressRequest extends ORMLiteRequest<AddressEntity, Address> {
     }
 
     // region Requests
+    @Override
     public void queryForId(long id) throws SQLException {
         queryWhere(ADDRESS_ID, id);
     }

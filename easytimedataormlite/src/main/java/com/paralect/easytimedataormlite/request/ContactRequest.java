@@ -54,10 +54,12 @@ public class ContactRequest extends ORMLiteRequest<ContactEntity, Contact> {
         return Contact.class;
     }
 
+    @Override
     public void queryForId(String id) throws SQLException {
         queryWhere(CONTACT_ID, id);
     }
 
+    @Override
     public void queryForEqual(String id) throws SQLException {
         queryWhere(CUSTOMER_ID, id);
     }

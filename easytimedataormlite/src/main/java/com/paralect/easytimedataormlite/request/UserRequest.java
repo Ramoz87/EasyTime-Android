@@ -51,6 +51,7 @@ public class UserRequest extends ORMLiteRequest<UserEntity, User> {
         return User.class;
     }
 
+    @Override
     public void queryForId(String id) throws SQLException {
         queryWhere(USER_ID, id);
     }

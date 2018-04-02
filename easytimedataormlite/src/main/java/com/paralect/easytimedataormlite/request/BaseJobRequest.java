@@ -61,6 +61,7 @@ public abstract class BaseJobRequest<DS extends JobEntity, AP extends Job> exten
         }
     }
 
+    @Override
     public void queryForId(String id) throws SQLException {
         queryWhere(JOB_ID, id);
     }

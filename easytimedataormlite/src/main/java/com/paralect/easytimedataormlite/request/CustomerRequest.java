@@ -55,10 +55,12 @@ public class CustomerRequest extends ORMLiteRequest<CustomerEntity, Customer> {
     }
 
     // region Requests
+    @Override
     public void queryForId(String id) throws SQLException {
         queryWhere(CUSTOMER_ID, id);
     }
 
+    @Override
     public void queryForSearch(final String query) throws SQLException {
         setParameter(new QueryContainer() {
             @Override

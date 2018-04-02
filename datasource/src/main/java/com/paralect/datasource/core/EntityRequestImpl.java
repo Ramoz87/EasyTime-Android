@@ -60,33 +60,41 @@ public abstract class EntityRequestImpl<DS, AP, P> implements EntityRequest<DS, 
     }
 
     // region General methods
-//    public <ID, H> void queryWhere(H helper, String name, ID value) throws Throwable {
-//
-//    }
-//
-//    public <H> void queryForId(H helper, String id) throws Throwable {
-//
-//    }
-//
-//    public <H> void queryForEqual(H helper, String id) throws Throwable {
-//
-//    }
-//
-//    public <H> void queryForLast(H helper, String orderByFieldName) throws Throwable {
-//
-//    }
-//
-//    public <H> void queryForFirst(H helper, String orderByFieldName) throws Throwable {
-//
-//    }
-//
-//    public <H> void queryForAll(H helper) throws Throwable {
-//
-//    }
-//
-//    public <H> void deleteWhere(H helper, String name, String value) throws Throwable {
-//
-//    }
+    public void queryForId(String id) throws Throwable {
+
+    }
+
+    public void queryForId(long id) throws Throwable {
+
+    }
+
+    public void queryForEqual(String id) throws Throwable {
+
+    }
+
+    public void queryForSearch(final String query) throws Throwable {
+
+    }
+
+    public <ID> void queryWhere(final String name, final ID value) throws Throwable {
+
+    }
+
+    public void queryForLast(final String orderByFieldName) throws Throwable {
+
+    }
+
+    public void queryForFirst(final String orderByFieldName) throws Throwable {
+
+    }
+
+    public void queryForAll() throws Throwable {
+
+    }
+
+    public void deleteWhere(final String name, final String value) throws Throwable {
+
+    }
     // endregion
 
 }

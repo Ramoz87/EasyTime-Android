@@ -55,6 +55,7 @@ public class TypeRequest extends ORMLiteRequest<TypeEntity, Type> {
         return Type.class;
     }
 
+    @Override
     public void queryForId(String id) throws SQLException {
         queryWhere(TYPE_ID, id);
     }

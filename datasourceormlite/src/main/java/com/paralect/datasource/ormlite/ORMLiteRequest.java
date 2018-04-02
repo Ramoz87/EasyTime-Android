@@ -1,6 +1,5 @@
 package com.paralect.datasource.ormlite;
 
-import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedStmt;
@@ -16,14 +15,7 @@ import java.sql.SQLException;
 
 public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, QueryContainer> {
 
-//    public void queryForId(String id) throws SQLException {
-//
-//    }
-//
-//    public void queryForId(long id) throws SQLException {
-//
-//    }
-
+    @Override
     public <ID> void queryWhere(final String name, final ID value) throws SQLException {
         setParameter(new QueryContainer() {
             @Override
@@ -36,6 +28,7 @@ public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, Q
         });
     }
 
+    @Override
     public void queryForLast(final String orderByFieldName) throws SQLException {
         setParameter(new QueryContainer() {
             @Override
@@ -48,6 +41,7 @@ public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, Q
         });
     }
 
+    @Override
     public void queryForFirst(final String orderByFieldName) throws SQLException {
         setParameter(new QueryContainer() {
             @Override
@@ -60,6 +54,7 @@ public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, Q
         });
     }
 
+    @Override
     public void queryForAll() throws SQLException {
         setParameter(new QueryContainer() {
             @Override
@@ -70,6 +65,7 @@ public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, Q
         });
     }
 
+    @Override
     public void deleteWhere(final String name, final String value) throws SQLException {
         setParameter(new QueryContainer() {
             @Override
