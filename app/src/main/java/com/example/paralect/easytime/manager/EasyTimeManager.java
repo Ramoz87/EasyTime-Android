@@ -27,8 +27,6 @@ import com.example.paralect.easytime.utils.FakeCreator;
 import com.example.paralect.easytime.utils.Logger;
 import com.paralect.datasource.core.EntityRequest;
 import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
-import com.paralect.easytimedataormlite.model.FileEntity;
-import com.paralect.easytimedataormlite.model.JobEntity;
 import com.paralect.easytimedataormlite.request.AddressRequest;
 import com.paralect.easytimedataormlite.request.BaseJobRequest;
 import com.paralect.easytimedataormlite.request.ContactRequest;
@@ -41,8 +39,6 @@ import com.paralect.easytimedataormlite.request.OrderRequest;
 import com.paralect.easytimedataormlite.request.ProjectRequest;
 import com.paralect.easytimedataormlite.request.TypeRequest;
 import com.paralect.easytimedataormlite.request.UserRequest;
-import com.paralect.easytimedataretrofit.NetworkHelperRetrofit;
-import com.paralect.easytimedataretrofit.request.UserNetRequest;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -50,12 +46,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 import static com.example.paralect.easytime.model.Constants.EXPENSE_ID;
 import static com.example.paralect.easytime.model.Constants.FILE_ID;

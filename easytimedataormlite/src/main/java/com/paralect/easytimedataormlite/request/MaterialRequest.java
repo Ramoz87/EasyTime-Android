@@ -88,9 +88,9 @@ public class MaterialRequest extends ORMLiteRequest<MaterialEntity, Material> {
     public void queryForResetMaterials(OrmLiteSqliteOpenHelper helper)throws SQLException{
         Dao<MaterialEntity, ?> dao = helper.getDao(getDataSourceEntityClazz());
         UpdateBuilder<MaterialEntity, ?> ub = dao.updateBuilder();
-        ub.where().eq("isAdded", true);
-        ub.updateColumnValue("isAdded", false);
-        ub.updateColumnValue("stockQuantity", 0);
+        ub.where().eq(IS_ADDED, true);
+        ub.updateColumnValue(IS_ADDED, false);
+        ub.updateColumnValue(STOCK_ENTITY, 0);
         ub.update();
         setParameter(ub.prepare());
     }
