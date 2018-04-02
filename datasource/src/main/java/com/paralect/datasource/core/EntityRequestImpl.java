@@ -4,6 +4,7 @@ package com.paralect.datasource.core;
  * Created by Oleg Tarashkevich on 23/03/2018.
  */
 
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -85,6 +86,10 @@ public abstract class EntityRequestImpl<DS, AP, P> implements EntityRequest<DS, 
     }
 
     public void queryForFirst(final String orderByFieldName) throws Throwable {
+
+    }
+
+    public void queryForCount(final String fieldName, final Object value) throws Throwable {
 
     }
 

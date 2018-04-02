@@ -139,15 +139,7 @@ public class ExpenseRequest extends ORMLiteRequest<ExpenseEntity, Expense> {
     }
 
     public void queryCountOfJobs(final String jobId) throws SQLException {
-        setParameter(new QueryContainer() {
-            @Override
-            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
-                QueryBuilder<T, ?> qb = dao.queryBuilder();
-                qb.setCountOf(true);
-                qb.where().eq(JOB_ID, jobId);
-                return qb.prepare();
-            }
-        });
+        queryForCount(JOB_ID, jobId);
     }
     // endregion
 }

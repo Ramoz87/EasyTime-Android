@@ -55,6 +55,19 @@ public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, Q
     }
 
     @Override
+    public void queryForCount(final String fieldName, final Object value) throws SQLException {
+        setParameter(new QueryContainer() {
+            @Override
+            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
+                QueryBuilder<T, ?> qb = dao.queryBuilder();
+                qb.setCountOf(true);
+                qb.where().eq(fieldName, value);
+                return qb.prepare();
+            }
+        });
+    }
+
+    @Override
     public void queryForAll() throws SQLException {
         setParameter(new QueryContainer() {
             @Override

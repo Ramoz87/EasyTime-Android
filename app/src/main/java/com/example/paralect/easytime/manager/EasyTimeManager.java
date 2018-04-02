@@ -438,7 +438,6 @@ public final class EasyTimeManager {
         return materials;
     }
 
-    // TODO: Have no idea how to add UpdateBuilder to requests
     public void deleteMyMaterials() {
         try {
             MaterialRequest materialRequest = new MaterialRequest();

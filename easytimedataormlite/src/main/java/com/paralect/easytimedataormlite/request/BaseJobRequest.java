@@ -102,14 +102,6 @@ public abstract class BaseJobRequest<DS extends JobEntity, AP extends Job> exten
     }
 
     public void queryCountOfCustomers(final String customerId) throws SQLException {
-        setParameter(new QueryContainer() {
-            @Override
-            public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
-                QueryBuilder<T, ?> qb = dao.queryBuilder();
-                qb.setCountOf(true);
-                qb.where().eq(CUSTOMER_ID, customerId);
-                return qb.prepare();
-            }
-        });
+        queryForCount(CUSTOMER_ID, customerId);
     }
 }
