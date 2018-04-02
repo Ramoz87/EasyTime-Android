@@ -4,6 +4,8 @@ package com.paralect.datasource.core;
  * Created by Oleg Tarashkevich on 30/03/2018.
  */
 
+import java.util.Map;
+
 /**
  * @param <P> Parameter (Object) for communication with data source
  *            Query (String) for communication with data source
@@ -15,6 +17,10 @@ public interface EntityQuery<P> {
     void setParameter(P parameter);
 
     P getParameter();
+
+    void setMap(Map<String, String> map);
+
+    Map<String, String> getMap();
 
     void setQuery(String query);
 

@@ -4,6 +4,8 @@ package com.paralect.datasource.core;
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
+import java.util.Map;
+
 /**
  * @param <DS> Entity of data source
  * @param <AP> Entity of application

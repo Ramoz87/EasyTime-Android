@@ -71,6 +71,14 @@ public abstract class ORMLiteDataSource extends OrmLiteSqliteOpenHelper implemen
     public <DS, AP> void save(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
         Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
         DS entity = request.toDataSourceEntity(request.getEntity());
+        int status = dao.create(entity);
+        Log.d("", "");
+    }
+
+    @Override
+    public <DS, AP> void saveOrUpdate(EntityRequest<DS, AP, PreparedStmt<?>> request) throws SQLException {
+        Dao<DS, ?> dao = getDao(request.getDataSourceEntityClazz());
+        DS entity = request.toDataSourceEntity(request.getEntity());
         Dao.CreateOrUpdateStatus status = dao.createOrUpdate(entity);
         Log.d("", "");
     }

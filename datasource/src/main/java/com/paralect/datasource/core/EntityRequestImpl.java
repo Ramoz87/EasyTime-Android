@@ -4,6 +4,8 @@ package com.paralect.datasource.core;
  * Created by Oleg Tarashkevich on 23/03/2018.
  */
 
+import java.util.Map;
+
 /**
  * @param <DS> Entity of data source
  * @param <AP> Entity of application
@@ -13,6 +15,7 @@ package com.paralect.datasource.core;
 public abstract class EntityRequestImpl<DS, AP, P> implements EntityRequest<DS, AP, P> {
 
     protected P mParameter;
+    protected Map<String, String> mMap;
     protected String mQuery;
     protected AP mEntity;
 
@@ -46,6 +49,15 @@ public abstract class EntityRequestImpl<DS, AP, P> implements EntityRequest<DS, 
         return mEntity;
     }
 
+    @Override
+    public void setMap(Map<String, String> map) {
+        mMap = map;
+    }
+
+    @Override
+    public Map<String, String> getMap() {
+        return mMap;
+    }
 
     // region General methods
     public <ID, H> void queryWhere(H helper, String name, ID value) throws Throwable {

@@ -9,6 +9,7 @@ import com.paralect.datasource.rx.DataSourceRx;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Single;
@@ -24,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Oleg Tarashkevich on 06/03/2018.
  */
 
-public abstract class RetrofitDataSource<P> implements DataSourceRx<P> {
+public abstract class RetrofitDataSource implements DataSourceRx<Object> {
 
     protected RetrofitService service;
     protected Gson gson;
@@ -35,13 +36,13 @@ public abstract class RetrofitDataSource<P> implements DataSourceRx<P> {
 
     // region Asynchronous access
     @Override
-    public <DS, AP> Single<AP> getAsync(final EntityRequest<DS, AP, P> request) {
+    public <DS, AP> Single<AP> getAsync(final EntityRequest<DS, AP, Object> request) {
         return service.get(request.getQuery())
                 .map(convertEntity(request));
     }
 
     @Override
-    public <DS, AP> Single<List<AP>> getList(final EntityRequest<DS, AP, P> request) {
+    public <DS, AP> Single<List<AP>> getList(final EntityRequest<DS, AP, Object> request) {
         return service.get(request.getQuery())
                 .map(new Function<JsonElement, List<AP>>() {
                     @Override
@@ -59,25 +60,61 @@ public abstract class RetrofitDataSource<P> implements DataSourceRx<P> {
     }
 
     @Override
-    public <DS, AP> Single<AP> saveAsync(final EntityRequest<DS, AP, P> request) {
-        return service.post(request.getQuery(), new HashMap<String, String>())
-                .map(convertEntity(request));
+    public <DS, AP> Single<AP> saveAsync(final EntityRequest<DS, AP, Object> request) {
+        Single<JsonElement> single = null;
+        Object parameter = request.getParameter();
+        Map<String, String> map = request.getMap();
+        if (map != null && !map.isEmpty())
+            single = service.post(request.getQuery(), map);
+        else if (parameter != null)
+            single = service.post(request.getQuery(), parameter);
+        else
+            single = service.post(request.getQuery());
+        return single.map(convertEntity(request));
     }
 
     @Override
-    public <DS, AP> Single<AP> updateAsync(EntityRequest<DS, AP, P> request) {
-        return service.put(request.getQuery())
-                .map(convertEntity(request));
+    public <DS, AP> Single<AP> saveOrUpdateAsync(EntityRequest<DS, AP, Object> request) {
+        Single<JsonElement> single = null;
+        Object parameter = request.getParameter();
+        Map<String, String> map = request.getMap();
+        if (map != null && !map.isEmpty())
+            single = service.put(request.getQuery(), map);
+        else if (parameter != null)
+            single = service.put(request.getQuery(), parameter);
+        else
+            single = service.put(request.getQuery());
+        return single.map(convertEntity(request));
     }
 
     @Override
-    public <DS, AP> Single<AP> deleteAsync(EntityRequest<DS, AP, P> request) {
+    public <DS, AP> Single<AP> updateAsync(EntityRequest<DS, AP, Object> request) {
+        Single<JsonElement> single = null;
+        Object parameter = request.getParameter();
+        Map<String, String> map = request.getMap();
+        if (map != null && !map.isEmpty())
+            single = service.patch(request.getQuery(), map);
+        else if (parameter != null)
+            single = service.patch(request.getQuery(), parameter);
+        else
+            single = service.patch(request.getQuery());
+        return single.map(convertEntity(request));
+    }
+
+    @Override
+    public <DS, AP> Single<AP> deleteAsync(EntityRequest<DS, AP, Object> request) {
         return service.delete(request.getQuery())
                 .map(convertEntity(request));
     }
+
+    @Override
+    public <DS, AP> Single<Long> count(EntityRequest<DS, AP, Object> request) {
+        return service.count(request.getQuery());
+    }
+
     // endregion
 
-    public <DS, AP> Function<JsonElement, AP> convertEntity(final EntityRequest<DS, AP, P> request) {
+    public <DS, AP> Function<JsonElement, AP> convertEntity(final EntityRequest<DS, AP, Object> request) {
         return new Function<JsonElement, AP>() {
             @Override
             public AP apply(JsonElement jsonElement) throws Exception {

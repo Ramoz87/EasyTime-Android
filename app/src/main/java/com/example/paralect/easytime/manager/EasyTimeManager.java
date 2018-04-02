@@ -644,7 +644,7 @@ public final class EasyTimeManager {
     public Expense saveAndGetExpense(Expense expense) throws SQLException {
         ExpenseRequest saveRequest = new ExpenseRequest();
         saveRequest.setEntity(expense);
-        dataSource.save(saveRequest);
+        dataSource.saveOrUpdate(saveRequest);
 
         ExpenseRequest getRequest = new ExpenseRequest();
         getRequest.queryForLast(dataSource);
@@ -713,7 +713,7 @@ public final class EasyTimeManager {
         // TODO Should we count the price right here ???
         ExpenseRequest expenseRequest = new ExpenseRequest();
         expenseRequest.setEntity(expense);
-        dataSource.save(expenseRequest);
+        dataSource.saveOrUpdate(expenseRequest);
 
         MaterialRequest materialRequest = new MaterialRequest();
         materialRequest.setEntity(material);
@@ -742,7 +742,7 @@ public final class EasyTimeManager {
     public void saveFile(File file) throws SQLException {
         FileRequest fileRequest = new FileRequest();
         fileRequest.setEntity(file);
-        dataSource.save(fileRequest);
+        dataSource.saveOrUpdate(fileRequest);
     }
 
     public File saveFileAndGet(File file) throws SQLException {
@@ -821,7 +821,7 @@ public final class EasyTimeManager {
                     JobWithAddress job = (JobWithAddress) item;
                     Address address = job.getAddress();
                     addressRequest.setEntity(address);
-                    helper.save(addressRequest);
+                    helper.saveOrUpdate(addressRequest);
                     job.setAddressId(address.getAddressId());
                 }
 
@@ -833,15 +833,15 @@ public final class EasyTimeManager {
                     for (Contact contact : contacts) {
                         Log.d(TAG, "ContactEntity: " + contact);
                         contactRequest.setEntity(contact);
-                        helper.save(contactRequest);
+                        helper.saveOrUpdate(contactRequest);
                     }
                     Address address = customer.getAddress();
                     addressRequest.setEntity(address);
-                    helper.save(addressRequest);
+                    helper.saveOrUpdate(addressRequest);
                     customer.setAddressId(address.getAddressId());
                 }
                 entityRequest.setEntity(item);
-                helper.save(entityRequest);
+                helper.saveOrUpdate(entityRequest);
             }
             Log.d(TAG, "filled " + clazz.getSimpleName() + " class");
         } catch (IOException | SQLException e) {

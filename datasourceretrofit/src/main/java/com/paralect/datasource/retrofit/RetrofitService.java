@@ -31,19 +31,31 @@ public interface RetrofitService {
     @GET
     Single<List<JsonElement>> getList(@Url String url);
 
+    @GET
+    Single<Long> count(@Url String url);
+
     @POST
-    <T> Single<JsonElement> post(@Body T body);
+    Single<JsonElement> post(@Url String url);
+
+    @POST
+    <T> Single<JsonElement> post(@Url String url, @Body T body);
 
     @FormUrlEncoded
     @POST
     Single<JsonElement> post(@Url String url, @FieldMap Map<String, String> fields);
 
     @PUT
-    <T> Single<JsonElement> put(@Body T body);
+    Single<JsonElement> put(@Url String url);
+
+    @PUT
+    <T> Single<JsonElement> put(@Url String url, @Body T body);
 
     @FormUrlEncoded
     @PUT
     Single<JsonElement> put(@Url String url, @FieldMap Map<String, String> fields);
+
+    @PATCH
+    Single<JsonElement> patch(@Url String url);
 
     @PATCH
     <T> Single<JsonElement> patch(@Url String url, @Body T body);

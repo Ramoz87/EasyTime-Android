@@ -21,6 +21,8 @@ public interface DataSource<P> {
 
     <DS, AP> void save(EntityRequest<DS, AP, P> request) throws Throwable;
 
+    <DS, AP> void saveOrUpdate(EntityRequest<DS, AP, P> request) throws Throwable;
+
     <DS, AP> void update(EntityRequest<DS, AP, P> request) throws Throwable;
 
     <DS, AP> void delete(EntityRequest<DS, AP, P> request) throws Throwable;

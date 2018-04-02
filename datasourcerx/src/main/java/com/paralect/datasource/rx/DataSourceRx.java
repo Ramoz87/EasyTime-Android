@@ -27,7 +27,11 @@ public interface DataSourceRx<P> {
 
     <DS, AP> Single<AP> saveAsync(EntityRequest<DS, AP, P> request);
 
+    <DS, AP> Single<AP> saveOrUpdateAsync(EntityRequest<DS, AP, P> request);
+
     <DS, AP> Single<AP> updateAsync(EntityRequest<DS, AP, P> request);
 
     <DS, AP> Single<AP> deleteAsync(EntityRequest<DS, AP, P> request);
+
+    <DS, AP> Single<Long> count(EntityRequest<DS, AP, P> request);
 }

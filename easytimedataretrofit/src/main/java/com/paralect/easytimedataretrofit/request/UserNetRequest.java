@@ -8,7 +8,7 @@ import com.paralect.easytimedataretrofit.model.UserEntity;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class UserNetRequest<P> extends EntityRequestImpl<UserEntity, User, P> {
+public class UserNetRequest extends EntityRequestImpl<UserEntity, User, Object> {
 
     @Override
     public User toAppEntity(UserEntity ex) {

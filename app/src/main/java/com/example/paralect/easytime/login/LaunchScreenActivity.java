@@ -67,7 +67,7 @@ public class LaunchScreenActivity extends Activity {
                     @Override
                     public User apply(User user) throws Exception {
                         userRequest.setEntity(user);
-                        database.save(userRequest);
+                        database.saveOrUpdate(userRequest);
                         return user;
                     }
                 })
