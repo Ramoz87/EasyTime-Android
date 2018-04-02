@@ -7,6 +7,8 @@ import com.paralect.easytimedataormlite.model.FileEntity;
 
 import java.sql.SQLException;
 
+import static com.example.paralect.easytime.model.Constants.FILE_ID;
+
 /**
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
@@ -48,14 +50,14 @@ public class FileRequest extends ORMLiteRequest<FileEntity, File> {
     }
 
     public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, FileEntity.ID, id);
+        queryWhere(helper, FILE_ID, id);
     }
 
     public void queryForLast(OrmLiteSqliteOpenHelper helper) throws SQLException {
-        queryForLast(helper, FileEntity.ID);
+        queryForLast(helper, FILE_ID);
     }
 
     public void queryForFirst(OrmLiteSqliteOpenHelper helper) throws SQLException {
-        queryForFirst(helper, FileEntity.ID);
+        queryForFirst(helper, FILE_ID);
     }
 }

@@ -2,6 +2,8 @@ package com.paralect.easytimedataormlite.model;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import static com.example.paralect.easytime.model.Constants.ADDRESS_ID;
+
 /**
  * Created by alexei on 04.01.2018.
  */
@@ -17,7 +19,7 @@ public class JobWithAddressEntity extends JobEntity {
     @DatabaseField(columnName = "zipString")
     private String zipString;
 
-    @DatabaseField(columnName = "addressId")
+    @DatabaseField(columnName = ADDRESS_ID)
     private long addressId;
 
     private AddressEntity address;

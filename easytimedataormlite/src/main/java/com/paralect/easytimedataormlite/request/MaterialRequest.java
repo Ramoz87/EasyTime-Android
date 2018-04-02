@@ -10,6 +10,11 @@ import com.paralect.easytimedataormlite.model.MaterialEntity;
 
 import java.sql.SQLException;
 
+import static com.example.paralect.easytime.model.Constants.IS_ADDED;
+import static com.example.paralect.easytime.model.Constants.MATERIAL_ID;
+import static com.example.paralect.easytime.model.Constants.NAME;
+import static com.example.paralect.easytime.model.Constants.STOCK_ENTITY;
+
 /**
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
@@ -61,22 +66,22 @@ public class MaterialRequest extends ORMLiteRequest<MaterialEntity, Material> {
     }
 
     public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, MaterialEntity.ID, id);
+        queryWhere(helper, MATERIAL_ID, id);
     }
 
     public void queryForSearch(OrmLiteSqliteOpenHelper helper, String query) throws SQLException {
         Dao<MaterialEntity, ?> dao = helper.getDao(getDataSourceEntityClazz());
         QueryBuilder<MaterialEntity, ?> qb = dao.queryBuilder();
-        qb.where().like(MaterialEntity.NAME, "%" + query + "%");
+        qb.where().like(NAME, "%" + query + "%");
         setParameter(qb.prepare());
     }
 
     public void queryForAdded(OrmLiteSqliteOpenHelper helper) throws SQLException {
         Dao<MaterialEntity, ?> dao = helper.getDao(getDataSourceEntityClazz());
         QueryBuilder<MaterialEntity, ?> qb = dao.queryBuilder();
-        qb.where().like(MaterialEntity.IS_ADDED, true);
-        qb.orderByRaw(MaterialEntity.STOCK_ENTITY + " IS 0 ASC")
-                .orderBy(MaterialEntity.NAME, true);
+        qb.where().like(IS_ADDED, true);
+        qb.orderByRaw(STOCK_ENTITY + " IS 0 ASC")
+                .orderBy(NAME, true);
         setParameter(qb.prepare());
     }
 

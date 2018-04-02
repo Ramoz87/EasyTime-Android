@@ -25,20 +25,6 @@ import static com.example.paralect.easytime.utils.ExpenseUtil.UNITY_MIN;
 
 public class Expense implements Parcelable, InvoiceCell {
 
-    // region Fields constants
-    public static final String EXPENSE_TABLE_NAME = "expenses";
-    public static final String EXPENSE_ID = "expenseId";
-    public static final String NAME = "name";
-    public static final String DISCOUNT = "discount";
-    public static final String VALUE = "value";
-    public static final String UNIT_NAME = "unitName";
-    public static final String CREATION_DATE = "creationDate";
-    public static final String TYPE = "type";
-    public static final String JOB_ID = "jobId";
-    public static final String MATERIAL_ID = "materialId";
-    public static final String WORK_TYPE_ID = "workTypeId";
-    // endregion
-
     private long expenseId;
     private String name;
     private long value;

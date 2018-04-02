@@ -4,6 +4,8 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import static com.example.paralect.easytime.model.Constants.OBJECT_IDS;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -18,7 +20,7 @@ public class ProjectEntity extends JobEntity {
     private String dateEnd;
 
     // @ForeignCollectionField(columnName = "objectIds")
-    @DatabaseField(columnName = "objectIds", dataType = DataType.SERIALIZABLE)
+    @DatabaseField(columnName = OBJECT_IDS, dataType = DataType.SERIALIZABLE)
     private String[] objectIds;
 
     public ProjectEntity() {

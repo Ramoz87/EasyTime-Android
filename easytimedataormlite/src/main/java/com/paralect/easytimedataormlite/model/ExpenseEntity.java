@@ -3,12 +3,20 @@ package com.paralect.easytimedataormlite.model;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.paralect.datasource.expense.BaseExpense;
 import com.paralect.datasource.expense.BaseExpenseImpl;
 
 import java.util.Date;
 
-import static com.paralect.easytimedataormlite.model.ExpenseEntity.EXPENSE_TABLE_NAME;
+import static com.example.paralect.easytime.model.Constants.CREATION_DATE;
+import static com.example.paralect.easytime.model.Constants.DISCOUNT;
+import static com.example.paralect.easytime.model.Constants.EXPENSE_ID;
+import static com.example.paralect.easytime.model.Constants.EXPENSE_TABLE_NAME;
+import static com.example.paralect.easytime.model.Constants.JOB_ID;
+import static com.example.paralect.easytime.model.Constants.MATERIAL_ID;
+import static com.example.paralect.easytime.model.Constants.NAME;
+import static com.example.paralect.easytime.model.Constants.TYPE;
+import static com.example.paralect.easytime.model.Constants.VALUE;
+import static com.example.paralect.easytime.model.Constants.WORK_TYPE_ID;
 
 
 /**
@@ -18,19 +26,7 @@ import static com.paralect.easytimedataormlite.model.ExpenseEntity.EXPENSE_TABLE
 @DatabaseTable(tableName = EXPENSE_TABLE_NAME)
 public class ExpenseEntity extends BaseExpenseImpl {
 
-    // region Fields constants
-    public static final String EXPENSE_TABLE_NAME = "expenses";
-    public static final String EXPENSE_ID = "expenseId";
-    public static final String NAME = "name";
-    public static final String DISCOUNT = "discount";
-    public static final String VALUE = "value";
-    public static final String UNIT_NAME = "unitName";
-    public static final String CREATION_DATE = "creationDate";
-    public static final String TYPE = "type";
-    public static final String JOB_ID = "jobId";
-    public static final String MATERIAL_ID = "materialId";
-    public static final String WORK_TYPE_ID = "workTypeId";
-    // endregion
+
 
     @DatabaseField(columnName = EXPENSE_ID, generatedId = true)
     private long expenseId;

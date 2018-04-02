@@ -3,18 +3,21 @@ package com.paralect.easytimedataormlite.model;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 
+import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
+import static com.example.paralect.easytime.model.Constants.JOB_ID;
+import static com.example.paralect.easytime.model.Constants.STATUS_ID;
+import static com.example.paralect.easytime.model.Constants.TYPE_ID;
+
 /**
  * Created by alexei on 26.12.2017.
  */
 
 public class JobEntity {
 
-    public static final String ID = "jobId";
-
     @DatabaseField(columnName = "currency")
     private String currency;
 
-    @DatabaseField(columnName = CustomerEntity.ID)
+    @DatabaseField(columnName = CUSTOMER_ID)
     private String customerId;
 
     @DatabaseField(columnName = "date")
@@ -26,7 +29,7 @@ public class JobEntity {
     @DatabaseField(columnName = "information")
     private String information;
 
-    @DatabaseField(columnName = ID, id = true)
+    @DatabaseField(columnName = JOB_ID, id = true)
     private String jobId;
 
     @DatabaseField(columnName = "name")
@@ -35,10 +38,10 @@ public class JobEntity {
     @DatabaseField(columnName = "number")
     private int number;
 
-    @DatabaseField(columnName = "statusId")
+    @DatabaseField(columnName = STATUS_ID)
     private String statusId;
 
-    @DatabaseField(columnName = "typeId")
+    @DatabaseField(columnName = TYPE_ID)
     private String typeId;
 
     @DatabaseField(columnName = "discount")

@@ -3,6 +3,8 @@ package com.paralect.easytimedataormlite.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import static com.example.paralect.easytime.model.Constants.PROJECT_ID;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -16,7 +18,7 @@ public class ObjectEntity extends JobWithAddressEntity {
     @DatabaseField(columnName = "dateStart")
     private String dateStart;
 
-    @DatabaseField(columnName = "projectId")
+    @DatabaseField(columnName = PROJECT_ID)
     private String projectId;
 
     public ObjectEntity() {

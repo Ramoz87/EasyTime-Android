@@ -57,10 +57,12 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.example.paralect.easytime.model.Constants.EXPENSE_ID;
+import static com.example.paralect.easytime.model.Constants.FILE_ID;
+import static com.example.paralect.easytime.model.Constants.JOB_ID;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
 import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
 import static com.example.paralect.easytime.model.Type.TypeName.STATUS;
-import static com.paralect.easytimedataormlite.model.ExpenseEntity.EXPENSE_ID;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -729,13 +731,13 @@ public final class EasyTimeManager {
 
     public List<File> getFilesByExpenseId(String expenseId) throws SQLException {
         FileRequest fileRequest = new FileRequest();
-        fileRequest.queryWhere(dataSource, FileEntity.ID, expenseId);
+        fileRequest.queryWhere(dataSource, FILE_ID, expenseId);
         return dataSource.getList(fileRequest);
     }
 
     public List<File> getFiles(Job job) throws SQLException {
         FileRequest fileRequest = new FileRequest();
-        fileRequest.queryWhere(dataSource, JobEntity.ID, job.getId());
+        fileRequest.queryWhere(dataSource, JOB_ID, job.getId());
         return dataSource.getList(fileRequest);
     }
 
@@ -809,7 +811,6 @@ public final class EasyTimeManager {
 
     private <E> void fillData(FakeCreator fakeCreator, String csvPath, Class<E> clazz, EntityRequest entityRequest) {
         try {
-            DatabaseHelperORMLite helper = EasyTimeManager.getInstance().getDataSource();
             List<E> items = fakeCreator.parse(csvPath, clazz);
             Log.d(TAG, String.format("===// %s //===", clazz.getSimpleName()));
 
@@ -821,7 +822,7 @@ public final class EasyTimeManager {
                     JobWithAddress job = (JobWithAddress) item;
                     Address address = job.getAddress();
                     addressRequest.setEntity(address);
-                    helper.saveOrUpdate(addressRequest);
+                    dataSource.saveOrUpdate(addressRequest);
                     job.setAddressId(address.getAddressId());
                 }
 
@@ -833,15 +834,15 @@ public final class EasyTimeManager {
                     for (Contact contact : contacts) {
                         Log.d(TAG, "ContactEntity: " + contact);
                         contactRequest.setEntity(contact);
-                        helper.saveOrUpdate(contactRequest);
+                        dataSource.saveOrUpdate(contactRequest);
                     }
                     Address address = customer.getAddress();
                     addressRequest.setEntity(address);
-                    helper.saveOrUpdate(addressRequest);
+                    dataSource.saveOrUpdate(addressRequest);
                     customer.setAddressId(address.getAddressId());
                 }
                 entityRequest.setEntity(item);
-                helper.saveOrUpdate(entityRequest);
+                dataSource.saveOrUpdate(entityRequest);
             }
             Log.d(TAG, "filled " + clazz.getSimpleName() + " class");
         } catch (IOException | SQLException e) {

@@ -11,6 +11,10 @@ import com.paralect.easytimedataormlite.model.TypeEntity;
 
 import java.sql.SQLException;
 
+import static com.example.paralect.easytime.model.Constants.NAME;
+import static com.example.paralect.easytime.model.Constants.TYPE;
+import static com.example.paralect.easytime.model.Constants.TYPE_ID;
+
 /**
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
@@ -50,7 +54,7 @@ public class TypeRequest extends ORMLiteRequest<TypeEntity, Type> {
     }
 
     public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, TypeEntity.ID, id);
+        queryWhere(helper, TYPE_ID, id);
     }
 
     public void queryForList(OrmLiteSqliteOpenHelper helper, @Type.TypeName String type, String searchName) throws SQLException {
@@ -58,9 +62,9 @@ public class TypeRequest extends ORMLiteRequest<TypeEntity, Type> {
         QueryBuilder<TypeEntity, ?> qb = dao.queryBuilder();
         if (!TextUtils.isEmpty(type)) {
             qb.where()
-                    .eq("type", type)
+                    .eq(TYPE, type)
                     .and()
-                    .like("name", "%" + searchName + "%")
+                    .like(NAME, "%" + searchName + "%")
                     .prepare();
         }
         setParameter(qb.prepare());

@@ -3,6 +3,9 @@ package com.paralect.easytimedataormlite.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import static com.example.paralect.easytime.model.Constants.CONTACT_ID;
+import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -10,10 +13,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "contacts")
 public class ContactEntity {
 
-    public static final String ID = "contactId";
-    public static final String CUSTOMER_ID = "customerId";
-
-    @DatabaseField(columnName = ID, generatedId = true)
+    @DatabaseField(columnName = CONTACT_ID, generatedId = true)
     private long contactId;
 
     @DatabaseField(columnName = "email")
@@ -31,7 +31,7 @@ public class ContactEntity {
     @DatabaseField(columnName = "phone")
     private String phone;
 
-    @DatabaseField(columnName = "customerId")
+    @DatabaseField(columnName = CUSTOMER_ID)
     private String customerId;
 
     public ContactEntity() {

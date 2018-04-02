@@ -9,6 +9,9 @@ import com.paralect.easytimedataormlite.model.CustomerEntity;
 
 import java.sql.SQLException;
 
+import static com.example.paralect.easytime.model.Constants.COMPANY_NAME;
+import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
+
 /**
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
@@ -51,13 +54,13 @@ public class CustomerRequest extends ORMLiteRequest<CustomerEntity, Customer> {
 
     // region Requests
     public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, CustomerEntity.ID, id);
+        queryWhere(helper, CUSTOMER_ID, id);
     }
 
     public void queryForSearch(OrmLiteSqliteOpenHelper helper, String query) throws SQLException {
         Dao<CustomerEntity, ?> dao = helper.getDao(CustomerEntity.class);
         QueryBuilder<CustomerEntity, ?> qb = dao.queryBuilder();
-        qb.where().like(CustomerEntity.COMPANY_NAME, "%" + query + "%");
+        qb.where().like(COMPANY_NAME, "%" + query + "%");
         setParameter(qb.prepare());
     }
     // endregion

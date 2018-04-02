@@ -1,7 +1,10 @@
 package com.paralect.easytimedataormlite.model;
 
+import com.example.paralect.easytime.model.Address;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import static com.example.paralect.easytime.model.Constants.ADDRESS_ID;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -10,9 +13,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "Addresses")
 public class AddressEntity {
 
-    public static final String ID = "addressId";
-
-    @DatabaseField(columnName = ID, generatedId = true)
+    @DatabaseField(columnName = ADDRESS_ID, generatedId = true)
     private long addressId;
     @DatabaseField(columnName = "city")
     private String city;

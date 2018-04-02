@@ -15,6 +15,8 @@ import com.paralect.easytimedataormlite.model.JobEntity;
 import java.sql.SQLException;
 import java.util.Date;
 
+import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
+import static com.example.paralect.easytime.model.Constants.JOB_ID;
 import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMAT;
 
 /**
@@ -58,7 +60,7 @@ public abstract class BaseJobRequest<DS extends JobEntity, AP extends Job> exten
     }
 
     public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, JobEntity.ID, id);
+        queryWhere(helper, JOB_ID, id);
     }
 
     public void queryForList(OrmLiteSqliteOpenHelper helper, String customerId, String query, String date) throws SQLException {
@@ -71,7 +73,7 @@ public abstract class BaseJobRequest<DS extends JobEntity, AP extends Job> exten
 
         Where where = null;
         if (hasCustomerId) {
-            where = qb.where().eq(CustomerEntity.ID, customerId);
+            where = qb.where().eq(CUSTOMER_ID, customerId);
         }
 
         if (hasQuery) {
@@ -96,7 +98,7 @@ public abstract class BaseJobRequest<DS extends JobEntity, AP extends Job> exten
         Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
         QueryBuilder<DS, ?> qb = dao.queryBuilder();
         qb.setCountOf(true);
-        qb.where().eq(CustomerEntity.ID, customerId);
+        qb.where().eq(CUSTOMER_ID, customerId);
         setParameter(qb.prepare());
     }
 }

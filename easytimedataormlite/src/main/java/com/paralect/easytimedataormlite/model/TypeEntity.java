@@ -3,6 +3,9 @@ package com.paralect.easytimedataormlite.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import static com.example.paralect.easytime.model.Constants.NAME;
+import static com.example.paralect.easytime.model.Constants.TYPE_ID;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -10,15 +13,13 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "types")
 public class TypeEntity {
 
-    public static final String ID = "typeId";
-
-    @DatabaseField(columnName = "name")
+    @DatabaseField(columnName = NAME)
     private String name;
 
     @DatabaseField(columnName = "type")
     private String type;
 
-    @DatabaseField(columnName = ID, id = true)
+    @DatabaseField(columnName = TYPE_ID, id = true)
     private String typeId;
 
     public TypeEntity() {

@@ -3,14 +3,14 @@ package com.paralect.easytimedataormlite.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import static com.example.paralect.easytime.model.Constants.USER_ID;
+
 /**
  * Created by alexei on 26.12.2017.
  */
 
 @DatabaseTable(tableName = "users")
 public class UserEntity {
-
-    public static final String ID = "userId";
 
     @DatabaseField(columnName = "firstName")
     private String firstName;
@@ -19,7 +19,7 @@ public class UserEntity {
     @DatabaseField(columnName = "password")
     private String password;
 
-    @DatabaseField(columnName = ID, id = true)
+    @DatabaseField(columnName = USER_ID, id = true)
     private String userId;
     @DatabaseField(columnName = "username")
     private String userName;

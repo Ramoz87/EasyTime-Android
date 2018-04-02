@@ -5,6 +5,9 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.List;
 
+import static com.example.paralect.easytime.model.Constants.COMPANY_NAME;
+import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -12,13 +15,10 @@ import java.util.List;
 @DatabaseTable(tableName = "customers")
 public class CustomerEntity {
 
-    public static final String ID = "customerId";
-    public static final String COMPANY_NAME = "companyName";
-
     @DatabaseField(columnName = COMPANY_NAME)
     private String companyName;
 
-    @DatabaseField(columnName = ID, id = true)
+    @DatabaseField(columnName = CUSTOMER_ID, id = true)
     private String customerId;
 
     @DatabaseField(columnName = "firstName")

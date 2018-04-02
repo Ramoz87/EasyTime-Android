@@ -5,11 +5,10 @@ import com.paralect.datasource.expense.BaseExpenseImpl;
 
 import java.util.Date;
 
-import static com.example.paralect.easytime.model.Expense.CREATION_DATE;
-import static com.example.paralect.easytime.model.Expense.JOB_ID;
-import static com.example.paralect.easytime.model.Expense.MATERIAL_ID;
-import static com.example.paralect.easytime.model.Expense.WORK_TYPE_ID;
-
+import static com.example.paralect.easytime.model.Constants.CREATION_DATE;
+import static com.example.paralect.easytime.model.Constants.JOB_ID;
+import static com.example.paralect.easytime.model.Constants.MATERIAL_ID;
+import static com.example.paralect.easytime.model.Constants.WORK_TYPE_ID;
 
 /**
  * Created by Oleg Tarashkevich on 06/03/2018.

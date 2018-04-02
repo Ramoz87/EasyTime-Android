@@ -3,6 +3,11 @@ package com.paralect.easytimedataormlite.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import static com.example.paralect.easytime.model.Constants.EXPENSE_ID;
+import static com.example.paralect.easytime.model.Constants.FILE_ID;
+import static com.example.paralect.easytime.model.Constants.JOB_ID;
+import static com.example.paralect.easytime.model.Constants.NAME;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -10,21 +15,19 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "files")
 public class FileEntity {
 
-    public static final String ID = "fileId";
-
-    @DatabaseField(columnName = ID, generatedId = true)
+    @DatabaseField(columnName = FILE_ID, generatedId = true)
     private long fileId;
 
     @DatabaseField(columnName = "fileUrl")
     private String fileUrl;
 
-    @DatabaseField(columnName = "name")
+    @DatabaseField(columnName = NAME)
     private String name;
 
-    @DatabaseField(columnName = ExpenseEntity.EXPENSE_ID)
+    @DatabaseField(columnName = EXPENSE_ID)
     private long expenseId;
 
-    @DatabaseField(columnName = JobEntity.ID)
+    @DatabaseField(columnName = JOB_ID)
     private String jobId;
 
     public FileEntity() {

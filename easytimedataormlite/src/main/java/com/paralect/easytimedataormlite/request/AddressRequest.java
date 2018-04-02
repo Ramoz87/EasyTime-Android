@@ -7,6 +7,8 @@ import com.paralect.easytimedataormlite.model.AddressEntity;
 
 import java.sql.SQLException;
 
+import static com.example.paralect.easytime.model.Constants.ADDRESS_ID;
+
 /**
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
@@ -51,7 +53,7 @@ public class AddressRequest extends ORMLiteRequest<AddressEntity, Address> {
 
     // region Requests
     public void queryForId(OrmLiteSqliteOpenHelper helper, long id) throws SQLException {
-        queryWhere(helper, AddressEntity.ID, id);
+        queryWhere(helper, ADDRESS_ID, id);
     }
     // endregion
 }

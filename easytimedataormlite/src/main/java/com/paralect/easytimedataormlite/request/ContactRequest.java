@@ -7,6 +7,9 @@ import com.paralect.easytimedataormlite.model.ContactEntity;
 
 import java.sql.SQLException;
 
+import static com.example.paralect.easytime.model.Constants.CONTACT_ID;
+import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
+
 /**
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
@@ -52,10 +55,10 @@ public class ContactRequest extends ORMLiteRequest<ContactEntity, Contact> {
     }
 
     public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, ContactEntity.ID, id);
+        queryWhere(helper, CONTACT_ID, id);
     }
 
     public void queryForEqual(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, ContactEntity.CUSTOMER_ID, id);
+        queryWhere(helper, CUSTOMER_ID, id);
     }
 }

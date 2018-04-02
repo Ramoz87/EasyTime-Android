@@ -24,4 +24,32 @@ public final class Constants {
     public static final String EUROPE_DATE_PATTERN = "MM.dd.yyyy";
 
     public static final String TUTORIAL_LAUNCH = "tutorial_launch";
+
+    public static final String USER_ID = "userId";
+    public static final String ADDRESS_ID = "addressId";
+    public static final String CONTACT_ID = "contactId";
+    public static final String CUSTOMER_ID = "customerId";
+    public static final String EXPENSE_ID = "expenseId";
+    public static final String JOB_ID = "jobId";
+    public static final String PROJECT_ID = "projectId";
+    public static final String OBJECT_IDS = "objectIds";
+    public static final String TYPE_ID = "typeId";
+    public static final String STATUS_ID = "statusId";
+    public static final String MATERIAL_ID = "materialId";
+    public static final String WORK_TYPE_ID = "workTypeId";
+    public static final String FILE_ID = "fileId";
+
+    public static final String COMPANY_NAME = "companyName";
+    public static final String IS_ADDED = "isAdded";
+    public static final String STOCK_ENTITY = "stockQuantity";
+
+    // region Expense fields
+    public static final String EXPENSE_TABLE_NAME = "expenses";
+    public static final String NAME = "name";
+    public static final String DISCOUNT = "discount";
+    public static final String VALUE = "value";
+    public static final String UNIT_NAME = "unitName";
+    public static final String CREATION_DATE = "creationDate";
+    public static final String TYPE = "type";
+    // endregion
 }

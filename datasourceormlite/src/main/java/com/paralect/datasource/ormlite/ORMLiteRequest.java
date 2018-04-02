@@ -16,6 +16,10 @@ import java.sql.SQLException;
 
 public abstract class ORMLiteRequest<DS, AP> extends EntityRequestImpl<DS, AP, PreparedStmt<?>> {
 
+    public <ID> void queryForId(OrmLiteSqliteOpenHelper helper, ID id) throws SQLException {
+
+    }
+
     public <ID> void queryWhere(OrmLiteSqliteOpenHelper helper, String name, ID value) throws SQLException {
         Dao<DS, ?> dao = helper.getDao(getDataSourceEntityClazz());
         QueryBuilder<DS, ?> query = dao.queryBuilder();

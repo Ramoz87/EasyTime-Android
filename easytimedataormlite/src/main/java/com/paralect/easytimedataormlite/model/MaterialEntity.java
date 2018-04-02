@@ -4,6 +4,11 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import static com.example.paralect.easytime.model.Constants.IS_ADDED;
+import static com.example.paralect.easytime.model.Constants.MATERIAL_ID;
+import static com.example.paralect.easytime.model.Constants.NAME;
+import static com.example.paralect.easytime.model.Constants.STOCK_ENTITY;
+
 /**
  * Created by alexei on 26.12.2017.
  */
@@ -11,15 +16,10 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "materials")
 public class MaterialEntity {
 
-    public static final String ID = "materialId";
-    public static final String NAME = "name";
-    public static final String IS_ADDED = "isAdded";
-    public static final String STOCK_ENTITY = "stockQuantity";
-
     @DatabaseField(columnName = "currency")
     private String currency;
 
-    @DatabaseField(columnName = ID, id = true)
+    @DatabaseField(columnName = MATERIAL_ID, id = true)
     private String materialId;
 
     @DatabaseField(columnName = "materialNr")
@@ -40,7 +40,7 @@ public class MaterialEntity {
     @DatabaseField(columnName = IS_ADDED, dataType = DataType.BOOLEAN)
     private boolean isAdded = false;
 
-    @DatabaseField(columnName = "stockQuantity")
+    @DatabaseField(columnName = STOCK_ENTITY)
     private int stockQuantity = 0;
 
     public MaterialEntity() {

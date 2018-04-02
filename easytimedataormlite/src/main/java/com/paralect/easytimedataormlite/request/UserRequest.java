@@ -7,6 +7,8 @@ import com.paralect.easytimedataormlite.model.UserEntity;
 
 import java.sql.SQLException;
 
+import static com.example.paralect.easytime.model.Constants.USER_ID;
+
 /**
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
@@ -50,6 +52,6 @@ public class UserRequest extends ORMLiteRequest<UserEntity, User> {
     }
 
     public void queryForId(OrmLiteSqliteOpenHelper helper, String id) throws SQLException {
-        queryWhere(helper, UserEntity.ID, id);
+        queryWhere(helper, USER_ID, id);
     }
 }
