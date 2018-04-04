@@ -2,7 +2,6 @@ package com.example.paralect.easytime.main.projects.project.objectsofproject;
 
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.ObjectComparator;
 import com.example.paralect.easytime.model.Object;

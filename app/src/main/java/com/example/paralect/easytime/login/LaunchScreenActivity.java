@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.paralect.easytime.BuildConfig;
-import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.tutorial.TutorialActivity;
 import com.example.paralect.easytime.manager.ETPreferenceManager;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.CSVSource;
 import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.manager.entitysource.MaterialsSource;

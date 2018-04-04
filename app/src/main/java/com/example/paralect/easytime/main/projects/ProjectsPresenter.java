@@ -1,11 +1,9 @@
 package com.example.paralect.easytime.main.projects;
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Job;
 
-import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;

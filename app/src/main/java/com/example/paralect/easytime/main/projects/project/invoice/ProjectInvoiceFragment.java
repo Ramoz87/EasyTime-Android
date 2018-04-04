@@ -27,7 +27,6 @@ import com.example.paralect.easytime.main.CongratulationsActivity;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.InvoiceCell;

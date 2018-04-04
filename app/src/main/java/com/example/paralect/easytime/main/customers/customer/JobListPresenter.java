@@ -4,11 +4,9 @@ import android.util.Pair;
 
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
-import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.ProjectType;
 
 import java.util.ArrayList;

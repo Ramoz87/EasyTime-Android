@@ -4,7 +4,6 @@ import android.util.Pair;
 
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.AddressSource;
 import com.example.paralect.easytime.manager.entitysource.ContactSource;
 import com.example.paralect.easytime.manager.entitysource.JobSource;

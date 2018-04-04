@@ -16,13 +16,10 @@ import android.widget.Button;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
 import com.example.paralect.easytime.model.Material;
-import com.example.paralect.easytime.model.MaterialComparator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
 

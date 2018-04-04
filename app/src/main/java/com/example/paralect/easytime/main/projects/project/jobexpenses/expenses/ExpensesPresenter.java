@@ -1,7 +1,6 @@
 package com.example.paralect.easytime.main.projects.project.jobexpenses.expenses;
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
 import com.example.paralect.easytime.model.Expense;
 

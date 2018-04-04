@@ -3,7 +3,6 @@ package com.example.paralect.easytime.views.gallery;
 import android.app.Activity;
 
 import com.example.paralect.easytime.main.IDataPresenter;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.FileSource;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.event.ResultEvent;

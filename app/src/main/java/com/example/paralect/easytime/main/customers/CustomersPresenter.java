@@ -1,7 +1,6 @@
 package com.example.paralect.easytime.main.customers;
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.CustomerSource;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.CustomerComparator;

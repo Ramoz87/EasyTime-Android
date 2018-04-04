@@ -8,13 +8,9 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AlphabetStickyAdapter;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.ProjectType;
-
-import java.util.List;
-import java.util.SortedMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

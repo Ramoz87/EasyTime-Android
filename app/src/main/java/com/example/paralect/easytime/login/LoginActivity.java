@@ -3,7 +3,6 @@ package com.example.paralect.easytime.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.manager.ETAccountManager;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.UserSource;
 import com.example.paralect.easytime.model.User;
 

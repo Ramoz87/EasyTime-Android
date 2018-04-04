@@ -20,7 +20,6 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.customers.customer.CustomerFragment;
 import com.example.paralect.easytime.main.projects.project.invoice.ProjectInvoiceFragment;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;

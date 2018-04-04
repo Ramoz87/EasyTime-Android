@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
 import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
 import com.example.paralect.easytime.manager.entitysource.TypeSource;

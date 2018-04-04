@@ -2,7 +2,6 @@ package com.example.paralect.easytime.views.gallery;
 
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
-import com.example.paralect.easytime.manager.EasyTimeManager;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.Logger;
