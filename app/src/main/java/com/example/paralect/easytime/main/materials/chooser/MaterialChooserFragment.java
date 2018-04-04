@@ -17,6 +17,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.MaterialComparator;
 
@@ -56,6 +57,7 @@ public class MaterialChooserFragment extends BaseFragment implements IDataView<S
     private MaterialChooserPresenter presenter = new MaterialChooserPresenter();
     private MaterialAlphabetAdapter adapter = new MaterialAlphabetAdapter();
     private List<Material> materialsToUpdate = new ArrayList<>();
+    private final MaterialsSource materialsSource = new MaterialsSource();
 
     public static MaterialChooserFragment newInstance() {
         return new MaterialChooserFragment();
@@ -137,7 +139,7 @@ public class MaterialChooserFragment extends BaseFragment implements IDataView<S
                             } else {
                                 material.setStockQuantity(0);
                             }
-                            EasyTimeManager.getInstance().updateMaterial(material);
+                            materialsSource.updateMaterial(material);
                         }
                         emitter.onNext(materials);
                         emitter.onComplete();

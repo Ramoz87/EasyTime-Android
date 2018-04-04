@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.customers;
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.CustomerSource;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.CustomerComparator;
 import com.example.paralect.easytime.utils.Sorter;
@@ -22,6 +23,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CustomersPresenter extends SearchViewPresenter<SortedMap<Character, List<Customer>>> {
 
+    private final CustomerSource customerSource = new CustomerSource();
+
     private final CustomerComparator comparator = new CustomerComparator();
     private final Sorter<Customer> sorter = new Sorter<Customer>() {
         @Override
@@ -39,7 +42,7 @@ public class CustomersPresenter extends SearchViewPresenter<SortedMap<Character,
                 try {
 
                     if (!emitter.isDisposed()) {
-                        List<Customer> customers = EasyTimeManager.getInstance().getCustomers(parameters[0]);
+                        List<Customer> customers = customerSource.getCustomers(parameters[0]);
                         // split list of customers alphabetically
                         SortedMap<Character, List<Customer>> map = sorter.getSortedItems(customers, comparator);
                         emitter.onNext(map);

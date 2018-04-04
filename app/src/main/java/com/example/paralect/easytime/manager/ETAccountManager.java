@@ -3,6 +3,7 @@ package com.example.paralect.easytime.manager;
 import android.content.Context;
 
 import com.example.paralect.easytime.EasyTimeApplication;
+import com.example.paralect.easytime.manager.entitysource.UserSource;
 import com.example.paralect.easytime.model.User;
 
 /**
@@ -27,7 +28,6 @@ public final class ETAccountManager {
 
     private User user;
     private ETPreferenceManager preferenceManager;
-    private EasyTimeManager easyTimeManager;
 
     private ETAccountManager() {
         Context context = EasyTimeApplication.getContext();
@@ -36,8 +36,7 @@ public final class ETAccountManager {
         if (userId == null) {
             user = null;
         } else {
-            easyTimeManager = EasyTimeManager.getInstance();
-            user = easyTimeManager.getUser(userId);
+            user = new UserSource().getUser(userId);
         }
     }
 

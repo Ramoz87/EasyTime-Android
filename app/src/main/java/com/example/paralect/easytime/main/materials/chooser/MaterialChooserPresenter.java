@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.materials.chooser;
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.MaterialComparator;
 import com.example.paralect.easytime.utils.Logger;
@@ -24,6 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MaterialChooserPresenter extends SearchViewPresenter<SortedMap<Character, List<Material>>> {
 
+    private final MaterialsSource materialsSource = new MaterialsSource();
     private Comparator<Material> comparator = new MaterialComparator();
     private final Sorter<Material> sorter = new Sorter<Material>() {
         @Override
@@ -40,7 +42,7 @@ public class MaterialChooserPresenter extends SearchViewPresenter<SortedMap<Char
                 try {
                     if (!emitter.isDisposed()) {
                         String query = parameters[0];
-                        List<Material> materials = EasyTimeManager.getInstance().getMaterials(query);
+                        List<Material> materials = materialsSource.getMaterials(query);
                         SortedMap<Character, List<Material>> map = sorter.getSortedItems(materials, comparator);
                         emitter.onNext(map);
                         emitter.onComplete();

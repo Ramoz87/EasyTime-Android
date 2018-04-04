@@ -39,7 +39,7 @@ final class JobFilesPresenter extends FilesPresenter<List<File>, Job> {
                 public void subscribe(FlowableEmitter<List<File>> emitter) throws Exception {
                     try {
                         if (!emitter.isCancelled()) {
-                            List<File> files = EasyTimeManager.getInstance().getFiles(job);
+                            List<File> files = fileSource.getFiles(job);
                             emitter.onNext(files);
                             emitter.onComplete();
                         }
@@ -63,7 +63,7 @@ final class JobFilesPresenter extends FilesPresenter<List<File>, Job> {
                 file.setFileUrl(filePath);
                 file.setJobId(mJob.getId());
 
-                EasyTimeManager.getInstance().saveFile(file);
+                fileSource.saveFile(file);
 
                 return null;
             }

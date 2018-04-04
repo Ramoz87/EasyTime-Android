@@ -5,6 +5,7 @@ import android.util.Pair;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Material;
@@ -27,6 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 public class JobListPresenter implements IDataPresenter<List<Job>, Pair<Customer, Integer>> {
 
     private IDataView<List<Job>> view;
+    private final JobSource jobSource = new JobSource();
 
     @Override
     public IDataPresenter<List<Job>, Pair<Customer, Integer>> setDataView(IDataView<List<Job>> view) {
@@ -41,17 +43,16 @@ public class JobListPresenter implements IDataPresenter<List<Job>, Pair<Customer
             public void subscribe(ObservableEmitter<List<Job>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        EasyTimeManager manager = EasyTimeManager.getInstance();
                         Customer customer = parameter.first;
                         int type = parameter.second;
 
                         List<Job> jobs = new ArrayList<>();
                         if (type == ProjectType.Type.TYPE_OBJECT)
-                            jobs.addAll(manager.getObjects(customer));
+                            jobs.addAll(jobSource.getObjects(customer));
                         else if (type == ProjectType.Type.TYPE_ORDER)
-                            jobs.addAll(manager.getOrders(customer));
+                            jobs.addAll(jobSource.getOrders(customer));
                         else if (type == ProjectType.Type.TYPE_PROJECT)
-                            jobs.addAll(manager.getProjects(customer));
+                            jobs.addAll(jobSource.getProjects(customer));
 
                         emitter.onNext(jobs);
                         emitter.onComplete();

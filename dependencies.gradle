@@ -39,6 +39,7 @@ ext {
     fotoapparatVersion = '2.1.2'
     cameraviewVersion = '1.4.1'
     crashlyticsVersion = '2.9.0'
+    datasourceVersion = '1.0.9'
 
     deps = [
 
@@ -100,5 +101,10 @@ ext {
             // Crash Handlers
             customCrash        : "cat.ereza:customactivityoncrash:${customCrashVersion}",
             crashlytics        : "com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}@aar",
+
+            datasource         : "com.paralect.datasource:datasource:${datasourceVersion}@aar",
+            datasourcerx       : "com.paralect.datasource:datasourcerx:${datasourceVersion}@aar",
+            datasourceormlite  : "com.paralect.datasource:datasourceormlite:${datasourceVersion}@aar",
+            datasourceretrofit : "com.paralect.datasource:datasourceretrofit:${datasourceVersion}@aar"
     ]
 }

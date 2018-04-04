@@ -32,6 +32,7 @@ android {
         targetSdkVersion targetSdkVer
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -76,15 +77,13 @@ dependencies {
     implementation(deps.crashlytics) {
         transitive = true
     }
+
+    implementation deps.datasource
+    implementation deps.datasourcerx
+    implementation deps.datasourceormlite
+    implementation deps.datasourceretrofit
     
-    implementation project(':easytimedata')
-
-    implementation project(':datasource')
-    implementation project(':datasourcerx')
-
-    implementation project(':datasourceormlite')
-    implementation project(':easytimedataormlite')
-
-    implementation project(':datasourceretrofit')
-    implementation project(':easytimedataretrofit')
+    implementation project(':data')
+    implementation project(':dataormlite')
+    implementation project(':dataretrofit')
 }

@@ -11,6 +11,9 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.tutorial.TutorialActivity;
 import com.example.paralect.easytime.manager.ETPreferenceManager;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.CSVSource;
+import com.example.paralect.easytime.manager.entitysource.JobSource;
+import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
 import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.User;
@@ -72,23 +75,24 @@ public class LaunchScreenActivity extends Activity {
                     }
                 })
                 // retrieve from database
-                .map(new Function<User, User>() {
+                .map(new Function<User, List<User>>() {
                     @Override
-                    public User apply(User user) throws Exception {
-                        userRequest.queryForId(user.getUserId());
-                        return database.get(userRequest);
+                    public List<User> apply(User user) throws Exception {
+//                        userRequest.queryForId(user.getUserId());
+                        userRequest.queryForAll();
+                        return database.getList(userRequest);
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<User>() {
+                .subscribe(new SingleObserver<List<User>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onSuccess(User user) {
+                    public void onSuccess(List<User> users) {
 
                     }
 
@@ -98,7 +102,7 @@ public class LaunchScreenActivity extends Activity {
                     }
                 });
     }
-    // ednregion
+    // endregion
 
     private void init() {
         Completable completable = Completable.fromCallable(new Callable<Void>() {
@@ -138,9 +142,11 @@ public class LaunchScreenActivity extends Activity {
         preferenceManager.plusLaunch();
         if (BuildConfig.DEBUG && preferenceManager.isLaunchFirst()) { // pre-populate data from assets
             Log.d(TAG, "filling data from db");
-            EasyTimeManager.getInstance().populateData(getAssets());
+            CSVSource csvSource = new CSVSource();
+            csvSource.populateData(getAssets());
         } else {
-            List<Job> jobs = EasyTimeManager.getInstance().getAllJobs();
+            JobSource jobSource = new JobSource();
+            List<Job> jobs = jobSource.getAllJobs();
             for (Job job : jobs) {
                 // Log.d(TAG, "date for job: " + job.getDateString());
             }
@@ -154,7 +160,8 @@ public class LaunchScreenActivity extends Activity {
         boolean firstLaunchInDay = preferenceManager.isCurrentLaunchFirstInDay();
         if (firstLaunchInDay) {
             Log.d(TAG, "First launch in a day, cleaning stock of materials");
-            EasyTimeManager.getInstance().deleteMyMaterials();
+            MaterialsSource materialsSource = new MaterialsSource();
+            materialsSource.deleteMyMaterials();
         } else {
             Log.d(TAG, "not a first launch in a day");
         }

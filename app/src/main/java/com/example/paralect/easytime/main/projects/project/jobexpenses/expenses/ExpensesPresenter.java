@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.projects.project.jobexpenses.expenses
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
 import com.example.paralect.easytime.model.Expense;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 class ExpensesPresenter extends SearchViewPresenter<ExpensesPresenter.ExpensesContainer> {
 
     private String mJobId;
+    private final ExpenseSource expenseSource = new ExpenseSource();
 
     public ExpensesPresenter setJobId(String jobId) {
         mJobId = jobId;
@@ -39,8 +41,8 @@ class ExpensesPresenter extends SearchViewPresenter<ExpensesPresenter.ExpensesCo
 
                         final String searchQuery = parameters[0];
 
-                        List<Expense> defaultExpenses = EasyTimeManager.getInstance().getDefaultExpenses(mJobId);
-                        List<Expense> otherExpenses = EasyTimeManager.getInstance().getOtherExpenses(mJobId, searchQuery);
+                        List<Expense> defaultExpenses = expenseSource.getDefaultExpenses(mJobId);
+                        List<Expense> otherExpenses = expenseSource.getOtherExpenses(mJobId, searchQuery);
 
                         // Filter default expenses
                         defaultExpenses = Flowable.fromIterable(defaultExpenses)

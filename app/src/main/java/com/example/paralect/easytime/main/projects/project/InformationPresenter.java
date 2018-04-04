@@ -5,6 +5,9 @@ import android.util.Pair;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
+import com.example.paralect.easytime.manager.entitysource.JobSource;
+import com.example.paralect.easytime.manager.entitysource.TypeSource;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.ObjectCollection;
@@ -30,6 +33,10 @@ import io.reactivex.schedulers.Schedulers;
 class InformationPresenter extends RxBus.Watcher<String> implements IDataPresenter<Pair<Integer, List<Type>>, Job> {
     private static final String TAG = InformationPresenter.class.getSimpleName();
 
+    private final ExpenseSource expenseSource = new ExpenseSource();
+    private final TypeSource typeSource = new TypeSource();
+    private final JobSource jobSource = new JobSource();
+
     private InformationView<Pair<Integer, List<Type>>> view;
     private String mDate;
 
@@ -47,8 +54,8 @@ class InformationPresenter extends RxBus.Watcher<String> implements IDataPresent
                 try {
                     if (!emitter.isDisposed()) {
                         Logger.d(TAG, "performing request");
-                        int count = (int) EasyTimeManager.getInstance().getTotalExpensesCount(parameter.getId());
-                        List<Type> types = EasyTimeManager.getInstance().getStatuses();
+                        int count = (int) expenseSource.getTotalExpensesCount(parameter.getId());
+                        List<Type> types = typeSource.getStatuses();
                         emitter.onNext(new Pair<>(count, types));
                         emitter.onComplete();
                     }
@@ -96,7 +103,7 @@ class InformationPresenter extends RxBus.Watcher<String> implements IDataPresent
                     if (!emitter.isDisposed()) {
                         ObjectCollection oc = (ObjectCollection) job;
                         String[] jobIds = oc.getObjectIds();
-                        List<Object> objects = EasyTimeManager.getInstance().getObjects(jobIds);
+                        List<Object> objects = jobSource.getObjects(jobIds);
                         emitter.onNext(objects);
                         emitter.onComplete();
                     }

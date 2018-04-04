@@ -41,7 +41,7 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void showTutorial() {
-        List<TutorialItem> items = TutorialItem.getMocks();
+        List<TutorialItem> items = TutorialItem.getMocks(this);
         final TutorialPagerAdapter adapter = new TutorialPagerAdapter(items);
         ViewPager.OnPageChangeListener listener = new ViewPager.SimpleOnPageChangeListener() {
             @Override

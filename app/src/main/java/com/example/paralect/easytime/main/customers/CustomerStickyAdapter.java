@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.AlphabetStickyAdapter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.ProjectType;
 
@@ -60,6 +61,7 @@ public class CustomerStickyAdapter extends AlphabetStickyAdapter<Customer> imple
         TextView jobs;
 
         Resources res;
+        private final JobSource jobSource = new JobSource();
 
         ViewHolder(View v) {
             res = v.getResources();
@@ -77,11 +79,10 @@ public class CustomerStickyAdapter extends AlphabetStickyAdapter<Customer> imple
                 public void subscribe(ObservableEmitter<long[]> emitter) throws Exception {
                     try {
                         if (!emitter.isDisposed()) {
-                            EasyTimeManager manager = EasyTimeManager.getInstance();
                             long[] info = new long[3];
-                            info[0] = manager.getJobCount(customer, ProjectType.Type.TYPE_OBJECT);
-                            info[1] = manager.getJobCount(customer, ProjectType.Type.TYPE_ORDER);
-                            info[2] = manager.getJobCount(customer, ProjectType.Type.TYPE_PROJECT);
+                            info[0] = jobSource.getJobCount(customer, ProjectType.Type.TYPE_OBJECT);
+                            info[1] = jobSource.getJobCount(customer, ProjectType.Type.TYPE_ORDER);
+                            info[2] = jobSource.getJobCount(customer, ProjectType.Type.TYPE_PROJECT);
                             emitter.onNext(info);
                             emitter.onComplete();
                         }

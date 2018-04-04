@@ -3,6 +3,7 @@ package com.example.paralect.easytime.main.projects.project.invoice;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
 import com.example.paralect.easytime.model.InvoiceCell;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CollectionUtil;
@@ -38,6 +39,7 @@ import static com.example.paralect.easytime.model.ExpenseUnit.Type.TIME;
 class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
 
     private Job mJob;
+    private final ExpenseSource expenseSource = new ExpenseSource();
 
     SearchViewPresenter<List<InvoiceCell>> setJob(Job job) {
         mJob = job;
@@ -93,7 +95,7 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
     List<InvoiceCell> getInvoices(String jobId) {
 
         List<InvoiceCell> cells = new ArrayList<>();
-        List<Expense> consumables = EasyTimeManager.getInstance().getAllExpenses(jobId);
+        List<Expense> consumables = expenseSource.getAllExpenses(jobId);
 
         // Time
         List<InvoiceCell> timeCells = getMergedExpenseResult(consumables, TIME);

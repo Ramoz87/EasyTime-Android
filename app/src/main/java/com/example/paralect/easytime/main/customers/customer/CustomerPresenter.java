@@ -5,6 +5,9 @@ import android.util.Pair;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.AddressSource;
+import com.example.paralect.easytime.manager.entitysource.ContactSource;
+import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
@@ -24,6 +27,9 @@ import io.reactivex.functions.Consumer;
 final class CustomerPresenter implements IDataPresenter<Pair<Customer, List<Integer>>, Customer> {
 
     private IDataView<Pair<Customer, List<Integer>>> customerDataView;
+    private final ContactSource contactSource = new ContactSource();
+    private final AddressSource addressSource = new AddressSource();
+    private final JobSource jobSource = new JobSource();
 
     // region Refresh CustomerEntity
     @Override
@@ -39,12 +45,11 @@ final class CustomerPresenter implements IDataPresenter<Pair<Customer, List<Inte
             public void subscribe(FlowableEmitter<Pair<Customer, List<Integer>>> emitter) throws Exception {
                 try {
                     if (!emitter.isCancelled()) {
-                        EasyTimeManager manager = EasyTimeManager.getInstance();
-                        List<Contact> contacts = manager.getContacts(customer);
-                        Address address = manager.getAddress(customer);
+                        List<Contact> contacts = contactSource.getContacts(customer);
+                        Address address = addressSource.getAddress(customer);
                         customer.setAddress(address);
                         customer.setContacts(contacts);
-                        List<Integer> types = manager.getJobTypes(customer);
+                        List<Integer> types = jobSource.getJobTypes(customer);
                         emitter.onNext(new Pair<>(customer, types));
                         emitter.onComplete();
                     }

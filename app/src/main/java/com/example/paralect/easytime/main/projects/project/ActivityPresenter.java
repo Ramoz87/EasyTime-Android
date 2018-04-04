@@ -10,6 +10,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.example.paralect.easytime.utils.Logger;
@@ -34,6 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ActivityPresenter extends SearchViewPresenter<Pair<Integer, List<Expense>>> {
 
     private Job mJob;
+    private final ExpenseSource expenseSource = new ExpenseSource();
 
     @Override
     public IDataPresenter<Pair<Integer, List<Expense>>, String[]> requestData(final String[] parameters) {
@@ -45,7 +47,7 @@ public class ActivityPresenter extends SearchViewPresenter<Pair<Integer, List<Ex
                         final String date = parameters[1];
                         List<Expense> expenses = getExpenses(mJob.getId(), date);
 
-                        int count = (int) EasyTimeManager.getInstance().getTotalExpensesCount(mJob.getId());
+                        int count = (int) expenseSource.getTotalExpensesCount(mJob.getId());
                         emitter.onNext(new Pair<>(count, expenses));
                         emitter.onComplete();
                     }
@@ -87,7 +89,7 @@ public class ActivityPresenter extends SearchViewPresenter<Pair<Integer, List<Ex
         // send date to InformationFragment
         if (TextUtil.isNotEmpty(date))
             RxBus.getInstance().send(date);
-        return EasyTimeManager.getInstance().getAllExpenses(jobId, date);
+        return expenseSource.getAllExpenses(jobId, date);
     }
 
     @Override

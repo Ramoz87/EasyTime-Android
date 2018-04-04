@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.projects;
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Job;
 
 import java.util.Calendar;
@@ -20,6 +21,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
 
+    private final JobSource jobSource = new JobSource();
+
     @Override
     public ProjectsPresenter requestData(final String[] parameters) {
         Observable<List<Job>> observable = Observable.create(new ObservableOnSubscribe<List<Job>>() {
@@ -29,7 +32,7 @@ public class ProjectsPresenter extends SearchViewPresenter<List<Job>> {
                     if (!emitter.isDisposed()) {
                         final String query = parameters[0];
                         final String date = parameters[1];
-                        List<Job> jobs = EasyTimeManager.getInstance().getJobs(null, query, date);
+                        List<Job> jobs = jobSource.getJobs(null, query, date);
                         emitter.onNext(jobs);
                         emitter.onComplete();
                     }

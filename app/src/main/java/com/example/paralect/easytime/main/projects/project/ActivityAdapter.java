@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
 import com.example.paralect.easytime.model.Expense;
 
 import java.util.ArrayList;
@@ -98,6 +99,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
         ActivityAdapter adapter;
         Expense expense;
+        private final ExpenseSource expenseSource = new ExpenseSource();
 
         public ViewHolder(View itemView, ActivityAdapter adapter) {
             super(itemView);
@@ -122,7 +124,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 public void subscribe(ObservableEmitter<Expense> emitter) throws Exception {
                     try {
                         if (!emitter.isDisposed()) {
-                            EasyTimeManager.getInstance().deleteExpense(expense);
+                            expenseSource.deleteExpense(expense);
                             emitter.onNext(expense);
                             emitter.onComplete();
                         }

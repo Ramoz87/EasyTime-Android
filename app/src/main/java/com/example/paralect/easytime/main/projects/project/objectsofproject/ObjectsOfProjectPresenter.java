@@ -3,6 +3,7 @@ package com.example.paralect.easytime.main.projects.project.objectsofproject;
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.ObjectComparator;
 import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.utils.Logger;
@@ -25,6 +26,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ObjectsOfProjectPresenter extends SearchViewPresenter<SortedMap<Character, List<Object>>> {
 
+    private final JobSource jobSource = new JobSource();
     private Comparator<Object> comparator = new ObjectComparator();
     private final Sorter<Object> sorter = new Sorter<Object>() {
         @Override
@@ -42,7 +44,7 @@ public class ObjectsOfProjectPresenter extends SearchViewPresenter<SortedMap<Cha
                 try {
 
                     if (!emitter.isDisposed()) {
-                        List<Object> objects = EasyTimeManager.getInstance().getObjects(parameters);
+                        List<Object> objects = jobSource.getObjects(parameters);
                         // split list of objects alphabetically
                         SortedMap<Character, List<Object>> map = sorter.getSortedItems(objects, comparator);
                         emitter.onNext(map);

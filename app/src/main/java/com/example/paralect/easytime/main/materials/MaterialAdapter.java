@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
+import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
+import com.example.paralect.easytime.manager.entitysource.TypeSource;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TextUtil;
@@ -103,6 +106,9 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         private static Animation incDec = null;
+        private final MaterialsSource materialsSource = new MaterialsSource();
+        private final ExpenseSource expenseSource = new ExpenseSource();
+        private final TypeSource typeSource = new TypeSource();
 
         private Material material;
         private MaterialAdapter adapter;
@@ -249,7 +255,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
 
             this.material = material;
             name.setText(material.getName());
-            String unitName = EasyTimeManager.getInstance().getUnitName(MATERIAL, material);
+            String unitName = expenseSource.getUnitName(typeSource, MATERIAL, material);
             unit.setText(unitName);
             Resources res = itemView.getResources();
             number.setText(res.getString(R.string.material_number, material.getMaterialNr()));
@@ -273,7 +279,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
                 public void subscribe(ObservableEmitter<Material> emitter) throws Exception {
                     try {
                         if (!emitter.isDisposed()) {
-                            EasyTimeManager.getInstance().updateMaterial(material);
+                            materialsSource.updateMaterial(material);
                             emitter.onNext(material);
                             emitter.onComplete();
                         }

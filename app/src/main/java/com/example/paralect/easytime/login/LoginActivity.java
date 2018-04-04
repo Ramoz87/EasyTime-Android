@@ -13,6 +13,7 @@ import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.manager.ETAccountManager;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.UserSource;
 import com.example.paralect.easytime.model.User;
 
 import butterknife.BindView;
@@ -39,7 +40,7 @@ public class LoginActivity extends Activity {
 
     @OnClick(R.id.sign_in)
     void signIn(View view) {
-        User user = EasyTimeManager.getInstance().getRandomUser();
+        User user = new UserSource().getRandomUser();
         ETAccountManager.getInstance().login(user);
         goToMainActivity();
     }

@@ -9,13 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/datasource" />
-            <option value="$PROJECT_DIR$/datasourceormlite" />
-            <option value="$PROJECT_DIR$/datasourceretrofit" />
-            <option value="$PROJECT_DIR$/datasourcerx" />
-            <option value="$PROJECT_DIR$/easytimedata" />
-            <option value="$PROJECT_DIR$/easytimedataormlite" />
-            <option value="$PROJECT_DIR$/easytimedataretrofit" />
+            <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/dataormlite" />
+            <option value="$PROJECT_DIR$/dataretrofit" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

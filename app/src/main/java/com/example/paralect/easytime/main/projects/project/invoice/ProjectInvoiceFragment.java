@@ -28,6 +28,7 @@ import com.example.paralect.easytime.main.IDataView;
 import com.example.paralect.easytime.main.MainActivity;
 import com.example.paralect.easytime.main.projects.project.SignatureDialogFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.InvoiceCell;
 import com.example.paralect.easytime.model.Job;
@@ -79,6 +80,7 @@ public class ProjectInvoiceFragment extends BaseFragment
 
     private Job job;
     private KeypadEditorView keypad;
+    private final JobSource jobSource = new JobSource();
 
     public static ProjectInvoiceFragment newInstance(@NonNull Job job) {
         Bundle args = new Bundle(1);
@@ -361,7 +363,7 @@ public class ProjectInvoiceFragment extends BaseFragment
         Completable completable = Completable.fromCallable(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                EasyTimeManager.getInstance().updateJob(job);
+                jobSource.updateJob(job);
                 return null;
             }
         });

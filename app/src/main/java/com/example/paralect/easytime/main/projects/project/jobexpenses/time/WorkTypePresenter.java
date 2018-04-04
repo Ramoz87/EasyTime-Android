@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.projects.project.jobexpenses.time;
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.TypeSource;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.utils.Logger;
 
@@ -23,6 +24,8 @@ import static com.example.paralect.easytime.model.Type.TypeName.WORK_TYPE;
 
 class WorkTypePresenter extends SearchViewPresenter<List<Type>> {
 
+    private final TypeSource typeSource = new TypeSource();
+
     @Override
     public WorkTypePresenter requestData(final String[] parameters) {
         Flowable<List<Type>> flowable = Flowable.create(new FlowableOnSubscribe<List<Type>>() {
@@ -30,7 +33,7 @@ class WorkTypePresenter extends SearchViewPresenter<List<Type>> {
             public void subscribe(FlowableEmitter<List<Type>> emitter) throws Exception {
                 try {
                     if (!emitter.isCancelled()) {
-                        List<Type> types = EasyTimeManager.getInstance().getTypes(WORK_TYPE, parameters[0]);
+                        List<Type> types = typeSource.getTypes(WORK_TYPE, parameters[0]);
                         emitter.onNext(types);
                         emitter.onComplete();
                     }

@@ -21,6 +21,7 @@ import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.main.customers.customer.CustomerFragment;
 import com.example.paralect.easytime.main.projects.project.invoice.ProjectInvoiceFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Object;
@@ -48,6 +49,7 @@ import butterknife.OnClick;
 
 public class InformationFragment extends BaseFragment implements InformationView<Pair<Integer, List<Type>>>, AdapterView.OnItemSelectedListener {
     public static final String TAG = InformationFragment.class.getSimpleName();
+    private final JobSource jobSource = new JobSource();
 
     @BindView(R.id.scrollView) ScrollView scrollView;
     @BindView(R.id.info_gallery_view) JobFilesView galleryFilesView;
@@ -239,7 +241,7 @@ public class InformationFragment extends BaseFragment implements InformationView
         Type status = statusAdapter.getItem(i);
         Logger.d(TAG, String.format("selected status '%s'", status));
         job.setStatusId(status.getTypeId());
-        EasyTimeManager.getInstance().updateJob(job);
+        jobSource.updateJob(job);
     }
 
     @Override

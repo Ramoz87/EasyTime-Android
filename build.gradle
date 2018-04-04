@@ -19,6 +19,11 @@ allprojects {
         mavenCentral()
         google()
         maven { url 'https://jitpack.io' }
+
+        maven { url '/Users/mobexs/Work/Datasource/datasource/build/release' }
+        maven { url '/Users/mobexs/Work/Datasource/datasourcerx/build/release' }
+        maven { url '/Users/mobexs/Work/Datasource/datasourceormlite/build/release' }
+        maven { url '/Users/mobexs/Work/Datasource/datasourceretrofit/build/release' }
     }
 }
 

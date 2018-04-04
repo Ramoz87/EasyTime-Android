@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
 import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.MetricsUtils;
@@ -44,6 +45,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
     @BindView(R.id.expense_file_view) ExpenseFilesView expenseFilesView;
 
     private Expense mExpense;
+    private final ExpenseSource expenseSource = new ExpenseSource();
 
     public static ExpenseEditorFragment newInstance(@NonNull Expense expense) {
         Bundle args = new Bundle(1);
@@ -125,7 +127,7 @@ public class ExpenseEditorFragment extends BaseFragment implements KeypadEditorV
         expense.setValue(value);
 
         try {
-            expense = EasyTimeManager.getInstance().saveAndGetExpense(expense);
+            expense = expenseSource.saveAndGetExpense(expense);
             expenseFilesView.setupWithEntity(expense);
             Logger.d(TAG, "SQLiteExpense created");
         } catch (Throwable e) {

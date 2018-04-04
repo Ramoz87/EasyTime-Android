@@ -2,6 +2,7 @@ package com.example.paralect.easytime.main.materials;
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.Logger;
 
@@ -20,6 +21,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MaterialsPresenter extends SearchViewPresenter<List<Material>> {
 
+    private final MaterialsSource materialsSource = new MaterialsSource();
+
     @Override
     public MaterialsPresenter requestData(final String[] parameters) {
         Observable<List<Material>> observable = Observable.create(new ObservableOnSubscribe<List<Material>>() {
@@ -27,7 +30,7 @@ public class MaterialsPresenter extends SearchViewPresenter<List<Material>> {
             public void subscribe(ObservableEmitter<List<Material>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        List<Material> materials = EasyTimeManager.getInstance().getMyMaterials();
+                        List<Material> materials = materialsSource.getMyMaterials();
                         emitter.onNext(materials);
                         emitter.onComplete();
                     }

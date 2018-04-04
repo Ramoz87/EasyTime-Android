@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.example.paralect.easytime.main.IDataPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.FileSource;
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.event.ResultEvent;
 import com.example.paralect.easytime.utils.IntentUtils;
@@ -34,6 +35,7 @@ import static com.example.paralect.easytime.model.Constants.REQUEST_CODE_CAMERA;
 abstract class FilesPresenter<DATA, E> extends RxBus.Watcher<ResultEvent> implements IDataPresenter<DATA, E> {
 
     private IFilesView<DATA, E> mView;
+    protected final FileSource fileSource = new FileSource();
 
     void subscribe() {
         subscribe(ResultEvent.class);
@@ -87,7 +89,7 @@ abstract class FilesPresenter<DATA, E> extends RxBus.Watcher<ResultEvent> implem
                 public Void call() throws Exception {
                     java.io.File imageFile = file.getImageFile();
                     boolean deleted = imageFile.delete();
-                    EasyTimeManager.getInstance().deleteFile(file);
+                    fileSource.deleteFile(file);
                     return null;
                 }
             });

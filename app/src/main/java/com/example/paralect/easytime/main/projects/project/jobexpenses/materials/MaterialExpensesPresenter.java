@@ -2,6 +2,9 @@ package com.example.paralect.easytime.main.projects.project.jobexpenses.material
 
 import com.example.paralect.easytime.main.search.SearchViewPresenter;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
+import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
+import com.example.paralect.easytime.manager.entitysource.TypeSource;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.Logger;
@@ -29,6 +32,10 @@ import static com.example.paralect.easytime.model.ExpenseUnit.Type.MATERIAL;
 
 class MaterialExpensesPresenter extends SearchViewPresenter<List<MaterialExpense>> {
 
+    private final MaterialsSource materialsSource = new MaterialsSource();
+    private final ExpenseSource expenseSource = new ExpenseSource();
+    private final TypeSource typeSource = new TypeSource();
+
     @Override
     public MaterialExpensesPresenter requestData(final String[] parameters) {
         Observable<List<MaterialExpense>> observable = Observable.create(new ObservableOnSubscribe<List<MaterialExpense>>() {
@@ -36,12 +43,12 @@ class MaterialExpensesPresenter extends SearchViewPresenter<List<MaterialExpense
             public void subscribe(ObservableEmitter<List<MaterialExpense>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        List<Material> materials = EasyTimeManager.getInstance().getMyMaterials();
+                        List<Material> materials = materialsSource.getMyMaterials();
 
                         List<MaterialExpense> materialExpenses = new ArrayList<>();
                         for (Material material : materials) {
                             MaterialExpense expense = new MaterialExpense(material);
-                            expense.unitName = EasyTimeManager.getInstance().getUnitName(MATERIAL, material);
+                            expense.unitName = expenseSource.getUnitName(typeSource, MATERIAL, material);
                             materialExpenses.add(expense);
                         }
 
@@ -84,10 +91,9 @@ class MaterialExpensesPresenter extends SearchViewPresenter<List<MaterialExpense
             public void subscribe(FlowableEmitter<List<MaterialExpense>> emitter) throws Exception {
                 try {
                     if (!emitter.isCancelled()) {
-                        EasyTimeManager manager = EasyTimeManager.getInstance();
                         for (MaterialExpense expense : materialExpenses) {
                             if (expense.isAdded) {
-                                manager.saveAndGetExpense(job.getId(), expense.material, expense.count);
+                                expenseSource.saveAndGetExpense(job.getId(), expense.material, expense.count);
                             }
                         }
                         emitter.onNext(materialExpenses);

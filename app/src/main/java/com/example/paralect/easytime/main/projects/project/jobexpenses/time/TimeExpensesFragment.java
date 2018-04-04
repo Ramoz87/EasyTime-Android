@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.BaseFragment;
 import com.example.paralect.easytime.manager.EasyTimeManager;
+import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
 import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.Type;
@@ -31,6 +32,7 @@ import butterknife.ButterKnife;
 public class TimeExpensesFragment extends BaseFragment implements StrangeNumberInputView.OnChangeListener {
 
     public static final String TAG = TimeExpensesFragment.class.getSimpleName();
+    private final ExpenseSource expenseSource = new ExpenseSource();
 
     private final int MAX_HOURS = 23;
     private final int MAX_MINS = 59;
@@ -144,7 +146,7 @@ public class TimeExpensesFragment extends BaseFragment implements StrangeNumberI
 
                 } else {
                     Expense expense = Expense.createTimeExpense(job.getId(), type.getName(), hours, minutes);
-                    expense = EasyTimeManager.getInstance().saveAndGetExpense(expense);
+                    expense = expenseSource.saveAndGetExpense(expense);
                     Logger.d(TAG, "SQLiteExpense created");
 
                     if (keypadEditorView.isExpanded())
