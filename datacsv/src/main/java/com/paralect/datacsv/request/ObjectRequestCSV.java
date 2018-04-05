@@ -12,19 +12,24 @@ import com.paralect.datasource.core.EntityRequestImpl;
 public class ObjectRequestCSV extends JobRequestCSV<Object> {
 
     public ObjectRequestCSV() {
-        setQuery("db/types.csv");
+        setQuery("db/objects.csv");
     }
 
     @Override
     public Object toAppEntity(String[] fields) {
-        Object object = new Object();
-        fillJob(object, fields);
+        Object object = null;
+        try {
+            object = new Object();
+            fillJob(object, fields);
 
-        Address address = new Address();
-        address.setStreet(fields[16]);
-        address.setCity(fields[17]);
-        address.setZip(fields[18]);
-        object.setAddress(address);
+            Address address = new Address();
+            address.setStreet(fields[16]);
+            address.setCity(fields[17]);
+            address.setZip(fields[18]);
+            object.setAddress(address);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
         return object;
     }
 

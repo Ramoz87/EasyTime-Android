@@ -14,18 +14,22 @@ public class ProjectsRequestCSV extends JobRequestCSV<Project> {
 
     @Override
     public Project toAppEntity(String[] fields) {
-        Project project = new Project();
-        fillJob(project, fields);
+        Project project = null;
+        try {
+            project = new Project();
+            fillJob(project, fields);
 
-        project.setDateStart(fields[11]);
-        project.setDateEnd(fields[12]);
+            project.setDateStart(fields[11]);
+            project.setDateEnd(fields[12]);
 
-        String objectIds = fields[13];
-        objectIds = objectIds.replace("\"", "");
-        String[] ids = objectIds.split(",[ ]*");
-        if (ids.length == 1 && ids[0].isEmpty()) ids = new String[0];
-        project.setObjectIds(ids);
-
+            String objectIds = fields[13];
+            objectIds = objectIds.replace("\"", "");
+            String[] ids = objectIds.split(",[ ]*");
+            if (ids.length == 1 && ids[0].isEmpty()) ids = new String[0];
+            project.setObjectIds(ids);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
         return project;
     }
 

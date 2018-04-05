@@ -15,23 +15,28 @@ public class OrderRequestCSV extends JobRequestCSV<Order> {
 
     @Override
     public Order toAppEntity(String[] fields) {
-        Order order = new Order();
-        fillJob(order, fields);
+        Order order = null;
+        try {
+            new Order();
+            fillJob(order, fields);
 
-        order.setContact(fields[14]);
-        order.setDeliveryTime(fields[15]);
+            order.setContact(fields[14]);
+            order.setDeliveryTime(fields[15]);
 
-        Address address = new Address();
-        address.setStreet(fields[16]);
-        address.setCity(fields[17]);
-        address.setZip(fields[18]);
-        order.setAddress(address);
+            Address address = new Address();
+            address.setStreet(fields[16]);
+            address.setCity(fields[17]);
+            address.setZip(fields[18]);
+            order.setAddress(address);
 
-        String objectIds = fields[13];
-        objectIds = objectIds.replace("\"", "");
-        String[] ids = objectIds.split(",[ ]*");
-        if (ids.length == 1 && ids[0].isEmpty()) ids = new String[0];
-        order.setObjectIds(ids);
+            String objectIds = fields[13];
+            objectIds = objectIds.replace("\"", "");
+            String[] ids = objectIds.split(",[ ]*");
+            if (ids.length == 1 && ids[0].isEmpty()) ids = new String[0];
+            order.setObjectIds(ids);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
         return order;
     }
 

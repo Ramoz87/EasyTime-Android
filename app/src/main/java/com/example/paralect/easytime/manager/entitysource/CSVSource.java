@@ -79,12 +79,14 @@ public class CSVSource extends EntitySource {
     }
 
     private <E> void fillData(List<E> items, EntityRequest entityRequest) {
-        try {
-            String className = entityRequest.getAppEntityClazz().getSimpleName();
-            Log.d(TAG, String.format("===// %s //===", className));
 
-            AddressRequest addressRequest = new AddressRequest();
-            for (E item : items) {
+        String className = entityRequest.getAppEntityClazz().getSimpleName();
+        Log.d(TAG, String.format("===// %s //===", className));
+
+        AddressRequest addressRequest = new AddressRequest();
+        for (E item : items) {
+
+            try {
                 Log.d(TAG, item.toString());
 
                 if (item instanceof JobWithAddress) {
@@ -112,12 +114,13 @@ public class CSVSource extends EntitySource {
                 }
                 entityRequest.setEntity(item);
                 dataSource.saveOrUpdate(entityRequest);
+
+            } catch (Throwable e) {
+                Logger.e(TAG, e.getMessage());
             }
-            Log.d(TAG, "filled " + className + " class");
-        } catch (SQLException e) {
-            Logger.e(TAG, e.getMessage());
-            throw new RuntimeException(e);
         }
+        Log.d(TAG, "filled " + className + " class");
+
     }
 
 }

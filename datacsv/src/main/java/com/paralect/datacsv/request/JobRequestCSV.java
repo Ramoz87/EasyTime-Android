@@ -1,5 +1,7 @@
 package com.paralect.datacsv.request;
 
+import android.util.Log;
+
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.paralect.datasource.core.EntityRequestImpl;
@@ -13,6 +15,7 @@ import java.util.Date;
 abstract class JobRequestCSV<AP> extends EntityRequestImpl<String[], AP, java.lang.Object> {
 
     void fillJob(Job job, String[] fields) {
+        Log.d("Help", fields.toString());
         job.setEntityType(fields[0]);
         job.setId(fields[1]);
         job.setCustomerId(fields[2]);
