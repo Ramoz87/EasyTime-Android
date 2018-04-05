@@ -9,7 +9,7 @@ import com.paralect.easytimedataormlite.model.OrderEntity;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class OrderRequest extends BaseJobRequest<OrderEntity, Order> {
+public class OrderRequestORM extends BaseJobRequest<OrderEntity, Order> {
 
     @Override
     public Order toAppEntity(OrderEntity ex) {

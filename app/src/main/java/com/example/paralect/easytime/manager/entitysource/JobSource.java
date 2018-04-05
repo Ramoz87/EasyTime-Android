@@ -12,11 +12,11 @@ import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.utils.Logger;
 import com.paralect.easytimedataormlite.request.AddressRequest;
 import com.paralect.easytimedataormlite.request.BaseJobRequest;
-import com.paralect.easytimedataormlite.request.CustomerRequest;
-import com.paralect.easytimedataormlite.request.ObjectRequest;
-import com.paralect.easytimedataormlite.request.OrderRequest;
-import com.paralect.easytimedataormlite.request.ProjectRequest;
-import com.paralect.easytimedataormlite.request.TypeRequest;
+import com.paralect.easytimedataormlite.request.CustomerRequestORM;
+import com.paralect.easytimedataormlite.request.ObjectRequestORM;
+import com.paralect.easytimedataormlite.request.OrderRequestORM;
+import com.paralect.easytimedataormlite.request.ProjectRequestORM;
+import com.paralect.easytimedataormlite.request.TypeRequestORM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,15 +32,15 @@ public class JobSource extends EntitySource {
         try {
             @ProjectType.Type int projectType = job.getProjectType();
             if (projectType == ProjectType.Type.TYPE_OBJECT) {
-                ObjectRequest request = new ObjectRequest();
+                ObjectRequestORM request = new ObjectRequestORM();
                 request.setEntity((Object) job);
                 dataSource.update(request);
             } else if (projectType == ProjectType.Type.TYPE_PROJECT) {
-                ProjectRequest request = new ProjectRequest();
+                ProjectRequestORM request = new ProjectRequestORM();
                 request.setEntity((Project) job);
                 dataSource.update(request);
             } else if (projectType == ProjectType.Type.TYPE_ORDER) {
-                OrderRequest request = new OrderRequest();
+                OrderRequestORM request = new OrderRequestORM();
                 request.setEntity((Order) job);
                 dataSource.update(request);
             }
@@ -53,9 +53,9 @@ public class JobSource extends EntitySource {
         List<Job> jobs = new ArrayList<>();
         try {
 
-            ObjectRequest objectRequest = new ObjectRequest();
-            OrderRequest orderRequest = new OrderRequest();
-            ProjectRequest projectRequest = new ProjectRequest();
+            ObjectRequestORM objectRequest = new ObjectRequestORM();
+            OrderRequestORM orderRequest = new OrderRequestORM();
+            ProjectRequestORM projectRequest = new ProjectRequestORM();
 
             objectRequest.queryForList(null, null, null);
             orderRequest.queryForList(null, null, null);
@@ -69,7 +69,7 @@ public class JobSource extends EntitySource {
             jobs.addAll(orders);
             jobs.addAll(projects);
 
-            CustomerRequest customerRequest = new CustomerRequest();
+            CustomerRequestORM customerRequest = new CustomerRequestORM();
             for (Job job : jobs) {
                 String customerId = job.getCustomerId();
                 customerRequest.queryForId(customerId);
@@ -87,7 +87,7 @@ public class JobSource extends EntitySource {
                 }
             }
 
-            TypeRequest typeRequest = new TypeRequest();
+            TypeRequestORM typeRequest = new TypeRequestORM();
             for (Job job : jobs) {
                 String statusId = job.getStatusId();
                 typeRequest.queryForId(statusId);
@@ -101,17 +101,17 @@ public class JobSource extends EntitySource {
     }
 
     public List<Object> getObjects(Customer customer) throws SQLException {
-        ObjectRequest objectRequest = new ObjectRequest();
+        ObjectRequestORM objectRequest = new ObjectRequestORM();
         return getJobs(objectRequest, customer, null, null);
     }
 
     public List<Order> getOrders(Customer customer) throws SQLException {
-        OrderRequest orderRequest = new OrderRequest();
+        OrderRequestORM orderRequest = new OrderRequestORM();
         return getJobs(orderRequest, customer, null, null);
     }
 
     public List<Project> getProjects(Customer customer) throws SQLException {
-        ProjectRequest projectRequest = new ProjectRequest();
+        ProjectRequestORM projectRequest = new ProjectRequestORM();
         return getJobs(projectRequest, customer, null, null);
     }
 
@@ -119,9 +119,9 @@ public class JobSource extends EntitySource {
         List<Integer> types = new ArrayList<>();
         try {
             String id = customer.getId();
-            ObjectRequest objectRequest = new ObjectRequest();
-            OrderRequest orderRequest = new OrderRequest();
-            ProjectRequest projectRequest = new ProjectRequest();
+            ObjectRequestORM objectRequest = new ObjectRequestORM();
+            OrderRequestORM orderRequest = new OrderRequestORM();
+            ProjectRequestORM projectRequest = new ProjectRequestORM();
 
             objectRequest.queryCountOfCustomers(id);
             orderRequest.queryCountOfCustomers(id);
@@ -147,17 +147,17 @@ public class JobSource extends EntitySource {
             String id = customer.getId();
 
             if (projectType == ProjectType.Type.TYPE_OBJECT) {
-                ObjectRequest objectRequest = new ObjectRequest();
+                ObjectRequestORM objectRequest = new ObjectRequestORM();
                 objectRequest.queryCountOfCustomers(id);
                 return dataSource.count(objectRequest);
 
             } else if (projectType == ProjectType.Type.TYPE_PROJECT) {
-                OrderRequest orderRequest = new OrderRequest();
+                OrderRequestORM orderRequest = new OrderRequestORM();
                 orderRequest.queryCountOfCustomers(id);
                 return dataSource.count(orderRequest);
 
             } else if (projectType == ProjectType.Type.TYPE_ORDER) {
-                ProjectRequest projectRequest = new ProjectRequest();
+                ProjectRequestORM projectRequest = new ProjectRequestORM();
                 projectRequest.queryCountOfCustomers(id);
                 return dataSource.count(projectRequest);
             } else return 0L;
@@ -175,7 +175,7 @@ public class JobSource extends EntitySource {
         List<T> jobs = dataSource.getList(request);
 
         if (customer == null) {
-            CustomerRequest customerRequest = new CustomerRequest();
+            CustomerRequestORM customerRequest = new CustomerRequestORM();
             for (Job job : jobs) {
                 customerId = job.getCustomerId();
                 customerRequest.queryForId(customerId);
@@ -194,7 +194,7 @@ public class JobSource extends EntitySource {
             }
         }
 
-        TypeRequest typeRequest = new TypeRequest();
+        TypeRequestORM typeRequest = new TypeRequestORM();
         for (Job job : jobs) {
             typeRequest.queryForId(job.getStatusId());
             Type status = dataSource.get(typeRequest);
@@ -209,9 +209,9 @@ public class JobSource extends EntitySource {
 
             String customerId = customer == null ? "" : customer.getId();
 
-            ObjectRequest objectRequest = new ObjectRequest();
-            OrderRequest orderRequest = new OrderRequest();
-            ProjectRequest projectRequest = new ProjectRequest();
+            ObjectRequestORM objectRequest = new ObjectRequestORM();
+            OrderRequestORM orderRequest = new OrderRequestORM();
+            ProjectRequestORM projectRequest = new ProjectRequestORM();
 
             objectRequest.queryForList(customerId, query, date);
             orderRequest.queryForList(customerId, query, date);
@@ -226,7 +226,7 @@ public class JobSource extends EntitySource {
             jobs.addAll(projects);
 
             if (customer == null) {
-                CustomerRequest customerRequest = new CustomerRequest();
+                CustomerRequestORM customerRequest = new CustomerRequestORM();
                 for (Job job : jobs) {
                     customerId = job.getCustomerId();
                     customerRequest.queryForId(customerId);
@@ -245,7 +245,7 @@ public class JobSource extends EntitySource {
                 }
             }
 
-            TypeRequest typeRequest = new TypeRequest();
+            TypeRequestORM typeRequest = new TypeRequestORM();
             for (Job job : jobs) {
                 typeRequest.queryForId(job.getStatusId());
                 Type status = dataSource.get(typeRequest);
@@ -260,10 +260,10 @@ public class JobSource extends EntitySource {
     public List<Object> getObjects(String[] ids) {
         List<Object> objects = new ArrayList<>();
         try {
-            ObjectRequest objectRequest = new ObjectRequest();
+            ObjectRequestORM objectRequest = new ObjectRequestORM();
             AddressRequest addressRequest = new AddressRequest();
-            CustomerRequest customerRequest = new CustomerRequest();
-            TypeRequest typeRequest = new TypeRequest();
+            CustomerRequestORM customerRequest = new CustomerRequestORM();
+            TypeRequestORM typeRequest = new TypeRequestORM();
 
             if (ids != null) {
                 for (String id : ids) {

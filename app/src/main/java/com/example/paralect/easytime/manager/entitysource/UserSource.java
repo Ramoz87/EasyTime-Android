@@ -3,7 +3,7 @@ package com.example.paralect.easytime.manager.entitysource;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.UserRequest;
+import com.paralect.easytimedataormlite.request.UserRequestORM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class UserSource extends EntitySource {
         String[] ids = job.getMemberIds();
         if (ids == null || ids.length == 0) return null;
         List<User> users = new ArrayList<>();
-        UserRequest userRequest = new UserRequest();
+        UserRequestORM userRequest = new UserRequestORM();
 
         for (String id : ids) {
             userRequest.queryForId(id);
@@ -31,7 +31,7 @@ public class UserSource extends EntitySource {
 
     public User getUser(String userId) {
         try {
-            UserRequest userRequest = new UserRequest();
+            UserRequestORM userRequest = new UserRequestORM();
             userRequest.queryForId(userId);
             return dataSource.get(userRequest);
         } catch (SQLException exc) {
@@ -42,7 +42,7 @@ public class UserSource extends EntitySource {
 
     public User getRandomUser() {
         try {
-            UserRequest userRequest = new UserRequest();
+            UserRequestORM userRequest = new UserRequestORM();
             userRequest.queryForId("0be618c9-e68b-435a-bdf4-d7f4ee6b6ba4");
             return dataSource.get(userRequest);
         } catch (SQLException exc) {

@@ -9,7 +9,7 @@ import com.paralect.easytimedataormlite.model.ProjectEntity;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class ProjectRequest extends BaseJobRequest<ProjectEntity, Project> {
+public class ProjectRequestORM extends BaseJobRequest<ProjectEntity, Project> {
 
     @Override
     public Project toAppEntity(ProjectEntity ex) {

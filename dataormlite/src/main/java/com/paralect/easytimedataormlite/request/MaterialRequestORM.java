@@ -21,7 +21,7 @@ import static com.example.paralect.easytime.model.Constants.STOCK_ENTITY;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class MaterialRequest extends ORMLiteRequest<MaterialEntity, Material> {
+public class MaterialRequestORM extends ORMLiteRequest<MaterialEntity, Material> {
 
     @Override
     public Material toAppEntity(MaterialEntity ex) {

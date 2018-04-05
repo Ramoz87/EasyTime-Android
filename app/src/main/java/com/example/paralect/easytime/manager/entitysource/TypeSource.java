@@ -2,7 +2,7 @@ package com.example.paralect.easytime.manager.entitysource;
 
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.TypeRequest;
+import com.paralect.easytimedataormlite.request.TypeRequestORM;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,7 +19,7 @@ public class TypeSource extends EntitySource {
     public Type getType(String typeId) {
         Type type = null;
         try {
-            TypeRequest typeRequest = new TypeRequest();
+            TypeRequestORM typeRequest = new TypeRequestORM();
             typeRequest.queryForId(typeId);
             type = dataSource.get(typeRequest);
         } catch (SQLException exc) {
@@ -38,7 +38,7 @@ public class TypeSource extends EntitySource {
 
     public List<Type> getTypes(@Type.TypeName String type, String searchName) {
         try {
-            TypeRequest typeRequest = new TypeRequest();
+            TypeRequestORM typeRequest = new TypeRequestORM();
             typeRequest.queryForList(type, searchName);
             List<Type> list = dataSource.getList(typeRequest);
             return list;

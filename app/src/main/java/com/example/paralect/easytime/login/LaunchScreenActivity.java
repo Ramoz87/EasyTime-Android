@@ -18,10 +18,11 @@ import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TinyDB;
 import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
-import com.paralect.easytimedataormlite.request.UserRequest;
+import com.paralect.easytimedataormlite.request.UserRequestORM;
 import com.paralect.easytimedataretrofit.NetworkHelperRetrofit;
 import com.paralect.easytimedataretrofit.request.UserNetRequest;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -57,7 +58,7 @@ public class LaunchScreenActivity extends Activity {
         final DatabaseHelperORMLite database = new DatabaseHelperORMLite(this);
         final NetworkHelperRetrofit network = new NetworkHelperRetrofit();
 
-        final UserRequest userRequest = new UserRequest();
+        final UserRequestORM userRequest = new UserRequestORM();
         final UserNetRequest userNetRequest = new UserNetRequest();
         userNetRequest.queryGet();
 
@@ -149,7 +150,6 @@ public class LaunchScreenActivity extends Activity {
                 // Log.d(TAG, "date for job: " + job.getDateString());
             }
         }
-
         updateMyMaterials();
     }
 

@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.CustomerRequest;
+import com.paralect.easytimedataormlite.request.CustomerRequestORM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class CustomerSource extends EntitySource {
         List<Customer> customers = new ArrayList<>();
         try {
 
-            CustomerRequest customerRequest = new CustomerRequest();
+            CustomerRequestORM customerRequest = new CustomerRequestORM();
 
             if (TextUtils.isEmpty(query))
                 customerRequest.queryForAll();

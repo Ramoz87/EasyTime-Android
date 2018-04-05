@@ -14,9 +14,9 @@ import com.example.paralect.easytime.utils.ExpenseUtil;
 import com.example.paralect.easytime.utils.Logger;
 import com.paralect.easytimedataormlite.request.ExpenseRequest;
 import com.paralect.easytimedataormlite.request.FileRequest;
-import com.paralect.easytimedataormlite.request.MaterialRequest;
-import com.paralect.easytimedataormlite.request.OrderRequest;
-import com.paralect.easytimedataormlite.request.ProjectRequest;
+import com.paralect.easytimedataormlite.request.MaterialRequestORM;
+import com.paralect.easytimedataormlite.request.OrderRequestORM;
+import com.paralect.easytimedataormlite.request.ProjectRequestORM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class ExpenseSource extends EntitySource{
             JobSource jobSource = new JobSource();
             long totalCount = countExpenses(jobId);
 
-            ProjectRequest projectRequest = new ProjectRequest();
+            ProjectRequestORM projectRequest = new ProjectRequestORM();
             projectRequest.queryForId(jobId);
             Project project = dataSource.get(projectRequest);
 
@@ -84,7 +84,7 @@ public class ExpenseSource extends EntitySource{
                 }
             } else {
 
-                OrderRequest orderRequest = new OrderRequest();
+                OrderRequestORM orderRequest = new OrderRequestORM();
                 orderRequest.queryForId(jobId);
                 Order order = dataSource.get(orderRequest);
 
@@ -129,7 +129,7 @@ public class ExpenseSource extends EntitySource{
             List<String> ids = new ArrayList<>();
             ids.add(jobId);
 
-            ProjectRequest projectRequest = new ProjectRequest();
+            ProjectRequestORM projectRequest = new ProjectRequestORM();
             projectRequest.queryForId(jobId);
             Project project = dataSource.get(projectRequest);
 
@@ -138,7 +138,7 @@ public class ExpenseSource extends EntitySource{
                 ids.addAll(Arrays.asList(project.getObjectIds()));
             }
 
-            OrderRequest orderRequest = new OrderRequest();
+            OrderRequestORM orderRequest = new OrderRequestORM();
             orderRequest.queryForId(jobId);
             Order order = dataSource.get(orderRequest);
 
@@ -148,7 +148,7 @@ public class ExpenseSource extends EntitySource{
             }
 
             ExpenseRequest expenseRequest = new ExpenseRequest();
-            MaterialRequest materialRequest = new MaterialRequest();
+            MaterialRequestORM materialRequest = new MaterialRequestORM();
 
             TypeSource typeSource = new TypeSource();
             for (String id : ids) {
@@ -175,7 +175,7 @@ public class ExpenseSource extends EntitySource{
      * @param expense
      * @param materialRequest
      */
-    private void setValueWithUnit(final TypeSource typeSource, @NonNull final Expense expense, final MaterialRequest materialRequest) {
+    private void setValueWithUnit(final TypeSource typeSource, @NonNull final Expense expense, final MaterialRequestORM materialRequest) {
         expense.setValueWithUnitName(new Expense.ExpenseValueWithUnit(expense.getValue()) {
             @Override
             public String getMaterialUnit() {
@@ -257,7 +257,7 @@ public class ExpenseSource extends EntitySource{
         expenseRequest.setEntity(expense);
         dataSource.saveOrUpdate(expenseRequest);
 
-        MaterialRequest materialRequest = new MaterialRequest();
+        MaterialRequestORM materialRequest = new MaterialRequestORM();
         materialRequest.setEntity(material);
         dataSource.update(materialRequest);
     }

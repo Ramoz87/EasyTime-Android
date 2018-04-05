@@ -3,7 +3,7 @@ package com.example.paralect.easytime.utils;
 import android.content.res.AssetManager;
 import android.support.annotation.NonNull;
 
-import com.opencsv.CSVReader;
+//import com.opencsv.CSVReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,18 +28,18 @@ public abstract class FakeCreator {
 
     public <E> List<E> parse(final String csvPath, Class<E> clazz) throws IOException {
         List<E> items = new ArrayList<>();
-        BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(am.open(csvPath)));
-        CSVReader reader = new CSVReader(bufferedReader);
-        String [] lines;
-        int index = 0;
-        while ((lines = reader.readNext()) != null) {
-            if (index++ == 0) continue;
-            E item = (E) create(clazz, lines);
-            if (item != null) {
-                items.add(item);
-            }
-        }
+//        BufferedReader bufferedReader = new BufferedReader(
+//                new InputStreamReader(am.open(csvPath)));
+//        CSVReader reader = new CSVReader(bufferedReader);
+//        String [] lines;
+//        int index = 0;
+//        while ((lines = reader.readNext()) != null) {
+//            if (index++ == 0) continue;
+//            E item = (E) create(clazz, lines);
+//            if (item != null) {
+//                items.add(item);
+//            }
+//        }
         return items;
     }
 

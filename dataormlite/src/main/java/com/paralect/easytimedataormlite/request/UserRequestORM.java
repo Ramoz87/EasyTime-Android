@@ -13,7 +13,7 @@ import static com.example.paralect.easytime.model.Constants.USER_ID;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class UserRequest extends ORMLiteRequest<UserEntity, User> {
+public class UserRequestORM extends ORMLiteRequest<UserEntity, User> {
 
     @Override
     public User toAppEntity(UserEntity ex) {

@@ -18,7 +18,7 @@ import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class CustomerRequest extends ORMLiteRequest<CustomerEntity, Customer> {
+public class CustomerRequestORM extends ORMLiteRequest<CustomerEntity, Customer> {
 
     @Override
     public Customer toAppEntity(CustomerEntity ex) {

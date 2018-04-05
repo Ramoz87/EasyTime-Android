@@ -21,7 +21,7 @@ import static com.example.paralect.easytime.model.Constants.TYPE_ID;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class TypeRequest extends ORMLiteRequest<TypeEntity, Type> {
+public class TypeRequestORM extends ORMLiteRequest<TypeEntity, Type> {
 
     @Override
     public Type toAppEntity(TypeEntity ex) {
