@@ -17,12 +17,11 @@ import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.Logger;
 import com.example.paralect.easytime.utils.TinyDB;
-import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
+import com.paralect.easytimedataormlite.DatabaseHelper;
 import com.paralect.easytimedataormlite.request.UserRequestORM;
-import com.paralect.easytimedataretrofit.NetworkHelperRetrofit;
-import com.paralect.easytimedataretrofit.request.UserNetRequest;
+import com.paralect.easytimedataretrofit.NetworkHelper;
+import com.paralect.easytimedataretrofit.request.UserRequestNet;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -49,17 +48,17 @@ public class LaunchScreenActivity extends Activity {
         setContentView(R.layout.activity_launch_screen);
         init();
 
-        getAndSaveUser();
+//        getAndSaveUser();
     }
 
     // region Test
     public void getAndSaveUser() {
 
-        final DatabaseHelperORMLite database = new DatabaseHelperORMLite(this);
-        final NetworkHelperRetrofit network = new NetworkHelperRetrofit();
+        final DatabaseHelper database = new DatabaseHelper(this);
+        final NetworkHelper network = new NetworkHelper();
 
         final UserRequestORM userRequest = new UserRequestORM();
-        final UserNetRequest userNetRequest = new UserNetRequest();
+        final UserRequestNet userNetRequest = new UserRequestNet();
         userNetRequest.queryGet();
 
         // get from network

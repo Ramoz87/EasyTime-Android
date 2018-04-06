@@ -12,8 +12,8 @@ import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.utils.ExpenseUtil;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.ExpenseRequest;
-import com.paralect.easytimedataormlite.request.FileRequest;
+import com.paralect.easytimedataormlite.request.ExpenseRequestORM;
+import com.paralect.easytimedataormlite.request.FileRequestORM;
 import com.paralect.easytimedataormlite.request.MaterialRequestORM;
 import com.paralect.easytimedataormlite.request.OrderRequestORM;
 import com.paralect.easytimedataormlite.request.ProjectRequestORM;
@@ -35,7 +35,7 @@ import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
 public class ExpenseSource extends EntitySource{
 
     public void updateExpense(Expense expense) throws SQLException {
-        ExpenseRequest saveRequest = new ExpenseRequest();
+        ExpenseRequestORM saveRequest = new ExpenseRequestORM();
         saveRequest.setEntity(expense);
         dataSource.update(saveRequest);
     }
@@ -55,7 +55,7 @@ public class ExpenseSource extends EntitySource{
      * @return list of expenses
      */
     private List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
-        ExpenseRequest request = new ExpenseRequest();
+        ExpenseRequestORM request = new ExpenseRequestORM();
         request.queryForListExpense(jobId, searchQuery, expenseType);
         return dataSource.getList(request);
     }
@@ -107,7 +107,7 @@ public class ExpenseSource extends EntitySource{
      * @return total count of expenses for Job object with jobId field
      */
     public long countExpenses(String jobId) throws SQLException {
-        ExpenseRequest expenseRequest = new ExpenseRequest();
+        ExpenseRequestORM expenseRequest = new ExpenseRequestORM();
         expenseRequest.queryCountOfJobs(jobId);
         return dataSource.count(expenseRequest);
     }
@@ -147,7 +147,7 @@ public class ExpenseSource extends EntitySource{
                 ids.addAll(Arrays.asList(order.getObjectIds()));
             }
 
-            ExpenseRequest expenseRequest = new ExpenseRequest();
+            ExpenseRequestORM expenseRequest = new ExpenseRequestORM();
             MaterialRequestORM materialRequest = new MaterialRequestORM();
 
             TypeSource typeSource = new TypeSource();
@@ -219,11 +219,11 @@ public class ExpenseSource extends EntitySource{
      * @return saved Expense
      */
     public Expense saveAndGetExpense(Expense expense) throws SQLException {
-        ExpenseRequest saveRequest = new ExpenseRequest();
+        ExpenseRequestORM saveRequest = new ExpenseRequestORM();
         saveRequest.setEntity(expense);
         dataSource.saveOrUpdate(saveRequest);
 
-        ExpenseRequest getRequest = new ExpenseRequest();
+        ExpenseRequestORM getRequest = new ExpenseRequestORM();
         getRequest.queryForLast();
         return dataSource.get(getRequest);
     }
@@ -237,7 +237,7 @@ public class ExpenseSource extends EntitySource{
                 Logger.d("file deleted = " + isDeleted);
             }
 
-            ExpenseRequest request = new ExpenseRequest();
+            ExpenseRequestORM request = new ExpenseRequestORM();
             request.setEntity(expense);
             dataSource.delete(request);
 
@@ -253,7 +253,7 @@ public class ExpenseSource extends EntitySource{
         material.setStockQuantity(material.getStockQuantity() - countOfMaterials);
 
         // TODO Should we count the price right here ???
-        ExpenseRequest expenseRequest = new ExpenseRequest();
+        ExpenseRequestORM expenseRequest = new ExpenseRequestORM();
         expenseRequest.setEntity(expense);
         dataSource.saveOrUpdate(expenseRequest);
 
@@ -264,13 +264,13 @@ public class ExpenseSource extends EntitySource{
 
     // region File
     public File getFile(Expense expense) throws SQLException {
-        FileRequest fileRequest = new FileRequest();
+        FileRequestORM fileRequest = new FileRequestORM();
         fileRequest.queryForFirst(EXPENSE_ID);
         return dataSource.get(fileRequest);
     }
 
     public List<File> getFilesByExpenseId(String expenseId) throws SQLException {
-        FileRequest fileRequest = new FileRequest();
+        FileRequestORM fileRequest = new FileRequestORM();
         fileRequest.queryWhere(FILE_ID, expenseId);
         return dataSource.getList(fileRequest);
     }

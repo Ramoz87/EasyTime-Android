@@ -1,1 +1,1 @@
-include ':app', ':dataormlite', ':data', ':dataretrofit', ':datacsv'
+include ':app', ':database', ':data', ':network', ':csv'

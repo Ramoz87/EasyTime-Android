@@ -3,7 +3,7 @@ package com.example.paralect.easytime.manager.entitysource;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.ContactRequest;
+import com.paralect.easytimedataormlite.request.ContactRequestORM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class ContactSource extends EntitySource{
 
     public List<Contact> getContacts(Customer customer) {
         try {
-            ContactRequest contactRequest = new ContactRequest();
+            ContactRequestORM contactRequest = new ContactRequestORM();
             contactRequest.queryForEqual(customer.getId());
             return dataSource.getList(contactRequest);
         } catch (SQLException exc) {

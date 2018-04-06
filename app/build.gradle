@@ -84,7 +84,7 @@ dependencies {
     implementation deps.datasourceretrofit
     
     implementation project(':data')
-    implementation project(':dataormlite')
-    implementation project(':dataretrofit')
-    implementation project(':datacsv')
+    implementation project(':database')
+    implementation project(':network')
+    implementation project(':csv')
 }

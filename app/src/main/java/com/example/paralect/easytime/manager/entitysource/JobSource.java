@@ -10,8 +10,8 @@ import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.ProjectType;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.AddressRequest;
-import com.paralect.easytimedataormlite.request.BaseJobRequest;
+import com.paralect.easytimedataormlite.request.AddressRequestORM;
+import com.paralect.easytimedataormlite.request.BaseJobRequestORM;
 import com.paralect.easytimedataormlite.request.CustomerRequestORM;
 import com.paralect.easytimedataormlite.request.ObjectRequestORM;
 import com.paralect.easytimedataormlite.request.OrderRequestORM;
@@ -77,7 +77,7 @@ public class JobSource extends EntitySource {
                 job.setCustomer(customer);
             }
 
-            AddressRequest addressRequest = new AddressRequest();
+            AddressRequestORM addressRequest = new AddressRequestORM();
             for (Job job : jobs) {
                 if (job instanceof JobWithAddress) {
                     JobWithAddress jobWithAddress = (JobWithAddress) job;
@@ -168,7 +168,7 @@ public class JobSource extends EntitySource {
         }
     }
 
-    public <T extends Job> List<T> getJobs(BaseJobRequest request, Customer customer, String query, String date) throws SQLException {
+    public <T extends Job> List<T> getJobs(BaseJobRequestORM request, Customer customer, String query, String date) throws SQLException {
 
         String customerId = customer == null ? "" : customer.getId();
         request.queryForList(customerId, query, date);
@@ -184,7 +184,7 @@ public class JobSource extends EntitySource {
             }
         }
 
-        AddressRequest addressRequest = new AddressRequest();
+        AddressRequestORM addressRequest = new AddressRequestORM();
         for (Job job : jobs) {
             if (job instanceof JobWithAddress) {
                 JobWithAddress jobWithAddress = (JobWithAddress) job;
@@ -235,7 +235,7 @@ public class JobSource extends EntitySource {
                 }
             }
 
-            AddressRequest addressRequest = new AddressRequest();
+            AddressRequestORM addressRequest = new AddressRequestORM();
             for (Job job : jobs) {
                 if (job instanceof JobWithAddress) {
                     JobWithAddress jobWithAddress = (JobWithAddress) job;
@@ -261,7 +261,7 @@ public class JobSource extends EntitySource {
         List<Object> objects = new ArrayList<>();
         try {
             ObjectRequestORM objectRequest = new ObjectRequestORM();
-            AddressRequest addressRequest = new AddressRequest();
+            AddressRequestORM addressRequest = new AddressRequestORM();
             CustomerRequestORM customerRequest = new CustomerRequestORM();
             TypeRequestORM typeRequest = new TypeRequestORM();
 

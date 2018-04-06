@@ -39,7 +39,7 @@ ext {
     fotoapparatVersion = '2.1.2'
     cameraviewVersion = '1.4.1'
     crashlyticsVersion = '2.9.0'
-    datasourceVersion = '1.0.9'
+    datasourceVersion = '1.0.+'
 
     deps = [
 

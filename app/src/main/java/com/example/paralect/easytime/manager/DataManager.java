@@ -1,17 +1,7 @@
 package com.example.paralect.easytime.manager;
 
 import com.example.paralect.easytime.EasyTimeApplication;
-import com.example.paralect.easytime.manager.entitysource.AddressSource;
-import com.example.paralect.easytime.manager.entitysource.CSVSource;
-import com.example.paralect.easytime.manager.entitysource.ContactSource;
-import com.example.paralect.easytime.manager.entitysource.CustomerSource;
-import com.example.paralect.easytime.manager.entitysource.ExpenseSource;
-import com.example.paralect.easytime.manager.entitysource.FileSource;
-import com.example.paralect.easytime.manager.entitysource.JobSource;
-import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
-import com.example.paralect.easytime.manager.entitysource.TypeSource;
-import com.example.paralect.easytime.manager.entitysource.UserSource;
-import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
+import com.paralect.easytimedataormlite.DatabaseHelper;
 
 /**
  * Created by alexei on 26.12.2017.
@@ -20,7 +10,7 @@ import com.paralect.easytimedataormlite.DatabaseHelperORMLite;
 public final class DataManager {
 
     private volatile static DataManager instance;
-    private DatabaseHelperORMLite dataSource;
+    private DatabaseHelper dataSource;
 
     /**
      * Returns singleton class instance
@@ -41,10 +31,10 @@ public final class DataManager {
 
     private DataManager() {
         if (dataSource == null)
-            dataSource = new DatabaseHelperORMLite(EasyTimeApplication.getContext());
+            dataSource = new DatabaseHelper(EasyTimeApplication.getContext());
     }
 
-    public DatabaseHelperORMLite getDataSource() {
+    public DatabaseHelper getDataSource() {
         return dataSource;
     }
 

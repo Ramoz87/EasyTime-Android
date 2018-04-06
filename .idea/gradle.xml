@@ -9,10 +9,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/csv" />
             <option value="$PROJECT_DIR$/data" />
-            <option value="$PROJECT_DIR$/datacsv" />
-            <option value="$PROJECT_DIR$/dataormlite" />
-            <option value="$PROJECT_DIR$/dataretrofit" />
+            <option value="$PROJECT_DIR$/database" />
+            <option value="$PROJECT_DIR$/network" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
