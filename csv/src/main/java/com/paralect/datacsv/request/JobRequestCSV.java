@@ -13,10 +13,10 @@ import java.util.Date;
  * Created by Oleg Tarashkevich on 05/04/2018.
  */
 
-abstract class JobRequestCSV<AP> extends EntityRequestImpl<String[], AP, File> {
+abstract class JobRequestCSV<AP> extends CSVRequest<AP> {
 
     void fillJob(Job job, String[] fields) {
-        Log.d("Help", fields.toString());
+//        Log.d("Help", fields.toString());
         job.setEntityType(fields[0]);
         job.setId(fields[1]);
         job.setCustomerId(fields[2]);

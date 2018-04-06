@@ -9,7 +9,7 @@ import java.io.File;
  * Created by Oleg Tarashkevich on 05/04/2018.
  */
 
-public class TypeRequestCSV extends EntityRequestImpl<String[], Type, File> {
+public class TypeRequestCSV extends CSVRequest<Type> {
 
     public TypeRequestCSV() {
         setQuery("db/types.csv");
@@ -22,16 +22,6 @@ public class TypeRequestCSV extends EntityRequestImpl<String[], Type, File> {
         type.setType(fields[1]);
         type.setName(fields[2]);
         return type;
-    }
-
-    @Override
-    public String[] toDataSourceEntity(Type type) {
-        return new String[0];
-    }
-
-    @Override
-    public Class<String[]> getDataSourceEntityClazz() {
-        return String[].class;
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Oleg Tarashkevich on 05/04/2018.
  */
 
-public class CustomerRequestCSV extends EntityRequestImpl<String[], Customer, File> {
+public class CustomerRequestCSV extends CSVRequest<Customer> {
 
     public CustomerRequestCSV() {
         setQuery("db/customers.csv");
@@ -67,16 +67,6 @@ public class CustomerRequestCSV extends EntityRequestImpl<String[], Customer, Fi
     private String getValidString(String s) {
         if (s.trim().isEmpty()) return ""; // s contains only whitespaces
         else return s;
-    }
-
-    @Override
-    public String[] toDataSourceEntity(Customer customer) {
-        return new String[0];
-    }
-
-    @Override
-    public Class<String[]> getDataSourceEntityClazz() {
-        return String[].class;
     }
 
     @Override

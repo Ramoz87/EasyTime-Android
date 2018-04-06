@@ -34,16 +34,6 @@ public class ObjectRequestCSV extends JobRequestCSV<Object> {
     }
 
     @Override
-    public String[] toDataSourceEntity(Object type) {
-        return new String[0];
-    }
-
-    @Override
-    public Class<String[]> getDataSourceEntityClazz() {
-        return String[].class;
-    }
-
-    @Override
     public Class<Object> getAppEntityClazz() {
         return Object.class;
     }

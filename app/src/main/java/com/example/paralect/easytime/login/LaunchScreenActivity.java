@@ -12,7 +12,7 @@ import com.example.paralect.easytime.manager.ETPreferenceManager;
 import com.example.paralect.easytime.manager.entitysource.CSVSource;
 import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
-import com.example.paralect.easytime.manager.entitysource.NetworkSource;
+import com.example.paralect.easytime.manager.entitysource.EntityFactory;
 import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.User;
@@ -50,10 +50,21 @@ public class LaunchScreenActivity extends Activity {
 //        init();
 
 //        getAndSaveUser();
-        downloadUsers();
+//        downloadUsers();
+        downloadAll();
     }
 
     // region Test
+    public void downloadAll(){
+        EntityFactory entityFactory = new EntityFactory();
+        entityFactory.download();
+    }
+
+    public void downloadUsers(){
+        EntityFactory entityFactory = new EntityFactory();
+        entityFactory.extractUsers();
+    }
+
     public void getAndSaveUser() {
 
         final DatabaseHelper database = new DatabaseHelper(this);
@@ -101,11 +112,6 @@ public class LaunchScreenActivity extends Activity {
 
                     }
                 });
-    }
-
-    public void downloadUsers(){
-        NetworkSource networkSource = new NetworkSource();
-        networkSource.extractUsers();
     }
     // endregion
 

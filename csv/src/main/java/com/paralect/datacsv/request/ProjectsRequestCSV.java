@@ -34,16 +34,6 @@ public class ProjectsRequestCSV extends JobRequestCSV<Project> {
     }
 
     @Override
-    public String[] toDataSourceEntity(Project type) {
-        return new String[0];
-    }
-
-    @Override
-    public Class<String[]> getDataSourceEntityClazz() {
-        return String[].class;
-    }
-
-    @Override
     public Class<Project> getAppEntityClazz() {
         return Project.class;
     }

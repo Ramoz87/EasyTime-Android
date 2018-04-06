@@ -10,7 +10,7 @@ import java.io.File;
  * Created by Oleg Tarashkevich on 05/04/2018.
  */
 
-public class MaterialRequestCSV extends EntityRequestImpl<String[], Material, File> {
+public class MaterialRequestCSV extends CSVRequest<Material> {
 
     public MaterialRequestCSV() {
         setQuery("db/materials.csv");
@@ -27,16 +27,6 @@ public class MaterialRequestCSV extends EntityRequestImpl<String[], Material, Fi
         material.setSerialNr(Long.valueOf(fields[5]));
         material.setUnitId(fields[6]);
         return material;
-    }
-
-    @Override
-    public String[] toDataSourceEntity(Material type) {
-        return new String[0];
-    }
-
-    @Override
-    public Class<String[]> getDataSourceEntityClazz() {
-        return String[].class;
     }
 
     @Override

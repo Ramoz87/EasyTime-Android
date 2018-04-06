@@ -17,7 +17,7 @@ public class OrderRequestCSV extends JobRequestCSV<Order> {
     public Order toAppEntity(String[] fields) {
         Order order = null;
         try {
-            new Order();
+            order = new Order();
             fillJob(order, fields);
 
             order.setContact(fields[14]);
@@ -38,16 +38,6 @@ public class OrderRequestCSV extends JobRequestCSV<Order> {
             e.printStackTrace();
         }
         return order;
-    }
-
-    @Override
-    public String[] toDataSourceEntity(Order type) {
-        return new String[0];
-    }
-
-    @Override
-    public Class<String[]> getDataSourceEntityClazz() {
-        return String[].class;
     }
 
     @Override
