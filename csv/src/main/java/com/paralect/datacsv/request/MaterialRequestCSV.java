@@ -4,11 +4,13 @@ import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.model.Type;
 import com.paralect.datasource.core.EntityRequestImpl;
 
+import java.io.File;
+
 /**
  * Created by Oleg Tarashkevich on 05/04/2018.
  */
 
-public class MaterialRequestCSV extends EntityRequestImpl<String[], Material, Object> {
+public class MaterialRequestCSV extends EntityRequestImpl<String[], Material, File> {
 
     public MaterialRequestCSV() {
         setQuery("db/materials.csv");

@@ -6,13 +6,14 @@ import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
 import com.paralect.datasource.core.EntityRequestImpl;
 
+import java.io.File;
 import java.util.Date;
 
 /**
  * Created by Oleg Tarashkevich on 05/04/2018.
  */
 
-abstract class JobRequestCSV<AP> extends EntityRequestImpl<String[], AP, java.lang.Object> {
+abstract class JobRequestCSV<AP> extends EntityRequestImpl<String[], AP, File> {
 
     void fillJob(Job job, String[] fields) {
         Log.d("Help", fields.toString());

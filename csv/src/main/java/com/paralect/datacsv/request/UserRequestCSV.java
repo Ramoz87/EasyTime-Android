@@ -3,11 +3,13 @@ package com.paralect.datacsv.request;
 import com.example.paralect.easytime.model.User;
 import com.paralect.datasource.core.EntityRequestImpl;
 
+import java.io.File;
+
 /**
  * Created by Oleg Tarashkevich on 05/04/2018.
  */
 
-public class UserRequestCSV extends EntityRequestImpl<String[], User, Object> {
+public class UserRequestCSV extends EntityRequestImpl<String[], User, File> {
 
     public UserRequestCSV() {
         setQuery("db/users.csv");

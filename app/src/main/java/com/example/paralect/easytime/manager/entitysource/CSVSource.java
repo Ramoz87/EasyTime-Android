@@ -14,7 +14,7 @@ import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.model.Type;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.datacsv.CSVAssetsHelper;
+import com.paralect.datacsv.CSVHelper;
 import com.paralect.datacsv.request.CustomerRequestCSV;
 import com.paralect.datacsv.request.MaterialRequestCSV;
 import com.paralect.datacsv.request.ObjectRequestCSV;
@@ -44,7 +44,7 @@ public class CSVSource extends EntitySource {
 
     public void populateData(AssetManager assetManager) {
         try {
-            CSVAssetsHelper csvHelper = new CSVAssetsHelper(assetManager);
+            CSVHelper csvHelper = new CSVHelper(assetManager);
 
             List<User> users = csvHelper.getList(new UserRequestCSV());
             fillData(users, new UserRequestORM());
@@ -71,7 +71,7 @@ public class CSVSource extends EntitySource {
         }
     }
 
-    private <E> void fillData(List<E> items, EntityRequest entityRequest) {
+    protected <E> void fillData(List<E> items, EntityRequest entityRequest) {
 
         String className = entityRequest.getAppEntityClazz().getSimpleName();
         Log.d(TAG, String.format("===// %s //===", className));

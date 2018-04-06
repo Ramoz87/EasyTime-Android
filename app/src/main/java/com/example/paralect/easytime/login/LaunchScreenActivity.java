@@ -12,6 +12,7 @@ import com.example.paralect.easytime.manager.ETPreferenceManager;
 import com.example.paralect.easytime.manager.entitysource.CSVSource;
 import com.example.paralect.easytime.manager.entitysource.JobSource;
 import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
+import com.example.paralect.easytime.manager.entitysource.NetworkSource;
 import com.example.paralect.easytime.model.Constants;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.User;
@@ -46,9 +47,10 @@ public class LaunchScreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_screen);
-        init();
+//        init();
 
 //        getAndSaveUser();
+        downloadUsers();
     }
 
     // region Test
@@ -99,6 +101,11 @@ public class LaunchScreenActivity extends Activity {
 
                     }
                 });
+    }
+
+    public void downloadUsers(){
+        NetworkSource networkSource = new NetworkSource();
+        networkSource.extractUsers();
     }
     // endregion
 

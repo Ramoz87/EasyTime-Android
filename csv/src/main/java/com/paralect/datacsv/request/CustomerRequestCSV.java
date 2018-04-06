@@ -6,6 +6,7 @@ import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.model.Type;
 import com.paralect.datasource.core.EntityRequestImpl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by Oleg Tarashkevich on 05/04/2018.
  */
 
-public class CustomerRequestCSV extends EntityRequestImpl<String[], Customer, Object> {
+public class CustomerRequestCSV extends EntityRequestImpl<String[], Customer, File> {
 
     public CustomerRequestCSV() {
         setQuery("db/customers.csv");
