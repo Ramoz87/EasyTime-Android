@@ -66,7 +66,8 @@ dependencies {
 
     implementation deps.butterKnife
     annotationProcessor deps.butterKnifeCompiler
-
+    implementation deps.okHttp3
+    
     implementation deps.gson
     implementation deps.ormlite
 
