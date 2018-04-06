@@ -34,6 +34,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subscribers.DisposableSubscriber;
 
 import static com.example.paralect.easytime.EasyTimeApplication.TAG;
 
@@ -51,16 +52,70 @@ public class LaunchScreenActivity extends Activity {
 
 //        getAndSaveUser();
 //        downloadUsers();
-        downloadAll();
+        init();
     }
 
     // region Test
-    public void downloadAll(){
-        EntityFactory entityFactory = new EntityFactory();
-        entityFactory.download();
+    private void init(){
+        ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
+        preferenceManager.plusLaunch();
+        // Download scv files, extract to database
+        if (BuildConfig.DEBUG && preferenceManager.isLaunchFirst()) {
+            downloadAll();
+        }else{
+            updateMyMaterials();
+            launchMainScreen();
+        }
     }
 
-    public void downloadUsers(){
+    public void downloadAll() {
+        EntityFactory entityFactory = new EntityFactory();
+        entityFactory.download()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSubscriber<String>() {
+                    @Override
+                    public void onNext(String url) {
+                        Logger.d("Downloaded: ", url);
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        Logger.e(throwable);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        updateMyMaterials();
+                        launchMainScreen();
+                    }
+                });
+    }
+
+    private void updateMyMaterials() {
+        ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
+        boolean firstLaunchInDay = preferenceManager.isCurrentLaunchFirstInDay();
+        if (firstLaunchInDay) {
+            Log.d(TAG, "First launch in a day, cleaning stock of materials");
+            MaterialsSource materialsSource = new MaterialsSource();
+            materialsSource.deleteMyMaterials();
+        } else {
+            Log.d(TAG, "not a first launch in a day");
+        }
+        preferenceManager.saveCurrentLaunchDate();
+    }
+
+    private void launchMainScreen() {
+        Intent intent = null;
+        TinyDB tinyDB = new TinyDB(LaunchScreenActivity.this);
+        boolean isLaunched = tinyDB.getBoolean(Constants.TUTORIAL_LAUNCH, false);
+        if (isLaunched)
+            intent = new Intent(LaunchScreenActivity.this, LoginActivity.class);
+        else
+            intent = new Intent(LaunchScreenActivity.this, TutorialActivity.class);
+        startActivity(intent);
+    }
+
+    public void downloadUsers() {
         EntityFactory entityFactory = new EntityFactory();
         entityFactory.extractUsers();
     }
@@ -115,66 +170,50 @@ public class LaunchScreenActivity extends Activity {
     }
     // endregion
 
-    private void init() {
-        Completable completable = Completable.fromCallable(new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                setupDataBase();
-                return null;
-            }
-        });
+    // region Launch screen
+//    private void init() {
+//        Completable completable = Completable.fromCallable(new Callable<Void>() {
+//            @Override
+//            public Void call() throws Exception {
+//                setupDataBase();
+//                return null;
+//            }
+//        });
+//
+//        completable
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action() {
+//                    @Override
+//                    public void run() throws Exception {
+//                        launchMainScreen();
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) {
+//                        Logger.d(TAG, throwable.getMessage());
+//                        Logger.e(throwable);
+//                    }
+//                });
+//    }
+//
+//    private void setupDataBase() {
+//        ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
+//        preferenceManager.plusLaunch();
+//        if (BuildConfig.DEBUG && preferenceManager.isLaunchFirst()) { // pre-populate data from assets
+//            Log.d(TAG, "filling data from db");
+//            CSVSource csvSource = new CSVSource();
+//            csvSource.populateData(getAssets());
+//        } else {
+//            JobSource jobSource = new JobSource();
+//            List<Job> jobs = jobSource.getAllJobs();
+//            for (Job job : jobs) {
+//                // Log.d(TAG, "date for job: " + job.getDateString());
+//            }
+//        }
+//        updateMyMaterials();
+//    }
 
-        completable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        Intent intent = null;
-                        TinyDB tinyDB = new TinyDB(LaunchScreenActivity.this);
-                        boolean isLaunched = tinyDB.getBoolean(Constants.TUTORIAL_LAUNCH, false);
-                        if (isLaunched)
-                            intent = new Intent(LaunchScreenActivity.this, LoginActivity.class);
-                        else
-                            intent = new Intent(LaunchScreenActivity.this, TutorialActivity.class);
-                        startActivity(intent);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        Logger.d(TAG, throwable.getMessage());
-                        Logger.e(throwable);
-                    }
-                });
-    }
 
-    private void setupDataBase() {
-        ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
-        preferenceManager.plusLaunch();
-        if (BuildConfig.DEBUG && preferenceManager.isLaunchFirst()) { // pre-populate data from assets
-            Log.d(TAG, "filling data from db");
-            CSVSource csvSource = new CSVSource();
-            csvSource.populateData(getAssets());
-        } else {
-            JobSource jobSource = new JobSource();
-            List<Job> jobs = jobSource.getAllJobs();
-            for (Job job : jobs) {
-                // Log.d(TAG, "date for job: " + job.getDateString());
-            }
-        }
-        updateMyMaterials();
-    }
-
-    private void updateMyMaterials() {
-        ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
-        boolean firstLaunchInDay = preferenceManager.isCurrentLaunchFirstInDay();
-        if (firstLaunchInDay) {
-            Log.d(TAG, "First launch in a day, cleaning stock of materials");
-            MaterialsSource materialsSource = new MaterialsSource();
-            materialsSource.deleteMyMaterials();
-        } else {
-            Log.d(TAG, "not a first launch in a day");
-        }
-        preferenceManager.saveCurrentLaunchDate();
-    }
+    // endregion
 }

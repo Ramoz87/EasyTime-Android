@@ -1,5 +1,6 @@
 package com.example.paralect.easytime.manager.entitysource;
 
+import com.example.paralect.easytime.model.Object;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.Logger;
 import com.paralect.datacsv.CSVHelper;
@@ -23,11 +24,16 @@ import com.paralect.easytimedataormlite.request.UserRequestORM;
 import com.paralect.easytimedataretrofit.NetworkHelper;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import io.reactivex.SingleObserver;
+import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -55,24 +61,28 @@ public class EntityFactory extends CSVSource {
     private final CSVHelper csvFileHelper = new CSVHelper();
     private final ExecutorService DOWNLOAD_EXECUTOR = Executors.newFixedThreadPool(2);
 
-    public void download() {
-        DownloadFileRequest downloadFileRequest = new DownloadFileRequest(getContext());
+    public Flowable<String> download() {
+        List<Single<String>> sources = Arrays.asList(
 
-        extractData(USERS_URL, getDownloadRequest(), new UserRequestCSV(), new UserRequestORM());
-        extractData(TYPES_URL, getDownloadRequest(), new TypeRequestCSV(), new TypeRequestORM());
-        extractData(CUSTOMERS_URL, getDownloadRequest(), new CustomerRequestCSV(), new CustomerRequestORM());
-        extractData(MATERIALS_URL, getDownloadRequest(), new MaterialRequestCSV(), new MaterialRequestORM());
-        extractData(ORDERS_URL, getDownloadRequest(), new OrderRequestCSV(), new OrderRequestORM());
-        extractData(OBJECTS_URL, getDownloadRequest(), new ObjectRequestCSV(), new ObjectRequestORM());
-        extractData(PROJECTS_URL, getDownloadRequest(), new ProjectsRequestCSV(), new ProjectRequestORM());
+                extractData(USERS_URL, getDownloadRequest(), new UserRequestCSV(), new UserRequestORM()),
+                extractData(TYPES_URL, getDownloadRequest(), new TypeRequestCSV(), new TypeRequestORM()),
+                extractData(CUSTOMERS_URL, getDownloadRequest(), new CustomerRequestCSV(), new CustomerRequestORM()),
+                extractData(MATERIALS_URL, getDownloadRequest(), new MaterialRequestCSV(), new MaterialRequestORM()),
+                extractData(ORDERS_URL, getDownloadRequest(), new OrderRequestCSV(), new OrderRequestORM()),
+                extractData(OBJECTS_URL, getDownloadRequest(), new ObjectRequestCSV(), new ObjectRequestORM()),
+                extractData(PROJECTS_URL, getDownloadRequest(), new ProjectsRequestCSV(), new ProjectRequestORM()
+
+                ));
+
+        return Single.concat(sources);
     }
 
-    private <E> void extractData(final String url, final DownloadFileRequest networkQuery, final CSVRequest csvQuery, final ORMLiteRequest ormQuery) {
+    private <E> Single<String> extractData(final String url, final DownloadFileRequest networkQuery, final CSVRequest csvQuery, final ORMLiteRequest ormQuery) {
 
         networkQuery.setQuery(url);
 
         // Download file
-        networkHelper.getDataAsync(networkQuery)
+        return networkHelper.getDataAsync(networkQuery)
                 // convert from csv to list
                 .map(new Function<File, List<E>>() {
                     @Override
@@ -82,26 +92,14 @@ public class EntityFactory extends CSVSource {
                     }
                 })
                 // save list to database
-                .map(new Function<List<E>, Object>() {
+                .map(new Function<List<E>, String>() {
                     @Override
-                    public Object apply(List<E> users) throws Exception {
+                    public String apply(List<E> users) throws Exception {
                         fillData(users, ormQuery);
-                        return NOTHING;
+                        return url;
                     }
                 })
-                .subscribeOn(Schedulers.from(DOWNLOAD_EXECUTOR))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        Logger.d("Downloaded", url);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Logger.e(throwable);
-                    }
-                });
+                .subscribeOn(Schedulers.from(DOWNLOAD_EXECUTOR));
     }
 
     private DownloadFileRequest getDownloadRequest() {
@@ -125,18 +123,18 @@ public class EntityFactory extends CSVSource {
                     }
                 })
                 // save list to database
-                .map(new Function<List<User>, Object>() {
+                .map(new Function<List<User>, java.lang.Object>() {
                     @Override
-                    public Object apply(List<User> users) throws Exception {
+                    public java.lang.Object apply(List<User> users) throws Exception {
                         UserRequestORM requestORM = new UserRequestORM();
                         fillData(users, requestORM);
                         return NOTHING;
                     }
                 })
                 // get list from database
-                .map(new Function<Object, List<User>>() {
+                .map(new Function<java.lang.Object, List<User>>() {
                     @Override
-                    public List<User> apply(Object o) throws Exception {
+                    public List<User> apply(java.lang.Object o) throws Exception {
                         UserRequestORM requestORM = new UserRequestORM();
                         requestORM.queryForAll();
                         return dataSource.getList(requestORM);
