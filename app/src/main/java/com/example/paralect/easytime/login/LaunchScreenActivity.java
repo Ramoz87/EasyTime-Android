@@ -51,7 +51,7 @@ public class LaunchScreenActivity extends Activity {
 //        init();
 
 //        getAndSaveUser();
-//        downloadUsers();
+
         init();
     }
 
@@ -113,11 +113,6 @@ public class LaunchScreenActivity extends Activity {
         else
             intent = new Intent(LaunchScreenActivity.this, TutorialActivity.class);
         startActivity(intent);
-    }
-
-    public void downloadUsers() {
-        EntityFactory entityFactory = new EntityFactory();
-        entityFactory.extractUsers();
     }
 
     public void getAndSaveUser() {

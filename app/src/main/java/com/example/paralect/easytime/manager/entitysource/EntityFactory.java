@@ -105,58 +105,5 @@ public class EntityFactory extends CSVSource {
     private DownloadFileRequest getDownloadRequest() {
         return new DownloadFileRequest(getContext());
     }
-
-    public void extractUsers() {
-
-        DownloadFileRequest downloadFileRequest = new DownloadFileRequest(getContext());
-        downloadFileRequest.setQuery(USERS_URL);
-
-        // Download file
-        networkHelper.getDataAsync(downloadFileRequest)
-                // convert from csv to list
-                .map(new Function<File, List<User>>() {
-                    @Override
-                    public List<User> apply(File file) throws Exception {
-                        UserRequestCSV userRequestCSV = new UserRequestCSV();
-                        userRequestCSV.setParameter(file);
-                        return csvFileHelper.getList(userRequestCSV);
-                    }
-                })
-                // save list to database
-                .map(new Function<List<User>, java.lang.Object>() {
-                    @Override
-                    public java.lang.Object apply(List<User> users) throws Exception {
-                        UserRequestORM requestORM = new UserRequestORM();
-                        fillData(users, requestORM);
-                        return NOTHING;
-                    }
-                })
-                // get list from database
-                .map(new Function<java.lang.Object, List<User>>() {
-                    @Override
-                    public List<User> apply(java.lang.Object o) throws Exception {
-                        UserRequestORM requestORM = new UserRequestORM();
-                        requestORM.queryForAll();
-                        return dataSource.getList(requestORM);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<List<User>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(List<User> users) {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
-    }
+    
 }
