@@ -2,14 +2,14 @@ package com.paralect.easytimedataormlite.request;
 
 import com.example.paralect.easytime.model.Job;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.paralect.datasource.core.EntityRequestImpl;
+import com.paralect.datasource.database.DatabaseRequest;
 import com.paralect.easytimedataormlite.model.JobEntity;
 
 /**
  * Created by Oleg Tarashkevich on 27/03/2018.
  */
 
-public class JobRequestORM extends EntityRequestImpl<JobEntity, Job, QueryBuilder<?, ?>> {
+public class JobRequestORM extends DatabaseRequest<JobEntity, Job, QueryBuilder<?, ?>> {
 
     @Override
     public Job toAppEntity(JobEntity ex) {

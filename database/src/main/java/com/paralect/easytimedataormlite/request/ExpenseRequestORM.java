@@ -89,7 +89,7 @@ public class ExpenseRequestORM extends ORMLiteRequest<ExpenseEntity, Expense> {
      * @return list of expenses
      */
     public void queryForListExpense(final String jobId, final String searchQuery, @ExpenseUnit.Type final String expenseType) throws SQLException {
-        setParameter(new QueryContainer() {
+        setQueryBuilder(new QueryContainer() {
             @Override
             public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
                 QueryBuilder<T, ?> parameter = dao.queryBuilder();
@@ -108,7 +108,7 @@ public class ExpenseRequestORM extends ORMLiteRequest<ExpenseEntity, Expense> {
     }
 
     public void queryForListExpense(final String jobId, final String date) throws SQLException {
-        setParameter(new QueryContainer() {
+        setQueryBuilder(new QueryContainer() {
             @Override
             public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
                 boolean hasDate = !TextUtils.isEmpty(date);

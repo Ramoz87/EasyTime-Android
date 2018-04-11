@@ -1,14 +1,14 @@
 package com.paralect.easytimedataretrofit.request;
 
 import com.example.paralect.easytime.model.Expense;
-import com.paralect.datasource.core.EntityRequestImpl;
+import com.paralect.datasource.network.NetworkRequest;
 import com.paralect.easytimedataretrofit.model.ExpenseEntity;
 
 /**
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class ExpenseRequestNet<P> extends EntityRequestImpl<ExpenseEntity, Expense, P> {
+public class ExpenseRequestNet<P> extends NetworkRequest<ExpenseEntity, Expense, P> {
 
     @Override
     public Expense toAppEntity(ExpenseEntity ex) {

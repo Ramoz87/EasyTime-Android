@@ -61,7 +61,7 @@ public class TypeRequestORM extends ORMLiteRequest<TypeEntity, Type> {
     }
 
     public void queryForList(@Type.TypeName final String type, final String searchName) throws SQLException {
-        setParameter(new QueryContainer() {
+        setQueryBuilder(new QueryContainer() {
             @Override
             public <T>PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
                 QueryBuilder<T, ?> qb = dao.queryBuilder();

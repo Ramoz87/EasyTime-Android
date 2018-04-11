@@ -1,14 +1,14 @@
 package com.paralect.easytimedataretrofit.request;
 
 import com.example.paralect.easytime.model.User;
-import com.paralect.datasource.core.EntityRequestImpl;
+import com.paralect.datasource.network.NetworkRequest;
 import com.paralect.easytimedataretrofit.model.UserEntity;
 
 /**
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class UserRequestNet extends EntityRequestImpl<UserEntity, User, Object> {
+public class UserRequestNet extends NetworkRequest<UserEntity, User, Object> {
 
     @Override
     public User toAppEntity(UserEntity ex) {

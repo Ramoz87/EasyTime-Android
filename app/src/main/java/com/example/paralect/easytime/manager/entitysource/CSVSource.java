@@ -23,6 +23,7 @@ import com.paralect.datacsv.request.ProjectsRequestCSV;
 import com.paralect.datacsv.request.TypeRequestCSV;
 import com.paralect.datacsv.request.UserRequestCSV;
 import com.paralect.datasource.core.EntityRequest;
+import com.paralect.datasource.database.DatabaseRequest;
 import com.paralect.easytimedataormlite.request.AddressRequestORM;
 import com.paralect.easytimedataormlite.request.ContactRequestORM;
 import com.paralect.easytimedataormlite.request.CustomerRequestORM;
@@ -71,7 +72,7 @@ public class CSVSource extends EntitySource {
         }
     }
 
-    protected <E> void fillData(List<E> items, EntityRequest entityRequest) {
+    protected <E> void fillData(List<E> items, DatabaseRequest entityRequest) {
 
         String className = entityRequest.getAppEntityClazz().getSimpleName();
         Log.d(TAG, String.format("===// %s //===", className));

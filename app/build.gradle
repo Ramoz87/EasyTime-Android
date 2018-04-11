@@ -80,7 +80,6 @@ dependencies {
     }
 
     implementation deps.datasource
-    implementation deps.datasourcerx
     implementation deps.datasourceormlite
     implementation deps.datasourceretrofit
     

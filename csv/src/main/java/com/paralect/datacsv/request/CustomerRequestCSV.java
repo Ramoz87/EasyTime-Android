@@ -3,10 +3,7 @@ package com.paralect.datacsv.request;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Contact;
 import com.example.paralect.easytime.model.Customer;
-import com.example.paralect.easytime.model.Type;
-import com.paralect.datasource.core.EntityRequestImpl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

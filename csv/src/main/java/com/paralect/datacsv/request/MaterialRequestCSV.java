@@ -1,10 +1,6 @@
 package com.paralect.datacsv.request;
 
 import com.example.paralect.easytime.model.Material;
-import com.example.paralect.easytime.model.Type;
-import com.paralect.datasource.core.EntityRequestImpl;
-
-import java.io.File;
 
 /**
  * Created by Oleg Tarashkevich on 05/04/2018.

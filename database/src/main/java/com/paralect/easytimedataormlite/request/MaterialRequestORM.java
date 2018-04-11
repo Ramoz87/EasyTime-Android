@@ -73,7 +73,7 @@ public class MaterialRequestORM extends ORMLiteRequest<MaterialEntity, Material>
 
     @Override
     public void queryForSearch(final String query) throws SQLException {
-        setParameter(new QueryContainer() {
+        setQueryBuilder(new QueryContainer() {
             @Override
             public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
                 QueryBuilder<T, ?> qb = dao.queryBuilder();
@@ -84,7 +84,7 @@ public class MaterialRequestORM extends ORMLiteRequest<MaterialEntity, Material>
     }
 
     public void queryForAdded() throws SQLException {
-        setParameter(new QueryContainer() {
+        setQueryBuilder(new QueryContainer() {
             @Override
             public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
                 QueryBuilder<T, ?> qb = dao.queryBuilder();
@@ -97,7 +97,7 @@ public class MaterialRequestORM extends ORMLiteRequest<MaterialEntity, Material>
     }
 
     public void queryForResetMaterials()throws SQLException{
-        setParameter(new QueryContainer() {
+        setQueryBuilder(new QueryContainer() {
             @Override
             public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
                 UpdateBuilder<T, ?> ub = dao.updateBuilder();

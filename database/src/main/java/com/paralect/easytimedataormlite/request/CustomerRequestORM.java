@@ -62,7 +62,7 @@ public class CustomerRequestORM extends ORMLiteRequest<CustomerEntity, Customer>
 
     @Override
     public void queryForSearch(final String query) throws SQLException {
-        setParameter(new QueryContainer() {
+        setQueryBuilder(new QueryContainer() {
             @Override
             public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
                 QueryBuilder<T, ?> qb = dao.queryBuilder();

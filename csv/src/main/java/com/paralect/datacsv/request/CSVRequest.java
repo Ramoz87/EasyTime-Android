@@ -1,7 +1,6 @@
 package com.paralect.datacsv.request;
 
-import com.example.paralect.easytime.model.Type;
-import com.paralect.datasource.core.EntityRequestImpl;
+import com.paralect.datasource.core.EntityRequest;
 
 import java.io.File;
 
@@ -9,7 +8,7 @@ import java.io.File;
  * Created by Oleg Tarashkevich on 06/04/2018.
  */
 
-public abstract class CSVRequest<AP> extends EntityRequestImpl<String[], AP, File> {
+public abstract class CSVRequest<AP> extends EntityRequest<String[], AP, File> {
 
     @Override
     public String[] toDataSourceEntity(AP appEntity) {

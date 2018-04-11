@@ -9,7 +9,7 @@ import com.paralect.datasource.retrofit.RetrofitDataSource;
 public class NetworkHelper extends RetrofitDataSource {
 
     @Override
-    protected String getBaseUrl() {
+    public String getBaseUrl() {
         return "https://www.instagram.com";
     }
 }

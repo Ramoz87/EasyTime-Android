@@ -67,7 +67,7 @@ public abstract class BaseJobRequestORM<DS extends JobEntity, AP extends Job> ex
     }
 
     public void queryForList(final String customerId, final String query, final String date) throws SQLException {
-        setParameter(new QueryContainer() {
+        setQueryBuilder(new QueryContainer() {
             @Override
             public <T> PreparedStmt<T> getQuery(Dao<T, ?> dao) throws SQLException {
                 QueryBuilder<T, ?> qb = dao.queryBuilder();

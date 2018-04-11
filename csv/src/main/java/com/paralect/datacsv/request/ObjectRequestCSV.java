@@ -2,8 +2,6 @@ package com.paralect.datacsv.request;
 
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Object;
-import com.example.paralect.easytime.model.Type;
-import com.paralect.datasource.core.EntityRequestImpl;
 
 /**
  * Created by Oleg Tarashkevich on 05/04/2018.

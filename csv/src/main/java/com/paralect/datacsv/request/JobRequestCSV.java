@@ -1,12 +1,8 @@
 package com.paralect.datacsv.request;
 
-import android.util.Log;
-
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.utils.CalendarUtils;
-import com.paralect.datasource.core.EntityRequestImpl;
 
-import java.io.File;
 import java.util.Date;
 
 /**

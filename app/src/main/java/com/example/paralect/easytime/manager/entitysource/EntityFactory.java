@@ -1,8 +1,5 @@
 package com.example.paralect.easytime.manager.entitysource;
 
-import com.example.paralect.easytime.model.Object;
-import com.example.paralect.easytime.model.User;
-import com.example.paralect.easytime.utils.Logger;
 import com.paralect.datacsv.CSVHelper;
 import com.paralect.datacsv.request.CSVRequest;
 import com.paralect.datacsv.request.CustomerRequestCSV;
@@ -24,7 +21,6 @@ import com.paralect.easytimedataormlite.request.UserRequestORM;
 import com.paralect.easytimedataretrofit.NetworkHelper;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -32,16 +28,10 @@ import java.util.concurrent.Executors;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
-import io.reactivex.SingleObserver;
-import io.reactivex.SingleSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.example.paralect.easytime.EasyTimeApplication.getContext;
-import static com.paralect.datasource.rx.DataSourceRx.NOTHING;
 
 /**
  * Created by Oleg Tarashkevich on 06/04/2018.
