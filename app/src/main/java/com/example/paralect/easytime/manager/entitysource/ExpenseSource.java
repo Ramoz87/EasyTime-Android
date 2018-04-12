@@ -12,11 +12,11 @@ import com.example.paralect.easytime.model.Order;
 import com.example.paralect.easytime.model.Project;
 import com.example.paralect.easytime.utils.ExpenseUtil;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.ExpenseRequestORM;
-import com.paralect.easytimedataormlite.request.FileRequestORM;
-import com.paralect.easytimedataormlite.request.MaterialRequestORM;
-import com.paralect.easytimedataormlite.request.OrderRequestORM;
-import com.paralect.easytimedataormlite.request.ProjectRequestORM;
+import com.paralect.database.request.ExpenseRequestORM;
+import com.paralect.database.request.FileRequestORM;
+import com.paralect.database.request.MaterialRequestORM;
+import com.paralect.database.request.OrderRequestORM;
+import com.paralect.database.request.ProjectRequestORM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

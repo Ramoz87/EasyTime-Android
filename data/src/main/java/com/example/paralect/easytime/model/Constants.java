@@ -52,4 +52,7 @@ public final class Constants {
     public static final String CREATION_DATE = "creationDate";
     public static final String TYPE = "type";
     // endregion
+
+    public static final String DATABASE_NAME = "easy_time_db";
+    public static final int DATABASE_VERSION = 1;
 }

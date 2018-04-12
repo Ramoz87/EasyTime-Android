@@ -81,6 +81,7 @@ dependencies {
 
     implementation deps.datasource
     implementation deps.datasourceormlite
+    implementation deps.datasourceroom
     implementation deps.datasourceretrofit
     
     implementation project(':data')

@@ -1,1 +1,1 @@
-include ':app', ':database', ':data', ':network', ':csv'
+include ':app', ':database', ':data', ':network', ':csv', ':databaseroom'

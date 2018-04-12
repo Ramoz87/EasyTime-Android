@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.CustomerRequestORM;
+import com.paralect.database.request.CustomerRequestORM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

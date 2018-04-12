@@ -2,7 +2,7 @@ package com.example.paralect.easytime.manager.entitysource;
 
 import com.example.paralect.easytime.model.Material;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.MaterialRequestORM;
+import com.paralect.database.request.MaterialRequestORM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

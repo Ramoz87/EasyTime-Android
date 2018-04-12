@@ -2,7 +2,7 @@ package com.example.paralect.easytime.manager.entitysource;
 
 import com.example.paralect.easytime.model.File;
 import com.example.paralect.easytime.model.Job;
-import com.paralect.easytimedataormlite.request.FileRequestORM;
+import com.paralect.database.request.FileRequestORM;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -23,6 +23,7 @@ allprojects {
         maven { url '/Users/mobexs/Work/Datasource/datasource/build/release' }
         maven { url '/Users/mobexs/Work/Datasource/datasourcerx/build/release' }
         maven { url '/Users/mobexs/Work/Datasource/datasourceormlite/build/release' }
+        maven { url '/Users/mobexs/Work/Datasource/datasourceroom/build/release' }
         maven { url '/Users/mobexs/Work/Datasource/datasourceretrofit/build/release' }
     }
 }

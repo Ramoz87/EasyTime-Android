@@ -3,7 +3,7 @@ package com.example.paralect.easytime.manager.entitysource;
 import com.example.paralect.easytime.model.Job;
 import com.example.paralect.easytime.model.User;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.UserRequestORM;
+import com.paralect.database.request.UserRequestORM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

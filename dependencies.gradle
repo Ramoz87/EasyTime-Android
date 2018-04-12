@@ -23,7 +23,7 @@ ext {
     customCrashVersion = '1.5.0'
     constraintLayoutVersion = '1.0.2'
     lifecycleVersion = '1.0.0'
-    roomVersion = '1.0.0'
+    roomVersion = '1.1.0-beta2' //''1.0.0'
     pagingVersion = '1.0.0-alpha4-1'
     fragNavVersion = '2.4.0'
     stickyListHeadersVersion = '2.7.1'
@@ -105,6 +105,7 @@ ext {
             datasource         : "com.paralect.datasource:datasource:${datasourceVersion}@aar",
             datasourcerx       : "com.paralect.datasource:datasourcerx:${datasourceVersion}@aar",
             datasourceormlite  : "com.paralect.datasource:datasourceormlite:${datasourceVersion}@aar",
+            datasourceroom  : "com.paralect.datasource:datasourceroom:${datasourceVersion}@aar",
             datasourceretrofit : "com.paralect.datasource:datasourceretrofit:${datasourceVersion}@aar"
     ]
 }

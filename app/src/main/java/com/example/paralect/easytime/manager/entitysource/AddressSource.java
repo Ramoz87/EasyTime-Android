@@ -3,7 +3,7 @@ package com.example.paralect.easytime.manager.entitysource;
 import com.example.paralect.easytime.model.Address;
 import com.example.paralect.easytime.model.Customer;
 import com.example.paralect.easytime.utils.Logger;
-import com.paralect.easytimedataormlite.request.AddressRequestORM;
+import com.paralect.database.request.AddressRequestORM;
 
 import java.sql.SQLException;
 

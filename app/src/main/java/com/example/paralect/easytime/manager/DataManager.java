@@ -1,7 +1,7 @@
 package com.example.paralect.easytime.manager;
 
 import com.example.paralect.easytime.EasyTimeApplication;
-import com.paralect.easytimedataormlite.DatabaseHelper;
+import com.paralect.database.DatabaseHelper;
 
 /**
  * Created by alexei on 26.12.2017.
