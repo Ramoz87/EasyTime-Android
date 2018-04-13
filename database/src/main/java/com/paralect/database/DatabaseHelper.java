@@ -81,4 +81,8 @@ public class DatabaseHelper extends ORMLiteDataSource {
         super.close();
     }
 
+    @Override
+    public boolean enableLogging() {
+        return false;
+    }
 }

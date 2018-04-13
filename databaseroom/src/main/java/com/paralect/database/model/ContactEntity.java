@@ -14,7 +14,7 @@ import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
 @Entity(tableName = "contacts")
 public class ContactEntity {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = CONTACT_ID)
     private long contactId;
 

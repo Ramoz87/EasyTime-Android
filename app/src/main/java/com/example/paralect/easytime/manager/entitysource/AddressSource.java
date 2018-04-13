@@ -13,15 +13,10 @@ import java.sql.SQLException;
 
 public class AddressSource extends EntitySource {
 
-    public Address getAddress(Customer customer) {
-        try {
-            AddressRequestORM addressRequest = new AddressRequestORM();
-            addressRequest.queryForId(customer.getAddressId());
-            return dataSource.get(addressRequest);
-        } catch (SQLException exc) {
-            Logger.e(exc);
-            return null;
-        }
+    public Address getAddress(Customer customer) throws Exception {
+        AddressRequestORM addressRequest = new AddressRequestORM();
+        addressRequest.queryForId(customer.getAddressId());
+        return dataSource.get(addressRequest);
     }
 
 }

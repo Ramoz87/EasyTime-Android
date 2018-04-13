@@ -3,6 +3,7 @@ package com.paralect.database.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import static com.example.paralect.easytime.model.Constants.USER_ID;
 
@@ -20,6 +21,7 @@ public class UserEntity {
     @ColumnInfo(name = "password")
     private String password;
 
+    @NonNull
     @PrimaryKey
     @ColumnInfo(name = USER_ID)
     private String userId;
@@ -54,11 +56,12 @@ public class UserEntity {
         this.password = password;
     }
 
+    @NonNull
     public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(@NonNull String userId) {
         this.userId = userId;
     }
 

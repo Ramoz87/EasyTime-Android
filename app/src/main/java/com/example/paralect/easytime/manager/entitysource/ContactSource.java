@@ -15,14 +15,9 @@ import java.util.List;
 
 public class ContactSource extends EntitySource{
 
-    public List<Contact> getContacts(Customer customer) {
-        try {
-            ContactRequestORM contactRequest = new ContactRequestORM();
-            contactRequest.queryForEqual(customer.getId());
-            return dataSource.getList(contactRequest);
-        } catch (SQLException exc) {
-            Logger.e(exc);
-            return new ArrayList<>();
-        }
+    public List<Contact> getContacts(Customer customer) throws Exception {
+        ContactRequestORM contactRequest = new ContactRequestORM();
+        contactRequest.queryForEqual(customer.getId());
+        return dataSource.getList(contactRequest);
     }
 }

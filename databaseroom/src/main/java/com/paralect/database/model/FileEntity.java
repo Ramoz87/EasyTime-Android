@@ -16,7 +16,7 @@ import static com.example.paralect.easytime.model.Constants.NAME;
 @Entity(tableName = "files")
 public class FileEntity {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = FILE_ID)
     private long fileId;
 

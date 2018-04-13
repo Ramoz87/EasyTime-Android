@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.paralect.easytime.BuildConfig;
 import com.example.paralect.easytime.R;
 import com.example.paralect.easytime.main.tutorial.TutorialActivity;
+import com.example.paralect.easytime.manager.DataManager;
 import com.example.paralect.easytime.manager.ETPreferenceManager;
 import com.example.paralect.easytime.manager.entitysource.MaterialsSource;
 import com.example.paralect.easytime.manager.entitysource.EntityFactory;
@@ -88,9 +89,13 @@ public class LaunchScreenActivity extends Activity {
         ETPreferenceManager preferenceManager = ETPreferenceManager.getInstance(this);
         boolean firstLaunchInDay = preferenceManager.isCurrentLaunchFirstInDay();
         if (firstLaunchInDay) {
-            Log.d(TAG, "First launch in a day, cleaning stock of materials");
-            MaterialsSource materialsSource = new MaterialsSource();
-            materialsSource.deleteMyMaterials();
+            try {
+                Log.d(TAG, "First launch in a day, cleaning stock of materials");
+                MaterialsSource materialsSource = new MaterialsSource();
+                materialsSource.deleteMyMaterials();
+            } catch (Exception e){
+                Logger.e(e);
+            }
         } else {
             Log.d(TAG, "not a first launch in a day");
         }
@@ -110,7 +115,7 @@ public class LaunchScreenActivity extends Activity {
 
     public void getAndSaveUser() {
 
-        final DatabaseHelper database = new DatabaseHelper(this);
+        final DatabaseHelper database = DataManager.getInstance().getDataSource();
         final NetworkHelper network = new NetworkHelper();
 
         final UserRequestORM userRequest = new UserRequestORM();

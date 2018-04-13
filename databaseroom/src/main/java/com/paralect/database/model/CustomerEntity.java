@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class CustomerEntity {
     @ColumnInfo(name = COMPANY_NAME)
     private String companyName;
 
+    @NonNull
     @PrimaryKey
     @ColumnInfo(name = CUSTOMER_ID)
     private String customerId;
@@ -50,11 +52,12 @@ public class CustomerEntity {
         this.companyName = companyName;
     }
 
-    public String getId() {
+    @NonNull
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setId(String customerId) {
+    public void setCustomerId(@NonNull String customerId) {
         this.customerId = customerId;
     }
 

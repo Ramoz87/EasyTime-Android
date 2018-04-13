@@ -34,7 +34,7 @@ import static com.example.paralect.easytime.model.ExpenseUnit.Type.OTHER;
 
 public class ExpenseSource extends EntitySource{
 
-    public void updateExpense(Expense expense) throws SQLException {
+    public void updateExpense(Expense expense) throws Exception {
         ExpenseRequestORM saveRequest = new ExpenseRequestORM();
         saveRequest.setEntity(expense);
         dataSource.update(saveRequest);
@@ -54,17 +54,17 @@ public class ExpenseSource extends EntitySource{
      * @param expenseType
      * @return list of expenses
      */
-    private List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws SQLException {
+    private List<Expense> getExpenses(String jobId, String searchQuery, @ExpenseUnit.Type String expenseType) throws Exception {
         ExpenseRequestORM request = new ExpenseRequestORM();
         request.queryForListExpense(jobId, searchQuery, expenseType);
         return dataSource.getList(request);
     }
 
-    public List<Expense> getOtherExpenses(String jobId, String searchQuery) throws SQLException {
+    public List<Expense> getOtherExpenses(String jobId, String searchQuery) throws Exception {
         return getExpenses(jobId, searchQuery, OTHER);
     }
 
-    public List<Expense> getMaterialExpenses(String jobId) throws SQLException {
+    public List<Expense> getMaterialExpenses(String jobId) throws Exception {
         return getExpenses(jobId, null, MATERIAL);
     }
 
@@ -96,7 +96,7 @@ public class ExpenseSource extends EntitySource{
                 }
             }
             return totalCount;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             Logger.e(e);
             return 0;
         }
@@ -106,13 +106,13 @@ public class ExpenseSource extends EntitySource{
      * @param jobId is field of Job object
      * @return total count of expenses for Job object with jobId field
      */
-    public long countExpenses(String jobId) throws SQLException {
+    public long countExpenses(String jobId) throws Exception {
         ExpenseRequestORM expenseRequest = new ExpenseRequestORM();
         expenseRequest.queryCountOfJobs(jobId);
         return dataSource.count(expenseRequest);
     }
 
-    public List<Expense> getAllExpenses(String jobId) {
+    public List<Expense> getAllExpenses(String jobId) throws Exception{
         return getAllExpenses(jobId, null);
     }
 
@@ -123,7 +123,7 @@ public class ExpenseSource extends EntitySource{
      * @param date  should be in "yyyy-MM-dd" format
      * @return list of expenses
      */
-    public List<Expense> getAllExpenses(String jobId, String date) {
+    public List<Expense> getAllExpenses(String jobId, String date) throws Exception{
         List<Expense> allExpenses = new ArrayList<>();
         try {
             List<String> ids = new ArrayList<>();
@@ -191,7 +191,7 @@ public class ExpenseSource extends EntitySource{
                                 return getValue() + " " + t.getName();
                         }
                     }
-                } catch (SQLException e) {
+                } catch (Exception e) {
                     Logger.e(e);
                 }
                 return super.getMaterialUnit();
@@ -218,7 +218,7 @@ public class ExpenseSource extends EntitySource{
      * @param expense that will be saved
      * @return saved Expense
      */
-    public Expense saveAndGetExpense(Expense expense) throws SQLException {
+    public Expense saveAndGetExpense(Expense expense) throws Exception {
         ExpenseRequestORM saveRequest = new ExpenseRequestORM();
         saveRequest.setEntity(expense);
         dataSource.saveOrUpdate(saveRequest);
@@ -228,26 +228,20 @@ public class ExpenseSource extends EntitySource{
         return dataSource.get(getRequest);
     }
 
-    public void deleteExpense(Expense expense) {
-        try {
-            File file = getFile(expense);
-            if (file != null) {
-                java.io.File imageFile = file.getImageFile();
-                boolean isDeleted = imageFile.delete();
-                Logger.d("file deleted = " + isDeleted);
-            }
-
-            ExpenseRequestORM request = new ExpenseRequestORM();
-            request.setEntity(expense);
-            dataSource.delete(request);
-
-        } catch (SQLException exc) {
-            Logger.e(exc);
-            exc.printStackTrace();
+    public void deleteExpense(Expense expense) throws Exception{
+        File file = getFile(expense);
+        if (file != null) {
+            java.io.File imageFile = file.getImageFile();
+            boolean isDeleted = imageFile.delete();
+            Logger.d("file deleted = " + isDeleted);
         }
+
+        ExpenseRequestORM request = new ExpenseRequestORM();
+        request.setEntity(expense);
+        dataSource.delete(request);
     }
 
-    public void saveAndGetExpense(String jobId, Material material, int countOfMaterials) throws SQLException {
+    public void saveAndGetExpense(String jobId, Material material, int countOfMaterials) throws Exception {
 
         Expense expense = Expense.createMaterialExpense(jobId, material.getName(), material.getMaterialId(), countOfMaterials);
         material.setStockQuantity(material.getStockQuantity() - countOfMaterials);
@@ -263,13 +257,13 @@ public class ExpenseSource extends EntitySource{
     }
 
     // region File
-    public File getFile(Expense expense) throws SQLException {
+    public File getFile(Expense expense) throws Exception {
         FileRequestORM fileRequest = new FileRequestORM();
         fileRequest.queryForFirst(EXPENSE_ID);
         return dataSource.get(fileRequest);
     }
 
-    public List<File> getFilesByExpenseId(String expenseId) throws SQLException {
+    public List<File> getFilesByExpenseId(String expenseId) throws Exception {
         FileRequestORM fileRequest = new FileRequestORM();
         fileRequest.queryWhere(FILE_ID, expenseId);
         return dataSource.getList(fileRequest);

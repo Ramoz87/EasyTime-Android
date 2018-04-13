@@ -2,7 +2,7 @@ package com.paralect.database.request;
 
 import com.example.paralect.easytime.model.Contact;
 import com.paralect.database.model.ContactEntity;
-import com.paralect.datasource.room.RoomRequest;
+import com.paralect.datasource.database.DatabaseRequestImpl;
 
 import static com.example.paralect.easytime.model.Constants.CONTACT_ID;
 import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
@@ -11,7 +11,7 @@ import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class ContactRequestORM extends RoomRequest<ContactEntity, Contact> {
+public class ContactRequestORM extends DatabaseRequestImpl<ContactEntity, Contact> {
 
     @Override
     public Contact toAppEntity(ContactEntity ex) {

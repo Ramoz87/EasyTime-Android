@@ -86,4 +86,11 @@ public class CSVHelper implements DataSource<File> {
     public <DS, AP> long count(EntityRequest<DS, AP, File> request) throws Throwable {
         return 0;
     }
+
+    @Override
+    public boolean enableLogging() {
+        return false;
+    }
+
+
 }

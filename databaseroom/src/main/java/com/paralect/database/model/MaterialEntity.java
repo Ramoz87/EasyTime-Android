@@ -3,6 +3,7 @@ package com.paralect.database.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import static com.example.paralect.easytime.model.Constants.IS_ADDED;
 import static com.example.paralect.easytime.model.Constants.MATERIAL_ID;
@@ -19,6 +20,7 @@ public class MaterialEntity {
     @ColumnInfo(name = "currency")
     private String currency;
 
+    @NonNull
     @PrimaryKey
     @ColumnInfo(name = MATERIAL_ID)
     private String materialId;
@@ -56,11 +58,12 @@ public class MaterialEntity {
         this.currency = currency;
     }
 
+    @NonNull
     public String getMaterialId() {
         return materialId;
     }
 
-    public void setMaterialId(String materialId) {
+    public void setMaterialId(@NonNull String materialId) {
         this.materialId = materialId;
     }
 

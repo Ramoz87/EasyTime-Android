@@ -24,9 +24,7 @@ import static com.example.paralect.easytime.model.Constants.WORK_TYPE_ID;
  */
 
 @DatabaseTable(tableName = EXPENSE_TABLE_NAME)
-public class ExpenseEntity extends BaseExpenseImpl {
-
-
+public class ExpenseEntity {
 
     @DatabaseField(columnName = EXPENSE_ID, generatedId = true)
     private long expenseId;
@@ -62,37 +60,30 @@ public class ExpenseEntity extends BaseExpenseImpl {
 
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     public long getValue() {
         return value;
     }
 
-    @Override
     public void setValue(long value) {
         this.value = value;
     }
 
-    @Override
     public long getCreationDate() {
         return creationDate;
     }
 
-    @Override
     public void setCreationDate(long date) {
         this.creationDate = date;
     }
 
-    @Override
     public void setCreationDate(Date date) {
         if (date != null)
             creationDate = date.getTime();

@@ -9,7 +9,7 @@ import com.paralect.datacsv.request.OrderRequestCSV;
 import com.paralect.datacsv.request.ProjectsRequestCSV;
 import com.paralect.datacsv.request.TypeRequestCSV;
 import com.paralect.datacsv.request.UserRequestCSV;
-import com.paralect.datasource.ormlite.ORMLiteRequest;
+import com.paralect.datasource.database.DatabaseRequest;
 import com.paralect.datasource.retrofit.DownloadFileRequest;
 import com.paralect.database.request.CustomerRequestORM;
 import com.paralect.database.request.MaterialRequestORM;
@@ -67,7 +67,7 @@ public class EntityFactory extends CSVSource {
         return Single.concat(sources);
     }
 
-    private <E> Single<String> extractData(final String url, final DownloadFileRequest networkQuery, final CSVRequest csvQuery, final ORMLiteRequest ormQuery) {
+    private <E> Single<String> extractData(final String url, final DownloadFileRequest networkQuery, final CSVRequest csvQuery, final DatabaseRequest ormQuery) {
 
         networkQuery.setQuery(url);
 

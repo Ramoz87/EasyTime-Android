@@ -31,6 +31,7 @@ public final class DataManager {
 
     private DataManager() {
         if (dataSource == null)
+//            dataSource = DatabaseHelper.getInstance(EasyTimeApplication.getContext());
             dataSource = new DatabaseHelper(EasyTimeApplication.getContext());
     }
 

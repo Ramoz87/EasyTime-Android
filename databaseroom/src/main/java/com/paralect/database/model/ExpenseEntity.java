@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.paralect.datasource.expense.BaseExpense;
 import com.paralect.datasource.expense.BaseExpenseImpl;
 
 import java.util.Date;
@@ -24,9 +25,9 @@ import static com.example.paralect.easytime.model.Constants.WORK_TYPE_ID;
  */
 
 @Entity(tableName = EXPENSE_TABLE_NAME)
-public class ExpenseEntity extends BaseExpenseImpl {
+public class ExpenseEntity {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = EXPENSE_ID)
     private long expenseId;
 
@@ -61,37 +62,38 @@ public class ExpenseEntity extends BaseExpenseImpl {
 
     }
 
-    @Override
+    public long getExpenseId() {
+        return expenseId;
+    }
+
+    public void setExpenseId(long expenseId) {
+        this.expenseId = expenseId;
+    }
+
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
-
-    @Override
+    
     public long getValue() {
         return value;
     }
 
-    @Override
     public void setValue(long value) {
         this.value = value;
     }
 
-    @Override
     public long getCreationDate() {
         return creationDate;
     }
 
-    @Override
     public void setCreationDate(long date) {
         this.creationDate = date;
     }
 
-    @Override
     public void setCreationDate(Date date) {
         if (date != null)
             creationDate = date.getTime();
@@ -139,13 +141,5 @@ public class ExpenseEntity extends BaseExpenseImpl {
 
     public void setWorkTypeId(String id) {
         workTypeId = id;
-    }
-
-    public long getExpenseId() {
-        return expenseId;
-    }
-
-    public void setExpenseId(long expenseId) {
-        this.expenseId = expenseId;
     }
 }

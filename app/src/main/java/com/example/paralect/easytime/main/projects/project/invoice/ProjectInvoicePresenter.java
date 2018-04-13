@@ -91,7 +91,7 @@ class ProjectInvoicePresenter extends SearchViewPresenter<List<InvoiceCell>> {
     }
 
 
-    List<InvoiceCell> getInvoices(String jobId) {
+    List<InvoiceCell> getInvoices(String jobId) throws Exception{
 
         List<InvoiceCell> cells = new ArrayList<>();
         List<Expense> consumables = expenseSource.getAllExpenses(jobId);

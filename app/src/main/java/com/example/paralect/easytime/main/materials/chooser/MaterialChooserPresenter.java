@@ -40,7 +40,7 @@ public class MaterialChooserPresenter extends SearchViewPresenter<SortedMap<Char
             public void subscribe(ObservableEmitter<SortedMap<Character, List<Material>>> emitter) throws Exception {
                 try {
                     if (!emitter.isDisposed()) {
-                        String query = parameters[0];
+                        String query = parameters == null ? "" : parameters[0];
                         List<Material> materials = materialsSource.getMaterials(query);
                         SortedMap<Character, List<Material>> map = sorter.getSortedItems(materials, comparator);
                         emitter.onNext(map);

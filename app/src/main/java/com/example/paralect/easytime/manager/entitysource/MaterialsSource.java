@@ -14,44 +14,32 @@ import java.util.List;
 
 public class MaterialsSource extends EntitySource {
 
-    public List<Material> getMaterials(String query) throws SQLException {
+    public List<Material> getMaterials(String query) throws Exception {
         MaterialRequestORM materialRequest = new MaterialRequestORM();
         materialRequest.queryForSearch(query);
         return dataSource.getList(materialRequest);
     }
 
-    public void updateMaterial(Material material) {
-        try {
-            MaterialRequestORM materialRequest = new MaterialRequestORM();
-            materialRequest.setEntity(material);
-            dataSource.update(materialRequest);
-        } catch (SQLException exc) {
-            Logger.e(exc);
-        }
+    public void updateMaterial(Material material) throws Exception {
+        MaterialRequestORM materialRequest = new MaterialRequestORM();
+        materialRequest.setEntity(material);
+        dataSource.update(materialRequest);
     }
 
-    public List<Material> getMyMaterials() {
+    public List<Material> getMyMaterials() throws Exception {
         List<Material> materials = new ArrayList<>();
-        try {
-            MaterialRequestORM materialRequest = new MaterialRequestORM();
-            materialRequest.queryForAdded();
-            List<Material> myMaterials = dataSource.getList(materialRequest);
-            materials.addAll(myMaterials);
-        } catch (SQLException exc) {
-            Logger.e(exc);
-        }
+        MaterialRequestORM materialRequest = new MaterialRequestORM();
+        materialRequest.queryForAdded();
+        List<Material> myMaterials = dataSource.getList(materialRequest);
+        materials.addAll(myMaterials);
         return materials;
     }
 
-    public void deleteMyMaterials() {
-        try {
-            MaterialRequestORM materialRequest = new MaterialRequestORM();
-            materialRequest.queryForResetMaterials();
-            dataSource.update(materialRequest);
-            Logger.d(TAG, "cleaned stock of my materials");
-        } catch (SQLException exc) {
-            Logger.e(exc);
-        }
+    public void deleteMyMaterials() throws Exception {
+        MaterialRequestORM materialRequest = new MaterialRequestORM();
+        materialRequest.queryForResetMaterials();
+        dataSource.update(materialRequest);
+        Logger.d(TAG, "cleaned stock of my materials");
     }
 
 }

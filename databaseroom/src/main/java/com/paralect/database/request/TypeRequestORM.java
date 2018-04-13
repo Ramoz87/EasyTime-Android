@@ -4,10 +4,8 @@ import android.text.TextUtils;
 
 import com.example.paralect.easytime.model.Type;
 import com.paralect.database.model.TypeEntity;
+import com.paralect.datasource.database.DatabaseRequestImpl;
 import com.paralect.datasource.database.QueryBuilder;
-import com.paralect.datasource.room.RoomRequest;
-
-import java.sql.SQLException;
 
 import static com.example.paralect.easytime.model.Constants.NAME;
 import static com.example.paralect.easytime.model.Constants.TYPE;
@@ -17,7 +15,7 @@ import static com.example.paralect.easytime.model.Constants.TYPE_ID;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class TypeRequestORM extends RoomRequest<TypeEntity, Type> {
+public class TypeRequestORM extends DatabaseRequestImpl<TypeEntity, Type> {
 
     @Override
     public Type toAppEntity(TypeEntity ex) {
@@ -58,7 +56,7 @@ public class TypeRequestORM extends RoomRequest<TypeEntity, Type> {
 
     public void queryForList(@Type.TypeName final String type, final String searchName) throws Exception {
         QueryBuilder queryBuilder = new QueryBuilder();
-        queryBuilder.select().from();
+        queryBuilder.select().from(getTableName());
 
         if (!TextUtils.isEmpty(type)) {
             queryBuilder.where(TYPE).eq(type)

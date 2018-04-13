@@ -22,30 +22,24 @@ public class TypeSource extends EntitySource {
             TypeRequestORM typeRequest = new TypeRequestORM();
             typeRequest.queryForId(typeId);
             type = dataSource.get(typeRequest);
-        } catch (SQLException exc) {
+        } catch (Exception exc) {
             Logger.e(exc);
         }
         return type;
     }
 
-    public List<Type> getStatuses() {
+    public List<Type> getStatuses() throws Exception{
         return getTypes(STATUS, "");
     }
 
-    public List<Type> getTypes() {
+    public List<Type> getTypes() throws Exception{
         return getTypes(null, "");
     }
 
-    public List<Type> getTypes(@Type.TypeName String type, String searchName) {
-        try {
-            TypeRequestORM typeRequest = new TypeRequestORM();
-            typeRequest.queryForList(type, searchName);
-            List<Type> list = dataSource.getList(typeRequest);
-            return list;
-        } catch (SQLException exc) {
-            Logger.e(exc);
-            return null;
-        }
+    public List<Type> getTypes(@Type.TypeName String type, String searchName) throws Exception{
+        TypeRequestORM typeRequest = new TypeRequestORM();
+        typeRequest.queryForList(type, searchName);
+        return dataSource.getList(typeRequest);
     }
     // endregion
 

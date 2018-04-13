@@ -84,7 +84,7 @@ public class ActivityPresenter extends SearchViewPresenter<Pair<Integer, List<Ex
         return this;
     }
 
-    protected List<Expense> getExpenses(String jobId, String date){
+    protected List<Expense> getExpenses(String jobId, String date) throws Exception{
         // send date to InformationFragment
         if (TextUtil.isNotEmpty(date))
             RxBus.getInstance().send(date);

@@ -16,21 +16,12 @@ import java.util.List;
 
 public class CustomerSource extends EntitySource {
 
-    public List<Customer> getCustomers(String query) {
-        List<Customer> customers = new ArrayList<>();
-        try {
-
-            CustomerRequestORM customerRequest = new CustomerRequestORM();
-
-            if (TextUtils.isEmpty(query))
-                customerRequest.queryForAll();
-            else
-                customerRequest.queryForSearch(query);
-
-            customers = dataSource.getList(customerRequest);
-        } catch (SQLException exc) {
-            Logger.e(exc);
-        }
-        return customers;
+    public List<Customer> getCustomers(String query) throws Exception {
+        CustomerRequestORM customerRequest = new CustomerRequestORM();
+        if (TextUtils.isEmpty(query))
+            customerRequest.queryForAll();
+        else
+            customerRequest.queryForSearch(query);
+        return dataSource.getList(customerRequest);
     }
 }

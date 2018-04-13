@@ -26,7 +26,10 @@ import static com.example.paralect.easytime.model.Constants.DATABASE_VERSION;
 /**
  * Created by alexei on 03.01.2018.
  */
-@Database(entities = {UserEntity.class}, version = DATABASE_VERSION, exportSchema = false)
+@Database(entities = {AddressEntity.class, ContactEntity.class, CustomerEntity.class,
+        ExpenseEntity.class, FileEntity.class, MaterialEntity.class, ObjectEntity.class,
+        OrderEntity.class, ProjectEntity.class, TypeEntity.class, UserEntity.class},
+        version = DATABASE_VERSION, exportSchema = false)
 public abstract class DatabaseHelper extends RoomDataSource {
 
     public abstract Daos.AddressDao getAddressDao();
@@ -72,5 +75,10 @@ public abstract class DatabaseHelper extends RoomDataSource {
         daoMap.put(ProjectEntity.class, getProjectDao());
         daoMap.put(TypeEntity.class, getTypeDao());
         daoMap.put(UserEntity.class, getUserDao());
+    }
+
+    @Override
+    public boolean enableLogging() {
+        return false;
     }
 }

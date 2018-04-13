@@ -6,10 +6,9 @@ import com.example.paralect.easytime.model.Expense;
 import com.example.paralect.easytime.model.ExpenseUnit;
 import com.example.paralect.easytime.utils.ExpenseUtil;
 import com.paralect.database.model.ExpenseEntity;
+import com.paralect.datasource.database.DatabaseRequestImpl;
 import com.paralect.datasource.database.QueryBuilder;
-import com.paralect.datasource.room.RoomRequest;
 
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -25,7 +24,7 @@ import static com.example.paralect.easytime.utils.CalendarUtils.SHORT_DATE_FORMA
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class ExpenseRequestORM extends RoomRequest<ExpenseEntity, Expense> {
+public class ExpenseRequestORM extends DatabaseRequestImpl<ExpenseEntity, Expense> {
 
     @Override
     public Expense toAppEntity(ExpenseEntity ex) {

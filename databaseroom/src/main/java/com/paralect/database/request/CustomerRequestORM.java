@@ -2,25 +2,24 @@ package com.paralect.database.request;
 
 import com.example.paralect.easytime.model.Customer;
 import com.paralect.database.model.CustomerEntity;
+import com.paralect.datasource.database.DatabaseRequestImpl;
 import com.paralect.datasource.database.QueryBuilder;
-import com.paralect.datasource.room.RoomRequest;
 
 import static com.example.paralect.easytime.model.Constants.COMPANY_NAME;
 import static com.example.paralect.easytime.model.Constants.CUSTOMER_ID;
-import static com.example.paralect.easytime.model.Constants.JOB_ID;
 
 /**
  * Created by Oleg Tarashkevich on 22/03/2018.
  */
 
-public class CustomerRequestORM extends RoomRequest<CustomerEntity, Customer> {
+public class CustomerRequestORM extends DatabaseRequestImpl<CustomerEntity, Customer> {
 
     @Override
     public Customer toAppEntity(CustomerEntity ex) {
         if (ex == null) return null;
         Customer in = new Customer();
         in.setCompanyName(ex.getCompanyName());
-        in.setId(ex.getId());
+        in.setId(ex.getCustomerId());
         in.setFirstName(ex.getFirstName());
         in.setLastName(ex.getLastName());
         in.setAddressId(ex.getAddressId());
@@ -32,7 +31,7 @@ public class CustomerRequestORM extends RoomRequest<CustomerEntity, Customer> {
         if (in == null) return null;
         CustomerEntity ex = new CustomerEntity();
         ex.setCompanyName(in.getCompanyName());
-        ex.setId(in.getId());
+        ex.setCustomerId(in.getId());
         ex.setFirstName(in.getFirstName());
         ex.setLastName(in.getLastName());
         ex.setAddressId(in.getAddressId());

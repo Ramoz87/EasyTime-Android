@@ -2,7 +2,7 @@ package com.paralect.database.request;
 
 import com.example.paralect.easytime.model.User;
 import com.paralect.database.model.UserEntity;
-import com.paralect.datasource.room.RoomRequest;
+import com.paralect.datasource.database.DatabaseRequestImpl;
 
 import static com.example.paralect.easytime.model.Constants.USER_ID;
 
@@ -10,7 +10,7 @@ import static com.example.paralect.easytime.model.Constants.USER_ID;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class UserRequestORM extends RoomRequest<UserEntity, User> {
+public class UserRequestORM extends DatabaseRequestImpl<UserEntity, User> {
 
     @Override
     public User toAppEntity(UserEntity ex) {

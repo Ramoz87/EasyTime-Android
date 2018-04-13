@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.paralect.easytime.EasyTimeApplication;
 import com.example.paralect.easytime.manager.entitysource.UserSource;
 import com.example.paralect.easytime.model.User;
+import com.example.paralect.easytime.utils.Logger;
 
 /**
  * Created by alexei on 29.01.2018.
@@ -36,7 +37,12 @@ public final class ETAccountManager {
         if (userId == null) {
             user = null;
         } else {
-            user = new UserSource().getUser(userId);
+            try {
+                user = new UserSource().getUser(userId);
+            } catch (Exception e) {
+                Logger.e(e);
+                user = null;
+            }
         }
     }
 

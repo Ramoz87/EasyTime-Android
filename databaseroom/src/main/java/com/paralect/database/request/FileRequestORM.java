@@ -2,7 +2,7 @@ package com.paralect.database.request;
 
 import com.example.paralect.easytime.model.File;
 import com.paralect.database.model.FileEntity;
-import com.paralect.datasource.room.RoomRequest;
+import com.paralect.datasource.database.DatabaseRequestImpl;
 
 import static com.example.paralect.easytime.model.Constants.FILE_ID;
 
@@ -10,7 +10,7 @@ import static com.example.paralect.easytime.model.Constants.FILE_ID;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class FileRequestORM extends RoomRequest<FileEntity, File> {
+public class FileRequestORM extends DatabaseRequestImpl<FileEntity, File> {
 
     @Override
     public File toAppEntity(FileEntity ex) {

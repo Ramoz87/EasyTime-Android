@@ -44,7 +44,7 @@ public class JobSource extends EntitySource {
                 request.setEntity((Order) job);
                 dataSource.update(request);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             Logger.e(TAG, e.getMessage());
         }
     }
@@ -94,23 +94,23 @@ public class JobSource extends EntitySource {
                 Type status = dataSource.get(typeRequest);
                 job.setStatus(status);
             }
-        } catch (SQLException exc) {
+        } catch (Exception exc) {
             Logger.e(exc);
         }
         return jobs;
     }
 
-    public List<Object> getObjects(Customer customer) throws SQLException {
+    public List<Object> getObjects(Customer customer) throws Exception {
         ObjectRequestORM objectRequest = new ObjectRequestORM();
         return getJobs(objectRequest, customer, null, null);
     }
 
-    public List<Order> getOrders(Customer customer) throws SQLException {
+    public List<Order> getOrders(Customer customer) throws Exception {
         OrderRequestORM orderRequest = new OrderRequestORM();
         return getJobs(orderRequest, customer, null, null);
     }
 
-    public List<Project> getProjects(Customer customer) throws SQLException {
+    public List<Project> getProjects(Customer customer) throws Exception {
         ProjectRequestORM projectRequest = new ProjectRequestORM();
         return getJobs(projectRequest, customer, null, null);
     }
@@ -135,7 +135,7 @@ public class JobSource extends EntitySource {
                 types.add(ProjectType.Type.TYPE_PROJECT);
 
             return types;
-        } catch (SQLException exc) {
+        } catch (Exception exc) {
             Logger.e(exc);
             return types;
         }
@@ -162,13 +162,13 @@ public class JobSource extends EntitySource {
                 return dataSource.count(projectRequest);
             } else return 0L;
 
-        } catch (SQLException exc) {
+        } catch (Exception exc) {
             Logger.e(exc);
             return 0L;
         }
     }
 
-    public <T extends Job> List<T> getJobs(BaseJobRequestORM request, Customer customer, String query, String date) throws SQLException {
+    public <T extends Job> List<T> getJobs(BaseJobRequestORM request, Customer customer, String query, String date) throws Exception {
 
         String customerId = customer == null ? "" : customer.getId();
         request.queryForList(customerId, query, date);
@@ -251,7 +251,7 @@ public class JobSource extends EntitySource {
                 Type status = dataSource.get(typeRequest);
                 job.setStatus(status);
             }
-        } catch (SQLException exc) {
+        } catch (Exception exc) {
             Logger.e(exc);
         }
         return jobs;
@@ -286,7 +286,7 @@ public class JobSource extends EntitySource {
                     }
                 }
             }
-        } catch (SQLException exc) {
+        } catch (Exception exc) {
             Logger.e(exc);
         }
         return objects;

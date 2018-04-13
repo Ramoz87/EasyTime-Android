@@ -67,9 +67,8 @@ dependencies {
     implementation deps.butterKnife
     annotationProcessor deps.butterKnifeCompiler
     implementation deps.okHttp3
-    
+
     implementation deps.gson
-    implementation deps.ormlite
 
     implementation deps.rxJava
     implementation deps.rxAndroid
@@ -79,13 +78,22 @@ dependencies {
         transitive = true
     }
 
-    implementation deps.datasource
+    // ORMLite database
+    implementation deps.ormlite
     implementation deps.datasourceormlite
-    implementation deps.datasourceroom
-    implementation deps.datasourceretrofit
-    
-    implementation project(':data')
     implementation project(':database')
+
+//    // Room database
+//    implementation deps.room
+//    implementation deps.roomRxJava
+//    annotationProcessor deps.roomCompiler
+//    implementation deps.datasourceroom
+//    implementation project(':databaseroom')
+
+    implementation deps.datasource
+    implementation deps.datasourceretrofit
+
+    implementation project(':data')
     implementation project(':network')
     implementation project(':csv')
 }

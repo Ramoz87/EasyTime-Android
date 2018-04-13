@@ -3,6 +3,7 @@ package com.paralect.database.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import static com.example.paralect.easytime.model.Constants.NAME;
 import static com.example.paralect.easytime.model.Constants.TYPE_ID;
@@ -20,6 +21,7 @@ public class TypeEntity {
     @ColumnInfo(name = "type")
     private String type;
 
+    @NonNull
     @PrimaryKey
     @ColumnInfo(name = TYPE_ID)
     private String typeId;
@@ -44,11 +46,12 @@ public class TypeEntity {
         this.type = type;
     }
 
+    @NonNull
     public String getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(String typeId) {
+    public void setTypeId(@NonNull String typeId) {
         this.typeId = typeId;
     }
 

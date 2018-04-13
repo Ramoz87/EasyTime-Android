@@ -3,6 +3,7 @@ package com.paralect.database.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
 import com.paralect.database.converter.StringArrayConverter;
 
@@ -32,6 +33,7 @@ public class JobEntity {
     @ColumnInfo(name = "information")
     private String information;
 
+    @NonNull
     @PrimaryKey
     @ColumnInfo(name = JOB_ID)
     private String jobId;
@@ -99,11 +101,12 @@ public class JobEntity {
         this.information = information;
     }
 
-    public String getId() {
+    @NonNull
+    public String getJobId() {
         return jobId;
     }
 
-    public void setId(String jobId) {
+    public void setJobId(@NonNull String jobId) {
         this.jobId = jobId;
     }
 
@@ -156,11 +159,11 @@ public class JobEntity {
         this.discount = discount;
     }
 
-    public String[] getMemberIds() {
+    public String[] getUserIds() {
         return userIds;
     }
 
-    public void setMemberIds(String[] userIds) {
+    public void setUserIds(String[] userIds) {
         this.userIds = userIds;
     }
 

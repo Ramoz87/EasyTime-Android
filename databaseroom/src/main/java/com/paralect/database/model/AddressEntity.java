@@ -13,7 +13,7 @@ import static com.example.paralect.easytime.model.Constants.ADDRESS_ID;
 @Entity(tableName = "Addresses")
 public class AddressEntity {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = ADDRESS_ID)
     private long addressId;
     @ColumnInfo(name = "city")

@@ -12,4 +12,9 @@ public class NetworkHelper extends RetrofitDataSource {
     public String getBaseUrl() {
         return "https://www.instagram.com";
     }
+
+    @Override
+    public boolean enableLogging() {
+        return true;
+    }
 }

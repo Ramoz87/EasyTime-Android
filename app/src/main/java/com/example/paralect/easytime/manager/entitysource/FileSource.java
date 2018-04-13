@@ -15,19 +15,19 @@ import static com.example.paralect.easytime.model.Constants.JOB_ID;
 
 public class FileSource extends EntitySource {
 
-    public List<File> getFiles(Job job) throws SQLException {
+    public List<File> getFiles(Job job) throws Exception {
         FileRequestORM fileRequest = new FileRequestORM();
         fileRequest.queryWhere(JOB_ID, job.getId());
         return dataSource.getList(fileRequest);
     }
 
-    public void saveFile(File file) throws SQLException {
+    public void saveFile(File file) throws Exception {
         FileRequestORM fileRequest = new FileRequestORM();
         fileRequest.setEntity(file);
         dataSource.saveOrUpdate(fileRequest);
     }
 
-    public File saveFileAndGet(File file) throws SQLException {
+    public File saveFileAndGet(File file) throws Exception {
         saveFile(file);
         // retrieve
         FileRequestORM fileRequest = new FileRequestORM();
@@ -35,7 +35,7 @@ public class FileSource extends EntitySource {
         return dataSource.get(fileRequest);
     }
 
-    public void deleteFile(File file) throws SQLException {
+    public void deleteFile(File file) throws Exception {
         FileRequestORM fileRequest = new FileRequestORM();
         fileRequest.setEntity(file);
         dataSource.delete(fileRequest);

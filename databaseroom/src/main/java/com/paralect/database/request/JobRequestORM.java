@@ -2,13 +2,13 @@ package com.paralect.database.request;
 
 import com.example.paralect.easytime.model.Job;
 import com.paralect.database.model.JobEntity;
-import com.paralect.datasource.room.RoomRequest;
+import com.paralect.datasource.database.DatabaseRequestImpl;
 
 /**
  * Created by Oleg Tarashkevich on 27/03/2018.
  */
 
-public abstract class JobRequestORM extends RoomRequest<JobEntity, Job> {
+public abstract class JobRequestORM extends DatabaseRequestImpl<JobEntity, Job> {
 
     @Override
     public Job toAppEntity(JobEntity ex) {
@@ -19,13 +19,13 @@ public abstract class JobRequestORM extends RoomRequest<JobEntity, Job> {
         in.setDate(ex.getDate());
         in.setEntityType(ex.getEntityType());
         in.setInformation(ex.getInformation());
-        in.setId(ex.getId());
+        in.setId(ex.getJobId());
         in.setName(ex.getName());
         in.setNumber(ex.getNumber());
         in.setStatusId(ex.getStatusId());
         in.setTypeId(ex.getTypeId());
         in.setDiscount(ex.getDiscount());
-        in.setMemberIds(ex.getMemberIds());
+        in.setMemberIds(ex.getUserIds());
         return in;
     }
 
@@ -38,13 +38,13 @@ public abstract class JobRequestORM extends RoomRequest<JobEntity, Job> {
         ex.setDate(in.getDate());
         ex.setEntityType(in.getEntityType());
         ex.setInformation(in.getInformation());
-        ex.setId(in.getId());
+        ex.setJobId(in.getId());
         ex.setName(in.getName());
         ex.setNumber(in.getNumber());
         ex.setStatusId(in.getStatusId());
         ex.setTypeId(in.getTypeId());
         ex.setDiscount(in.getDiscount());
-        ex.setMemberIds(in.getMemberIds());
+        ex.setUserIds(in.getMemberIds());
         return ex;
     }
 

@@ -2,8 +2,8 @@ package com.paralect.database.request;
 
 import com.example.paralect.easytime.model.Material;
 import com.paralect.database.model.MaterialEntity;
+import com.paralect.datasource.database.DatabaseRequestImpl;
 import com.paralect.datasource.database.QueryBuilder;
-import com.paralect.datasource.room.RoomRequest;
 
 import static com.example.paralect.easytime.model.Constants.IS_ADDED;
 import static com.example.paralect.easytime.model.Constants.MATERIAL_ID;
@@ -14,7 +14,7 @@ import static com.example.paralect.easytime.model.Constants.STOCK_ENTITY;
  * Created by Oleg Tarashkevich on 28/03/2018.
  */
 
-public class MaterialRequestORM extends RoomRequest<MaterialEntity, Material> {
+public class MaterialRequestORM extends DatabaseRequestImpl<MaterialEntity, Material> {
 
     @Override
     public Material toAppEntity(MaterialEntity ex) {
@@ -80,14 +80,14 @@ public class MaterialRequestORM extends RoomRequest<MaterialEntity, Material> {
         setQueryBuilder(queryBuilder);
     }
 
+    // SELECT * FROM `materials` WHERE `isAdded` LIKE 1 ORDER BY stockQuantity IS 0 ASC,`name`
     public void queryForAdded() throws Exception {
         QueryBuilder queryBuilder = new QueryBuilder();
         queryBuilder
                 .select()
                 .from(getTableName())
-                .where(IS_ADDED)
-                .like(String.valueOf(true))
-                .orderBy(STOCK_ENTITY + " IS 0 ASC", NAME)
+                .where(IS_ADDED).like(1)
+                .orderBy(STOCK_ENTITY + " IS 0", NAME)
                 .asc();
         setQueryBuilder(queryBuilder);
     }
